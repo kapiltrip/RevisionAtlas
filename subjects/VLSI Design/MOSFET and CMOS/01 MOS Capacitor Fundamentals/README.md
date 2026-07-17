@@ -243,17 +243,31 @@ Why does inversion eventually dominate additional gate charge even though the de
 
 ### What this page is doing
 
-With a larger positive $V_G$, the surface electron concentration becomes comparable to and then greater than the surface hole concentration. The silicon remains p-type in the bulk, but the very thin surface layer behaves n-type; that reversal of carrier dominance is inversion.
+The page begins with a large positive gate bias, marked $V_G\gg0$. Positive charge on the gate creates the drawn electric field from the gate toward the silicon. Because an electron has negative charge, its electric force is opposite to the field direction, so minority electrons are attracted toward the oxide-silicon interface at $x=0$. Holes are repelled away from that interface.
 
-The page's concentration plot shows $n(x)$ peaking at the interface while $p(x)$ is suppressed there. The depletion charge still exists beneath the inversion sheet, so the surface structure is not merely “electrons instead of acceptors”; it is an inversion layer above a depletion region.
+The cross-section shows that the depletion region does not disappear when electrons begin arriving. Repelled holes leave behind fixed, negatively charged acceptor ions throughout the depletion layer, while the attracted mobile electrons gather closest to the interface. Farther inside the silicon, the material remains electrically neutral and p-type.
+
+The lower graph tracks carrier concentrations with distance $x$ from the interface. In the p-type bulk, $p(x)$ approaches the large equilibrium hole concentration $p_0$, whereas $n(x)$ approaches the much smaller electron concentration $n_0$. At the interface, positive gate bias decreases the surface hole concentration $p_s$ and increases the surface electron concentration $n_s$. The crossing drawn on the page is
+
+$$
+n_s=p_s=n_i,
+$$
+
+so the surface is locally intrinsic at that particular bias. Increasing $V_G$ beyond this crossing makes $n_s>p_s$: the surface becomes n-like even though the bulk remains p-type. That change of the surface's majority carrier is inversion.
 
 ### Clarity / improvement
 
-Weak inversion starts before the conventional threshold. Threshold is usually defined at strong inversion, when the surface potential reaches approximately $2\phi_F$ for a p-type substrate under the usual magnitude convention.
+The handwritten statement “p-type material becomes intrinsic at the interface” identifies the transition point into inversion; it is not yet the strong-inversion condition. Keep the three states distinct:
+
+- Before the crossing: $p_s>n_s$, so the surface is still p-type but depleted of holes.
+- At the crossing shown: $p_s=n_s=n_i$, so the surface is intrinsic.
+- Beyond the crossing: $n_s>p_s$, so the surface is inverted and becomes n-like.
+
+The fixed depletion charge remains underneath the mobile surface electrons in the inverted state. The next page introduces the stronger condition used to define conventional threshold, so it does not need to be assumed on this page.
 
 ### Active recall
 
-What two charged regions coexist in the semiconductor once an n-type inversion layer forms on p-type bulk?
+For the large positive gate bias drawn on this page, explain (1) why electrons move toward $x=0$ even though the electric-field arrow points into the silicon, (2) what happens to $p_s$ and $n_s$, and (3) what the equality $p_s=n_s=n_i$ means physically.
 
 <a id="page-13"></a>
 ## Page 13 - Strong inversion and the $2\phi_F$ criterion

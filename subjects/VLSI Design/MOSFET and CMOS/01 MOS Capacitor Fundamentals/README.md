@@ -32,6 +32,8 @@ The page starts with the physical MOS stack: metal, SiO2, and silicon. The oxide
 
 The photoelectric-effect sketch motivates the metal work function. An electron at the Fermi level needs energy $q\Phi_m = E_{vac}-E_{Fm}$ to reach the vacuum level. A photon can supply that energy; any excess appears as kinetic energy. Work function is thus an energy referenced to vacuum, not a voltage drop that already exists across the oxide.
 
+Read the two drawings together. The stack drawing identifies where electrostatic control occurs, while the energy sketch defines the gate material's energy reference. In the photoelectric picture, the minimum photon energy just frees an electron, so $h\nu_{min}=q\Phi_m$; a larger photon energy gives the emitted electron kinetic energy. This explains the vertical arrow from $E_F$ to $E_{vac}$ without implying that an electron normally travels through the MOS oxide.
+
 ### Clarity / improvement
 
 The note `Si/SiO2 = metal/oxide/semiconductor` should be read as a stack description, not an equality between interfaces. Also keep `work function` separate from `electron affinity`: work function ends at the Fermi level, while electron affinity ends at the conduction-band edge.
@@ -50,6 +52,8 @@ Why can the gate change the surface charge even though ideal SiO2 blocks steady 
 The upper diagram establishes a common energy ruler. The vacuum level is the energy of a free electron just outside the material; bound electron states sit below it. In a metal, the Fermi level marks the equilibrium electrochemical potential. At 0 K, states below it are occupied and states above it are empty; at ordinary temperature the transition is thermally broadened.
 
 The lower diagram places metal, oxide, and semiconductor on the same vacuum reference before contact. This lets the work-function difference predict which way charge must redistribute when the materials are assembled. The oxide has a large band gap and high barriers, so it transmits electric field while suppressing carrier transport.
+
+The important visual operation is to compare vertical energy separations, not the horizontal widths of the blocks. Each material's work function is measured from its own Fermi level to the shared vacuum reference. When the stack later reaches equilibrium, the Fermi level must be common across the externally connected system, so any initial mismatch appears as electrostatic energy bending rather than as two surviving equilibrium Fermi levels.
 
 ### Clarity / improvement
 
@@ -70,6 +74,8 @@ This page decomposes the semiconductor work function. Electron affinity is $q\ch
 
 The metal-semiconductor work-function difference is convention dependent. A common MOS convention is $\Phi_{ms}=\Phi_m-\Phi_s$. It is this difference, together with oxide/interface charge, that determines the flat-band voltage. The drawn oxide conduction-band offset explains why the oxide behaves as an energy barrier.
 
+The labeled energy intervals show exactly which material property can change. The electron-affinity interval $q\chi$ and band gap $E_g=E_C-E_V$ are primarily properties of the semiconductor, while the position of $E_F$ within the gap depends strongly on doping. For p-type material, $E_F$ moves closer to $E_V$, making $E_C-E_F$ larger and therefore changing $\Phi_s$ even though $\chi$ remains essentially unchanged.
+
 ### Clarity / improvement
 
 Always write the chosen sign convention beside $\Phi_{ms}$. Some notes use $\Phi_s-\Phi_m$, which reverses later signs without changing the physics. Also distinguish energies such as $q\Phi$ in eV or joules from potentials $\Phi$ in volts.
@@ -89,6 +95,8 @@ The ideal case removes built-in complications so gate bias is the only cause of 
 
 The vacuum-referenced band sketch shows why a work-function mismatch would otherwise create an internal field even at zero applied voltage. The list at the bottom previews the operating sequence: flat band, accumulation, depletion, inversion, and strong inversion.
 
+Each ideal assumption removes one possible source of electric field. Setting $\Phi_{ms}=0$ removes the contact work-function drive, and setting $Q_{ox}=0$ removes a fixed electrostatic source inside or at the oxide. Therefore, when $V_G=0$, no voltage contribution remains to bend the semiconductor bands. This page establishes a clean reference case so that every later change can be attributed to the applied gate bias alone.
+
 ### Clarity / improvement
 
 “Ideal” does not mean the oxide has zero thickness or infinite capacitance. It means no mobile/fixed oxide charge, no interface traps, and a deliberately neutral work-function condition for the introductory derivation.
@@ -107,6 +115,8 @@ Which two non-ideal effects must be set to zero before $V_G=0$ automatically mea
 The capacitor sketch and band diagram define flat band: the semiconductor energy bands have no spatial slope, so $E=-d\psi/dx=0$ inside the semiconductor and there is no space-charge region. The surface and bulk carrier concentrations are equal. In the ideal matched-work-function case, this occurs at $V_G=0$; in a practical device it occurs at $V_G=V_{FB}$.
 
 The flat Fermi level describes equilibrium, not current flow through the oxide. A uniform equilibrium Fermi level means no electrochemical-potential gradient and therefore no net semiconductor current. The oxide prevents a DC conduction path between gate and body.
+
+The three visible flat-band consequences are equivalent descriptions of the same state. Horizontal $E_C$ and $E_V$ mean their position does not vary with depth; zero slope means zero semiconductor electric field; and zero field gradient means no space-charge density. Hence the surface has the same carrier concentrations as the neutral bulk and there is no depletion or accumulation sheet to balance at the gate.
 
 ### Clarity / improvement
 
@@ -144,6 +154,8 @@ With a negative gate voltage, negative gate charge repels electrons and attracts
 
 The key causal chain is `negative gate -> electric field -> hole attraction -> increased surface hole concentration`. No hole crosses the oxide. Carriers rearrange within the semiconductor and through the body contact until electrostatic equilibrium is reached.
 
+In the page's charge picture, the negative gate sheet is balanced mainly by a thin positive mobile-hole sheet on the silicon side. Because the accumulated charge is mobile and confined near the interface, it should not be confused with the wider fixed-ion region drawn for depletion. The band sketch represents the same event energetically: the surface band displacement makes hole occupation more favorable near $x=0$ than in the bulk.
+
 ### Question / TODO acknowledged
 
 The handwriting asks how p-type material moves from repulsion/depletion toward inversion and mentions electrons “colliding” near the gate. These are separate bias regimes. Negative gate bias accumulates holes. As the gate becomes positive, holes are repelled, leaving ionized acceptors (depletion); only at still larger positive bias do thermally generated or contact-supplied minority electrons dominate the surface (inversion). Inversion is an electrostatic redistribution, not an electron collision process at the oxide.
@@ -167,6 +179,8 @@ The page applies a small positive gate voltage to p-type silicon. Positive gate 
 
 The electric-field plot is largest near the oxide interface and falls to zero at the depletion edge, where the semiconductor returns to neutral bulk behavior. As $V_G$ increases, both the surface potential and depletion width increase.
 
+The page should be read from the gate toward the bulk. Positive gate charge first creates an oxide field, then repels holes from the silicon surface. The remaining acceptor ions make the semiconductor charge negative throughout the depleted interval. At the marked depletion edge, mobile-hole concentration has recovered to its bulk value, net charge density returns to zero, and the electric field stops changing and reaches zero.
+
 ### Clarity / improvement
 
 Band edges do not bend because the band gap changes. They bend because electron potential energy shifts with electrostatic potential: $E_C(x)=E_{C0}-q\psi(x)$, and similarly for $E_i$ and $E_V$.
@@ -186,6 +200,8 @@ The cross-section marks the depletion width $W_d$ and the uncovered ionized acce
 
 The corresponding band diagram bends progressively toward the interface. As gate voltage rises, $W_d$ grows, the magnitude of depletion sheet charge $Q_d=-qN_AW_d$ grows, and the surface intrinsic level approaches then crosses the Fermi level. That crossing is the visual signal that minority electrons are becoming important.
 
+The rectangular charge block has both a height and a width with direct meanings: its height is the uniform ionized-acceptor density $-qN_A$, and its width is $W_d$. Its signed area is therefore the sheet charge $Q_d$. The boundary at $x=W_d$ is not a physical material boundary; it is the point at which the depletion approximation hands the calculation back to neutral p-type bulk.
+
 ### Clarity / improvement
 
 Depletion does not mean “no charge.” It means mobile majority carriers have been depleted, leaving a substantial fixed space charge from ionized dopants.
@@ -204,6 +220,8 @@ Under the depletion approximation, why is $\rho(x)$ rectangular while $E(x)$ is 
 The upper sketch aligns $E_C$, $E_i$, $E_F$, and $E_V$ through the depleted surface. The lower plots translate energy bending into concentrations: $n(x)=n_i\exp[(E_F-E_i(x))/kT]$ and $p(x)=n_i\exp[(E_i(x)-E_F)/kT]$. When $E_i$ bends below $E_F$, electron concentration rises exponentially while hole concentration falls.
 
 This page connects the visual band diagram to actual charge. A modest-looking energy shift of a few $kT$ can produce orders-of-magnitude concentration change because the relation is exponential.
+
+The two concentration curves must move oppositely while remaining consistent with $n(x)p(x)=n_i^2$ in nondegenerate equilibrium. When the local intrinsic level $E_i(x)$ approaches $E_F$, $n(x)$ rises and $p(x)$ falls; when they coincide, $n=p=n_i$. Thus the page is not showing a second independent phenomenon below the band diagram—the lower curves are the carrier-density translation of the same band bending shown above.
 
 ### Question / TODO acknowledged
 
@@ -227,6 +245,8 @@ If $E_i-E_F$ decreases by several $kT$ near the surface, what happens to $n$ and
 The cross-section, band diagram, and concentration curves show the same state three ways. More positive gate charge removes more holes, widens the depletion layer, increases downward band bending for the page's sign convention, and raises the minority-electron concentration at the surface.
 
 The carrier plots are essential: the fixed depletion charge grows roughly with $\sqrt{\psi_s}$, but the minority-carrier density grows exponentially with $\psi_s$. This different growth rate is why depletion width eventually approaches a maximum while inversion charge later accepts most additional gate charge.
+
+Compare the page's successive drawings at the same three locations: interface, depletion edge, and neutral bulk. At the interface, hole concentration keeps falling and electron concentration rises sharply. The depletion edge moves deeper because more acceptor ions must be uncovered. In the bulk, carrier concentrations and band positions remain unchanged, showing that gate control is a surface disturbance rather than a conversion of the entire wafer.
 
 ### Clarity / improvement
 
@@ -280,6 +300,8 @@ The page marks strong inversion when the surface intrinsic level has moved symme
 
 At this point the surface minority-electron concentration equals the bulk majority-hole concentration: $n_s\approx p_0\approx N_A$. Beyond threshold, $\psi_s$ and $W_d$ change comparatively slowly, while most added gate charge goes into the inversion sheet.
 
+The symmetry in the energy diagram is the key page-specific test. In p-type bulk, $E_i-E_F$ corresponds to the Fermi potential magnitude $q\phi_F$. Moving the surface intrinsic level by twice that separation places it the same distance on the opposite side of $E_F$. The Boltzmann concentration therefore changes by the factor needed to make the surface minority-electron density match the bulk majority-hole density.
+
 ### Clarity / improvement
 
 “Strong inversion at $2\phi_F$” is a conventional and extremely useful threshold definition, not a discontinuous physical switch. Carrier density changes continuously with voltage.
@@ -298,6 +320,8 @@ Show from the Boltzmann relations why $\psi_s=2\phi_F$ gives $n_s\approx N_A$.
 This page makes surface potential $\psi_s=\psi(0)-\psi(\text{bulk})$ the single variable that classifies the surface state. For a p-type substrate under the usual sign convention: negative $\psi_s$ gives accumulation, $\psi_s=0$ gives flat band, $0<\psi_s<\phi_F$ gives depletion, $\phi_F<\psi_s<2\phi_F$ gives weak inversion, and $\psi_s\ge2\phi_F$ gives strong inversion.
 
 The polar-potential sketches are reminders that the electric potential in the semiconductor is not uniform once the bands bend. The gate voltage is divided between oxide drop, surface potential, and any work-function/fixed-charge offset.
+
+Use the potential axis as a map rather than five unrelated definitions. Starting from $\psi_s=0$, moving negative increases surface-hole concentration and produces accumulation. Moving positive first exposes acceptor charge, then reaches the intrinsic-surface point near $\phi_F$, and finally reaches the conventional strong-inversion point near $2\phi_F$. The ordering follows directly from how far the surface bands have moved relative to the fixed bulk bands.
 
 ### Clarity / improvement
 
@@ -318,6 +342,8 @@ The five small sketches compress the entire p-type MOS-capacitor progression: fl
 
 The band/potential separation between bulk and surface increases as bias moves toward inversion. At strong inversion it is approximately $2\phi_F$. The charge response changes character along the way: mobile holes -> fixed acceptors -> mobile electrons.
 
+For each small sketch, identify the surface at one end and neutral bulk at the other, then ask two questions: which carrier has been attracted or repelled, and what sign of semiconductor charge remains? This produces a continuous story across the row. Flat band has no net semiconductor charge; accumulation adds mobile holes; depletion exposes fixed acceptors; weak and strong inversion add progressively more mobile electrons above the persisting depletion region.
+
 ### Clarity / improvement
 
 Add a charge label under each sketch during revision: $Q_s>0$ for hole accumulation, $Q_s<0$ for depletion/inversion on p-type silicon. This prevents potential-sign memory from becoming detached from the physical carriers.
@@ -336,6 +362,8 @@ Without drawing bands, list the dominant surface charge for all five conditions 
 This page switches polarity to emphasize symmetry. On n-type silicon, positive gate bias accumulates electrons; negative gate bias first depletes electrons and then attracts holes to form p-type inversion. The band bending and voltage signs reverse relative to the p-type case.
 
 The underlying logic does not change: a gate bias that repels the bulk majority carrier creates depletion, and a stronger bias of that same polarity attracts the opposite carrier into inversion.
+
+The page is a polarity check on the earlier p-type drawings. For n-type silicon, exposed donor ions are positive, so depletion charge has the opposite sign from p-type depletion charge. A negative gate both repels the bulk electrons and attracts holes toward the interface. Keeping these two actions tied to the same gate polarity is more reliable than trying to reverse every memorized diagram independently.
 
 ### Clarity / improvement
 
@@ -359,6 +387,8 @@ At strong inversion, set $\psi_s=2\phi_F$: $W_{d,max}=\sqrt{4\varepsilon_{si}\ph
 $$
 |Q_{d,max}|=qN_AW_{d,max}=\sqrt{4q\varepsilon_{si}N_A\phi_F}.
 $$
+
+The derivation uses the boundary conditions drawn implicitly by the depletion picture: $E(W_d)=0$ and the bulk potential is the reference. Integrating the constant charge density once gives a triangular field profile and integrating again gives $\psi_s=qN_AW_d^2/(2\varepsilon_{si})$. Solving that relation for $W_d$ explains the square root and shows why width does not grow linearly with gate-induced surface potential.
 ### Clarity / improvement
 
 The sign of $Q_d$ comes from the ionized dopant: acceptors are negative after losing their mobile holes. Width is always positive; put the sign in $Q_d$, not in $W_d$.
@@ -377,6 +407,8 @@ How does doubling $N_A$ affect $W_d$ and $|Q_d|$ at a fixed surface potential?
 This is the n-type counterpart. Depleting electrons exposes positively charged ionized donors, so $Q_d=+qN_DW_d$. The width follows $W_d=\sqrt{2\varepsilon_{si}|\psi_s|/(qN_D)}$, with an absolute potential magnitude used to keep width real and positive.
 
 At strong inversion, substitute $2|\phi_F|$ to obtain the maximum width and charge. The formulas mirror the p-type case; only charge and bias signs reverse.
+
+The page's donor symbols determine the sign before any algebra is written. Removing mobile electrons does not leave negative charge; it uncovers donor atoms that have lost an electron and are therefore positively ionized. The same Poisson-equation geometry still produces a rectangular charge region, triangular field, and parabolic potential, so the magnitude formulas remain unchanged after replacing $N_A$ by $N_D$.
 
 ### Clarity / improvement
 
@@ -397,6 +429,8 @@ The page assembles the spatial profiles for a p-type capacitor near inversion. I
 
 This is the mathematical reason the three plots have different shapes: $dE/dx=\rho/\varepsilon$ and $E=-d\psi/dx$. A constant charge becomes a linearly varying field; integrating once more gives a parabola.
 
+Match the breakpoints across all three plots. The gate charge appears as a sheet at the metal surface; ideal oxide contains no volume charge, so its field has no slope; and depleted silicon contains uniform fixed charge until $x=W_d$. At that same $W_d$ position, $\rho$ steps to zero, the field reaches zero, and the potential joins the flat bulk value with zero slope.
+
 ### Clarity / improvement
 
 At strong inversion, add a very thin mobile-electron sheet at the interface in addition to the rectangular depletion charge. Omitting it is acceptable only while deriving the depletion component.
@@ -415,6 +449,8 @@ Sketch the expected shapes of $\rho(x)$, $E(x)$, and $\psi(x)$ in oxide and depl
 The electric-field plot is constant through charge-free oxide and decreases linearly through uniformly charged depletion silicon. At an ideal interface with no separate sheet charge, normal electric displacement is continuous: $\varepsilon_{ox}E_{ox}=\varepsilon_{si}E_{si}(0)$.
 
 Because $\varepsilon_{si}$ is roughly three times $\varepsilon_{ox}$, the electric-field magnitude in the oxide is roughly three times the silicon surface field. This is why a physically thin oxide can still take a significant fraction of the gate voltage.
+
+The apparent step in the field plot is therefore not evidence of an extra charge sheet. It comes from the change in dielectric permittivity while displacement remains continuous. On the two sides of the boundary, $E_{ox}/E_{si}=\varepsilon_{si}/\varepsilon_{ox}$. The lower-permittivity oxide must carry the larger field to support the same normal displacement produced by the gate and semiconductor charge.
 
 ### Clarity / improvement
 
@@ -435,6 +471,8 @@ Integrating the electric field produces the potential distribution. A constant o
 
 Ignoring work-function and fixed-charge offsets for the ideal case, the applied gate voltage divides as $V_G=V_{ox}+\psi_s$. In a real capacitor, the more complete bookkeeping is $V_G=V_{FB}+V_{ox}+\psi_s$.
 
+The endpoints of the plotted potential identify these voltage pieces. The neutral bulk is chosen as the zero-potential reference; the value reached at the silicon surface is $\psi_s$; and the additional change across the oxide is $V_{ox}$. Because potential is an integral of field, the oxide section is straight and the depleted-silicon section is curved, but the two meet at one continuous interface potential.
+
 ### Clarity / improvement
 
 The potential graph is continuous across an ideal interface, while its slope changes because the field changes. Never draw a potential jump unless an ideal dipole/contact-potential model explicitly requires it.
@@ -453,6 +491,8 @@ Which part of the potential is linear and which part is parabolic, and what char
 This page turns the field plot into a rapid calculation. Since voltage difference is minus the integral of electric field, the magnitude of the surface potential equals the triangular area under $E_{si}(x)$: $\psi_s=\tfrac12 E_{s,max}W_d$. The oxide drop is the rectangular area $V_{ox}=E_{ox}t_{ox}$.
 
 Combining $E_{s,max}=qN_AW_d/\varepsilon_{si}$ with the triangular area directly reproduces $\psi_s=qN_AW_d^2/(2\varepsilon_{si})$. This is a useful way to derive rather than memorize the depletion-width formula.
+
+The shapes make the numerical factors unavoidable. The silicon field falls from $E_{s,max}$ to zero over $W_d$, so its average magnitude is $E_{s,max}/2$ and the voltage magnitude is that average times the width. The oxide field is constant, so its average equals its full value and no factor of one-half appears in $V_{ox}$.
 
 ### Clarity / improvement
 
@@ -473,6 +513,8 @@ The problem supplies doping, depletion width, oxide thickness, and dielectric co
 
 The page's boxed relations capture that order. It is also a dimensional-analysis exercise: convert centimeters and nanometers consistently before inserting SI permittivities and charge density.
 
+Each requested result can be checked against the drawing before accepting the arithmetic. The oxide field should exceed the silicon surface field because $\varepsilon_{ox}<\varepsilon_{si}$; the silicon potential must equal the triangular field area; and the oxide voltage must equal the rectangular field area. These graphical checks catch a swapped permittivity, a missing factor of one-half, or use of the wrong thickness.
+
 ### Clarity / improvement
 
 The drawn formula $\psi_s=\tfrac12W_dE_s$ is correct for a linearly falling depletion field. The oxide drop is $V_{ox}=E_{ox}t_{ox}$, not $E_{si}t_{ox}$. Write field units explicitly to prevent a $10^2$ or $10^9$ conversion error.
@@ -491,6 +533,8 @@ Why must the oxide field be found through displacement continuity rather than as
 The final page removes the ideal assumption by allowing $\Phi_m\ne\Phi_s$. When metal and semiconductor are connected externally, their equilibrium Fermi levels align, but a work-function difference is accommodated by charge redistribution and band bending. Thus $V_G=0$ need not produce flat bands.
 
 The diagrams compare the separated materials and assembled capacitor. The practical consequence is a flat-band-voltage shift: an external voltage must cancel the built-in work-function effect (and, later, oxide charge) before the semiconductor bands become flat.
+
+The separated-material drawing and equilibrium drawing represent two stages, not two simultaneous band configurations. Before electrical connection, each material may have its own Fermi reference. After connection through the external circuit, charge moves only long enough to establish one equilibrium electrochemical potential. The resulting electric field and band bending store the original work-function mismatch without implying a continuing DC current through the oxide.
 
 ### Clarity / improvement
 

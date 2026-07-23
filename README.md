@@ -24,6 +24,15 @@ The wording above is preserved from Kapil's original description because it is t
 
 ## Start here
 
+Revision Atlas currently has two major VLSI topic rooms:
+
+| Major topic | Current material | Best use |
+|---|---|---|
+| [MOSFET and CMOS](subjects/VLSI%20Design/MOSFET%20and%20CMOS/README.md) | Five source-linked revision notebooks | Revise device physics, CMOS behavior, delay, power, noise, and sizing |
+| [FIFO](subjects/VLSI%20Design/FIFO/README.md) | Design and verification approach | Plan RAM, synchronous FIFO, synthesis/timing checks, asynchronous FIFO, and CDC verification before writing RTL |
+
+It also has a separate [Protocols subject](subjects/Protocols/README.md) containing 16 source-linked handwritten pages on I2C, SPI, and UART, including baud generation and UART transmitter/receiver RTL reasoning.
+
 The five notebooks form one continuous MOS/VLSI sequence. Every source page is rendered directly inside its matching revision file, followed immediately by an explanation and an active-recall prompt.
 
 | Revision file | Pages | Main coverage |
@@ -77,8 +86,16 @@ RevisionSolved/                         # Revision Atlas root
 |-- .gitignore
 `-- subjects/
     |-- README.md                       # all-subject index
+    |-- Protocols/
+    |   |-- README.md                   # I2C, SPI, and UART topic index
+    |   |-- sources/                    # untouched 16-page handwritten scan
+    |   |-- 01 I2C/                     # pages 1-5 + deep explanations
+    |   |-- 02 SPI/                     # pages 6-8 + deep explanations
+    |   `-- 03 UART/                    # pages 9-16 + deep explanations
     `-- VLSI Design/
         |-- README.md                   # VLSI topic index
+        |-- FIFO/
+        |   `-- README.md               # staged FIFO design/verification approach
         `-- MOSFET and CMOS/
             |-- README.md               # topic map + question/TODO register
             |-- sources/

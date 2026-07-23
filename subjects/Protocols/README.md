@@ -16,9 +16,11 @@ The untouched scan is available as [protocols-handwritten-notes.pdf](sources/pro
 
 Each source page is rendered inline before its discussion. Read the page first, explain its diagram aloud, and only then open the explanation. Every page then provides:
 
-- **What this page is doing:** the page's ideas reconstructed in the same order, with the mechanism behind each signal or equation.
-- **Clarity / correction / improvement:** a separation between what is correct, what is shorthand, and what must be corrected before using the idea in hardware.
+- **Technical discussion:** a formal, page-specific explanation of each visible signal, diagram, equation, or timing relationship in the same order as the source page.
+- **Technical corrections and qualifications:** verified corrections, implementation constraints, and precise limits needed before applying the handwritten statement to hardware.
 - **Active recall:** a closed-book prompt aimed at the causal logic rather than the wording.
+
+The discussion remains within the subject matter visible or directly implied on its source page. Additional facts are included only when they correct, quantify, or technically deepen that material, and important protocol claims are checked against the manufacturer references below.
 
 ## Question and correction register
 

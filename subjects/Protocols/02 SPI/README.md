@@ -15,9 +15,9 @@ These three pages move from the SPI wiring model to simultaneous shift-register 
 
 ![Handwritten page 6 - SPI signals and I2C comparison](images/page-06.jpeg)
 
-### What this page is doing
+### Technical discussion
 
-The page introduces SPI as a synchronous serial interface normally organized around one controller and one or more peripherals. The controller provides SCK, asserts a chip-select line for the intended peripheral, and shifts bits through two directional data lines. `MOSI` carries controller-out/peripheral-in data; `MISO` carries peripheral-out/controller-in data. Because these two paths are separate, one bit can travel in each direction during the same SCK cycle. That is the precise meaning of full duplex.
+The signal diagram defines SPI as a synchronous serial interface normally organized around one controller and one or more peripherals. The controller provides SCK, asserts a chip-select line for the intended peripheral, and shifts bits through two directional data lines. `MOSI` carries controller-out/peripheral-in data; `MISO` carries peripheral-out/controller-in data. Because these paths are separate, one bit can travel in each direction during the same SCK cycle; this simultaneous bidirectional transfer is full duplex.
 
 Full duplex does not mean that every device always has useful data in both directions. A register read often begins with the controller sending a command or address while the peripheral returns placeholder bits; later clock cycles carry the requested value back while the controller sends dummy bits. SPI has no separate read/write phase on the wires—the meaning comes from the selected device's command format.
 
@@ -25,7 +25,7 @@ The four-signal drawing is the common single-peripheral arrangement: SCK, MOSI, 
 
 The comparison table captures the broad trade-off. I2C uses fewer signal pins and has addressing, acknowledgment, arbitration, and defined bus electrical behavior. SPI usually spends more pins to obtain simpler framing and simultaneous data paths. SPI does not define an in-band address field or universal ACK/NACK bit; chip select performs out-of-band device selection, and command/status conventions belong to the peripheral.
 
-### Clarity / correction / improvement
+### Technical corrections and qualifications
 
 - **Correct:** conventional SPI is synchronous and can be full duplex through simultaneous MOSI and MISO shifting.
 - **Clarify:** “no address” means no universal address field. A particular peripheral may still require register or memory addresses inside its command bytes.
@@ -42,17 +42,17 @@ During an SPI register read, why must the controller continue transmitting bits 
 
 ![Handwritten page 7 - SPI shift-register architecture](images/page-07.jpeg)
 
-### What this page is doing
+### Technical discussion
 
 The upper block diagram fixes the direction of each signal relative to the controller. MOSI and SCK travel from controller to peripheral; MISO travels back. Chip select, though not drawn in the upper box, determines whether the peripheral should react to those clocks. In the common active-low convention, asserting $\overline{CS}$ starts a framed exchange and deasserting it ends or commits that exchange, but the exact framing rules remain device-specific.
 
-The lower diagram contains the most useful mental model for SPI: connect two shift registers in a ring. On every designated shift edge, the controller shifts one outgoing bit onto MOSI and the peripheral shifts that bit into its register. At the same time, the peripheral shifts one outgoing bit onto MISO and the controller captures it. After eight clock cycles, each side has received the byte that was in the other side's shift path.
+The lower diagram represents two shift registers connected as a serial exchange path. On every designated shift edge, the controller places one outgoing bit on MOSI and the peripheral shifts that bit into its register. Simultaneously, the peripheral places one outgoing bit on MISO and the controller captures it. After eight clock cycles, each side has received the byte shifted out by the other side.
 
 This model explains why there is no separate physical “read operation.” A read is a full-duplex exchange in which the controller's transmitted bits are command/address/dummy bits and the peripheral's transmitted bits eventually become meaningful return data. A write is the same shift mechanism with useful controller-to-peripheral data and often unimportant return bits.
 
-The page labels LSB and MSB around the registers, but bit order is not globally fixed by SPI. A device may shift most-significant bit first or least-significant bit first. Both sides must agree, and the controller must load and shift its register consistently. Similarly, the first valid output bit may need to be present before the first clock edge or may be launched by that edge; CPHA on the next page selects between those timing families.
+The LSB/MSB annotations describe one selected bit-order convention; SPI does not define a universal bit order. A device may shift most-significant bit first or least-significant bit first. Both endpoints must use the same convention, and the controller must load and shift its register accordingly. The first output bit may be required before the first clock edge or may be launched by that edge; CPHA distinguishes these timing cases.
 
-### Clarity / correction / improvement
+### Technical corrections and qualifications
 
 - **Correct:** MOSI and MISO names are defined from the controller's viewpoint, not from whichever block is currently sending useful payload.
 - **Clarify:** a peripheral generally shifts data on every active SCK cycle while selected, even if one direction contains dummy data.
@@ -68,9 +68,9 @@ Start with controller byte `0xA5` and peripheral byte `0x3C`. After exactly eigh
 
 ![Handwritten page 8 - SPI CPOL and CPHA waveforms](images/page-08.jpeg)
 
-### What this page is doing
+### Technical discussion
 
-The top sketch continues bit-order reasoning; the rest of the page addresses the central timing question: on which SCK edge is data captured, and on which edge is it allowed to change? SPI uses two configuration bits to answer it.
+The upper sketch specifies bit order, while the timing diagrams define the SCK edge used to capture data and the opposite edge used to change or set up data. SPI controllers express these timing choices through CPOL and CPHA.
 
 `CPOL` selects the idle level of SCK. With `CPOL = 0`, SCK idles LOW, so the leading edge is rising and the trailing edge is falling. With `CPOL = 1`, SCK idles HIGH, so the leading edge is falling and the trailing edge is rising. “Leading” therefore means the first transition away from idle, not always a rising edge.
 
@@ -87,9 +87,9 @@ Together these choices make four modes:
 
 The controller and selected peripheral must use the same mode. A polarity or phase mismatch often produces a one-bit shift or captures data near a transition, where setup/hold time is worst.
 
-### Clarity / correction / improvement
+### Technical corrections and qualifications
 
-- **Correct:** the page's `(CPOL, CPHA)` descriptions for modes 0, 1, and 2 follow the standard leading/trailing-edge interpretation.
+- **Verified:** the `(CPOL, CPHA)` descriptions for modes 0, 1, and 2 follow the standard leading/trailing-edge interpretation.
 - **Complete the missing case:** mode 3 is `(1,1)`: change/setup on the falling leading edge, sample on the rising trailing edge.
 - **Clarify:** say **sample** and **change/setup**, not simply “read” and “write.” Both MOSI and MISO are sampled during the same edge.
 - **Clarify:** for `CPHA = 0`, chip select normally becomes active early enough for the first bit to settle before the first sampling edge.
@@ -102,4 +102,4 @@ For mode 2, state the idle clock level, the first edge after chip-select asserti
 
 ## Module checkpoint
 
-You understand SPI when you can treat every clock as a simultaneous exchange, derive physical edges from CPOL/CPHA instead of memorizing four unrelated pictures, and keep protocol-specific commands separate from the universal wire-level mechanism.
+Revision criterion: model each SCK cycle as a simultaneous exchange, derive the physical sampling and setup edges from CPOL/CPHA, and distinguish device-specific command formats from the common wire-level transfer mechanism.

@@ -24,12 +24,13 @@ The wording above is preserved from Kapil's original description because it is t
 
 ## Start here
 
-Revision Atlas currently has two major VLSI topic rooms:
+Revision Atlas currently has three major VLSI topic rooms:
 
 | Major topic | Current material | Best use |
 |---|---|---|
 | [MOSFET and CMOS](subjects/VLSI%20Design/MOSFET%20and%20CMOS/README.md) | Five source-linked revision notebooks | Revise device physics, CMOS behavior, delay, power, noise, and sizing |
 | [FIFO](subjects/VLSI%20Design/FIFO/README.md) | Design and verification approach | Plan RAM, synchronous FIFO, synthesis/timing checks, asynchronous FIFO, and CDC verification before writing RTL |
+| [Frequency Dividers](subjects/VLSI%20Design/Frequency%20Dividers/README.md) | 13 source-linked notebook pages | Derive divide-by-2/3/4/5, duty-cycle variants, solved questions, and fractional divide-by-1.5/2.5 circuits |
 
 It also has a separate [Protocols subject](subjects/Protocols/README.md) containing 16 source-linked handwritten pages on I2C, SPI, and UART, including baud generation and UART transmitter/receiver RTL reasoning.
 
@@ -102,6 +103,10 @@ RevisionSolved/                         # Revision Atlas root
         |-- README.md                   # VLSI topic index
         |-- FIFO/
         |   `-- README.md               # staged FIFO design/verification approach
+        |-- Frequency Dividers/
+        |   |-- README.md               # 13 page-linked explanations, corrections, and answers
+        |   |-- sources/                # untouched 13-page frequency-divider notebook
+        |   `-- images/                 # readable page-01 through page-13 images
         `-- MOSFET and CMOS/
             |-- README.md               # topic map + question/TODO register
             |-- sources/

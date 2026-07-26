@@ -33,6 +33,8 @@ Revision Atlas currently has two major VLSI topic rooms:
 
 It also has a separate [Protocols subject](subjects/Protocols/README.md) containing 16 source-linked handwritten pages on I2C, SPI, and UART, including baud generation and UART transmitter/receiver RTL reasoning.
 
+The [Static Timing Analysis subject](subjects/Static%20Timing%20Analysis/README.md) adds 25 source-linked handwritten pages on transmission-gate storage, setup and hold analysis, arrival/required time, slack, clock skew, maximum frequency, and worked timing problems. Every visible red-marker doubt is answered beside its source page.
+
 The five notebooks form one continuous MOS/VLSI sequence. Every source page is rendered directly inside its matching revision file, followed immediately by an explanation and an active-recall prompt.
 
 | Revision file | Pages | Main coverage |
@@ -92,6 +94,10 @@ RevisionSolved/                         # Revision Atlas root
     |   |-- 01 I2C/                     # pages 1-5 + deep explanations
     |   |-- 02 SPI/                     # pages 6-8 + deep explanations
     |   `-- 03 UART/                    # pages 9-16 + deep explanations
+    |-- Static Timing Analysis/
+    |   |-- README.md                   # 25 page-linked STA explanations and answers
+    |   |-- sources/                    # untouched 24-page scan + original page 25 photo
+    |   `-- images/                     # readable page-01 through page-25 images
     `-- VLSI Design/
         |-- README.md                   # VLSI topic index
         |-- FIFO/

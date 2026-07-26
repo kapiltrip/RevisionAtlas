@@ -77,26 +77,6 @@ $$
 
 These two equations are the reference frame for the rest of this file. A real signoff run also includes uncertainty, jitter, on-chip variation, rise/fall arcs, PVT corners, derates, and library constraints.
 
-## Red-marker and question register
-
-| Page | Question or marked issue | Resolved answer |
-|---:|---|---|
-| [1](#page-01) | Why STA, why “static,” and why does a transmission gate pass both values? | STA checks constrained paths without input vectors; parallel nMOS/pMOS devices pass strong 0 and strong 1 when complementary enables turn both on. |
-| [3](#page-03) | Why does the latch remember data? | When the input gate closes, the complementary feedback gate closes a non-inverting two-inverter loop that regenerates the stored state. |
-| [5](#page-05) | Is setup time simply $T_1+N_1+N_2$? | That is an intuitive internal path bound for the drawn latch, not a universal formula. Cell setup is characterized at its pins. |
-| [6](#page-06) | Which device must “hold” the data? | The destination flip-flop's D pin must remain stable after its capture edge; the path's minimum delay prevents the launch flip-flop's new value from arriving too early. |
-| [10](#page-10) | Can $R\ge A$ and $A\le R$ be used interchangeably? | The inequalities are equivalent, but “required” and “arrival” are different quantities and their names are not interchangeable. |
-| [10](#page-10) | Is transmission-gate turn-off time the definition of hold time? | It is useful cell-internal intuition, but hold time is the characterized D-pin stability requirement after the active edge. |
-| [12](#page-12) | Which min/max clock and data delays form worst-case setup? | Use a late launch/data path and an early capture clock, consistently within a legal analysis corner. |
-| [14](#page-14) | Why is the first hold equation wrong? | It uses an unqualified delay and omits clock skew; hold must compare the minimum new-data arrival against the capture hold boundary. |
-| [14](#page-14) | Which is more critical: setup or hold? | Both must pass. Setup limits frequency; hold is frequency-independent and cannot be repaired by slowing the clock. |
-| [16](#page-16) | Which listed flip-flop supports the highest frequency? | A topology is required. If each feeds an identical copy with zero logic, FF1 is fastest at $125\,MHz$; for a chain, the slowest launch-capture path sets $f_{max}$. |
-| [18](#page-18) | What is $1/(16\,ns)$ and is there a hold violation? | $62.5\,MHz$; no hold violation in the first example. The lower self-loop does violate hold by $0.3\,ns$. |
-| [19](#page-19) | Why is capture delay $dly2$ subtracted, and can hold time be negative? | $dly2$ moves the capture hold boundary later; after rearrangement it is subtracted from allowable cell hold. A characterized hold time can be negative because of internal clock/data path relationships. |
-| [21](#page-21) | Why can effective hold become negative when data delay increases? | Extra minimum data delay postpones the new value, increasing path hold slack; it does not change the flip-flop's intrinsic $t_h$. |
-| [23](#page-23) | Why use only the NAND's $2\,ns$ instead of $3+2\,ns$? | You should not omit the three inverters if they lie on the sensitized FF1-to-FF2 data path. The complete data delay is $5\,ns$. |
-| [25](#page-25) | Why must the added $100\,ps$ appear in part 2? | It delays the launch clock, so it belongs in data arrival time; it reduces setup margin and raises the minimum period to $1100\,ps$. |
-
 <a id="page-01"></a>
 ## Page 01 - Why STA exists, and how a transmission gate passes data
 
@@ -104,22 +84,110 @@ These two equations are the reference frame for the rest of this file. A real si
 
 ### What this page is doing
 
-The opening page connects timing analysis to a frequency requirement. A synchronous design is correct only if every relevant path delivers stable data inside the receiving sequential element's timing window. The target frequency sets $T_{clk}=1/f_{clk}$; STA decides whether the slowest setup path fits that period and whether the fastest hold path is still long enough.
+The opening page asks two definition-level questions: **what STA proves** and **why it is called static**. It then introduces the transmission gate that later forms the data and feedback paths inside the latches.
 
-STA is called **static** because it traverses a timing graph and evaluates legal timing arcs mathematically. It does not require a sequence of input vectors. “Static” does not mean the signals never switch. Dynamic timing analysis, by contrast, observes delays during simulation for particular input activity; unexercised paths may remain unchecked.
+The handwritten phrase “frequency requirement” belongs primarily to the **setup** side of timing. Increasing frequency reduces the available clock period,
 
-The bottom drawings introduce a CMOS transmission gate: an nMOS and pMOS in parallel, controlled by complementary signals. When $C=1$ and $\bar C=0$, both conduct. The nMOS passes a strong 0 but a threshold-degraded 1; the pMOS passes a strong 1 but a degraded 0. In parallel, they compensate for each other's weak level, so the bidirectional switch passes both rails well. When $C=0$, both are off and the output is high impedance, $Z$.
+$$
+T_{clk}=\frac{1}{f_{clk}},
+$$
+
+so late data eventually produces negative setup slack. Hold is different: it checks whether the earliest new data arrives too soon after the same capture edge. A longer clock period normally does not repair a hold violation. Therefore, STA is not merely a tool that calculates one maximum frequency; it verifies a set of maximum-delay, minimum-delay, clock, I/O, and sequential-cell timing requirements.
 
 ### Red-marker answers and corrections
 
-- **Why STA?** To verify every constrained timing path across implementation delays and operating corners, and to find the period/frequency for which all setup and hold checks have non-negative slack.
-- **Why is it static?** The analyzer propagates early/late times through a graph; it is not dependent on an input waveform that happens to sensitize a path.
-- **Why does the switch pass the input?** Complementary gate controls turn both MOS devices on at the same time. It is a bidirectional analog switch at transistor level, not an AND gate.
-- The note “1 pMOS, 1 nMOS, so tri-state buffer” is close functionally but not exact. A transmission gate is bidirectional; a conventional tri-state buffer is directional and actively drives its output when enabled.
+#### Why do we need STA?
+
+**Definition:** Static timing analysis is a constraint-driven method for verifying whether signals can travel through the implemented timing network and reach their endpoints within the required time windows.
+
+The analyzer converts the netlist into a **timing graph**:
+
+- Pins or ports become timing nodes.
+- Valid cell and interconnect transitions become timing arcs.
+- A timing path begins at a startpoint, such as an input port or launching register, and ends at an endpoint, such as a receiving register or output port.
+- Library models and extracted interconnect provide delay values for the selected slew, load, PVT corner, and variation model.
+- Clock definitions, I/O delays, uncertainty, exceptions, and sequential-cell constraints establish the required times.
+
+For each applicable path and analysis view, STA propagates an **arrival time** and constructs a **required time**. Slack is the distance between those boundaries:
+
+$$
+Slack_{setup}=Required_{late}-Arrival_{late},
+$$
+
+$$
+Slack_{hold}=Arrival_{early}-Required_{early}.
+$$
+
+The different signs are intentional. Setup passes when the latest data arrives no later than its deadline. Hold passes when the earliest new data arrives no earlier than the end of the hold window. Zero slack is the mathematical boundary; positive slack is margin; negative slack is a violation.
+
+STA is needed because post-synthesis and post-layout timing is not a single logic-delay number. The analysis must account for cell delay, routed-net delay, clock-tree latency and skew, input slew, output load, jitter or uncertainty, process, voltage, temperature, and variation. Multiple operating modes and corners create multiple analysis views. A path that passes at one corner may fail at another: slow data is usually dangerous for setup, while fast data is usually dangerous for hold.
+
+The [Intel Timing Analyzer overview](https://www.intel.com/content/www/us/en/programmable/quartushelp/15.1/analyze/sta/sta_about_sta.htm) describes this core operation as analyzing timing paths, calculating their propagation delay, checking constraints, and reporting slack. Intel's [timing-analysis terminology](https://www.intel.com/content/www/us/en/docs/programmable/683243/24-1/timing-analysis-basic-concepts.html) also defines arrival time, setup and hold constraints, timing paths, timing netlists, and multicorner analysis.
+
+**Important correction to “STA finds the frequency”:** STA normally checks the clock period supplied by the constraints. The worst setup path tells us whether that period passes and, under the same assumptions, what minimum period or maximum frequency is possible. Hold is checked separately and is not made safe merely by reducing frequency.
+
+**Important coverage limit:** “All paths” means all valid paths represented by the timing graph after clocks, constraints, case analysis, and timing exceptions are applied. STA cannot prove the intended behavior of the RTL, cannot repair an unconstrained interface, and can miss a real requirement if a false-path or multicycle exception is wrong. Constraint completeness is therefore part of timing signoff.
+
+#### Why is it called *static*?
+
+“Static” does **not** mean that the circuit signals are constant. It means the timing result is computed without running a time-ordered functional simulation using a chosen sequence of input vectors.
+
+STA mathematically propagates early and late timing bounds through every enabled timing arc. It asks questions such as:
+
+- What is the latest possible arrival at this endpoint for setup?
+- What is the earliest possible arrival at this endpoint for hold?
+- Does that arrival satisfy the required time derived from the clocks and constraints?
+
+Dynamic timing simulation asks a different question: **what happens for this particular stimulus sequence?** A simulated path is checked only if the applied vectors sensitize it and create the relevant transition. STA is vectorless, so it can cover paths that a testbench never activates. [Synopsys' STA definition](https://www.synopsys.com/glossary/what-is-static-timing-analysis.html) explicitly contrasts path-based STA with vector-dependent dynamic simulation and also notes the crucial boundary: STA verifies timing, not logical functionality.
+
+This wider path coverage can introduce pessimism. Some topological paths may be functionally impossible, mutually exclusive, or intentionally multicycle. They are removed or modified only through justified timing exceptions or mode constraints—not by hoping that simulation never activates them.
+
+#### Why does the transmission gate pass the signal?
+
+A CMOS transmission gate places one nMOS and one pMOS **in parallel between the same two signal nodes**. Their gates receive complementary enables:
+
+| $C$ | $\overline C$ | nMOS | pMOS | Connection between $A$ and $B$ |
+|---:|---:|---|---|---|
+| 0 | 1 | OFF | OFF | Open/disconnected |
+| 1 | 0 | ON | ON | Conducting in either direction |
+
+When enabled, the devices do not calculate a Boolean expression such as $A\cdot C$. They create a finite-resistance electrical path:
+
+$$
+C=1:\quad A\leftrightarrow B.
+$$
+
+Calling one side “input” and the other “output” is only a circuit-use convention. At transistor level, either side can drive the other. This is why a transmission gate is a **bidirectional CMOS switch**.
+
+The complementary transistor pair is needed for full-swing digital transfer:
+
+- An nMOS passes a strong 0, but as it passes a rising voltage its overdrive decreases; by itself, its HIGH level can stop near a threshold below the positive rail.
+- A pMOS passes a strong 1, but by itself it is poor at pulling a node completely to 0.
+- In parallel, the pMOS supports the upper part of the voltage range and the nMOS supports the lower part, so the switch transfers both logic rails far better than either device alone.
+
+The switch is not ideal: it has on-resistance, parasitic capacitance, charge injection, leakage, and a delay that depends on the driven load. “Passes both 0 and 1 strongly” means it avoids the first-order threshold-loss problem of a single pass transistor; it does not mean zero resistance or zero delay. The [UC Berkeley EECS 150 CMOS notes](https://www-inst.cs.berkeley.edu/~cs150/sp11/agenda/lec/lec08-cmos.pdf) summarize the same device roles—nFET for passing 0, pFET for passing 1—and explicitly identify the transmission gate as bidirectional. The transmission-gate discussion in [Harris and Harris, *Digital Design and Computer Architecture*, Chapter 1](https://pages.hmc.edu/harris/class/e85/old/spring18/01_Ch01.pdf) likewise explains that the parallel complementary pair passes both levels and has no preferred input or output side.
+
+When disabled, the precise statement is **the transmission gate disconnects $A$ from $B$**. In a digital model, an otherwise undriven isolated terminal is represented as high impedance, $Z$. If another circuit is driving $B$, however, $B$ is not forced to $Z$; it simply no longer receives a drive through this transmission gate.
+
+#### Is it a tri-state buffer?
+
+The note “1 pMOS, 1 nMOS, so tri-state buffer” captures only the rough observation that the controlled connection can pass 0, pass 1, or disconnect. The circuit structures are not identical:
+
+| Property | Transmission gate | Conventional tri-state buffer |
+|---|---|---|
+| Direction | Bidirectional | Unidirectional: input $\rightarrow$ output |
+| Enabled action | Passively connects two nodes through transistor on-resistance | Actively drives and restores the output through pull-up/pull-down networks |
+| Disabled action | Opens the connection | Places the output driver in high impedance |
+| Logic inversion | None | Buffer is non-inverting; tri-state inverter is also possible |
+| Typical use here | Data selection and latch feedback | Driving a shared bus from one directional source |
+
+So the accurate description for the page is:
+
+> **A transmission gate is a complementary, bidirectional CMOS pass switch. It has an enabled conducting state and a disabled high-impedance state, but it is not a conventional directional tri-state buffer.**
 
 ### Active recall
 
-If the data input is 1, which device prevents a threshold-degraded output, and what is the output state when the transmission gate is disabled?
+Why can STA analyze a path that a simulation testbench never activates, why does lowering frequency not normally fix hold, and which transistor prevents a degraded HIGH when the transmission gate is enabled?
 
 <a id="page-02"></a>
 ## Page 02 - A 4:1 multiplexer made from transmission gates
@@ -142,7 +210,7 @@ Each transmission-gate symbol needs complementary controls. If an enable is $E$,
 
 ### Correction
 
-The small equation beside a single transmission gate should not be read as $Y=A\cdot B$ in the Boolean-gate sense. An enabled transmission gate gives $Y\approx A$; a disabled gate gives $Y=Z$. Its behavior is better written as $Y=A$ when $E=1$, otherwise $Z$.
+The small equation beside a single transmission gate should not be read as $Y=A\cdot B$ in the Boolean-gate sense. When enabled, the switch establishes $A\leftrightarrow Y$; in the intended signal direction this is written $Y\approx A$. When disabled, that particular switch contributes no drive and disconnects $A$ from $Y$. The shared node $Y$ is $Z$ only if no other selected transmission gate or circuit is driving it.
 
 ### Active recall
 
@@ -1302,9 +1370,13 @@ If the $100\,ps$ delay were moved from FF1's clock branch to FF2's clock branch,
 
 The timing definitions and corrections above were cross-checked against authoritative tool and university material:
 
+- [Synopsys - What is Static Timing Analysis?](https://www.synopsys.com/glossary/what-is-static-timing-analysis.html) for the path-based definition of STA, vectorless coverage, setup/hold checks, and the boundary between timing and functional verification.
+- [Intel - About TimeQuest Timing Analysis](https://www.intel.com/content/www/us/en/programmable/quartushelp/15.1/analyze/sta/sta_about_sta.htm) for timing-path traversal, propagation-delay calculation, constraint checking, and slack reporting.
+- [Intel - Timing Analysis Basic Concepts](https://www.intel.com/content/www/us/en/docs/programmable/683243/24-1/timing-analysis-basic-concepts.html) for timing-path, netlist, setup/hold, arrival-time, and multicorner terminology.
 - [Intel Timing Analyzer clock-analysis equations](https://www.intel.com/content/www/us/en/support/programmable/support-resources/design-examples/quartus/tq-clock.html) for setup/hold arrival time, required time, and the opposite slack equations.
 - [AMD Vivado UG906 - Timing Path Summary](https://docs.amd.com/r/en-US/ug906-vivado-design-analysis/Timing-Path-Summary) for max-delay setup slack, min-delay hold slack, path skew, and clock/data path reporting.
 - [AMD Vivado UG906 - Hold/Removal min-delay analysis](https://docs.amd.com/r/en-US/ug906-vivado-design-analysis/Hold/Removal-Min-Delay-Analysis) for legal min-delay corner pairings and why clock/data extremes cannot be mixed arbitrarily.
 - [AMD Vivado UG906 - hold-fixing impact](https://docs.amd.com/r/2024.2-English/ug906-vivado-design-analysis/Determining-if-Hold-Fixing-is-Negatively-Impacting-the-Design) for the practical distinction that lowering frequency can help setup but not hold.
 - [MIT 6.004 sequential logic notes](https://ocw.mit.edu/courses/6-004-computation-structures-spring-2017/pages/c5/c5s1/) for latch transparency, master-slave storage, and the pin-level definitions of setup and hold time.
+- [UC Berkeley EECS 150 CMOS lecture](https://www-inst.cs.berkeley.edu/~cs150/sp11/agenda/lec/lec08-cmos.pdf) and [Harris and Harris, *Digital Design and Computer Architecture*, Chapter 1](https://pages.hmc.edu/harris/class/e85/old/spring18/01_Ch01.pdf) for the complementary and bidirectional operation of CMOS transmission gates.
 - [Cornell ECE 4740 open course notes](https://ocw.ece.cornell.edu/ece-4740-course-details/ece-4740-lecture-notes-and-handouts/) for transmission gates, sequential circuits, latches, flip-flops, and adder circuits.

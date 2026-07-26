@@ -4,6 +4,25 @@
 
 This module builds the electrostatic picture beneath every MOSFET: choose energy references, align work functions, bend semiconductor bands with gate voltage, and convert the bending into depletion charge and width.
 
+## Local term key
+
+These meanings follow the electrostatic sequence in [MIT 6.012, MOS Capacitors I](https://ocw.mit.edu/courses/6-012-microelectronic-devices-and-circuits-fall-2009/resources/mit6_012f09_lec09/).
+
+| Term | Meaning |
+|---|---|
+| **MOS capacitor** | A conductor–oxide–semiconductor stack in which gate bias controls semiconductor surface charge through the oxide electric field. It is a capacitor structure, not a forward DC current path through ideal oxide. |
+| **Vacuum level (`E_vac`)** | Energy of a free electron just outside the material, used as a common energy reference. |
+| **Fermi level (`E_F`)** | Equilibrium electrochemical-potential reference governing carrier occupancy. A spatially flat equilibrium Fermi level indicates no net current even when bands bend. |
+| **Work function (`qΦ`)** | Energy from the Fermi level to vacuum. Metal and semiconductor work functions can differ before contact. |
+| **Electron affinity (`qχ`)** | Energy from the semiconductor conduction-band edge to vacuum. Unlike work function, it does not end at the doping-dependent Fermi level. |
+| **Band bending** | Spatial change of conduction- and valence-band energies near the surface caused by electrostatic potential variation. It is the energy-diagram view of surface electric field and charge. |
+| **Flat band** | Condition in which the semiconductor bands are spatially flat, so the ideal semiconductor has no surface band bending or space-charge field. |
+| **Accumulation** | Surface condition in which majority-carrier concentration exceeds its neutral-bulk value. For a p-type substrate, negative gate bias attracts holes toward the oxide interface. |
+| **Depletion** | Surface region in which mobile majority carriers are repelled, leaving exposed ionized dopants and a finite space-charge width. |
+| **Inversion** | Surface condition in which minority carriers become sufficiently numerous that the surface conductivity type is opposite to the bulk. |
+| **Surface potential (`ψ_s`)** | Electrostatic potential of the semiconductor surface relative to the neutral bulk; it quantifies band bending and classifies the surface regime. |
+| **Depletion width (`x_d`)** | Depth of the space-charge region under the depletion approximation. It grows as more majority carriers are removed until strong inversion limits further first-order growth. |
+
 ## Page map
 
 | Page | Revision focus | Page | Revision focus |

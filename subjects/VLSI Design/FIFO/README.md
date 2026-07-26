@@ -2,7 +2,37 @@
 
 FIFO is the second major VLSI design topic in this repository. The aim is not to begin by copying a finished Verilog module. The aim is to learn how a FIFO is constructed, what hardware each part becomes after synthesis, how boundary cases are verified, and why an asynchronous FIFO needs a clock-domain-crossing architecture rather than a small modification to a synchronous FIFO.
 
-> **Current scope:** this page is the design and learning approach only. No RTL or testbench code is included yet.
+> **Current scope:** this README is the design and learning guide. Minimal `fifo` and `fifo_tb` module shells and a Vivado starter project exist, but no completed FIFO behavior or passing verification result is claimed.
+
+## Core term dictionary
+
+The implementation and independent-clock terms below are aligned with the [AMD Embedded FIFO Generator guide](https://docs.amd.com/r/en-US/pg327-emb-fifo-gen/Independent-Clocks-Block-RAM-and-Distributed-RAM) and [Vivado memory-inference guidance](https://docs.amd.com/r/en-US/ug901-vivado-synthesis/Memory-Inference-Capabilities).
+
+| Term | Precise meaning | Hardware / verification meaning |
+|---|---|---|
+| **FIFO — First-In, First-Out** | An ordered storage structure in which the earliest accepted, not-yet-read entry is the next entry returned. | Correctness means no accepted entry is lost, duplicated, or reordered. |
+| **Entry / word** | One independently stored payload item. | Its number of bits is the FIFO data width. |
+| **Depth** | Maximum number of entries the FIFO contract permits to be valid simultaneously. | Depth is capacity, not address width. A depth-16 FIFO needs 4 address bits but may need additional pointer/occupancy state. |
+| **Write pointer / read pointer** | State identifying the next memory location to write and the next valid location to read. | A pointer advances only when its operation is accepted; request alone is insufficient. |
+| **Occupancy** | Number of valid unread entries: accepted writes minus accepted reads since reset, within the FIFO’s boundary policy. | `empty` corresponds to zero occupancy and `full` to capacity in a counter-based synchronous FIFO. |
+| **Request / accepted operation** | A request expresses intent; an operation is accepted only when the FIFO contract permits it, such as `wr_en && !full` or `rd_en && !empty` for a simple policy. | Pointers, occupancy, and the scoreboard change from accepted operations, never blindly from requests. |
+| **Full / empty** | Status conditions that prevent capacity overflow or invalid read consumption. | In an asynchronous FIFO, `full` belongs to the write clock domain and `empty` to the read clock domain; AMD states that independent-clock interface/status signals are valid only in their respective domains ([AMD PG327](https://docs.amd.com/r/en-US/pg327-emb-fifo-gen/Understand-Signal-Pipelining-and-Synchronization)). |
+| **Overflow / underflow** | Overflow is a rejected write caused by no available capacity; underflow is a rejected read caused by no valid entry. | They are event/status indications, not permission to corrupt pointers or memory. |
+| **Wrap bit / extended pointer** | Additional pointer state that records traversal beyond the RAM address range so equal address fields can be distinguished as empty or full. | The RAM uses address bits; flag logic may need one more bit of history. |
+| **RAM inference** | Synthesis recognition of an HDL memory pattern and mapping it to registers, distributed RAM, block RAM, or UltraRAM under the target/tool rules ([AMD UG901](https://docs.amd.com/r/en-US/ug901-vivado-synthesis/Memory-Inference-Capabilities)). | A behavioral array does not guarantee one physical memory type; coding style, ports, read latency, and attributes influence mapping. |
+| **Standard read / FWFT** | Standard read produces output in response to an accepted read according to a defined latency. First-word fall-through (FWFT) makes the oldest available word appear without the same explicit read-to-output sequence. | These are different external contracts; the testbench must not assume one while RTL implements the other. |
+| **Synchronous FIFO** | FIFO whose storage-control state and read/write decisions use one clock. | Pointer comparison and occupancy do not cross clock domains. |
+| **Asynchronous FIFO** | FIFO with independent write and read clocks that have no required frequency or phase relationship. AMD’s implementation uses memory, local counters, binary/Gray conversion, synchronization, and local status logic ([AMD PG327](https://docs.amd.com/r/en-US/pg327-emb-fifo-gen/Independent-Clocks-Block-RAM-and-Distributed-RAM)). | Payload crosses through dual-port memory while control knowledge crosses through synchronized pointer representations. |
+| **CDC — clock-domain crossing** | Transfer of information between logic whose sampling clocks have no guaranteed edge relationship. | CDC correctness needs an architecture and constraints; unrelated clocks cannot be made safe by ordinary functional simulation. |
+| **Metastability** | Temporary analog state possible when a receiving flip-flop samples near a data transition and cannot immediately resolve to a legal logic level. | A synchronizer reduces the probability that unresolved metastability propagates; it cannot promise zero probability or make a multi-bit binary bus coherent. |
+| **Synchronizer** | Destination-clocked register chain or protocol structure used to reduce metastability propagation risk for a qualifying CDC signal. | Each destination domain uses only the synchronized representation; synchronizer latency makes flag release conservative. |
+| **Gray code** | Encoding in which adjacent count states differ in only one bit. | Crossing registered Gray pointers reduces the chance that a destination observes an incoherent mixture of several simultaneously changing binary bits; routing skew still needs control. |
+| **Scoreboard / reference queue** | Testbench model that records every accepted input and compares each accepted output in FIFO order at the documented latency. | It proves ordering and data integrity across boundary cases more effectively than visual waveform inspection alone. |
+| **Invariant** | Property that must remain true for every legal cycle, such as `0 <= occupancy <= depth` or “a rejected operation does not move its pointer.” | Invariants expose failures during long randomized runs and wrap-around, not just named directed examples. |
+
+## How to revise FIFO
+
+Begin every trace with the written interface contract. For each clock edge, mark requests, accepted operations, memory address, pointer movement, occupancy, and flag changes. For an asynchronous FIFO, split the page into write and read domains, then mark which pointer representation is local, which is synchronized, and when conservative flag latency appears. Finish by stating what RTL hardware should be inferred and which assertion or scoreboard check proves the behavior. Use the global [revision plan](../../../REVISION_PLAN.md) for scheduling.
 
 ## The cleaned-up roadmap
 

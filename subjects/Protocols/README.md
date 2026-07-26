@@ -2,6 +2,20 @@
 
 This subject collects Kapil's handwritten notes on chip-to-chip serial communication. The source scan is preserved once, while its 16 pages are separated into focused topic rooms so I2C, SPI, and UART can be revised independently without losing the original page order.
 
+## Core terms
+
+| Term | Precise meaning | Physical / practical meaning |
+|---|---|---|
+| **Communication protocol** | An agreed set of electrical, timing, framing, addressing, and response rules that lets endpoints assign the same meaning to signal activity. The NXP I2C specification, for example, defines bus signals, transfer conditions, byte formats, acknowledgment, and arbitration rather than merely naming two wires ([NXP UM10204](https://www.nxp.com/docs/en/user-guide/UM10204.pdf)). | A wire carries voltage; the protocol says when that voltage is data, clock, address, acknowledgment, idle, or an error/termination condition. |
+| **Serial communication** | Transfer in which a word is represented as an ordered sequence of bits over time rather than one simultaneous conductor per bit. | It reduces pin count but requires framing, bit ordering, and timing recovery or an accompanying clock. |
+| **Synchronous serial communication** | Communication in which sampling is referenced to an explicitly transferred or otherwise shared clock. I2C supplies SCL and SPI supplies SCK ([NXP UM10204](https://www.nxp.com/docs/en/user-guide/UM10204.pdf), [Microchip SPI modes](https://onlinedocs.microchip.com/oxy/GUID-A299F4E7-F38C-4DF5-96C0-A87B9F519156-en-US-4/GUID-8A5B8750-B99E-4176-834E-E44E98F4A098.html)). | The receiver knows which clock edge defines a valid data sample. |
+| **Asynchronous serial communication** | Communication without a continuously transferred sampling clock; endpoints agree on nominal symbol timing and recover alignment from framing transitions. A UART receiver begins from the START transition and samples within later bit cells ([Microchip UART reception](https://onlinedocs.microchip.com/oxy/GUID-F2693295-804D-4E36-8BA5-0105C1751EA5-en-US-3/GUID-2966F8A6-816E-45CF-87A6-FB4C876E377D.html)). | “Asynchronous” does not mean untimed. Both endpoints still require sufficiently close baud rates. |
+| **Frame** | A defined sequence that packages payload with timing or control fields such as START, address, parity, acknowledgment, or STOP. Microchip’s common UART `8N1` example contains one START bit, eight data bits, no parity, and one STOP bit ([Microchip USART guide](https://onlinedocs.microchip.com/oxy/GUID-78D70ED6-D060-4984-8F25-B119A2A89ABB-en-US-3/GUID-BA123D56-04C4-40CB-93D5-644DF3FD9C1D.html)). | Framing lets the receiver locate data boundaries and detect some invalid conditions. |
+| **Simplex / half duplex / full duplex** | Simplex carries useful data in one direction; half duplex supports both directions at different times; full duplex supports simultaneous opposite-direction transfer. Microchip documents asynchronous USART with separate RX and TX as full duplex and one-wire operation as half duplex ([Microchip USART guide](https://onlinedocs.microchip.com/oxy/GUID-78D70ED6-D060-4984-8F25-B119A2A89ABB-en-US-3/GUID-BA123D56-04C4-40CB-93D5-644DF3FD9C1D.html)). | Count independent data paths and whether they can be active simultaneously; do not infer duplex only from the protocol name. |
+| **Bit rate** | Number of bits transmitted per second ([Keysight, “Bits Versus Symbols”](https://helpfiles.keysight.com/scopes/FlexDCA-PG/Content/Topics/Quick-Start/theory_bits_vs_symbols.htm)). | It counts transmitted bits; useful payload throughput can be lower after framing, coding, or protocol overhead. |
+| **Baud rate** | Number of signaling symbols transmitted per second ([Keysight, “Bits Versus Symbols”](https://helpfiles.keysight.com/scopes/FlexDCA-PG/Content/Topics/Quick-Start/theory_bits_vs_symbols.htm)). | Baud equals bit rate only when each symbol represents one bit, as in ordinary binary NRZ UART; the definitions are not universally interchangeable. |
+| **Electrical layer versus protocol layer** | Electrical rules define voltage, current drive, polarity, and physical signaling; protocol rules define timing and meaning. | UART framing can be transported through TTL/CMOS GPIO, RS-232, or RS-485 transceivers, but those electrical interfaces are not alternate names for UART. |
+
 ## Ordered path
 
 | Topic room | Source pages | Main coverage |
@@ -21,6 +35,19 @@ Each source page is rendered inline before its discussion. Read the page first, 
 - **Active recall:** a closed-book prompt aimed at the causal logic rather than the wording.
 
 The discussion remains within the subject matter visible or directly implied on its source page. Additional facts are included only when they correct, quantify, or technically deepen that material, and important protocol claims are checked against the manufacturer references below.
+
+## How to revise protocols
+
+For every transaction, draw the complete waveform and answer in order:
+
+1. Who initiates the transfer?
+2. Who drives each wire in every field?
+3. Which edge or transition defines sampling?
+4. Where are address, direction, payload, acknowledgment, and termination represented?
+5. What detects rejection or corruption—and what does not?
+6. Which statement is universal to the protocol and which is device-specific?
+
+Then compare one nearby protocol without saying only “faster” or “fewer wires.” Compare clocking, electrical drive, selection/addressing, duplex behavior, framing, acknowledgment, and implementation cost. Use the global [revision plan](../../REVISION_PLAN.md) for the spaced schedule.
 
 ## Question and correction register
 

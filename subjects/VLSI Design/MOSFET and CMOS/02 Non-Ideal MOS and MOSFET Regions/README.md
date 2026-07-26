@@ -4,6 +4,25 @@
 
 This module turns ideal electrostatics into practical device equations. It explains why flat band and threshold shift, how MOS capacitance changes with bias, and how an inversion layer becomes a current-carrying MOSFET channel.
 
+## Local term key
+
+The MOS-capacitor and MOSFET-region meanings are cross-checked against the [MIT 6.012 MOSFET lecture sequence](https://ocw.mit.edu/courses/6-012-microelectronic-devices-and-circuits-fall-2009/pages/lecture-notes/).
+
+| Term | Meaning |
+|---|---|
+| **Non-ideal MOS** | A MOS structure that includes work-function difference, oxide/interface charge, finite leakage, traps, or other effects omitted from the ideal electrostatic model. “Non-ideal” means the zero-bias bands and measured voltages can shift; it does not mean the device is defective. |
+| **Oxide charge / interface charge** | Fixed, trapped, or bias-responsive charge in the oxide or at the Si–SiO₂ interface that changes the gate voltage required for a given surface condition. |
+| **Flat-band voltage (`V_FB`)** | Applied gate voltage needed to cancel work-function and charge offsets so the semiconductor bands become flat. |
+| **Threshold voltage (`V_T`)** | Gate voltage associated with the chosen strong-inversion/channel criterion under stated body/drain bias. Oxide charge, doping, work function, and body bias can shift it. |
+| **Oxide capacitance (`C_ox`)** | Gate-oxide capacitance, with areal value `C'_ox=ε_ox/t_ox`. A thinner oxide gives larger capacitance and stronger charge control for the same gate voltage. |
+| **Depletion capacitance (`C_dep`)** | Incremental capacitance associated with changing depletion charge/width in the semiconductor. In depletion it appears in series with oxide capacitance. |
+| **C–V characteristic** | Measured small-signal capacitance versus DC gate bias. Its shape reveals accumulation, depletion, inversion response, frequency effects, and non-ideal charge shifts. |
+| **Enhancement-mode MOSFET** | Device that needs gate bias beyond threshold to create a strong conducting channel; it is normally off at zero gate bias in the basic model. |
+| **Depletion-mode MOSFET** | Device with a conducting channel at zero gate bias that requires opposite-polarity gate bias to deplete/turn it off. |
+| **Channel** | Gate-controlled inversion layer connecting source-side and drain-side regions so carriers can conduct laterally. |
+| **Triode / linear region** | Strong-inversion region in which the channel exists from source to drain and current depends strongly on both gate overdrive and drain voltage. |
+| **Pinch-off / saturation** | Drain-end channel charge approaches zero when local channel voltage consumes the overdrive; additional drain voltage appears mainly across the drain-side pinch-off region, giving first-order current saturation. |
+
 ## Page map
 
 | Page | Revision focus | Page | Revision focus |

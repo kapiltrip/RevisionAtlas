@@ -25,6 +25,39 @@ The division ratio $N$ determines edge spacing. It does not, by itself, determin
 
 For an interview, the default architecture should be synchronous: all state flip-flops receive the original clock. If a flip-flop output clocks the following stage, the result is an asynchronous or ripple divider. On an FPGA, prefer a clock-enable for slower internal activity or a dedicated clocking resource when a real divided clock is required.
 
+## Core term dictionary
+
+The basic frequency and period meanings follow [NIST’s time-and-frequency definitions](https://www.nist.gov/pml/time-and-frequency-division/popular-links/time-frequency-z/time-and-frequency-z-f); the duty-cycle equation follows [Keysight’s measurement definition](https://helpfiles.keysight.com/scopes/FlexDCA-UG/Content/Topics/Oscilloscope-Mode/Time-Measurements/duty_cycle.htm). Divider implementation terms are tied to the vendor documentation in their rows.
+
+| Term | Precise meaning | Physical / RTL meaning |
+|---|---|---|
+| **Periodic signal** | A waveform for which there is a positive interval $T$ such that its pattern repeats: $x(t+T)=x(t)$. | Because the input repeats, complete input cycles can be counted and related to a repeating output cycle. |
+| **Frequency (`f`)** | Rate of a repetitive event, measured in hertz; for period $T$, $f=1/T$ ([NIST](https://www.nist.gov/pml/time-and-frequency-division/popular-links/time-frequency-z/time-and-frequency-z-f)). | Frequency counts completed patterns, not voltage magnitude, bit value, or the number written on a data bus. |
+| **Period (`T`)** | Time interval for one complete repetition; it is the reciprocal of frequency ([NIST](https://www.nist.gov/pml/time-and-frequency-division/popular-links/time-frequency-z/time-and-frequency-z-f)). | A divide-by-$N$ output needs $N$ reference periods per output period: $T_{out}=N T_{in}$. |
+| **Division ratio (`N`)** | Ratio $N=f_{in}/f_{out}=T_{out}/T_{in}$. | It specifies output repetition rate, but it does not by itself specify HIGH time or duty cycle. |
+| **Modulus** | Number of distinct states in a counter’s repeating state sequence. A modulo-$N$ counter returns to its initial state after $N$ accepted clock events. | A decoded event from a modulo-$N$ sequence can repeat at $f_{in}/N$. The chosen output decode determines its pulse width. |
+| **Duty cycle** | Fraction of one output period spent HIGH: $D=t_H/T_{out}\times100\%$ ([Keysight](https://helpfiles.keysight.com/scopes/FlexDCA-UG/Content/Topics/Oscilloscope-Mode/Time-Measurements/duty_cycle.htm)). | Two outputs can have the same divided frequency and different HIGH/LOW durations. |
+| **Toggle** | State transition $Q^{+}=\overline Q$ on a selected active edge. TI’s DFF divider example uses complement feedback so Q toggles at every rising edge and completes one cycle every two input cycles ([TI SN74LVC1G80-Q1](https://www.ti.com/lit/ds/symlink/sn74lvc1g80-q1.pdf)). | A stored bit needs two toggles—LOW→HIGH and HIGH→LOW—to return to its starting state, producing divide-by-2. |
+| **Clock-enable pulse** | A synchronous, usually one-cycle control event that tells registers when to update while they remain clocked by the original clock. | It slows *activity* without creating another clock tree. A pulse repeating every $N$ cycles has event rate $f_{in}/N$, but it is not automatically a 50% clock. |
+| **Divided / generated clock** | A periodic signal derived from a reference and used as a clock for other sequential elements. It must be routed and constrained as a clock; Intel documents generated-clock division with `-divide_by` ([Intel Timing Analyzer clock-divider example](https://docs.altera.com/r/docs/683081/22.2/quartus-prime-timing-analyzer-cookbook/basic-clock-divider-using-divide_by)). | It creates a new clock domain/relationship and therefore needs clock-network and STA treatment. |
+| **Synchronous divider** | Divider whose state flip-flops all sample the same original clock and compute next state together. | Combinational next-state logic decides which bits toggle; there is no stage-to-stage clock ripple. |
+| **Asynchronous / ripple divider** | Divider in which one flip-flop output clocks a later flip-flop. | State bits change after accumulated clock-to-Q delays rather than at one common edge. Intel recommends avoiding ripple counters in FPGA logic ([Intel ripple-counter guidance](https://docs.altera.com/r/docs/683323/18.1/intel-quartus-prime-standard-edition-user-guide-design-recommendations/avoid-ripple-counters)). |
+| **Integer divider** | Divider whose output period spans an integer number of reference periods, such as divide-by-3 or divide-by-5. | A rising-edge counter can directly represent its repeating sequence, although odd ratios need extra design for 50% duty. |
+| **Fractional divider** | Divider with a non-integer ratio, such as 1.5 or 2.5, usually implemented through alternating intervals, phase techniques, or both clock edges. | Not every output edge can remain an integer number of rising-edge periods apart. |
+| **Dual-edge operation** | Deliberate use of both rising and falling reference edges. Dedicated FPGA primitives such as ODDR are designed for opposite-edge output behavior ([AMD ODDR documentation](https://docs.amd.com/r/2020.2-English/ug953-vivado-7series-libraries/ODDR)). | It provides half-period edge placement; it is different from writing an ordinary fabric register in an unsupported two-edge `always` block. |
+
+## What is actually divided, and why must it be periodic?
+
+The divider acts on the **reference clock or event repetition rate**. It does not divide the constant on a T input, the logic voltage, or ordinary data values. The input clock supplies regularly spaced state-update events; the counter or FSM makes the output pattern repeat after a chosen number of those events.
+
+A single frequency and division ratio require a repeating reference period. If an arbitrary data signal has irregular edges, a circuit can count, filter, or select those edges, but the result does not have a guaranteed $f_{in}/N$ because one stable $f_{in}$ does not exist. A periodic data pattern can be treated as a reference waveform, but then the divider is acting on its repetition/event timing—not on the meaning of its bits.
+
+**Interview form:** A frequency divider is a sequential circuit that counts or sequences periodic input-clock events and produces an output event or waveform whose repetition rate is a defined fraction of the input rate. It divides the clock/event rate, not the data value or voltage.
+
+## How to revise frequency dividers
+
+For every circuit, write the state sequence, mark the exact output transitions, count input periods per complete output period, and calculate duty cycle separately. Then state whether the result is a clock-enable pulse, a continuous waveform, or a real generated clock, and whether the implementation is synchronous or ripple. Use the global [revision plan](../../../REVISION_PLAN.md) for the review schedule.
+
 <a id="page-01"></a>
 ## Page 01 - Chapter cover: what frequency division means
 

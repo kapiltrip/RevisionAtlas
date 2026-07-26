@@ -4,6 +4,25 @@
 
 This module refines the ideal MOSFET into a usable circuit model: transfer curves, on-resistance, transconductance, channel-length modulation, parasitic capacitances, pMOS symmetry, and the CMOS inverter switching point.
 
+## Local term key
+
+The small-signal definitions follow [MIT 6.012’s MOSFET equivalent-circuit lecture](https://ocw.mit.edu/courses/6-012-microelectronic-devices-and-circuits-fall-2005/1b51ad9a9d359aed058fa62378062eb5_lecture11annotat.pdf); inverter definitions follow the [MIT 6.012 CMOS inverter lecture](https://ocw.mit.edu/courses/6-012-microelectronic-devices-and-circuits-fall-2005/resources/lec14/).
+
+| Term | Meaning |
+|---|---|
+| **Transfer characteristic** | Relationship between an output quantity and swept input while other bias conditions are specified; for a MOSFET this commonly means `I_D` versus `V_GS`. |
+| **On-resistance** | Effective drain–source resistance in a conducting region at a specified bias. It is bias-dependent, not one universal constant for the transistor. |
+| **Transconductance (`g_m`)** | Local slope `∂I_D/∂V_GS` at the bias point. It converts a small gate-voltage change into a drain-current change and is measured in siemens. |
+| **Output conductance (`g_o`) / resistance (`r_o`)** | Local saturation slope `g_o=∂I_D/∂V_DS`; `r_o=1/g_o`. Nonzero slope makes a practical current source finite rather than ideal. |
+| **Channel-length modulation (`λ`)** | Effective channel shortening as drain voltage grows after pinch-off, modeled as a rising saturation current and finite `r_o`. |
+| **Early voltage (`V_A`)** | Extrapolated voltage parameter used to express output-slope strength; in a simple model `r_o≈V_A/I_D` and `λ≈1/V_A` under the adopted convention. |
+| **Small-signal model** | Linear incremental circuit valid near a DC bias point, using elements such as `g_m v_gs`, `r_o`, body transconductance, and capacitances. It does not replace the large-signal region equations for arbitrary swings. |
+| **Intrinsic / parasitic capacitance** | Capacitance from channel charge is intrinsic to device operation; overlap, junction, fringe, and interconnect capacitances add parasitic loading. |
+| **CMOS inverter** | Complementary pMOS pull-up and nMOS pull-down gate whose output is driven toward the opposite logic rail of the input. |
+| **VTC — voltage transfer characteristic** | DC curve of `V_out` versus `V_in`, obtained by satisfying pull-up and pull-down current balance in each valid region pair. |
+| **Switching threshold (`V_M`)** | VTC point where `V_in=V_out`. It summarizes strength balance but is not the only input threshold and is not valid across the whole curve. |
+| **Device strength (`β`)** | Long-channel current-factor shorthand containing mobility, oxide capacitance, and `W/L`. Equal `β_n` and `β_p` is a sizing condition, not a natural material equality. |
+
 ## Page map
 
 | Page | Revision focus | Page | Revision focus |

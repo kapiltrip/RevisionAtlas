@@ -4,6 +4,25 @@
 
 This module closes the first notebook sequence by connecting transistor-strength ratio to transfer-curve position, rise/fall delay, two-input NAND sizing, current-based timing, and the power-delay/noise trade-offs of a logic path.
 
+## Local term key
+
+The sizing and delay trade-offs are cross-checked against the [MIT 6.012 CMOS inverter lecture](https://ocw.mit.edu/courses/6-012-microelectronic-devices-and-circuits-fall-2005/resources/lec14/) and [MIT 6.004 design trade-offs](https://ocw.mit.edu/courses/6-004-computation-structures-spring-2017/pages/c8/c8s1/).
+
+| Term | Meaning |
+|---|---|
+| **Transistor sizing (`W/L`)** | Selection of channel width and length to control current drive, resistance, capacitance, and area. Increasing width usually improves drive but also increases input and diffusion capacitance. |
+| **Pull-up / pull-down network** | pMOS network that connects an output toward `V_DD` and nMOS network that connects it toward ground for complementary CMOS logic. |
+| **Drive-strength ratio** | Relative current capability of pull-up and pull-down networks, often summarized with `β_p/β_n` or an inverse resistance ratio. It sets VTC balance and edge asymmetry. |
+| **Series stack** | Two or more conducting transistors in series. The stack has greater effective resistance and internal capacitance than one equal-sized device, so NAND pull-down devices are commonly widened. |
+| **Equivalent inverter sizing** | Choosing gate-device widths so a selected pull-up/down path has resistance comparable to a reference inverter. It is a path-based approximation, not proof that every transition becomes identical. |
+| **Fan-in** | Number of logic inputs combined by a gate. More inputs can deepen series stacks and add diffusion/internal-node capacitance. |
+| **Fan-out / electrical load** | Amount of downstream input capacitance and wiring driven by an output. Logical connection count matters only through the actual capacitance and timing environment. |
+| **Worst-case transition** | Input transition and initial internal-node condition producing the largest relevant propagation delay. NAND inputs can have different delays because internal charge depends on which device switches. |
+| **Average-current delay method** | Approximation `t≈C_L ΔV/I_avg` using an estimated current over the output swing. Its accuracy depends on selecting the correct region trajectory and current average. |
+| **Power–delay trade-off** | Sizing or voltage changes that improve delay can increase capacitance, switching energy, leakage, or area. Optimization must evaluate both cause and cost. |
+| **PDP — power-delay product** | Product of average power and propagation delay, with dimensions of energy, used as one combined trade-off metric. It does not reveal area or separate leakage/dynamic mechanisms. |
+| **Noise-versus-speed trade-off** | Moving strength ratio can shift switching threshold/noise margins while also changing rise/fall delay. A faster edge in one direction can worsen balance or the opposite edge. |
+
 ## Page map
 
 | Page | Revision focus | Page | Revision focus |

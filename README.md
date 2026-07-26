@@ -1,6 +1,6 @@
 # Revision Atlas
 
-`RevisionSolved` is the current folder name. **Revision Atlas** is the working name for the system because it is meant to map every subject, topic, source page, explanation, doubt, and future revision path in one place.
+**Revision Atlas** maps every subject, topic, source page, explanation, doubt, and future revision path in one place.
 
 This repository exists for one specific stage of learning: the concepts have already been learned, but they must become fast to recall, easy to connect, and difficult to forget.
 
@@ -22,9 +22,32 @@ This repository exists for one specific stage of learning: the concepts have alr
 
 The wording above is preserved from Kapil's original description because it is the design brief for the repository.
 
+## Repository controls
+
+The root is the management layer for every subject:
+
+| Open this | Use it for |
+|---|---|
+| [Subjects](subjects/README.md) | Navigate all current subjects and see their scope |
+| [Content standard](CONTENT_STANDARD.md) | Define technical terms, answer “why” questions, and cite meanings consistently |
+| [How to revise a subject](REVISION_PLAN.md) | Run retrieval sessions and schedule Day 1/3/7/14/30 reviews |
+| [Subject dashboard](tracking/README.md) | See current coverage, next actions, and the `R/H/M` review queue |
+| [Future plan](FUTURE_PLAN.md) | Grow the structure and add subjects without losing consistency |
+| [Subject template](templates/subject-template.md) | Create a complete subject README with definitions, sources, and revision criteria |
+
+The non-negotiable content rule is: **a core term is not complete until its precise meaning, plain meaning, physical or hardware meaning, nearest confusion, and authoritative source are clear.** The complete rule and its shorter formats are in the [content standard](CONTENT_STANDARD.md).
+
 ## Start here
 
-Revision Atlas currently has three major VLSI topic rooms:
+Revision Atlas currently has three subject pillars:
+
+| Subject | Current coverage | Revision entry point |
+|---|---|---|
+| [VLSI Design](subjects/VLSI%20Design/README.md) | MOSFET/CMOS, FIFO, and frequency dividers | Device physics, RTL architecture, waveforms, and implementation reasoning |
+| [Protocols](subjects/Protocols/README.md) | I2C, SPI, and UART | Signal ownership, framing, clocking, and RTL timing |
+| [Static Timing Analysis](subjects/Static%20Timing%20Analysis/README.md) | Storage elements through complete setup/hold path analysis | Definitions, timing equations, sign conventions, and worked paths |
+
+The VLSI Design pillar currently contains three major topic rooms:
 
 | Major topic | Current material | Best use |
 |---|---|---|
@@ -32,7 +55,7 @@ Revision Atlas currently has three major VLSI topic rooms:
 | [FIFO](subjects/VLSI%20Design/FIFO/README.md) | Design and verification approach | Plan RAM, synchronous FIFO, synthesis/timing checks, asynchronous FIFO, and CDC verification before writing RTL |
 | [Frequency Dividers](subjects/VLSI%20Design/Frequency%20Dividers/README.md) | 13 source-linked notebook pages | Derive divide-by-2/3/4/5, duty-cycle variants, solved questions, and fractional divide-by-1.5/2.5 circuits |
 
-It also has a separate [Protocols subject](subjects/Protocols/README.md) containing 16 source-linked handwritten pages on I2C, SPI, and UART, including baud generation and UART transmitter/receiver RTL reasoning.
+The [Protocols subject](subjects/Protocols/README.md) contains 16 source-linked handwritten pages on I2C, SPI, and UART, including baud generation and UART transmitter/receiver RTL reasoning.
 
 The [Static Timing Analysis subject](subjects/Static%20Timing%20Analysis/README.md) adds 25 source-linked handwritten pages on transmission-gate storage, setup and hold analysis, arrival/required time, slack, clock skew, maximum frequency, and worked timing problems. Every visible red-marker doubt is answered beside its source page.
 
@@ -50,7 +73,7 @@ The five notebooks form one continuous MOS/VLSI sequence. Every source page is r
 
 ## The revision tactic
 
-Use each page as a small retrieval cycle. Do not reread the entire notebook passively.
+Use each page as a small retrieval cycle. Do not reread the entire notebook passively. For a complete subject session, including term recall, application, scheduling, and subject-specific tests, use [How to Revise a Subject](REVISION_PLAN.md).
 
 1. **Recognize - 20 seconds.** Look only at the rendered page. Name the page's topic and the physical situation being analyzed.
 2. **Retrieve - 60 seconds.** Without reading the explanation, say the diagram, assumptions, governing relation, and final conclusion aloud.
@@ -84,9 +107,16 @@ If a later result feels arbitrary, walk left along this chain until the physical
 ## Current repository layout
 
 ```text
-RevisionSolved/                         # Revision Atlas root
+RevisionAtlas/                          # all-subject management root
 |-- README.md                           # purpose, method, roadmap
+|-- CONTENT_STANDARD.md                 # definition and citation rules
+|-- REVISION_PLAN.md                    # subject revision method
+|-- FUTURE_PLAN.md                      # growth and subject-admission plan
 |-- .gitignore
+|-- tracking/
+|   `-- README.md                       # live coverage and review-queue format
+|-- templates/
+|   `-- subject-template.md             # required structure for new subjects
 `-- subjects/
     |-- README.md                       # all-subject index
     |-- Protocols/
@@ -132,7 +162,7 @@ The two sideways scans in `mos2` (pages 17 and 18) are rotated only in the modul
 
 ## Where Revision Atlas is going
 
-The current structure is the **source-preserving explanation layer**. The planned structure will add reusable revision layers without mixing them into the original page discussions.
+The current structure is the **source-preserving explanation layer plus a cited term layer**. The [Future Plan](FUTURE_PLAN.md) is the controlling roadmap for reusable revision layers and new subjects.
 
 ```text
 Revision Atlas/
@@ -168,8 +198,8 @@ Revision Atlas/
 | Iteration | Addition | Purpose |
 |---:|---|---|
 | 1 - complete | Source images, deep page explanations, corrections, questions | Build a trustworthy understanding layer |
-| 2 - next | Quick recall, formula sheet, pitfalls, and question bank | Turn understanding into fast retrieval |
-| 3 | Review queue and dated tracker | Decide exactly what should be revised today |
+| 2 - complete for current scope | Cited definitions, “why” standard, root controls, and subject dashboard | Make terminology explainable and growth consistent |
+| 3 - next | Quick recall, formula sheet, pitfalls, and question bank | Turn understanding into fast retrieval |
 | 4 | Mixed tests and cross-topic links | Prevent revision from becoming chapter-wise memorization |
 | 5 | Reusable templates and more subjects | Grow Revision Atlas without structural drift |
 

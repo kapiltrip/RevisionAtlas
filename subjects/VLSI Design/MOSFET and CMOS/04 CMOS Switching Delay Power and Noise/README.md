@@ -4,6 +4,25 @@
 
 This module turns the CMOS inverter from a DC transfer curve into a real logic gate. It tracks the transistor regions through the transition, models the output capacitance, explains pass-transistor level loss, derives switching energy, and defines noise margins.
 
+## Local term key
+
+Delay, noise, and power definitions follow the [MIT 6.012 CMOS inverter lecture](https://ocw.mit.edu/courses/6-012-microelectronic-devices-and-circuits-fall-2005/resources/lec14/), [MIT 6.004 CMOS notes](https://ocw.mit.edu/courses/6-004-computation-structures-spring-2017/pages/c3/c3s1/), and [MIT 6.004 design-trade-off notes](https://ocw.mit.edu/courses/6-004-computation-structures-spring-2017/pages/c8/c8s1/).
+
+| Term | Meaning |
+|---|---|
+| **Load capacitance (`C_L`)** | Total capacitance driven at the output, including gate inputs, diffusion, wiring, and explicit load. Current must charge or discharge it for the logic voltage to move. |
+| **Rise / fall time** | Duration of the output’s own LOW-to-HIGH or HIGH-to-LOW transition between specified voltage percentages. It is different from input-to-output propagation delay. |
+| **`t_PLH` / `t_PHL`** | Propagation delay for output LOW-to-HIGH or HIGH-to-LOW, measured between defined input/output crossing points. |
+| **Average propagation delay (`t_p`)** | Common summary `t_p=(t_PLH+t_PHL)/2`; it hides edge asymmetry and therefore cannot replace checking both directions. |
+| **Equivalent resistance / RC model** | First-order replacement of the conducting transistor network by a bias-averaged resistance charging/discharging `C_L`. It gives physical delay intuition but is not an exact large-signal MOS solution. |
+| **Pass transistor** | MOSFET used as a controlled connection rather than a restoring logic gate. A lone nMOS passes strong LOW/weak HIGH; a lone pMOS passes strong HIGH/weak LOW. |
+| **Transmission gate** | Parallel complementary nMOS/pMOS pass switch with complementary enables, giving bidirectional near-full-swing transfer. |
+| **Dynamic switching energy / power** | Energy drawn while capacitance is switched; one ideal 0→1 charge draws `C_L V_DD²` from the supply, and repeated activity gives average power proportional to `α C_L V_DD² f`. |
+| **Short-circuit power** | Transition-time power caused by simultaneous pull-up and pull-down conduction when the input passes through the inverter transition region. |
+| **Leakage power** | Power from nonzero off-state/junction/gate currents even without intended switching. |
+| **`V_IL`, `V_IH`, `V_OL`, `V_OH`** | Guaranteed/defined input and output voltage boundaries used to classify valid LOW/HIGH levels. They are not all equal to the inverter switching threshold. |
+| **Noise margin (`NML`, `NMH`)** | `NML=V_IL−V_OL` and `NMH=V_OH−V_IH`; the allowable unwanted voltage before one valid output can become an invalid input. |
+
 ## Page map
 
 | Page | Revision focus | Page | Revision focus |

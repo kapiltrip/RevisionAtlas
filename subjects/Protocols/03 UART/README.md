@@ -2,6 +2,26 @@
 
 These eight pages progress from asynchronous serial communication into an RTL-oriented UART design. The central discipline is to keep four time scales separate: the FPGA/system clock, the baud-rate bit interval, the receiver's oversampling tick, and the frame-level transmitter/receiver state machines.
 
+## Core term key
+
+The framing and receiver terms are verified against the [Microchip USART guide](https://onlinedocs.microchip.com/oxy/GUID-78D70ED6-D060-4984-8F25-B119A2A89ABB-en-US-3/GUID-BA123D56-04C4-40CB-93D5-644DF3FD9C1D.html) and [Microchip UART reception description](https://onlinedocs.microchip.com/oxy/GUID-F2693295-804D-4E36-8BA5-0105C1751EA5-en-US-3/GUID-2966F8A6-816E-45CF-87A6-FB4C876E377D.html).
+
+| Term | Meaning |
+|---|---|
+| **UART — Universal Asynchronous Receiver/Transmitter** | A hardware block that serializes parallel transmit data and reconstructs parallel receive data using asynchronous character framing. |
+| **Asynchronous** | No continuous clock travels with TX data. The receiver detects the START transition, then uses its own configured timing to sample later bit centers. |
+| **TX / RX** | TX is the serial output of one endpoint and connects to the other endpoint’s RX input. Independent TX and RX paths permit full-duplex operation. |
+| **Idle / START / STOP** | Ordinary non-inverted UART idles HIGH. A LOW START bit creates frame alignment; one or more HIGH STOP bits provide the required end/idle interval. |
+| **Data bits** | The payload bits between START and optional parity/STOP fields; ordinary UART commonly transmits the least-significant data bit first. |
+| **Parity** | An optional extra bit derived from the data bits. It detects an odd number of inverted bits within the covered character but not an even number, and it does not correct an error. |
+| **Baud rate** | Symbol intervals per second ([Keysight, “Bits Versus Symbols”](https://helpfiles.keysight.com/scopes/FlexDCA-PG/Content/Topics/Quick-Start/theory_bits_vs_symbols.htm)). For ordinary binary NRZ UART, one symbol carries one bit, so baud and line bit rate have the same numerical value. |
+| **Bit time** | Duration of one UART bit cell, $T_{bit}=1/B$ for baud rate $B$. |
+| **Baud tick / clock enable** | A one-system-clock-cycle event used by RTL counters/FSMs to advance bit timing. It is not necessarily a new clock signal. |
+| **Oversampling** | Running receive timing at several ticks per bit so START can be qualified and samples can be placed near bit centers. Microchip documents normal-mode reception with 16 timing clocks and majority samples near the middle. |
+| **Framing error** | A received STOP-bit position that is not HIGH when sampled, indicating that the reconstructed character boundary is invalid. |
+| **FSM — finite-state machine** | A finite set of stored states plus transition/output rules; in UART it sequences `IDLE`, `START`, `DATA`, optional `PARITY`, and `STOP`. |
+| **Nonblocking assignment (`<=`)** | A Verilog/SystemVerilog procedural assignment that evaluates its right-hand side when the statement executes but schedules the left-hand-side update for the nonblocking-assignment update region ([IEEE 1800-2023](https://standards.ieee.org/ieee/1800/7743/)). In clocked RTL, this lets multiple registers sample the same pre-edge state rather than acquiring source-order dependencies. |
+
 ## Page map
 
 | Page | Revision focus |

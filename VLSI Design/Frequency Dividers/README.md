@@ -4,6 +4,18 @@
 
 This chapter follows the handwritten notebook page by page. Every source page is shown before its explanation, and every visible question, highlighted statement, duty-cycle claim, and circuit is resolved beside the page where it appears.
 
+
+<a id="quick-index"></a>
+## Quick index
+
+| Revision area | Jump directly |
+|---|---|
+| Fundamentals | [Core term dictionary](#core-terms) · [What is actually divided?](#what-is-divided) · [Minimum flip-flops](#minimum-flip-flops) · [Revision method](#revision-method) |
+| Basic integer division | [Page 01: divider meaning](#page-01) · [Page 02: toggle divide-by-2 and divide-by-4](#page-02) · [75/98 counter example](#counter-75-98) · [Page 03: duty cycle](#page-03) |
+| Modulo and duty-cycle designs | [Page 04: modulo-3](#page-04) · [Page 05: divide-by-3 and modulo-5](#page-05) · [Page 06: modulo-5](#page-06) · [Page 07: divide-by-2 duty cycles](#page-07) · [Page 08: pulse cutting and divide-by-3](#page-08) · [Page 09: divide-by-3 and divide-by-4](#page-09) |
+| Fractional division | [Page 10: divide-by-1.5 meaning](#page-10) · [Page 11: divide-by-1.5 edge detection](#page-11) · [Page 12: divide-by-2.5](#page-12) · [Page 13: both-edge state machine](#page-13) |
+| Final review | [Points to remember](#points-to-remember) · [Reference checks](#reference-checks) |
+
 A frequency divider creates a periodic output whose frequency is related to the input clock by
 
 $$
@@ -25,6 +37,7 @@ The division ratio $N$ determines edge spacing. It does not, by itself, determin
 
 For an interview, the default architecture should be synchronous: all state flip-flops receive the original clock. If a flip-flop output clocks the following stage, the result is an asynchronous or ripple divider. On an FPGA, prefer a clock-enable for slower internal activity or a dedicated clocking resource when a real divided clock is required.
 
+<a id="core-terms"></a>
 ## Core term dictionary
 
 The basic frequency and period meanings follow [NIST’s time-and-frequency definitions](https://www.nist.gov/pml/time-and-frequency-division/popular-links/time-frequency-z/time-and-frequency-z-f); the duty-cycle equation follows [Keysight’s measurement definition](https://helpfiles.keysight.com/scopes/FlexDCA-UG/Content/Topics/Oscilloscope-Mode/Time-Measurements/duty_cycle.htm). Divider implementation terms are tied to the vendor documentation in their rows.
@@ -46,6 +59,7 @@ The basic frequency and period meanings follow [NIST’s time-and-frequency defi
 | **Fractional divider** | Divider with a non-integer ratio, such as 1.5 or 2.5, usually implemented through alternating intervals, phase techniques, or both clock edges. | Not every output edge can remain an integer number of rising-edge periods apart. |
 | **Dual-edge operation** | Deliberate use of both rising and falling reference edges. Dedicated FPGA primitives such as ODDR are designed for opposite-edge output behavior ([AMD ODDR documentation](https://docs.amd.com/r/2020.2-English/ug953-vivado-7series-libraries/ODDR)). | It provides half-period edge placement; it is different from writing an ordinary fabric register in an unsupported two-edge `always` block. |
 
+<a id="what-is-divided"></a>
 ## What is actually divided, and why must it be periodic?
 
 The divider acts on the **reference clock or event repetition rate**. It does not divide the constant on a T input, the logic voltage, or ordinary data values. The input clock supplies regularly spaced state-update events; the counter or FSM makes the output pattern repeat after a chosen number of those events.
@@ -54,6 +68,79 @@ A single frequency and division ratio require a repeating reference period. If a
 
 **Interview form:** A frequency divider is a sequential circuit that counts or sequences periodic input-clock events and produces an output event or waveform whose repetition rate is a defined fraction of the input rate. It divides the clock/event rate, not the data value or voltage.
 
+
+<a id="minimum-flip-flops"></a>
+## Minimum number of flip-flops for a counter or divider
+
+If a counter or finite-state machine must represent \(S\) distinct states, the minimum number of flip-flops for **binary state encoding** is
+
+\[
+\boxed{m_{\min}=\left\lceil\log_2 S\right\rceil}.
+\]
+
+Here, \(S\) is the number of required states and \(m_{\min}\) is the minimum number of state flip-flops. The ceiling brackets mean that any fractional result is rounded **upward**, not rounded to the nearest integer. This standard state-encoding rule is stated directly in the [UMBC FSM laboratory notes](https://userpages.cs.umbc.edu/phatak/212/labs-s21/lab10/index.html) and illustrated in the [University of Iowa FSM notes](https://homepage.divms.uiowa.edu/~dwjones/arch/notes/04fsm.html).
+
+For hand calculation, the safest equivalent method is
+
+\[
+\boxed{\text{choose the smallest integer }m\text{ for which }2^m\ge S}.
+\]
+
+This works because \(m\) flip-flops can encode \(2^m\) different binary combinations.
+
+| Required states \(S\) | Smallest sufficient power of 2 | Minimum flip-flops |
+|---:|---:|---:|
+| 1 | \(2^0=1\) | 0 |
+| 2 | \(2^1=2\) | 1 |
+| 3 or 4 | \(2^2=4\) | 2 |
+| 5 to 8 | \(2^3=8\) | 3 |
+| 9 to 16 | \(2^4=16\) | 4 |
+
+### Applying it to a modulo-\(N\) divider
+
+A modulo-\(N\) counter has \(N\) distinct counter states. Therefore,
+
+\[
+\boxed{m_{\min}=\left\lceil\log_2 N\right\rceil}.
+\]
+
+For example, a modulo-5 divider needs five states:
+
+\[
+2^2=4<5,\qquad 2^3=8\ge5,
+\]
+
+so it needs at least three binary-encoded state flip-flops.
+
+### Applying it to the 75/98 sequence
+
+The repeating sequence
+
+\[
+75,\ 98,\ 75,\ 98,\ldots
+\]
+
+contains only two sequence positions:
+
+\[
+S_0:\text{ output }75,\qquad
+S_1:\text{ output }98.
+\]
+
+Therefore,
+
+\[
+S=2,\qquad
+m_{\min}=\left\lceil\log_2 2\right\rceil=1.
+\]
+
+The numbers 75 and 98 require a seven-bit **output bus**, but they do not require seven state flip-flops in the minimum-state implementation. One flip-flop stores whether the machine is in \(S_0\) or \(S_1\); combinational selection logic converts that one-bit state into the required seven-bit output.
+
+> **Exam rule:** Count the required states or sequence positions. Do not substitute the largest output value or the output-bus width into the state-memory formula.
+
+This formula gives the minimum for binary encoding. A one-hot implementation deliberately uses one flip-flop per state, so it may use more flip-flops in exchange for simpler decoding or different timing trade-offs.
+
+<a id="revision-method"></a>
 ## How to revise frequency dividers
 
 For every circuit, write the state sequence, mark the exact output transitions, count input periods per complete output period, and calculate duty cycle separately. Then state whether the result is a clock-enable pulse, a continuous waveform, or a real generated clock, and whether the implementation is synchronous or ripple. Use the global [revision plan](../../REVISION_PLAN.md) for the review schedule.
@@ -192,6 +279,7 @@ A flip-flop output can look like a clock, but using ordinary internally generate
 Why does $T=1$ not count as the signal being divided, and what clock connection distinguishes the synchronous divide-by-4 circuit from the ripple version?
 
 
+<a id="counter-75-98"></a>
 ### Worked bridge example - counter sequence 75, 98, 75, 98, ...
 
 **Question:** Design a counter that produces 75, 98, 75, 98, and repeats. Identify the suitable flip-flop and the minimum number of flip-flops.
@@ -1430,9 +1518,11 @@ Neither the original full-cycle grid nor its half-cycle edge grid contains every
 
 Why does a modulo-3 machine clocked at $2f_{in}$ implement divide by 1.5, and what makes this implementation safer than combining two independent opposite-edge FSMs in ordinary logic?
 
+<a id="points-to-remember"></a>
 ## Points to remember
 
 - Division ratio is a period relationship: $T_{out}=N T_{in}$.
+- For $S$ binary-encoded states, the minimum state memory is $m=\lceil\log_2 S\rceil$ flip-flops; equivalently, choose the smallest $m$ satisfying $2^m\ge S$.
 - Duty cycle is a separate requirement: $\mathcal D=T_{HIGH}/T_{out}$.
 - One toggling flip-flop divides by 2 because one output cycle requires two state changes.
 - A synchronous counter gives every state register the original clock; a ripple counter clocks later stages from earlier outputs.
@@ -1445,10 +1535,13 @@ Why does a modulo-3 machine clocked at $2f_{in}$ implement divide by 1.5, and wh
 - On an FPGA, prefer a clock enable, PLL, dedicated clock network, or DDR primitive as appropriate.
 - An actual derived clock must be routed and constrained as a generated clock.
 
+<a id="reference-checks"></a>
 ## Reference checks
 
 The page explanations and corrections were cross-checked against:
 
+- [UMBC Lab 10: finite-state-machine design](https://userpages.cs.umbc.edu/phatak/212/labs-s21/lab10/index.html) for the $\lceil\log_2 S\rceil$ binary state-register rule and flip-flop excitation tables.
+- [University of Iowa finite-state-machine notes](https://homepage.divms.uiowa.edu/~dwjones/arch/notes/04fsm.html) for the equivalent state-count rule and the two-state/one-flip-flop example.
 - [Texas Instruments SN74LVC1G80-Q1 datasheet](https://www.ti.com/lit/ds/symlink/sn74lvc1g80-q1.pdf) for the DFF feedback divide-by-2 application.
 - [Texas Instruments CD74HC390 datasheet](https://www.ti.com/lit/ds/symlink/cd74hc390.pdf) for practical divide-by-2 and divide-by-5 counter sections.
 - [Nexperia 74HC4040/74HCT4040 counter reference](https://www.nexperia.com/products/analog-logic-ics/logic/flip-flops-latches-registers-counters-dividers/binary-counters-timers/series/74HC4040-74HCT4040.html) for binary counter use in frequency division.

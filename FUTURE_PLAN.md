@@ -10,19 +10,18 @@ RevisionAtlas/
 |-- CONTENT_STANDARD.md
 |-- REVISION_PLAN.md
 |-- FUTURE_PLAN.md
-|-- subjects/
-|   `-- <Subject>/
+|-- <Subject>/
+|   |-- README.md
+|   `-- <Topic or Unit>/
 |       |-- README.md
-|       `-- <Topic or Unit>/
-|           |-- README.md
-|           |-- sources/
-|           |-- images/
-|           `-- revision/
-|               |-- quick-recall.md
-|               |-- formula-sheet.md
-|               |-- questions.md
-|               |-- pitfalls.md
-|               `-- tests/
+|       |-- sources/
+|       |-- images/
+|       `-- revision/
+|           |-- quick-recall.md
+|           |-- formula-sheet.md
+|           |-- questions.md
+|           |-- pitfalls.md
+|           `-- tests/
 |-- tracking/
 |   `-- README.md
 |-- connections/

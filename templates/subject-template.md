@@ -1,6 +1,6 @@
 # `<Subject Name>`
 
-[Back to Subjects](../subjects/README.md)
+[Back to Revision Atlas](../README.md)
 
 ## Purpose and boundary
 

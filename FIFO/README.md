@@ -32,7 +32,7 @@ The implementation and independent-clock terms below are aligned with the [AMD E
 
 ## How to revise FIFO
 
-Begin every trace with the written interface contract. For each clock edge, mark requests, accepted operations, memory address, pointer movement, occupancy, and flag changes. For an asynchronous FIFO, split the page into write and read domains, then mark which pointer representation is local, which is synchronized, and when conservative flag latency appears. Finish by stating what RTL hardware should be inferred and which assertion or scoreboard check proves the behavior. Use the global [revision plan](../../REVISION_PLAN.md) for scheduling.
+Begin every trace with the written interface contract. For each clock edge, mark requests, accepted operations, memory address, pointer movement, occupancy, and flag changes. For an asynchronous FIFO, split the page into write and read domains, then mark which pointer representation is local, which is synchronized, and when conservative flag latency appears. Finish by stating what RTL hardware should be inferred and which assertion or scoreboard check proves the behavior. Use the global [revision plan](../REVISION_PLAN.md) for scheduling.
 
 ## The cleaned-up roadmap
 

@@ -191,6 +191,148 @@ A flip-flop output can look like a clock, but using ordinary internally generate
 
 Why does $T=1$ not count as the signal being divided, and what clock connection distinguishes the synchronous divide-by-4 circuit from the ripple version?
 
+
+### Worked bridge example - counter sequence 75, 98, 75, 98, ...
+
+**Question:** Design a counter that produces 75, 98, 75, 98, and repeats. Identify the suitable flip-flop and the minimum number of flip-flops.
+
+This example belongs beside the divide-by-2 circuit because its internal state bit uses the same toggle behavior. The important distinction is:
+
+- the one-bit state \(Q\) is a divide-by-2 waveform;
+- the seven-bit **count** output is data selected by \(Q\), not a divided clock.
+
+#### Step 1: Write the required outputs in binary
+
+\[
+75_{10}=1001011_2,
+\qquad
+98_{10}=1100010_2.
+\]
+
+Seven output wires are required to represent these values, but the sequence has only two positions:
+
+- \(S_0\): output 75, then go to \(S_1\);
+- \(S_1\): output 98, then go to \(S_0\).
+
+Therefore the minimum state memory is
+
+\[
+\left\lceil \log_2 2 \right\rceil=1
+\]
+
+flip-flop.
+
+#### Step 2: Assign one state bit
+
+Let
+
+\[
+S_0:Q=0,
+\qquad
+S_1:Q=1.
+\]
+
+The complete state and excitation table is:
+
+| Present state | \(Q(t)\) | Decimal output | Binary output \(C_6C_5C_4C_3C_2C_1C_0\) | Next state | \(Q(t+1)\) | T input |
+|---|---:|---:|---:|---|---:|---:|
+| \(S_0\) | 0 | 75 | 1001011 | \(S_1\) | 1 | 1 |
+| \(S_1\) | 1 | 98 | 1100010 | \(S_0\) | 0 | 1 |
+
+A T flip-flop is the natural choice because both transitions require toggling:
+
+\[
+0\rightarrow1,\qquad1\rightarrow0.
+\]
+
+From the T-flip-flop excitation rule, \(T=1\) for both rows. Thus,
+
+\[
+T=1,
+\qquad
+Q^{+}=\overline Q.
+\]
+
+A D flip-flop could also be used with \(D=\overline Q\), but a T flip-flop states the required behavior most directly.
+
+#### Step 3: Use \(Q\) as a selector
+
+The single flip-flop does not store the seven-bit values. It only remembers which value must appear. The output logic is
+
+\[
+\text{count}=
+\begin{cases}
+1001011_2=75, & Q=0,\\
+1100010_2=98, & Q=1.
+\end{cases}
+\]
+
+This is simply a seven-bit 2-to-1 multiplexer:
+
+- input 0 is 75;
+- input 1 is 98;
+- select is \(Q\).
+
+So the implementation uses **one state flip-flop plus combinational output-selection logic**.
+
+#### Step 4: Connect it to frequency division
+
+The state sequence is
+
+\[
+Q:0,1,0,1,\ldots
+\]
+
+A complete \(Q\) cycle needs two input-clock periods:
+
+\[
+T_Q=2T_{clk},
+\qquad
+f_Q=\frac{f_{clk}}{2}.
+\]
+
+Therefore \(Q\) itself is a divide-by-2 signal. The displayed data follows
+
+\[
+75,98,75,98,\ldots
+\]
+
+on successive active clock edges, but the seven-bit bus is not a clock and should not be used to clock other registers.
+
+#### Verilog
+
+~~~verilog
+module counter_75_98 (
+    input  wire       clk,
+    input  wire       rst,
+    output wire [6:0] count
+);
+    reg state;
+
+    // T flip-flop behavior with T permanently equal to 1.
+    always @(posedge clk or posedge rst) begin
+        if (rst)
+            state <= 1'b0;
+        else
+            state <= ~state;
+    end
+
+    // state = 0 selects 75; state = 1 selects 98.
+    assign count = state ? 7'd98 : 7'd75;
+endmodule
+~~~
+
+The reset places the circuit in \(S_0\), so **count** is 75. Each later rising edge toggles **state**, producing 98, 75, 98, and so on. The reusable source is in [examples/counter_75_98.v](examples/counter_75_98.v).
+
+#### Interview answer
+
+> The sequence has two states, so only one flip-flop is required. Choose a T flip-flop with \(T=1\), because the state must toggle every clock. Use its output \(Q\) to select either 75 or 98 through seven-bit combinational logic. \(Q\) is a divide-by-2 waveform; the seven-bit count bus is data.
+
+#### Active recall
+
+Why are seven output bits required but only one flip-flop is required, and which signal in this design has frequency \(f_{clk}/2\)?
+
+
 <a id="page-03"></a>
 ## Page 03 - Divider definition, stored-state toggling, and duty cycle
 

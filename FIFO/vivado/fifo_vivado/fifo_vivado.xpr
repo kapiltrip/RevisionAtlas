@@ -4,7 +4,7 @@
 <!-- Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.                   -->
 <!-- Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.   -->
 
-<Project Product="Vivado" Version="7" Minor="67" Path="C:/Users/kapil/OneDrive/Desktop/RevisionSolved/VLSI Design/FIFO/vivado/fifo_vivado/fifo_vivado.xpr">
+<Project Product="Vivado" Version="7" Minor="67" Path="C:/Users/kapil/OneDrive/Desktop/RevisionSolved/FIFO/vivado/fifo_vivado/fifo_vivado.xpr">
   <DefaultLaunch Dir="$PRUNDIR"/>
   <Configuration>
     <Option Name="Id" Val="d577306b11804804b1cdaba5d447c3e6"/>

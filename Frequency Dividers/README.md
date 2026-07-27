@@ -1,6 +1,6 @@
 # Frequency Dividers
 
-[Back to VLSI Design](../README.md) | [Original 13-page notebook](sources/frequency-divider-handwritten-notes.pdf)
+[Back to Revision Atlas](../README.md) | [Original 13-page notebook](sources/frequency-divider-handwritten-notes.pdf)
 
 This chapter follows the handwritten notebook page by page. Every source page is shown before its explanation, and every visible question, highlighted statement, duty-cycle claim, and circuit is resolved beside the page where it appears.
 
@@ -143,7 +143,7 @@ This formula gives the minimum for binary encoding. A one-hot implementation del
 <a id="revision-method"></a>
 ## How to revise frequency dividers
 
-For every circuit, write the state sequence, mark the exact output transitions, count input periods per complete output period, and calculate duty cycle separately. Then state whether the result is a clock-enable pulse, a continuous waveform, or a real generated clock, and whether the implementation is synchronous or ripple. Use the global [revision plan](../../REVISION_PLAN.md) for the review schedule.
+For every circuit, write the state sequence, mark the exact output transitions, count input periods per complete output period, and calculate duty cycle separately. Then state whether the result is a clock-enable pulse, a continuous waveform, or a real generated clock, and whether the implementation is synchronous or ripple. Use the global [revision plan](../REVISION_PLAN.md) for the review schedule.
 
 <a id="page-01"></a>
 ## Page 01 - Chapter cover: what frequency division means

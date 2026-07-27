@@ -92,4 +92,4 @@ Use one causal chain instead of memorizing isolated equations:
 
 `gate bias → electric field/band bending → surface charge → channel state → drain current → CMOS output current → load-capacitor charging → delay, power, and noise margin`
 
-For each page, first state the physical charge or conducting path, then the valid operating region and assumptions, and only then the equation. Check signs and limiting cases. End by explaining one circuit consequence: gain, logic level, delay, power, area, or noise. Use the global [revision plan](../../../REVISION_PLAN.md) for session structure and spaced reviews.
+For each page, first state the physical charge or conducting path, then the valid operating region and assumptions, and only then the equation. Check signs and limiting cases. End by explaining one circuit consequence: gain, logic level, delay, power, area, or noise. Use the global [revision plan](../../REVISION_PLAN.md) for session structure and spaced reviews.

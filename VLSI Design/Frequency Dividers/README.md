@@ -56,7 +56,7 @@ A single frequency and division ratio require a repeating reference period. If a
 
 ## How to revise frequency dividers
 
-For every circuit, write the state sequence, mark the exact output transitions, count input periods per complete output period, and calculate duty cycle separately. Then state whether the result is a clock-enable pulse, a continuous waveform, or a real generated clock, and whether the implementation is synchronous or ripple. Use the global [revision plan](../../../REVISION_PLAN.md) for the review schedule.
+For every circuit, write the state sequence, mark the exact output transitions, count input periods per complete output period, and calculate duty cycle separately. Then state whether the result is a clock-enable pulse, a continuous waveform, or a real generated clock, and whether the implementation is synchronous or ripple. Use the global [revision plan](../../REVISION_PLAN.md) for the review schedule.
 
 <a id="page-01"></a>
 ## Page 01 - Chapter cover: what frequency division means

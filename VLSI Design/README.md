@@ -34,8 +34,8 @@ Use a three-level explanation:
 2. **RTL level:** What state, pointer, counter, or output changes on the active edge?
 3. **Implementation level:** What hardware is inferred, what path is timed, and what PPA or CDC trade-off appears?
 
-If an RTL result feels arbitrary, move down to the physical or storage mechanism. If a physically valid circuit still fails a design goal, move up to architecture, verification, synthesis, and timing. Use the complete repository [revision plan](../../REVISION_PLAN.md) for session timing and Day 1/3/7/14/30 reviews.
+If an RTL result feels arbitrary, move down to the physical or storage mechanism. If a physically valid circuit still fails a design goal, move up to architecture, verification, synthesis, and timing. Use the complete repository [revision plan](../REVISION_PLAN.md) for session timing and Day 1/3/7/14/30 reviews.
 
 ## Completion boundary
 
-The present VLSI Design pillar is revision-ready only for the three topic rooms above. Verilog/RTL, digital design, verification, physical design, DFT, low power, computer architecture, and analog design should be added as separate governed subjects or topic rooms through the root [Future Plan](../../FUTURE_PLAN.md).
+The present VLSI Design pillar is revision-ready only for the three topic rooms above. Verilog/RTL, digital design, verification, physical design, DFT, low power, computer architecture, and analog design should be added as separate governed subjects or topic rooms through the root [Future Plan](../FUTURE_PLAN.md).

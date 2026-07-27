@@ -28,7 +28,7 @@ The root is the management layer for every subject:
 
 | Open this | Use it for |
 |---|---|
-| [Subjects](subjects/README.md) | Navigate all current subjects and see their scope |
+| [Current subjects](#start-here) | Navigate all current subjects and see their scope |
 | [Content standard](CONTENT_STANDARD.md) | Define technical terms, answer “why” questions, and cite meanings consistently |
 | [How to revise a subject](REVISION_PLAN.md) | Run retrieval sessions and schedule Day 1/3/7/14/30 reviews |
 | [Subject dashboard](tracking/README.md) | See current coverage, next actions, and the `R/H/M` review queue |
@@ -43,31 +43,31 @@ Revision Atlas currently has three subject pillars:
 
 | Subject | Current coverage | Revision entry point |
 |---|---|---|
-| [VLSI Design](subjects/VLSI%20Design/README.md) | MOSFET/CMOS, FIFO, and frequency dividers | Device physics, RTL architecture, waveforms, and implementation reasoning |
-| [Protocols](subjects/Protocols/README.md) | I2C, SPI, and UART | Signal ownership, framing, clocking, and RTL timing |
-| [Static Timing Analysis](subjects/Static%20Timing%20Analysis/README.md) | Storage elements through complete setup/hold path analysis | Definitions, timing equations, sign conventions, and worked paths |
+| [VLSI Design](VLSI%20Design/README.md) | MOSFET/CMOS, FIFO, and frequency dividers | Device physics, RTL architecture, waveforms, and implementation reasoning |
+| [Protocols](Protocols/README.md) | I2C, SPI, and UART | Signal ownership, framing, clocking, and RTL timing |
+| [Static Timing Analysis](Static%20Timing%20Analysis/README.md) | Storage elements through complete setup/hold path analysis | Definitions, timing equations, sign conventions, and worked paths |
 
 The VLSI Design pillar currently contains three major topic rooms:
 
 | Major topic | Current material | Best use |
 |---|---|---|
-| [MOSFET and CMOS](subjects/VLSI%20Design/MOSFET%20and%20CMOS/README.md) | Five source-linked revision notebooks | Revise device physics, CMOS behavior, delay, power, noise, and sizing |
-| [FIFO](subjects/VLSI%20Design/FIFO/README.md) | Design and verification approach | Plan RAM, synchronous FIFO, synthesis/timing checks, asynchronous FIFO, and CDC verification before writing RTL |
-| [Frequency Dividers](subjects/VLSI%20Design/Frequency%20Dividers/README.md) | 13 source-linked notebook pages | Derive divide-by-2/3/4/5, duty-cycle variants, solved questions, and fractional divide-by-1.5/2.5 circuits |
+| [MOSFET and CMOS](VLSI%20Design/MOSFET%20and%20CMOS/README.md) | Five source-linked revision notebooks | Revise device physics, CMOS behavior, delay, power, noise, and sizing |
+| [FIFO](VLSI%20Design/FIFO/README.md) | Design and verification approach | Plan RAM, synchronous FIFO, synthesis/timing checks, asynchronous FIFO, and CDC verification before writing RTL |
+| [Frequency Dividers](VLSI%20Design/Frequency%20Dividers/README.md) | 13 source-linked notebook pages | Derive divide-by-2/3/4/5, duty-cycle variants, solved questions, and fractional divide-by-1.5/2.5 circuits |
 
-The [Protocols subject](subjects/Protocols/README.md) contains 16 source-linked handwritten pages on I2C, SPI, and UART, including baud generation and UART transmitter/receiver RTL reasoning.
+The [Protocols subject](Protocols/README.md) contains 16 source-linked handwritten pages on I2C, SPI, and UART, including baud generation and UART transmitter/receiver RTL reasoning.
 
-The [Static Timing Analysis subject](subjects/Static%20Timing%20Analysis/README.md) adds 25 source-linked handwritten pages on transmission-gate storage, setup and hold analysis, arrival/required time, slack, clock skew, maximum frequency, and worked timing problems. Every visible red-marker doubt is answered beside its source page.
+The [Static Timing Analysis subject](Static%20Timing%20Analysis/README.md) adds 25 source-linked handwritten pages on transmission-gate storage, setup and hold analysis, arrival/required time, slack, clock skew, maximum frequency, and worked timing problems. Every visible red-marker doubt is answered beside its source page.
 
 The five notebooks form one continuous MOS/VLSI sequence. Every source page is rendered directly inside its matching revision file, followed immediately by an explanation and an active-recall prompt.
 
 | Revision file | Pages | Main coverage |
 |---|---:|---|
-| [MOS 1 - MOS Capacitor Fundamentals](subjects/VLSI%20Design/MOSFET%20and%20CMOS/01%20MOS%20Capacitor%20Fundamentals/README.md) | 24 | Work function, energy bands, accumulation, depletion, inversion, surface potential, depletion width |
-| [MOS 2 - Non-Ideal MOS and MOSFET Regions](subjects/VLSI%20Design/MOSFET%20and%20CMOS/02%20Non-Ideal%20MOS%20and%20MOSFET%20Regions/README.md) | 24 | Oxide charge, flat-band and threshold voltage, C-V behavior, MOSFET regions |
-| [MOS 3 - MOSFET Models and CMOS Inverter](subjects/VLSI%20Design/MOSFET%20and%20CMOS/03%20MOSFET%20Models%20and%20CMOS%20Inverter/README.md) | 24 | Transfer curves, transconductance, channel-length modulation, capacitances, CMOS switching point |
-| [MOS 4 - CMOS Switching Delay, Power, and Noise](subjects/VLSI%20Design/MOSFET%20and%20CMOS/04%20CMOS%20Switching%20Delay%20Power%20and%20Noise/README.md) | 24 | Inverter regions, RC delay, pass transistors, power, noise margins, device ratios |
-| [MOS 5 - CMOS Sizing and NAND Timing](subjects/VLSI%20Design/MOSFET%20and%20CMOS/05%20CMOS%20Sizing%20and%20NAND%20Timing/README.md) | 14 | Strength ratio, transistor sizing, NAND delay, average-current timing, power-delay trade-off |
+| [MOS 1 - MOS Capacitor Fundamentals](VLSI%20Design/MOSFET%20and%20CMOS/01%20MOS%20Capacitor%20Fundamentals/README.md) | 24 | Work function, energy bands, accumulation, depletion, inversion, surface potential, depletion width |
+| [MOS 2 - Non-Ideal MOS and MOSFET Regions](VLSI%20Design/MOSFET%20and%20CMOS/02%20Non-Ideal%20MOS%20and%20MOSFET%20Regions/README.md) | 24 | Oxide charge, flat-band and threshold voltage, C-V behavior, MOSFET regions |
+| [MOS 3 - MOSFET Models and CMOS Inverter](VLSI%20Design/MOSFET%20and%20CMOS/03%20MOSFET%20Models%20and%20CMOS%20Inverter/README.md) | 24 | Transfer curves, transconductance, channel-length modulation, capacitances, CMOS switching point |
+| [MOS 4 - CMOS Switching Delay, Power, and Noise](VLSI%20Design/MOSFET%20and%20CMOS/04%20CMOS%20Switching%20Delay%20Power%20and%20Noise/README.md) | 24 | Inverter regions, RC delay, pass transistors, power, noise margins, device ratios |
+| [MOS 5 - CMOS Sizing and NAND Timing](VLSI%20Design/MOSFET%20and%20CMOS/05%20CMOS%20Sizing%20and%20NAND%20Timing/README.md) | 14 | Strength ratio, transistor sizing, NAND delay, average-current timing, power-delay trade-off |
 
 **Coverage:** 110 of 110 PDF pages have an inline page image and a matching explanation space. `mos1` page 6 is genuinely blank; it is kept so page numbering stays faithful to the source.
 
@@ -117,45 +117,43 @@ RevisionAtlas/                          # all-subject management root
 |   `-- README.md                       # live coverage and review-queue format
 |-- templates/
 |   `-- subject-template.md             # required structure for new subjects
-`-- subjects/
-    |-- README.md                       # all-subject index
-    |-- Protocols/
-    |   |-- README.md                   # I2C, SPI, and UART topic index
-    |   |-- sources/                    # untouched 16-page handwritten scan
-    |   |-- 01 I2C/                     # pages 1-5 + deep explanations
-    |   |-- 02 SPI/                     # pages 6-8 + deep explanations
-    |   `-- 03 UART/                    # pages 9-16 + deep explanations
-    |-- Static Timing Analysis/
-    |   |-- README.md                   # 25 page-linked STA explanations and answers
-    |   |-- sources/                    # untouched 24-page scan + original page 25 photo
-    |   `-- images/                     # readable page-01 through page-25 images
-    `-- VLSI Design/
-        |-- README.md                   # VLSI topic index
-        |-- FIFO/
-        |   `-- README.md               # staged FIFO design/verification approach
-        |-- Frequency Dividers/
-        |   |-- README.md               # 13 page-linked explanations, corrections, and answers
-        |   |-- sources/                # untouched 13-page frequency-divider notebook
-        |   `-- images/                 # readable page-01 through page-13 images
-        `-- MOSFET and CMOS/
-            |-- README.md               # topic map + question/TODO register
-            |-- sources/
-            |   `-- mos1.pdf ... mos5.pdf
-            |-- 01 MOS Capacitor Fundamentals/
-            |   |-- README.md
-            |   `-- images/             # 24 page images
-            |-- 02 Non-Ideal MOS and MOSFET Regions/
-            |   |-- README.md
-            |   `-- images/             # 24 page images
-            |-- 03 MOSFET Models and CMOS Inverter/
-            |   |-- README.md
-            |   `-- images/             # 24 page images
-            |-- 04 CMOS Switching Delay Power and Noise/
-            |   |-- README.md
-            |   `-- images/             # 24 page images
-            `-- 05 CMOS Sizing and NAND Timing/
-                |-- README.md
-                `-- images/             # 14 page images
+|-- Protocols/
+|   |-- README.md                       # I2C, SPI, and UART topic index
+|   |-- sources/                        # untouched 16-page handwritten scan
+|   |-- 01 I2C/                         # pages 1-5 + deep explanations
+|   |-- 02 SPI/                         # pages 6-8 + deep explanations
+|   `-- 03 UART/                        # pages 9-16 + deep explanations
+|-- Static Timing Analysis/
+|   |-- README.md                       # 25 page-linked STA explanations and answers
+|   |-- sources/                        # untouched 24-page scan + original page 25 photo
+|   `-- images/                         # readable page-01 through page-25 images
+`-- VLSI Design/
+    |-- README.md                       # VLSI topic index
+    |-- FIFO/
+    |   `-- README.md                   # staged FIFO design/verification approach
+    |-- Frequency Dividers/
+    |   |-- README.md                   # 13 page-linked explanations, corrections, and answers
+    |   |-- sources/                    # untouched 13-page frequency-divider notebook
+    |   `-- images/                     # readable page-01 through page-13 images
+    `-- MOSFET and CMOS/
+        |-- README.md                   # topic map + question/TODO register
+        |-- sources/
+        |   `-- mos1.pdf ... mos5.pdf
+        |-- 01 MOS Capacitor Fundamentals/
+        |   |-- README.md
+        |   `-- images/                 # 24 page images
+        |-- 02 Non-Ideal MOS and MOSFET Regions/
+        |   |-- README.md
+        |   `-- images/                 # 24 page images
+        |-- 03 MOSFET Models and CMOS Inverter/
+        |   |-- README.md
+        |   `-- images/                 # 24 page images
+        |-- 04 CMOS Switching Delay Power and Noise/
+        |   |-- README.md
+        |   `-- images/                 # 24 page images
+        `-- 05 CMOS Sizing and NAND Timing/
+            |-- README.md
+            `-- images/                 # 14 page images
 ```
 
 The two sideways scans in `mos2` (pages 17 and 18) are rotated only in the module's `images/` folder for readable revision. The original PDF is unchanged.
@@ -167,19 +165,18 @@ The current structure is the **source-preserving explanation layer plus a cited 
 ```text
 Revision Atlas/
 |-- README.md
-|-- subjects/                           # subject -> topic -> unit knowledge tree
-|   `-- <Subject>/
-|       |-- README.md                   # subject coverage and navigation
-|       `-- <Topic or Unit>/
-|           |-- README.md               # deep source-page explanations
-|           |-- sources/                # untouched PDFs, slides, notes
-|           |-- images/                 # readable page/screenshot evidence
-|           `-- revision/
-|               |-- quick-recall.md     # compressed last-minute revision
-|               |-- formula-sheet.md    # formulas, conditions, units
-|               |-- questions.md        # doubts, answers, viva/exam prompts
-|               |-- pitfalls.md         # mistakes and sign/concept traps
-|               `-- tests/              # mixed and spaced-recall tests
+|-- <Subject>/                          # root-level subject -> topic -> unit knowledge tree
+|   |-- README.md                       # subject coverage and navigation
+|   `-- <Topic or Unit>/
+|       |-- README.md                   # deep source-page explanations
+|       |-- sources/                    # untouched PDFs, slides, notes
+|       |-- images/                     # readable page/screenshot evidence
+|       `-- revision/
+|           |-- quick-recall.md         # compressed last-minute revision
+|           |-- formula-sheet.md        # formulas, conditions, units
+|           |-- questions.md            # doubts, answers, viva/exam prompts
+|           |-- pitfalls.md             # mistakes and sign/concept traps
+|           `-- tests/                  # mixed and spaced-recall tests
 |-- tracking/
 |   |-- dashboard.md                    # subject/topic revision status
 |   |-- review-queue.md                 # due pages: missed, hesitant, recalled

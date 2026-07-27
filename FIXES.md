@@ -15,14 +15,14 @@ The FIFO work needed two stages:
 
 | Item | Final location or value |
 |---|---|
-| FIFO approach | `subjects/VLSI Design/FIFO/README.md` |
-| Design starter | `subjects/VLSI Design/FIFO/src/fifo.v` |
-| Testbench starter | `subjects/VLSI Design/FIFO/sim/fifo_tb.v` |
-| Vivado project | `subjects/VLSI Design/FIFO/vivado/fifo_vivado/fifo_vivado.xpr` |
+| FIFO approach | `VLSI Design/FIFO/README.md` |
+| Design starter | `VLSI Design/FIFO/src/fifo.v` |
+| Testbench starter | `VLSI Design/FIFO/sim/fifo_tb.v` |
+| Vivado project | `VLSI Design/FIFO/vivado/fifo_vivado/fifo_vivado.xpr` |
 | Design top | `fifo` |
 | Simulation top | `fifo_tb` |
 | FPGA part | `xc7a35tcpg236-1` |
-| Generated-file rules | `subjects/VLSI Design/FIFO/vivado/fifo_vivado/.gitignore` |
+| Generated-file rules | `VLSI Design/FIFO/vivado/fifo_vivado/.gitignore` |
 
 The two Verilog files contain only module shells and comments. No FIFO behavior, interface, test stimulus, synthesis, or simulation result was invented.
 
@@ -39,7 +39,7 @@ The project appeared at the correct location and used the default Artix-7 part `
 Vivado reported a path similar to this as missing:
 
 ```text
-C:/Users/kapil/OneDrive/Desktop/RevisionSolved/subjects/VLSI
+C:/Users/kapil/OneDrive/Desktop/RevisionSolved/VLSI
 ```
 
 The real path was longer and contained `VLSI Design`. The failure occurred because `add_files` expects a Tcl list. Passing the path as an ordinary quoted or braced string did not give `add_files` a safe one-element file list; the path was split at its space.
@@ -49,8 +49,8 @@ The real path was longer and contained `VLSI Design`. The failure occurred becau
 Construct a real one-element Tcl list for every file path:
 
 ```tcl
-add_files -norecurse [list {C:/Users/kapil/OneDrive/Desktop/RevisionSolved/subjects/VLSI Design/FIFO/src/fifo.v}]
-add_files -fileset sim_1 -norecurse [list {C:/Users/kapil/OneDrive/Desktop/RevisionSolved/subjects/VLSI Design/FIFO/sim/fifo_tb.v}]
+add_files -norecurse [list {C:/Users/kapil/OneDrive/Desktop/RevisionSolved/VLSI Design/FIFO/src/fifo.v}]
+add_files -fileset sim_1 -norecurse [list {C:/Users/kapil/OneDrive/Desktop/RevisionSolved/VLSI Design/FIFO/sim/fifo_tb.v}]
 ```
 
 After this change, Vivado showed:

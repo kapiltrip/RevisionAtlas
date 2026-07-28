@@ -2,7 +2,7 @@
 
 [Back to Revision Atlas](../README.md) | [Frequency-divider theory](../Frequency%20Dividers/README.md)
 
-> **Status:** `/2` with 50% duty-cycle RTL is complete. Testbench is next.
+> **Status:** `/2` with 25%, 50%, and 75% duty-cycle RTL is complete. Testbench is next.
 
 ## Goal
 
@@ -42,8 +42,8 @@ There will not be separate files or folders for every divide value or duty cycle
 | Order | What we will do | Status |
 |---:|---|:---:|
 | 1 | Create `src/programmable_frequency_divider.v` | DONE |
-| 2 | Implement `/2` with 50% duty cycle | DONE |
-| 3 | Create `sim/programmable_frequency_divider_tb.v` and verify `/2` | NEXT |
+| 2 | Implement `/2` with 25%, 50%, and 75% duty cycles | DONE |
+| 3 | Create `sim/programmable_frequency_divider_tb.v` and verify all `/2` modes | NEXT |
 | 4 | Make the same RTL configurable for `/2` through `/5` | TODO |
 | 5 | Add all rising-edge duty cycles from the table | TODO |
 | 6 | Add `/3` and `/5` at 50% using the falling edge | TODO |
@@ -95,4 +95,4 @@ There will not be separate files or folders for every divide value or duty cycle
 
 ## Next task
 
-Create the self-checking testbench and verify `/2` with 50% duty cycle.
+Create the self-checking testbench and verify `/2` at 25%, 50%, and 75% duty cycle.

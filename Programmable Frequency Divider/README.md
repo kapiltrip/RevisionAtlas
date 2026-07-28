@@ -2,7 +2,7 @@
 
 [Back to Revision Atlas](../README.md) | [Frequency-divider theory](../Frequency%20Dividers/README.md)
 
-> **Status:** Plan only. No code or subdirectories yet.
+> **Status:** `/2` with 50% duty-cycle RTL is complete. Testbench is next.
 
 ## Goal
 
@@ -41,11 +41,11 @@ There will not be separate files or folders for every divide value or duty cycle
 
 | Order | What we will do | Status |
 |---:|---|:---:|
-| 1 | Create `src/` and `sim/` with one file in each | TODO |
-| 2 | Implement `/2` with 50% duty cycle | TODO |
-| 3 | Make the same RTL configurable for `/2` through `/5` | TODO |
-| 4 | Add all rising-edge duty cycles from the table | TODO |
-| 5 | Write the self-checking testbench | TODO |
+| 1 | Create `src/programmable_frequency_divider.v` | DONE |
+| 2 | Implement `/2` with 50% duty cycle | DONE |
+| 3 | Create `sim/programmable_frequency_divider_tb.v` and verify `/2` | NEXT |
+| 4 | Make the same RTL configurable for `/2` through `/5` | TODO |
+| 5 | Add all rising-edge duty cycles from the table | TODO |
 | 6 | Add `/3` and `/5` at 50% using the falling edge | TODO |
 | 7 | Add the remaining half-cycle duty cycles | TODO |
 | 8 | Simulate every supported configuration | TODO |
@@ -93,6 +93,6 @@ There will not be separate files or folders for every divide value or duty cycle
 - No missing, extra, or shortened pulse.
 - Explicit testbench `PASS` with zero errors.
 
-## First task
+## Next task
 
-Complete Main TODO 1 and 2: create the two files and make `/2` with 50% duty cycle work.
+Create the self-checking testbench and verify `/2` with 50% duty cycle.

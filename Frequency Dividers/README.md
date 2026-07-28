@@ -12,7 +12,7 @@ This chapter follows the handwritten notebook page by page. Every source page is
 |---|---|
 | Fundamentals | [Core term dictionary](#core-terms) · [What is actually divided?](#what-is-divided) · [Minimum flip-flops](#minimum-flip-flops) · [Revision method](#revision-method) |
 | Basic integer division | [Page 01: divider meaning](#page-01) · [Page 02: toggle divide-by-2 and divide-by-4](#page-02) · [75/98 counter example](#counter-75-98) · [Page 03: duty cycle](#page-03) |
-| Modulo and duty-cycle designs | [Page 04: modulo-3](#page-04) · [Page 05: divide-by-3 and modulo-5](#page-05) · [Page 06: modulo-5](#page-06) · [Page 07: divide-by-2 duty cycles](#page-07) · [Page 08: pulse cutting and divide-by-3](#page-08) · [Page 09: divide-by-3 and divide-by-4](#page-09) |
+| Modulo and duty-cycle designs | [Page 04: modulo-3](#page-04) · [Complete f/3 duty-cycle grid](#divide-by-3-duty-grid) · [Page 05: divide-by-3 and modulo-5](#page-05) · [Page 06: modulo-5](#page-06) · [Page 07: divide-by-2 duty cycles](#page-07) · [Page 08: pulse cutting and divide-by-3](#page-08) · [Page 09: divide-by-3 and divide-by-4](#page-09) |
 | Fractional division | [Page 10: divide-by-1.5 meaning](#page-10) · [Page 11: divide-by-1.5 edge detection](#page-11) · [Page 12: divide-by-2.5](#page-12) · [Page 13: both-edge state machine](#page-13) |
 | Related coding subject | [Programmable Frequency Divider — subject plan](../Programmable%20Frequency%20Divider/README.md) |
 | Final review | [Points to remember](#points-to-remember) · [Reference checks](#reference-checks) |
@@ -607,6 +607,190 @@ Across the repeating states $00,01,10$:
 - $\overline{Q_0}$ and $\overline{Q_1}$ are each HIGH for two states, so either gives 66.67% duty.
 
 There is no 50% state decode because three full clock periods cannot be split into equal integer numbers of periods.
+
+<a id="divide-by-3-duty-grid"></a>
+### Complete achievable duty cycles for an \(f_{in}/3\) output
+
+Let the input period be \(T_{in}\). For divide by 3,
+
+\[
+T_{out}=3T_{in}.
+\]
+
+The divider ratio fixes this repetition period. Duty cycle is then determined by where the rising and falling output transitions can be placed inside those three input periods.
+
+#### General formula: rising-edge-only timing
+
+If the output can change only on input rising edges, its timing resolution is one complete input period:
+
+\[
+\Delta t=T_{in}.
+\]
+
+For a divide-by-\(N\) waveform with one contiguous HIGH interval,
+
+\[
+T_{HIGH}=kT_{in},
+\]
+
+so the achievable nonconstant duty cycles are
+
+\[
+\boxed{\mathcal D_k=\frac{k}{N}\times100\%,\qquad k=1,2,\ldots,N-1.}
+\]
+
+For \(N=3\),
+
+\[
+\mathcal D_k=\frac{k}{3}\times100\%.
+\]
+
+| \(k\) complete HIGH periods | \(T_{HIGH}\) | \(T_{LOW}\) | Exact duty cycle |
+|---:|---:|---:|---:|
+| 1 | \(T_{in}\) | \(2T_{in}\) | \(1/3=33.33\%\) |
+| 2 | \(2T_{in}\) | \(T_{in}\) | \(2/3=66.67\%\) |
+
+The cases \(k=0\) and \(k=3\) give constant LOW and constant HIGH, respectively, so they are not valid \(f_{in}/3\) clocks.
+
+Therefore, a normal rising-edge modulo-3 counter can generate exactly
+
+\[
+\boxed{33.33\%\ \text{or}\ 66.67\%}
+\]
+
+without a clock multiplier or another timing phase.
+
+#### General formula: using both input edges
+
+For an ideal 50% input clock, rising and falling edges occur every half-period:
+
+\[
+\Delta t=\frac{T_{in}}{2}.
+\]
+
+A divide-by-\(N\) period therefore contains \(2N\) half-period slots. The achievable nonconstant duty cycles become
+
+\[
+\boxed{\mathcal D_m=\frac{m}{2N}\times100\%,\qquad m=1,2,\ldots,2N-1.}
+\]
+
+For divide by 3, one output period contains six half-period slots:
+
+\[
+3T_{in}=6\left(\frac{T_{in}}{2}\right).
+\]
+
+| \(m\) HIGH half-periods | \(T_{HIGH}\) | \(T_{LOW}\) | Exact duty cycle |
+|---:|---:|---:|---:|
+| 1 | \(0.5T_{in}\) | \(2.5T_{in}\) | \(1/6=16.67\%\) |
+| 2 | \(T_{in}\) | \(2T_{in}\) | \(2/6=33.33\%\) |
+| 3 | \(1.5T_{in}\) | \(1.5T_{in}\) | \(3/6=50\%\) |
+| 4 | \(2T_{in}\) | \(T_{in}\) | \(4/6=66.67\%\) |
+| 5 | \(2.5T_{in}\) | \(0.5T_{in}\) | \(5/6=83.33\%\) |
+
+Thus, if both input edges are deliberately available, the exact nonconstant set is
+
+\[
+\boxed{16.67\%,\ 33.33\%,\ 50\%,\ 66.67\%,\ 83.33\%.}
+\]
+
+This is an ideal timing result. In RTL, ordinary FPGA fabric flip-flops are normally single-edge devices; use coordinated opposite-edge logic or a dedicated DDR/clocking resource rather than assuming that one ordinary register can safely update on both edges. AMD documents ODDR as the dedicated opposite-edge output primitive in 7-series devices ([AMD ODDR](https://docs.amd.com/r/2020.2-English/ug953-vivado-7series-libraries/ODDR)).
+
+#### Why 75% is not on either list
+
+For 75% duty at \(f_{in}/3\),
+
+\[
+T_{HIGH}
+=0.75T_{out}
+=\frac34(3T_{in})
+=\frac94T_{in}
+=2.25T_{in},
+\]
+
+and
+
+\[
+T_{LOW}
+=T_{out}-T_{HIGH}
+=3T_{in}-2.25T_{in}
+=0.75T_{in}.
+\]
+
+With rising edges only, the number of required HIGH slots would be
+
+\[
+\frac{2.25T_{in}}{T_{in}}=2.25,
+\]
+
+which is not an integer. Even with both original-clock edges, it would be
+
+\[
+\frac{2.25T_{in}}{T_{in}/2}=4.5,
+\]
+
+which is still not an integer. The required falling edge lies at \(2.25T_{in}\), but the original rising/falling-edge grid contains \(2T_{in}\) and \(2.5T_{in}\), not \(2.25T_{in}\).
+
+Therefore,
+
+\[
+\boxed{\text{exact 75% duty is impossible using only the original clock's rising and falling edges.}}
+\]
+
+#### Why a multiplier is used
+
+A multiplier is not needed to obtain \(f_{in}/3\); the modulo-3 counter already produces that repetition rate. It is needed here only to create finer edge-placement resolution.
+
+If a single-edge design uses a clock multiplied by an integer \(M\), one output period contains \(3M\) fast-clock slots. A desired duty cycle \(\mathcal D\), written as a fraction rather than a percentage, is exactly realizable only when
+
+\[
+\boxed{n_{HIGH}=3M\mathcal D}
+\]
+
+is an integer.
+
+For \(\mathcal D=3/4\),
+
+\[
+n_{HIGH}=3M\left(\frac34\right)=\frac{9M}{4}.
+\]
+
+The smallest positive integer \(M\) that makes this an integer is
+
+\[
+M=4.
+\]
+
+A \(4f_{in}\) clock has period
+
+\[
+T_{4x}=\frac{T_{in}}{4}.
+\]
+
+Now one \(f_{in}/3\) output period contains
+
+\[
+\frac{3T_{in}}{T_{in}/4}=12
+\]
+
+fast-clock slots. Keep the output HIGH for nine slots and LOW for three:
+
+\[
+f_{out}=\frac{4f_{in}}{12}=\frac{f_{in}}{3},
+\qquad
+\mathcal D=\frac{9}{12}\times100\%=75\%.
+\]
+
+So the standard single-edge implementation is
+
+\[
+\boxed{4f_{in}\ \longrightarrow\ \text{modulo-12 counter}\ \longrightarrow\
+9\text{ HIGH counts}+3\text{ LOW counts}.}
+\]
+
+A precise quarter-period phase reference from a PLL or DLL can provide the same required edge placement without exposing a \(4f_{in}\) fabric clock. Likewise, both edges of a \(2f_{in}\) clock give quarter-input-period edge spacing. These are still extra clock-management resources; uncontrolled gate delay is not a reliable substitute because it varies with process, voltage, temperature, and routing. AMD's Clocking Wizard allows output frequency, phase, and duty-cycle requirements to be specified and reports the values the selected clocking primitive can actually achieve ([AMD Clocking Wizard](https://docs.amd.com/r/en-US/pg065-clk-wiz/Configuring-Output-Clocks)).
+
+> **Interview form:** A normal modulo-3 counter gives \(f_{in}/3\) with 33.33% or 66.67% duty. Using both original-clock edges gives duty-cycle steps of \(1/6\), but 75% requires \(4.5/6\) slots and is still impossible. Exact 75% needs quarter-period edge resolution; a standard solution generates \(4f_{in}\), counts modulo 12, and keeps the output HIGH for nine counts and LOW for three.
 
 ### Active recall
 
@@ -1530,6 +1714,9 @@ Why does a modulo-3 machine clocked at $2f_{in}$ implement divide by 1.5, and wh
 - Modulo-3 equations for the chosen encoding are $D_1=Q_0$ and $D_0=\overline{Q_1}\,\overline{Q_0}$.
 - Modulo-5 equations are $D_2=Q_1Q_0$, $D_1=Q_1\oplus Q_0$, and $D_0=\overline{Q_2}\,\overline{Q_0}$.
 - Direct state decoding gives $1/N$, $2/N$, and similar whole-state duty cycles.
+- With rising-edge-only timing, divide-by-$N$ duty cycles are $k/N$; with both edges of an ideal 50% input, they are $k/(2N)$.
+- For $f_{in}/3$ at 75% duty, $T_{HIGH}=2.25T_{in}$ and $T_{LOW}=0.75T_{in}$, so quarter-period resolution is required.
+- A single-edge $4f_{in}$ modulo-12 implementation gives exact 75% duty by using nine HIGH counts and three LOW counts.
 - A 50% odd divider needs a half-cycle or other phase correction.
 - Edge detection doubles transition-event rate, not voltage.
 - A fractional divider pulse train is not automatically a safe internal clock.
@@ -1550,4 +1737,6 @@ The page explanations and corrections were cross-checked against:
 - [Intel/Altera: Avoid Asynchronous Clock Division](https://docs.altera.com/r/docs/683323/18.1/intel-quartus-prime-standard-edition-user-guide-design-recommendations/avoid-asynchronous-clock-division) and [Avoid Ripple Counters](https://docs.altera.com/r/docs/683323/18.1/intel-quartus-prime-standard-edition-user-guide-design-recommendations/avoid-ripple-counters) for FPGA clock-divider architecture.
 - [Intel/Altera: Basic Clock Divider Using divide_by](https://docs.altera.com/r/docs/683081/22.2/quartus-prime-timing-analyzer-cookbook/basic-clock-divider-using-divide_by) for generated-clock timing constraints.
 - [AMD ODDR primitive documentation](https://docs.amd.com/r/2020.2-English/ug953-vivado-7series-libraries/ODDR) for dedicated FPGA output changes on opposite clock edges.
+- [AMD Clocking Wizard](https://docs.amd.com/r/en-US/pg065-clk-wiz/Configuring-Output-Clocks) for specifying and checking generated-clock frequency, phase, and duty-cycle requirements.
+- [MSOE Clock Dividers](https://faculty-web.msoe.edu/johnsontimoj/ELE3510/files3510/clock_dividers.pdf) for relating each divided-clock half-period to counted reference-clock cycles.
 - [Byun, Son, and Kim: Simple odd number frequency divider with 50% duty cycle](https://pure.dongguk.edu/en/publications/simple-odd-number-frequency-divider-with-50-duty-cycle/) for the need for explicit duty-cycle correction in odd-ratio dividers.

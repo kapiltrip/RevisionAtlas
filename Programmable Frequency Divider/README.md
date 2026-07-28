@@ -53,19 +53,30 @@ There will not be separate files or folders for every divide value or duty cycle
 
 ## Later non-standard TODO
 
-| Later target | Plan | Status |
-|---|---|:---:|
-| `/3` at 75% duty | External `4×` clock, modulo-12, nine HIGH and three LOW counts | Later |
-| Fractional `/1.5` | Both-edge or faster-clock method | Later |
-| Fractional `/2.5` | Both-edge or faster-clock method | Later |
-| Other exact duty percentages | First determine the required timing resolution | Later |
-| Live reconfiguration | Apply new settings only at a clean output-period boundary | Later |
+| Type | Target | Example plan | Status |
+|---|---|---|:---:|
+| Custom duty | `/2` at 33.33% | `3×` clock, modulo-6, two HIGH and four LOW counts | Later |
+| Custom duty | `/2` at 60% | `5×` clock, modulo-10, six HIGH and four LOW counts | Later |
+| Custom duty | `/3` at 25% | `4×` clock, modulo-12, three HIGH and nine LOW counts | Later |
+| Custom duty | `/3` at 40% | `5×` clock, modulo-15, six HIGH and nine LOW counts | Later |
+| Custom duty | `/3` at 75% | `4×` clock, modulo-12, nine HIGH and three LOW counts | Later |
+| Custom duty | `/4` at 33.33% | `3×` clock, modulo-12, four HIGH and eight LOW counts | Later |
+| Custom duty | `/4` at 80% | `5×` clock, modulo-20, sixteen HIGH and four LOW counts | Later |
+| Custom duty | `/5` at 25% | `4×` clock, modulo-20, five HIGH and fifteen LOW counts | Later |
+| Custom duty | `/5` at 33.33% | `3×` clock, modulo-15, five HIGH and ten LOW counts | Later |
+| Custom duty | `/5` at 75% | `4×` clock, modulo-20, fifteen HIGH and five LOW counts | Later |
+| Fractional output pulse | `/1.5` | Count both-edge events with modulo-3 | Later |
+| Fractional output pulse | `/2.5` | Count both-edge events with modulo-5 | Later |
+| Fractional output pulse | `/3.5` | Count both-edge events with modulo-7 | Later |
+| Fractional output pulse | `/4.5` | Count both-edge events with modulo-9 | Later |
+| Other custom case | Any other exact duty cycle | Calculate the required clock resolution and counts first | Later |
+| Feature | Live reconfiguration | Apply settings at a clean output-period boundary | Later |
 
 ## Not in the first version
 
 - No divide value above 5.
 - No fractional divider such as `/2.5`.
-- No arbitrary duty cycle outside the listed cases.
+- No later custom-duty or fractional case from the table above.
 - No 0% or 100% case because those are constant outputs.
 - No live configuration changes; settings change only while reset is active.
 - No separate RTL file for each divider or duty cycle.

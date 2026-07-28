@@ -2,7 +2,7 @@
 
 [Back to Revision Atlas](../README.md) | [Frequency-divider theory](../Frequency%20Dividers/README.md)
 
-> **Status:** `/2` with 25%, 50%, and 75% duty-cycle RTL is complete. Testbench is next.
+> **Status:** All listed `/2` and `/3` duty-cycle RTL is complete. Testbench is next.
 
 ## Goal
 
@@ -43,13 +43,12 @@ There will not be separate files or folders for every divide value or duty cycle
 |---:|---|:---:|
 | 1 | Create `src/programmable_frequency_divider.v` | DONE |
 | 2 | Implement `/2` with 25%, 50%, and 75% duty cycles | DONE |
-| 3 | Create `sim/programmable_frequency_divider_tb.v` and verify all `/2` modes | NEXT |
-| 4 | Make the same RTL configurable for `/2` through `/5` | TODO |
-| 5 | Add all rising-edge duty cycles from the table | TODO |
-| 6 | Add `/3` and `/5` at 50% using the falling edge | TODO |
-| 7 | Add the remaining half-cycle duty cycles | TODO |
-| 8 | Simulate every supported configuration | TODO |
-| 9 | Synthesize and inspect the design in Vivado | TODO |
+| 3 | Implement `/3` with 16.67%, 33.33%, 50%, 66.67%, and 83.33% duty cycles | DONE |
+| 4 | Create the testbench and verify every `/2` and `/3` mode | NEXT |
+| 5 | Add every listed `/4` duty cycle | TODO |
+| 6 | Add every listed `/5` duty cycle | TODO |
+| 7 | Simulate every supported configuration | TODO |
+| 8 | Synthesize and inspect the design in Vivado | TODO |
 
 ## Later non-standard TODO
 
@@ -95,4 +94,4 @@ There will not be separate files or folders for every divide value or duty cycle
 
 ## Next task
 
-Create the self-checking testbench and verify `/2` at 25%, 50%, and 75% duty cycle.
+Create the self-checking testbench and verify every `/2` and `/3` duty cycle.

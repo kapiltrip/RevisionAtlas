@@ -22,9 +22,7 @@ Build one configurable Verilog frequency divider covering:
 | `/4` | 25%, 50%, 75% | 12.5%, 25%, 37.5%, 50%, 62.5%, 75%, 87.5% |
 | `/5` | 20%, 40%, 60%, 80% | 10%, 20%, 30%, 40%, 50%, 60%, 70%, 80%, 90% |
 
-Special case:
-
-- `/3` with 75% duty cycle will use an externally supplied `4×` clock, modulo-12 counting, nine HIGH counts, and three LOW counts.
+`/2` and `/4` at 75% stay in the normal table. Only `/3` at 75% is kept as a later special case.
 
 ## File structure
 
@@ -39,20 +37,31 @@ Programmable Frequency Divider/
 
 There will not be separate files or folders for every divide value or duty cycle.
 
-## Work order
+## Main TODO
 
-- [ ] Create `src/` and `sim/`.
-- [ ] Implement `/2` with 50% duty cycle.
-- [ ] Make the same RTL configurable for `/2` through `/5`.
-- [ ] Add every rising-edge duty cycle from the table.
-- [ ] Write a self-checking testbench for these cases.
-- [ ] Add `/3` and `/5` with 50% duty cycle using the falling edge.
-- [ ] Add the remaining half-cycle duty cycles from the table.
-- [ ] Add the special `/3`, 75% experiment using an external `4×` clock.
-- [ ] Simulate every supported configuration.
-- [ ] Synthesize the final design in Vivado and inspect the generated hardware.
+| Order | What we will do | Status |
+|---:|---|:---:|
+| 1 | Create `src/` and `sim/` with one file in each | TODO |
+| 2 | Implement `/2` with 50% duty cycle | TODO |
+| 3 | Make the same RTL configurable for `/2` through `/5` | TODO |
+| 4 | Add all rising-edge duty cycles from the table | TODO |
+| 5 | Write the self-checking testbench | TODO |
+| 6 | Add `/3` and `/5` at 50% using the falling edge | TODO |
+| 7 | Add the remaining half-cycle duty cycles | TODO |
+| 8 | Simulate every supported configuration | TODO |
+| 9 | Synthesize and inspect the design in Vivado | TODO |
 
-## What we are not doing
+## Later non-standard TODO
+
+| Later target | Plan | Status |
+|---|---|:---:|
+| `/3` at 75% duty | External `4×` clock, modulo-12, nine HIGH and three LOW counts | Later |
+| Fractional `/1.5` | Both-edge or faster-clock method | Later |
+| Fractional `/2.5` | Both-edge or faster-clock method | Later |
+| Other exact duty percentages | First determine the required timing resolution | Later |
+| Live reconfiguration | Apply new settings only at a clean output-period boundary | Later |
+
+## Not in the first version
 
 - No divide value above 5.
 - No fractional divider such as `/2.5`.
@@ -75,4 +84,4 @@ There will not be separate files or folders for every divide value or duty cycle
 
 ## First task
 
-Create the two files and complete `/2` with 50% duty cycle before generalizing the design.
+Complete Main TODO 1 and 2: create the two files and make `/2` with 50% duty cycle work.

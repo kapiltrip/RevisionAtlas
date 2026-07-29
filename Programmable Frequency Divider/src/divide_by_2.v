@@ -1,15 +1,12 @@
 `timescale 1ns/1ps
 
 module divide_by_2 (
-    input  wire       clk,
-    input  wire       reset,
-    input  wire [1:0] duty_select,
-    output reg        clk_out
+    input  wire clk,
+    input  wire reset,
+    output wire clk_out_25,
+    output wire clk_out_50,
+    output wire clk_out_75
 );
-
-    localparam DUTY_25 = 2'd0;
-    localparam DUTY_50 = 2'd1;
-    localparam DUTY_75 = 2'd2;
 
     reg phase_posedge;
     reg phase_negedge;
@@ -28,18 +25,12 @@ module divide_by_2 (
             phase_negedge <= phase_posedge;
     end
 
-    // Change duty_select only while reset is asserted.
-    always @(*) begin
-        if (reset) begin
-            clk_out = 1'b0;
-        end else begin
-            case (duty_select)
-                DUTY_25: clk_out = phase_posedge & ~phase_negedge;
-                DUTY_50: clk_out = phase_posedge;
-                DUTY_75: clk_out = phase_posedge | phase_negedge;
-                default: clk_out = 1'b0;
-            endcase
-        end
-    end
+    // All three divide-by-2 waveforms are generated at the same time.
+    assign clk_out_25 = reset ? 1'b0 :
+                        phase_posedge & ~phase_negedge;
+    assign clk_out_50 = reset ? 1'b0 :
+                        phase_posedge;
+    assign clk_out_75 = reset ? 1'b0 :
+                        phase_posedge | phase_negedge;
 
 endmodule

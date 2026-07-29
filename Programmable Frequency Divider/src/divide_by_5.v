@@ -1,21 +1,18 @@
 `timescale 1ns/1ps
 
 module divide_by_5 (
-    input  wire       clk,
-    input  wire       reset,
-    input  wire [3:0] duty_select,
-    output reg        clk_out
+    input  wire clk,
+    input  wire reset,
+    output wire clk_out_10,
+    output wire clk_out_20,
+    output wire clk_out_30,
+    output wire clk_out_40,
+    output wire clk_out_50,
+    output wire clk_out_60,
+    output wire clk_out_70,
+    output wire clk_out_80,
+    output wire clk_out_90
 );
-
-    localparam DUTY_10 = 4'd0;
-    localparam DUTY_20 = 4'd1;
-    localparam DUTY_30 = 4'd2;
-    localparam DUTY_40 = 4'd3;
-    localparam DUTY_50 = 4'd4;
-    localparam DUTY_60 = 4'd5;
-    localparam DUTY_70 = 4'd6;
-    localparam DUTY_80 = 4'd7;
-    localparam DUTY_90 = 4'd8;
 
     reg [2:0] count_posedge;
     reg [2:0] count_negedge;
@@ -55,29 +52,24 @@ module divide_by_5 (
     end
 
     // One divide-by-5 period contains ten input half-cycles.
-    // Change duty_select only while reset is asserted.
-    always @(*) begin
-        if (reset) begin
-            clk_out = 1'b0;
-        end else begin
-            case (duty_select)
-                DUTY_10: clk_out = one_cycle_posedge &
-                                   ~one_cycle_negedge;
-                DUTY_20: clk_out = one_cycle_posedge;
-                DUTY_30: clk_out = one_cycle_posedge |
-                                   one_cycle_negedge;
-                DUTY_40: clk_out = two_cycles_posedge;
-                DUTY_50: clk_out = two_cycles_posedge |
-                                   two_cycles_negedge;
-                DUTY_60: clk_out = three_cycles_posedge;
-                DUTY_70: clk_out = three_cycles_posedge |
-                                   three_cycles_negedge;
-                DUTY_80: clk_out = four_cycles_posedge;
-                DUTY_90: clk_out = four_cycles_posedge |
-                                   four_cycles_negedge;
-                default: clk_out = 1'b0;
-            endcase
-        end
-    end
+    // All valid duty-cycle waveforms are generated simultaneously.
+    assign clk_out_10 = reset ? 1'b0 :
+                        one_cycle_posedge & ~one_cycle_negedge;
+    assign clk_out_20 = reset ? 1'b0 :
+                        one_cycle_posedge;
+    assign clk_out_30 = reset ? 1'b0 :
+                        one_cycle_posedge | one_cycle_negedge;
+    assign clk_out_40 = reset ? 1'b0 :
+                        two_cycles_posedge;
+    assign clk_out_50 = reset ? 1'b0 :
+                        two_cycles_posedge | two_cycles_negedge;
+    assign clk_out_60 = reset ? 1'b0 :
+                        three_cycles_posedge;
+    assign clk_out_70 = reset ? 1'b0 :
+                        three_cycles_posedge | three_cycles_negedge;
+    assign clk_out_80 = reset ? 1'b0 :
+                        four_cycles_posedge;
+    assign clk_out_90 = reset ? 1'b0 :
+                        four_cycles_posedge | four_cycles_negedge;
 
 endmodule

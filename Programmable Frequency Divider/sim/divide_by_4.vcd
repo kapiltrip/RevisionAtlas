@@ -1,0 +1,123 @@
+$date
+	Wed Jul 29 16:41:49 2026
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module divide_by_4_tb $end
+$var reg 1 ! clk $end
+$upscope $end
+$scope module divide_by_4_tb $end
+$var reg 1 " reset $end
+$upscope $end
+$scope module divide_by_4_tb $end
+$var wire 1 # clk_out_12_5 $end
+$upscope $end
+$scope module divide_by_4_tb $end
+$var wire 1 $ clk_out_25 $end
+$upscope $end
+$scope module divide_by_4_tb $end
+$var wire 1 % clk_out_37_5 $end
+$upscope $end
+$scope module divide_by_4_tb $end
+$var wire 1 & clk_out_50 $end
+$upscope $end
+$scope module divide_by_4_tb $end
+$var wire 1 ' clk_out_62_5 $end
+$upscope $end
+$scope module divide_by_4_tb $end
+$var wire 1 ( clk_out_75 $end
+$upscope $end
+$scope module divide_by_4_tb $end
+$var wire 1 ) clk_out_87_5 $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+$end
+#0
+$dumpvars
+0)
+0(
+0'
+0&
+0%
+0$
+0#
+1"
+0!
+$end
+#5000
+1!
+#10000
+0!
+#15000
+1!
+#20000
+0!
+#21000
+0"
+#25000
+1%
+1#
+1'
+1)
+1$
+1&
+1(
+1!
+#30000
+0#
+0!
+#35000
+0$
+1!
+#40000
+0%
+0!
+#45000
+0&
+1!
+#50000
+0'
+0!
+#55000
+0(
+1!
+#60000
+0)
+0!
+#65000
+1%
+1#
+1'
+1)
+1$
+1&
+1(
+1!
+#70000
+0#
+0!
+#75000
+0$
+1!
+#80000
+0%
+0!
+#85000
+0&
+1!
+#90000
+0'
+0!
+#95000
+0(
+1!
+#100000
+0)
+0!
+#101000

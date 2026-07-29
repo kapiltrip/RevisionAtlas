@@ -2,7 +2,7 @@
 
 [Back to Revision Atlas](../README.md) | [Frequency-divider theory](../Frequency%20Dividers/README.md)
 
-> **Status:** Separate `/2`, `/3`, `/4`, and `/5` RTL modules and their self-checking testbenches are complete. Vivado synthesis is next.
+> **Status:** Separate `/2`, `/3`, `/4`, and `/5` RTL modules generate every supported duty-cycle waveform directly. Their clock/reset-only testbenches verify all outputs and write VCD waveform files when run with Icarus Verilog. Vivado synthesis is next.
 
 ## Goal
 
@@ -13,7 +13,7 @@ Build the divider ratios as separate, easy-to-follow Verilog modules covering:
 - one RTL file and one testbench for each divide ratio; and
 - simulation followed by Vivado synthesis.
 
-The divide ratios are intentionally **not mixed into one programmable top-level module**. Each file contains only one counter sequence and the duty-cycle choices belonging to that ratio.
+The divide ratios are intentionally **not mixed into one programmable top-level module**. Each file contains one counter sequence and exposes every duty-cycle waveform belonging to that ratio as a separate output.
 
 ## Duty cycles to cover
 
@@ -43,18 +43,18 @@ Programmable Frequency Divider/
     `-- divide_by_5_tb.v
 ```
 
-There is a separate file for every divide value, but not a separate file for every duty cycle. A small `duty_select` input chooses only among the valid modes of that divider.
+There is a separate file for every divide value, but not a separate file for every duty cycle. Each RTL module needs only `clk` and `reset`; it continuously generates all of its valid duty-cycle outputs in parallel. The testbench does not select or construct a duty-cycle waveform.
 
-## `duty_select` maps
+## Generated waveform outputs
 
-| Module | Selector values in order |
+| Module | Output ports generated together |
 |---|---|
-| `divide_by_2` | `0` = 25%, `1` = 50%, `2` = 75% |
-| `divide_by_3` | `0` = 16.67%, `1` = 33.33%, `2` = 50%, `3` = 66.67%, `4` = 83.33% |
-| `divide_by_4` | `0` = 12.5%, `1` = 25%, `2` = 37.5%, `3` = 50%, `4` = 62.5%, `5` = 75%, `6` = 87.5% |
-| `divide_by_5` | `0` = 10%, `1` = 20%, ..., `8` = 90% |
+| `divide_by_2` | `clk_out_25`, `clk_out_50`, `clk_out_75` |
+| `divide_by_3` | `clk_out_16_67`, `clk_out_33_33`, `clk_out_50`, `clk_out_66_67`, `clk_out_83_33` |
+| `divide_by_4` | `clk_out_12_5`, `clk_out_25`, `clk_out_37_5`, `clk_out_50`, `clk_out_62_5`, `clk_out_75`, `clk_out_87_5` |
+| `divide_by_5` | `clk_out_10`, `clk_out_20`, ..., `clk_out_90` |
 
-Change `duty_select` only while `reset` is asserted. This keeps the first version simple and avoids a shortened pulse during a live mode change.
+The Icarus runs create `divide_by_2.vcd` through `divide_by_5.vcd`. Open these in GTKWave to see the reference clock, reset, and every generated output together.
 
 ## Main TODO
 
@@ -64,7 +64,7 @@ Change `duty_select` only while `reset` is asserted. This keeps the first versio
 | 2 | Implement standalone `/3` with all five listed duty cycles | DONE |
 | 3 | Implement standalone `/4` with all seven listed duty cycles | DONE |
 | 4 | Implement standalone `/5` with all nine listed duty cycles | DONE |
-| 5 | Create one self-checking testbench per divider | DONE |
+| 5 | Create one clock/reset-only self-checking testbench per divider | DONE |
 | 6 | Simulate every supported configuration with Icarus Verilog | DONE |
 | 7 | Synthesize and inspect each standalone design in Vivado | NEXT |
 

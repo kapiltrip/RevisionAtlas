@@ -1,17 +1,19 @@
-# Programmable Frequency Divider — Project Plan
+# Frequency Divider RTL Practice — `/2` Through `/5`
 
 [Back to Revision Atlas](../README.md) | [Frequency-divider theory](../Frequency%20Dividers/README.md)
 
-> **Status:** All listed `/2` and `/3` duty-cycle RTL is complete. Testbench is next.
+> **Status:** Separate `/2`, `/3`, `/4`, and `/5` RTL modules and their self-checking testbenches are complete. Vivado synthesis is next.
 
 ## Goal
 
-Build one configurable Verilog frequency divider covering:
+Build the divider ratios as separate, easy-to-follow Verilog modules covering:
 
 - divide-by-2, `/3`, `/4`, and `/5`;
 - all duty cycles listed below;
-- one RTL file and one testbench file; and
+- one RTL file and one testbench for each divide ratio; and
 - simulation followed by Vivado synthesis.
+
+The divide ratios are intentionally **not mixed into one programmable top-level module**. Each file contains only one counter sequence and the duty-cycle choices belonging to that ratio.
 
 ## Duty cycles to cover
 
@@ -30,25 +32,41 @@ Build one configurable Verilog frequency divider covering:
 Programmable Frequency Divider/
 |-- README.md
 |-- src/
-|   `-- programmable_frequency_divider.v
+|   |-- divide_by_2.v
+|   |-- divide_by_3.v
+|   |-- divide_by_4.v
+|   `-- divide_by_5.v
 `-- sim/
-    `-- programmable_frequency_divider_tb.v
+    |-- divide_by_2_tb.v
+    |-- divide_by_3_tb.v
+    |-- divide_by_4_tb.v
+    `-- divide_by_5_tb.v
 ```
 
-There will not be separate files or folders for every divide value or duty cycle.
+There is a separate file for every divide value, but not a separate file for every duty cycle. A small `duty_select` input chooses only among the valid modes of that divider.
+
+## `duty_select` maps
+
+| Module | Selector values in order |
+|---|---|
+| `divide_by_2` | `0` = 25%, `1` = 50%, `2` = 75% |
+| `divide_by_3` | `0` = 16.67%, `1` = 33.33%, `2` = 50%, `3` = 66.67%, `4` = 83.33% |
+| `divide_by_4` | `0` = 12.5%, `1` = 25%, `2` = 37.5%, `3` = 50%, `4` = 62.5%, `5` = 75%, `6` = 87.5% |
+| `divide_by_5` | `0` = 10%, `1` = 20%, ..., `8` = 90% |
+
+Change `duty_select` only while `reset` is asserted. This keeps the first version simple and avoids a shortened pulse during a live mode change.
 
 ## Main TODO
 
 | Order | What we will do | Status |
 |---:|---|:---:|
-| 1 | Create `src/programmable_frequency_divider.v` | DONE |
-| 2 | Implement `/2` with 25%, 50%, and 75% duty cycles | DONE |
-| 3 | Implement `/3` with 16.67%, 33.33%, 50%, 66.67%, and 83.33% duty cycles | DONE |
-| 4 | Create the testbench and verify every `/2` and `/3` mode | NEXT |
-| 5 | Add every listed `/4` duty cycle | TODO |
-| 6 | Add every listed `/5` duty cycle | TODO |
-| 7 | Simulate every supported configuration | TODO |
-| 8 | Synthesize and inspect the design in Vivado | TODO |
+| 1 | Implement standalone `/2` with 25%, 50%, and 75% duty cycles | DONE |
+| 2 | Implement standalone `/3` with all five listed duty cycles | DONE |
+| 3 | Implement standalone `/4` with all seven listed duty cycles | DONE |
+| 4 | Implement standalone `/5` with all nine listed duty cycles | DONE |
+| 5 | Create one self-checking testbench per divider | DONE |
+| 6 | Simulate every supported configuration with Icarus Verilog | DONE |
+| 7 | Synthesize and inspect each standalone design in Vivado | NEXT |
 
 ## Later non-standard TODO
 
@@ -78,8 +96,8 @@ There will not be separate files or folders for every divide value or duty cycle
 - No later custom-duty or fractional case from the table above.
 - No 0% or 100% case because those are constant outputs.
 - No live configuration changes; settings change only while reset is active.
-- No separate RTL file for each divider or duty cycle.
-- No separate FSM for each divider.
+- No combined programmable top-level joining `/2` through `/5`.
+- No separate RTL file for every individual duty cycle.
 - No clock multiplier written in ordinary Verilog.
 - No Verilog code inside this README.
 
@@ -94,4 +112,4 @@ There will not be separate files or folders for every divide value or duty cycle
 
 ## Next task
 
-Create the self-checking testbench and verify every `/2` and `/3` duty cycle.
+Synthesize the four standalone modules in Vivado, one top module at a time, and inspect inferred counters, opposite-edge registers, timing, and warnings.

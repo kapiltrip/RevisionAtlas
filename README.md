@@ -46,7 +46,7 @@ Revision Atlas currently has six independent subjects:
 | [MOSFET and CMOS](MOSFET%20and%20CMOS/README.md) | Five source-linked revision notebooks covering 110 pages | Device physics, CMOS behavior, delay, power, noise, and sizing |
 | [FIFO](FIFO/README.md) | Architecture guide and starter RTL | RAM, synchronous FIFO, verification, timing, asynchronous FIFO, and CDC reasoning |
 | [Frequency Dividers](Frequency%20Dividers/README.md) | 13 source-linked notebook pages | Divider state sequences, waveforms, duty cycle, and fractional-divider circuits |
-| [Programmable Frequency Divider](Programmable%20Frequency%20Divider/README.md) | Planning specification; RTL intentionally not started yet | Custom integer divide ratios, duty cycles, safe reconfiguration, and verification roadmap |
+| [Frequency Divider RTL Practice](Programmable%20Frequency%20Divider/README.md) | Separate `/2` through `/5` RTL and self-checking simulations | One clear divider per file, selectable duty cycles, and a Vivado verification roadmap |
 | [Protocols](Protocols/README.md) | I2C, SPI, and UART | Signal ownership, framing, clocking, and RTL timing |
 | [Static Timing Analysis](Static%20Timing%20Analysis/README.md) | Storage elements through complete setup/hold path analysis | Definitions, timing equations, sign conventions, and worked paths |
 
@@ -122,7 +122,9 @@ RevisionAtlas/                          # all-subject management root
 |   |-- sources/                        # untouched 13-page frequency-divider notebook
 |   `-- images/                         # readable page-01 through page-13 images
 |-- Programmable Frequency Divider/
-|   `-- README.md                       # standalone coding-subject specification and project plan
+|   |-- README.md                       # standalone /2 through /5 coding plan and status
+|   |-- src/                            # one RTL file per divide ratio
+|   `-- sim/                            # one self-checking testbench per divide ratio
 |-- MOSFET and CMOS/
 |   |-- README.md                       # subject map + question/TODO register
 |   |-- sources/

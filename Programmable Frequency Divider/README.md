@@ -68,6 +68,77 @@ Neither module creates a faster clock in Verilog. The required faster clock must
 
 The fractional cases generate one-cycle pulse outputs, not 50% duty-cycle square-wave clocks.
 
+## Why a clock divider still needs a testbench
+
+For simply viewing a clock-divider waveform, a complex self-checking testbench is unnecessary. However, the simulation still needs a small testbench because the divider requires an input clock and reset:
+
+- The **divider design** receives `clk` and `reset`, then generates the 25%, 50%, and 75% outputs.
+- The **testbench** imitates the external clock and reset that real hardware would provide.
+- **EPWave or GTKWave** only displays signal activity; it does not generate the input clock.
+
+A signal merely declared as `reg clk;` does not change automatically. The following statement makes it oscillate during simulation:
+
+```verilog
+always #5 clk = ~clk;
+```
+
+In real hardware, an oscillator, PLL, or another clock source supplies this input clock. In simulation, the testbench must supply it. The testbench must also apply reset so the divider's internal state starts from known values instead of unknown `x` values.
+
+The signal flow is:
+
+```text
+Testbench clock ---> divide_by_2 ---> 25% output
+                                |--> 50% output
+                                `--> 75% output
+```
+
+The divider creates all three divided outputs. The testbench does not construct or select them. A minimal waveform-viewing testbench is enough:
+
+```verilog
+`timescale 1ns/1ps
+
+module divide_by_2_tb;
+
+    reg clk = 0;
+    reg reset = 1;
+
+    wire clk_out_25;
+    wire clk_out_50;
+    wire clk_out_75;
+
+    divide_by_2 dut (
+        .clk(clk),
+        .reset(reset),
+        .clk_out_25(clk_out_25),
+        .clk_out_50(clk_out_50),
+        .clk_out_75(clk_out_75)
+    );
+
+    // Generate the input clock.
+    always #5 clk = ~clk;
+
+    initial begin
+        // Record the signals for EPWave or GTKWave.
+        $dumpfile("dump.vcd");
+        $dumpvars(0, divide_by_2_tb);
+
+        // Release reset, observe several periods, and stop.
+        #12 reset = 0;
+        #80 $finish;
+    end
+
+endmodule
+```
+
+This minimal testbench does only four jobs:
+
+1. It creates the input clock.
+2. It applies and releases reset.
+3. It records the signals in a VCD file for the waveform viewer.
+4. It stops the simulation after enough time has passed.
+
+Self-checking code is optional. It is useful for automated regression tests because it prints `PASS` or `FAIL` without requiring visual inspection. For learning the divider and inspecting its timing manually, the minimal testbench above is sufficient.
+
 ## Main TODO
 
 | Order | What we will do | Status |
@@ -115,7 +186,6 @@ The fractional cases generate one-cycle pulse outputs, not 50% duty-cycle square
 - No combined programmable top-level joining `/2` through `/5`.
 - No separate RTL file for every individual duty cycle.
 - No clock multiplier written in ordinary Verilog.
-- No Verilog code inside this README.
 
 ## Checks for every configuration
 

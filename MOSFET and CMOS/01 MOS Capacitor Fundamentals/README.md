@@ -41,6 +41,7 @@ These meanings follow the electrostatic sequence in [MIT 6.012, MOS Capacitors I
 | [12](#page-12) | Inversion begins | [24](#page-24) | Non-ideal work-function effect |
 
 <a id="page-01"></a>
+
 ## Page 01 - MOS structure and the meaning of work function
 
 ![Handwritten MOS notes page 1](images/page-01.jpeg)
@@ -62,6 +63,7 @@ The note `Si/SiO2 = metal/oxide/semiconductor` should be read as a stack descrip
 Why can the gate change the surface charge even though ideal SiO2 blocks steady DC current?
 
 <a id="page-02"></a>
+
 ## Page 02 - Absolute energy references and equilibrium
 
 ![Handwritten MOS notes page 2](images/page-02.jpeg)
@@ -83,6 +85,7 @@ The statement about electrons being filled “till” the Fermi level is exactly
 What common reference permits a metal work function and a semiconductor work function to be compared?
 
 <a id="page-03"></a>
+
 ## Page 03 - Electron affinity, band gap, and work-function difference
 
 ![Handwritten MOS notes page 3](images/page-03.jpeg)
@@ -104,6 +107,7 @@ Always write the chosen sign convention beside $\Phi_{ms}$. Some notes use $\Phi
 If p-type doping is increased, which part of $\Phi_s=\chi+(E_C-E_F)/q$ changes?
 
 <a id="page-04"></a>
+
 ## Page 04 - Ideal MOS capacitor assumptions
 
 ![Handwritten MOS notes page 4](images/page-04.jpeg)
@@ -125,6 +129,7 @@ Each ideal assumption removes one possible source of electric field. Setting $\P
 Which two non-ideal effects must be set to zero before $V_G=0$ automatically means flat band?
 
 <a id="page-05"></a>
+
 ## Page 05 - Flat band as the electrostatic reference state
 
 ![Handwritten MOS notes page 5](images/page-05.jpeg)
@@ -146,6 +151,7 @@ Flat **bands** and flat **Fermi level** are different statements. At thermal equ
 Can an equilibrium MOS capacitor have a flat Fermi level but bent conduction and valence bands? Explain.
 
 <a id="page-06"></a>
+
 ## Page 06 - Blank source page
 
 ![Blank handwritten source page 6](images/page-06.jpeg)
@@ -163,6 +169,7 @@ Use the blank as a recall divider: redraw the ideal MOS stack and write the mean
 What changes at the semiconductor surface first when the gate moves away from flat band: carrier concentration, oxide current, or material band gap?
 
 <a id="page-07"></a>
+
 ## Page 07 - Accumulation on a p-type substrate
 
 ![Handwritten MOS notes page 7](images/page-07.jpeg)
@@ -188,6 +195,7 @@ The note “no electric field” belongs to flat band, not accumulation. Accumul
 For p-type silicon, state the sign of gate charge, semiconductor charge, and mobile carrier that dominates in accumulation.
 
 <a id="page-08"></a>
+
 ## Page 08 - Moving from flat band into depletion
 
 ![Handwritten MOS notes page 8](images/page-08.jpeg)
@@ -209,6 +217,7 @@ Band edges do not bend because the band gap changes. They bend because electron 
 Why does positive gate bias leave **negative** depletion charge in a p-type substrate?
 
 <a id="page-09"></a>
+
 ## Page 09 - Depletion charge, width, and the band picture
 
 ![Handwritten MOS notes page 9](images/page-09.jpeg)
@@ -230,6 +239,7 @@ Depletion does not mean “no charge.” It means mobile majority carriers have 
 Under the depletion approximation, why is $\rho(x)$ rectangular while $E(x)$ is linear and $\psi(x)$ is quadratic?
 
 <a id="page-10"></a>
+
 ## Page 10 - Energy-band and carrier-concentration profiles
 
 ![Handwritten MOS notes page 10](images/page-10.jpeg)
@@ -255,6 +265,7 @@ The gate and semiconductor can have different electrochemical potentials when an
 If $E_i-E_F$ decreases by several $kT$ near the surface, what happens to $n$ and $p$?
 
 <a id="page-11"></a>
+
 ## Page 11 - Deeper depletion under increasing positive gate bias
 
 ![Handwritten MOS notes page 11](images/page-11.jpeg)
@@ -276,6 +287,7 @@ Say explicitly whether the vertical axis is electron energy or electrostatic pot
 Why does inversion eventually dominate additional gate charge even though the depletion region forms first?
 
 <a id="page-12"></a>
+
 ## Page 12 - The onset of inversion
 
 ![Handwritten MOS notes page 12](images/page-12.jpeg)
@@ -309,6 +321,7 @@ The fixed depletion charge remains underneath the mobile surface electrons in th
 For the large positive gate bias drawn on this page, explain (1) why electrons move toward $x=0$ even though the electric-field arrow points into the silicon, (2) what happens to $p_s$ and $n_s$, and (3) what the equality $p_s=n_s=n_i$ means physically.
 
 <a id="page-13"></a>
+
 ## Page 13 - Strong inversion and the $2\phi_F$ criterion
 
 ![Handwritten MOS notes page 13](images/page-13.jpeg)
@@ -330,6 +343,7 @@ The symmetry in the energy diagram is the key page-specific test. In p-type bulk
 Show from the Boltzmann relations why $\psi_s=2\phi_F$ gives $n_s\approx N_A$.
 
 <a id="page-14"></a>
+
 ## Page 14 - Surface potential as the mode classifier
 
 ![Handwritten MOS notes page 14](images/page-14.jpeg)
@@ -351,6 +365,7 @@ The exact labels at $\phi_F$ vary by text; the robust anchors are flat band at $
 Why is $V_G$ not generally equal to $\psi_s$? Name the other voltage contributions.
 
 <a id="page-15"></a>
+
 ## Page 15 - Five surface conditions on one potential axis
 
 ![Handwritten MOS notes page 15](images/page-15.jpeg)
@@ -372,6 +387,7 @@ Add a charge label under each sketch during revision: $Q_s>0$ for hole accumulat
 Without drawing bands, list the dominant surface charge for all five conditions in order.
 
 <a id="page-16"></a>
+
 ## Page 16 - Complementary operation on n-type silicon
 
 ![Handwritten MOS notes page 16](images/page-16.jpeg)
@@ -393,6 +409,7 @@ Do not memorize “positive means inversion” without attaching the substrate t
 What gate polarity creates strong inversion on n-type silicon, and which carrier forms the surface channel?
 
 <a id="page-17"></a>
+
 ## Page 17 - Depletion charge and width for a p-type substrate
 
 ![Handwritten MOS notes page 17](images/page-17.jpeg)
@@ -408,6 +425,7 @@ $$
 $$
 
 The derivation uses the boundary conditions drawn implicitly by the depletion picture: $E(W_d)=0$ and the bulk potential is the reference. Integrating the constant charge density once gives a triangular field profile and integrating again gives $\psi_s=qN_AW_d^2/(2\varepsilon_{si})$. Solving that relation for $W_d$ explains the square root and shows why width does not grow linearly with gate-induced surface potential.
+
 ### Clarity / improvement
 
 The sign of $Q_d$ comes from the ionized dopant: acceptors are negative after losing their mobile holes. Width is always positive; put the sign in $Q_d$, not in $W_d$.
@@ -417,6 +435,7 @@ The sign of $Q_d$ comes from the ionized dopant: acceptors are negative after lo
 How does doubling $N_A$ affect $W_d$ and $|Q_d|$ at a fixed surface potential?
 
 <a id="page-18"></a>
+
 ## Page 18 - Depletion charge and width for an n-type substrate
 
 ![Handwritten MOS notes page 18](images/page-18.jpeg)
@@ -438,6 +457,7 @@ The note's square-root expression should include the full potential magnitude in
 Why is n-substrate depletion charge positive even though the depleted mobile carrier is an electron?
 
 <a id="page-19"></a>
+
 ## Page 19 - From charge density to field and potential
 
 ![Handwritten MOS notes page 19](images/page-19.jpeg)
@@ -459,6 +479,7 @@ At strong inversion, add a very thin mobile-electron sheet at the interface in a
 Sketch the expected shapes of $\rho(x)$, $E(x)$, and $\psi(x)$ in oxide and depleted silicon without using the page.
 
 <a id="page-20"></a>
+
 ## Page 20 - Electric field and dielectric boundary condition
 
 ![Handwritten MOS notes page 20](images/page-20.jpeg)
@@ -480,6 +501,7 @@ Electric field itself need not be continuous across two dielectrics; electric di
 If $\varepsilon_{si}>\varepsilon_{ox}$, which material has the larger field magnitude at an ideal interface carrying no sheet charge?
 
 <a id="page-21"></a>
+
 ## Page 21 - Potential distribution across the MOS stack
 
 ![Handwritten MOS notes page 21](images/page-21.jpeg)
@@ -501,6 +523,7 @@ The potential graph is continuous across an ideal interface, while its slope cha
 Which part of the potential is linear and which part is parabolic, and what charge assumption causes each shape?
 
 <a id="page-22"></a>
+
 ## Page 22 - Field-area method for voltage
 
 ![Handwritten MOS notes page 22](images/page-22.jpeg)
@@ -522,6 +545,7 @@ Use signed integrals when deriving directions, but use clearly labeled magnitude
 Derive $W_d(\psi_s)$ using only the triangle area and Gauss's-law expression for the peak field.
 
 <a id="page-23"></a>
+
 ## Page 23 - Numerical electrostatics example
 
 ![Handwritten MOS notes page 23](images/page-23.jpeg)
@@ -543,6 +567,7 @@ The drawn formula $\psi_s=\tfrac12W_dE_s$ is correct for a linearly falling depl
 Why must the oxide field be found through displacement continuity rather than assumed equal to the peak silicon field?
 
 <a id="page-24"></a>
+
 ## Page 24 - Beginning the non-ideal MOS capacitor
 
 ![Handwritten MOS notes page 24](images/page-24.jpeg)

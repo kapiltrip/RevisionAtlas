@@ -41,6 +41,7 @@ The small-signal definitions follow [MIT 6.012’s MOSFET equivalent-circuit lec
 | [12](#page-12) | Non-ideal saturation slope | [24](#page-24) | Inverter numerical/VTC check |
 
 <a id="page-01"></a>
+
 ## Page 01 - pMOS transfer characteristics
 
 ![Handwritten MOS notes page 1](images/page-01.jpeg)
@@ -62,6 +63,7 @@ Specify whether plotted $I_D$ is signed or magnitude. A positive-looking current
 How do the zero-gate-current states of enhancement and depletion pMOS differ?
 
 <a id="page-02"></a>
+
 ## Page 02 - Reading MOSFET symbols
 
 ![Handwritten MOS notes page 2](images/page-02.jpeg)
@@ -83,6 +85,7 @@ Do not identify source and drain solely from the drawn symbol when the body is n
 What symbol feature distinguishes enhancement from depletion mode, and what feature commonly distinguishes pMOS from nMOS?
 
 <a id="page-03"></a>
+
 ## Page 03 - nMOS enhancement operation and output curves
 
 ![Handwritten MOS notes page 3](images/page-03.jpeg)
@@ -104,6 +107,7 @@ The word “strong inversion” should be attached to $V_{GS}>V_T$; merely apply
 Why do both the linear-region slope and the saturation current increase with $V_{GS}$?
 
 <a id="page-04"></a>
+
 ## Page 04 - Piecewise long-channel nMOS model
 
 ![Handwritten MOS notes page 4](images/page-04.jpeg)
@@ -125,6 +129,7 @@ Real subthreshold current is not exactly zero below $V_T$. The page uses the str
 Which inequality selects the region: a comparison between $V_{DS}$ and what gate-dependent voltage?
 
 <a id="page-05"></a>
+
 ## Page 05 - Deep-triode channel resistance
 
 ![Handwritten MOS notes page 5](images/page-05.jpeg)
@@ -149,6 +154,7 @@ The page calls the region “deep triode,” which is appropriate only when $V_{
 Which four device/bias quantities can be changed to lower the ideal long-channel $R_{on}$?
 
 <a id="page-06"></a>
+
 ## Page 06 - Transconductance as gate control of current
 
 ![Handwritten MOS notes page 6](images/page-06.jpeg)
@@ -173,6 +179,7 @@ The derivative must state what is held constant and which operating region is as
 At fixed drain current, what happens to $g_m$ if $W/L$ is increased?
 
 <a id="page-07"></a>
+
 ## Page 07 - Why ideal saturation still has a slope
 
 ![Handwritten MOS notes page 7](images/page-07.jpeg)
@@ -198,6 +205,7 @@ Channel-length modulation and velocity saturation are distinct. This page models
 How can $I_D$ rise in saturation if the inversion charge at the drain-end pinch-off point remains approximately zero?
 
 <a id="page-08"></a>
+
 ## Page 08 - Effective length and the small-λ approximation
 
 ![Handwritten MOS notes page 8](images/page-08.jpeg)
@@ -222,6 +230,7 @@ The common $1+\lambda V_{DS}$ form extrapolates the saturation line to an Early-
 Which small-quantity approximation converts a shortened channel into the linear $1+\lambda V_{DS}$ factor?
 
 <a id="page-09"></a>
+
 ## Page 09 - The channel-length-modulation parameter λ
 
 ![Handwritten MOS notes page 9](images/page-09.jpeg)
@@ -246,6 +255,7 @@ Lambda has units V$^{-1}$. The note's slope line should be interpreted at fixed 
 Why is channel-length modulation usually more severe in a shorter device?
 
 <a id="page-10"></a>
+
 ## Page 10 - Early voltage and extrapolated output curves
 
 ![Handwritten MOS notes page 10](images/page-10.jpeg)
@@ -267,6 +277,7 @@ The curves meet only approximately because λ can depend on bias and geometry. E
 Which device makes the better current source: $V_A=10$ V or $V_A=100$ V, and why?
 
 <a id="page-11"></a>
+
 ## Page 11 - Deriving current change from channel shortening
 
 ![Handwritten MOS notes page 11](images/page-11.jpeg)
@@ -288,6 +299,7 @@ The exact growth of $\Delta L$ is not universally linear in $V_{DS}$; the compac
 If the effective channel shortens by 1% at fixed overdrive, approximately how much does ideal current increase?
 
 <a id="page-12"></a>
+
 ## Page 12 - Non-ideal saturation and output conductance
 
 ![Handwritten MOS notes page 12](images/page-12.jpeg)
@@ -309,6 +321,7 @@ The lower sketch should label the slope as $g_o$, not $r_o$. Resistance is the i
 At fixed λ, what happens to $r_o$ when bias current doubles?
 
 <a id="page-13"></a>
+
 ## Page 13 - Output resistance and current-source quality
 
 ![Handwritten MOS notes page 13](images/page-13.jpeg)
@@ -330,6 +343,7 @@ The drawn current-source characteristic is correct locally. A real device also h
 Why can increasing drain current raise $g_m$ but reduce $r_o$ at the same time?
 
 <a id="page-14"></a>
+
 ## Page 14 - Small-signal gate and drain control
 
 ![Handwritten MOS notes page 14](images/page-14.jpeg)
@@ -354,6 +368,7 @@ The plotted lines should be labeled with their held-constant variables. $g_m$ co
 Write the two-source small-signal expression for drain current and identify which term represents channel-length modulation.
 
 <a id="page-15"></a>
+
 ## Page 15 - Gate overlap and intrinsic channel capacitances
 
 ![Handwritten MOS notes page 15](images/page-15.jpeg)
@@ -375,6 +390,7 @@ Do not add overlap area twice. Write intrinsic and overlap contributions separat
 Why does intrinsic $C_{gd}$ fall when a long-channel MOSFET moves from triode into saturation?
 
 <a id="page-16"></a>
+
 ## Page 16 - Source/body and drain/body junction capacitance
 
 ![Handwritten MOS notes page 16](images/page-16.jpeg)
@@ -396,6 +412,7 @@ The page's `open bias voltage` should read reverse-bias voltage. Body junction c
 Why does raising drain voltage usually reduce $C_{db}$ in an nMOS whose body is grounded?
 
 <a id="page-17"></a>
+
 ## Page 17 - pMOS enhancement characteristics
 
 ![Handwritten MOS notes page 17](images/page-17.jpeg)
@@ -417,6 +434,7 @@ Use $V_{SG}$ and $V_{SD}$ for calculation; they keep the pMOS region inequalitie
 State the pMOS saturation condition using positive voltage magnitudes.
 
 <a id="page-18"></a>
+
 ## Page 18 - pMOS symbols and current direction
 
 ![Handwritten MOS notes page 18](images/page-18.jpeg)
@@ -438,6 +456,7 @@ The symbol alone does not guarantee a terminal's role if voltages reverse. Defin
 For a CMOS inverter, express both transistor gate-source control voltages using $V_{in}$ and $V_{DD}$.
 
 <a id="page-19"></a>
+
 ## Page 19 - Why a MOSFET can amplify in saturation
 
 ![Handwritten MOS notes page 19](images/page-19.jpeg)
@@ -463,6 +482,7 @@ A MOSFET can also be used in triode as a variable resistor, but voltage amplific
 Why does high $r_o$ increase the voltage gain of a common-source stage?
 
 <a id="page-20"></a>
+
 ## Page 20 - pMOS equations by region
 
 ![Handwritten MOS notes page 20](images/page-20.jpeg)
@@ -484,6 +504,7 @@ The handwritten signed inequalities are hard to audit. Convert all pMOS terminal
 Why is a pMOS with $V_{SG}=0$ off even though its absolute gate voltage may be large?
 
 <a id="page-21"></a>
+
 ## Page 21 - CMOS inverter at the switching point
 
 ![Handwritten MOS notes page 21](images/page-21.jpeg)
@@ -509,6 +530,7 @@ Before equating saturation currents, verify both saturation inequalities at the 
 Why is inverter switching threshold $V_M$ conceptually different from $V_{Tn}$ and $V_{Tp}$?
 
 <a id="page-22"></a>
+
 ## Page 22 - Deriving the CMOS switching threshold
 
 ![Handwritten MOS notes page 22](images/page-22.jpeg)
@@ -539,6 +561,7 @@ When taking square roots, use $\sqrt{\beta_n/\beta_p}$, not $\beta_n/\beta_p$. T
 If pMOS becomes stronger while nMOS is unchanged, does $V_M$ move up or down? Explain physically.
 
 <a id="page-23"></a>
+
 ## Page 23 - General and symmetric switching-point formulas
 
 ![Handwritten MOS notes page 23](images/page-23.jpeg)
@@ -565,6 +588,7 @@ Symmetric transfer behavior requires both equal effective strengths and appropri
 What two matching conditions make the inverter switch at exactly half the supply in this model?
 
 <a id="page-24"></a>
+
 ## Page 24 - Numerical region check and inverter transfer curve
 
 ![Handwritten MOS notes page 24](images/page-24.jpeg)

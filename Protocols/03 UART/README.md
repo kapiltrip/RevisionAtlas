@@ -36,6 +36,7 @@ The framing and receiver terms are verified against the [Microchip USART guide](
 | [16](#page-16) | Receiver pseudocode, STOP validation, and nonblocking assignments |
 
 <a id="page-09"></a>
+
 ## Page 09 - UART as asynchronous framed serial communication
 
 ![Handwritten page 9 - UART introduction and baud-rate terminology](images/page-09.jpeg)
@@ -64,6 +65,7 @@ The lower annotations identify common rates such as 9600 and 115200. Baud is mea
 If UART has no shared clock, what event gives the receiver a timing reference, and why must the two endpoints still configure nearly equal baud rates?
 
 <a id="page-10"></a>
+
 ## Page 10 - Bit time and the divider from a 50 MHz clock
 
 ![Handwritten page 10 - UART bit-time and clock-cycle calculations](images/page-10.jpeg)
@@ -116,6 +118,7 @@ The lower waveform distinguishes the system-clock period from the UART bit perio
 From a 50 MHz clock, calculate the ideal cycles per bit at 115200 baud and explain what an RTL design must do because the answer is not an integer.
 
 <a id="page-11"></a>
+
 ## Page 11 - Why the receiver uses 16x oversampling
 
 ![Handwritten page 11 - UART oversampling and frame fields](images/page-11.jpeg)
@@ -154,6 +157,7 @@ See [Microchip's clock-recovery description](https://onlinedocs.microchip.com/ox
 Why is a sample enable at 16 times the baud rate useful if the design ultimately stores only one value for each received bit?
 
 <a id="page-12"></a>
+
 ## Page 12 - Reading the UART frame from idle through STOP
 
 ![Handwritten page 12 - UART frame and serial-parallel conversion](images/page-12.jpeg)
@@ -184,6 +188,7 @@ The field order and levels match [Microchip's USART frame definition](https://on
 Write the exact wire-level sequence for transmitting `0xA6` as 8-N-1, including idle, START, all eight data bits in transmission order, and STOP.
 
 <a id="page-13"></a>
+
 ## Page 13 - Baud-rate generator pulses and counter widths
 
 ![Handwritten page 13 - baud-rate generator and divider counters](images/page-13.jpeg)
@@ -218,6 +223,7 @@ AMD's [UART baud-rate generator description](https://docs.amd.com/r/en-US/ug585-
 Why does a divide-by-5208 counter compare against 5207, and how many bits must that counter contain?
 
 <a id="page-14"></a>
+
 ## Page 14 - Building the transmitter as a timed FSM
 
 ![Handwritten page 14 - UART transmitter block and FSM](images/page-14.jpeg)
@@ -250,6 +256,7 @@ Reset should put the transmitter into an electrically safe state: `tx = 1`, `bus
 If `start_tx` arrives halfway between baud ticks, when should the transmitter latch the byte, when should TX first go LOW, and when should `busy` clear?
 
 <a id="page-15"></a>
+
 ## Page 15 - Receiver timing and why sampling moves to bit centers
 
 ![Handwritten page 15 - UART receiver FSM and sampling waveform](images/page-15.jpeg)
@@ -278,6 +285,7 @@ After the last data bit, the FSM waits another full bit interval and checks STOP
 Starting from the first detected LOW sample in 16x mode, describe when the receiver validates START and when it captures data bits 0 and 1.
 
 <a id="page-16"></a>
+
 ## Page 16 - Receiver pseudocode and nonblocking-assignment timing
 
 ![Handwritten page 16 - UART receiver counters and nonblocking question](images/page-16.jpeg)

@@ -41,6 +41,7 @@ The MOS-capacitor and MOSFET-region meanings are cross-checked against the [MIT 
 | [12](#page-12) | Series dielectric model | [24](#page-24) | p-channel depletion device |
 
 <a id="page-01"></a>
+
 ## Page 01 - Work-function mismatch creates a built-in field
 
 ![Handwritten MOS notes page 1](images/page-01.jpeg)
@@ -62,6 +63,7 @@ Fermi-level alignment does not mean the conduction and valence bands must be fla
 What physical charge appears after dissimilar work functions equilibrate, and what externally measurable voltage does it shift?
 
 <a id="page-02"></a>
+
 ## Page 02 - Engineering the gate work function
 
 ![Handwritten MOS notes page 2](images/page-02.jpeg)
@@ -87,6 +89,7 @@ Modern processes may use metal gates rather than doped polysilicon, but the work
 How does moving the gate Fermi level toward $E_C$ affect its work function?
 
 <a id="page-03"></a>
+
 ## Page 03 - Mobile, fixed, and interface charge
 
 ![Handwritten MOS notes page 3](images/page-03.jpeg)
@@ -108,6 +111,7 @@ Do not merge all non-ideal charges into one physical mechanism. The compact $Q_{
 Which oxide imperfection can produce time-dependent threshold drift, and which can respond to surface Fermi-level position?
 
 <a id="page-04"></a>
+
 ## Page 04 - Oxide charge shifts flat-band voltage
 
 ![Handwritten MOS notes page 4](images/page-04.jpeg)
@@ -132,6 +136,7 @@ If charge is distributed through the oxide, its voltage effect depends on positi
 For matched work functions, what sign of gate voltage is required to cancel a positive fixed oxide charge?
 
 <a id="page-05"></a>
+
 ## Page 05 - Practical meaning of flat-band voltage
 
 ![Handwritten MOS notes page 5](images/page-05.jpeg)
@@ -153,6 +158,7 @@ The page's sad/uncertain annotation is resolved by separating the **definition**
 Can $V_G=0$ and $\psi_s=0$ be treated as equivalent in a non-ideal device? Why not?
 
 <a id="page-06"></a>
+
 ## Page 06 - Converting process data into band offsets
 
 ![Handwritten MOS notes page 6](images/page-06.jpeg)
@@ -174,6 +180,7 @@ Use either capacitance per unit area $C'_{ox}=\varepsilon_{ox}/t_{ox}$ with char
 In what order should doping, work function, oxide capacitance, and oxide charge be used to calculate $V_{FB}$?
 
 <a id="page-07"></a>
+
 ## Page 07 - Flat-band numerical solution and threshold ingredients
 
 ![Handwritten MOS notes page 7](images/page-07.jpeg)
@@ -200,6 +207,7 @@ Keep the sign of $Q_d$ in electrostatic derivations, but use its magnitude only 
 Name the three physically distinct voltage contributions inside $V_T$.
 
 <a id="page-08"></a>
+
 ## Page 08 - Threshold voltage for nMOS and pMOS
 
 ![Handwritten MOS notes page 8](images/page-08.jpeg)
@@ -221,6 +229,7 @@ Threshold voltage is not simply the oxide drop and not simply $2\phi_F$. It is a
 Why does increasing $C'_{ox}$ reduce the depletion-charge contribution to threshold voltage?
 
 <a id="page-09"></a>
+
 ## Page 09 - Depletion capacitance and sign discipline
 
 ![Handwritten MOS notes page 9](images/page-09.jpeg)
@@ -242,6 +251,7 @@ Capacitance is positive in this small-signal model even when the underlying shee
 What happens to measured MOS capacitance as $W_d$ increases, and why?
 
 <a id="page-10"></a>
+
 ## Page 10 - MOS C-V behavior and minimum capacitance
 
 ![Handwritten MOS notes page 10](images/page-10.jpeg)
@@ -263,6 +273,7 @@ Always label the C-V frequency regime. Without “high frequency” or “low fr
 Why does high-frequency inversion capacitance remain low even though a conducting inversion layer exists in DC?
 
 <a id="page-11"></a>
+
 ## Page 11 - Threshold shift and substrate doping
 
 ![Handwritten MOS notes page 11](images/page-11.jpeg)
@@ -284,6 +295,7 @@ The note about doping should include both mechanisms: $\phi_F$ rises logarithmic
 Which parts of $V_T$ change when substrate doping increases, and which part is unaffected in an ideal process?
 
 <a id="page-12"></a>
+
 ## Page 12 - Series dielectrics and equivalent capacitance
 
 ![Handwritten MOS notes page 12](images/page-12.jpeg)
@@ -305,6 +317,7 @@ The depletion capacitance is not a literal deposited dielectric layer. It is an 
 Why is $C_d$ voltage-dependent while $C_{ox}$ is approximately constant?
 
 <a id="page-13"></a>
+
 ## Page 13 - Calculating oxide capacitance from geometry
 
 ![Handwritten MOS notes page 13](images/page-13.jpeg)
@@ -326,6 +339,7 @@ Keep area in m2 and thickness in m when using $\varepsilon$ in F/m. A nanometer-
 If oxide thickness is halved at fixed area, what happens to total oxide capacitance and to $Q/C_{ox}$?
 
 <a id="page-14"></a>
+
 ## Page 14 - Minimum C-V capacitance and added oxide charge
 
 ![Handwritten MOS notes page 14](images/page-14.jpeg)
@@ -347,6 +361,7 @@ The written `Qox = +1 nC` should be converted to charge density before using a p
 How can a measured C-V curve distinguish changed oxide thickness from a fixed-charge voltage shift?
 
 <a id="page-15"></a>
+
 ## Page 15 - Solving the minimum-capacitance relation
 
 ![Handwritten MOS notes page 15](images/page-15.jpeg)
@@ -368,6 +383,7 @@ When using total charge, use total capacitances; when using C/m2, use capacitanc
 Given $C_{min}$ and $C_{ox}$, how would you extract $W_{d,max}$ without directly measuring depth?
 
 <a id="page-16"></a>
+
 ## Page 16 - Threshold-voltage numerical problem
 
 ![Handwritten MOS notes page 16](images/page-16.jpeg)
@@ -389,6 +405,7 @@ The handwritten sign chain is difficult to audit. Rewrite each intermediate quan
 Which intermediate value would you inspect first if the calculated nMOS threshold came out strongly negative for an ordinary p-substrate device?
 
 <a id="page-17"></a>
+
 ## Page 17 - Enhancement MOSFET anatomy
 
 ![Handwritten MOS notes page 17](images/page-17.jpeg)
@@ -410,6 +427,7 @@ The heading line appears to mix “n-channel depletion” and “p-channel enhan
 Why are n+ source and drain not already shorted through the p-type body at $V_{GS}=0$?
 
 <a id="page-18"></a>
+
 ## Page 18 - Channel potential and reverse-biased body junctions
 
 ![Handwritten MOS notes page 18](images/page-18.jpeg)
@@ -435,6 +453,7 @@ Higher n+ doping lowers bulk resistivity, but the channel resistance is mainly c
 Why does inversion charge decrease along the channel even when the physical gate voltage is constant everywhere?
 
 <a id="page-19"></a>
+
 ## Page 19 - Applying drain voltage to a formed channel
 
 ![Handwritten MOS notes page 19](images/page-19.jpeg)
@@ -456,6 +475,7 @@ Keep electron motion and conventional current arrows distinct. Saying “current
 Write the local inversion overdrive at channel position $x$, then state where it is smallest.
 
 <a id="page-20"></a>
+
 ## Page 20 - Output characteristics and operating regions
 
 ![Handwritten MOS notes page 20](images/page-20.jpeg)
@@ -477,6 +497,7 @@ The note suggests current saturates because carrier velocity saturates. That is 
 What two different physical mechanisms can cause current saturation, and which one belongs to the equations on this page?
 
 <a id="page-21"></a>
+
 ## Page 21 - Pinch-off and the saturation voltage
 
 ![Handwritten MOS notes page 21](images/page-21.jpeg)
@@ -498,6 +519,7 @@ The channel is depleted only near the drain at pinch-off, not along its entire l
 Why can drain current continue after the inversion charge reaches zero exactly at the drain-end boundary?
 
 <a id="page-22"></a>
+
 ## Page 22 - Depletion-mode nMOS operation
 
 ![Handwritten MOS notes page 22](images/page-22.jpeg)
@@ -519,6 +541,7 @@ The transfer curve reveals the device type through its zero-gate intercept. At $
 How can the same nMOS current equation describe both enhancement and depletion devices?
 
 <a id="page-23"></a>
+
 ## Page 23 - Long-channel current equations
 
 ![Handwritten MOS notes page 23](images/page-23.jpeg)
@@ -544,6 +567,7 @@ Use one definition of the process/device parameter. Some notes absorb the factor
 Derive the saturation equation by substituting $V_{DS}=V_{GS}-V_T$ into the triode equation.
 
 <a id="page-24"></a>
+
 ## Page 24 - p-channel depletion MOSFET and sign symmetry
 
 ![Handwritten MOS notes page 24](images/page-24.jpeg)

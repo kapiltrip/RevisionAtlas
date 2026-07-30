@@ -6,6 +6,7 @@ This chapter follows the handwritten notebook page by page. Every source page is
 
 
 <a id="quick-index"></a>
+
 ## Quick index
 
 | Revision area | Jump directly |
@@ -39,6 +40,7 @@ The division ratio $N$ determines edge spacing. It does not, by itself, determin
 For an interview, the default architecture should be synchronous: all state flip-flops receive the original clock. If a flip-flop output clocks the following stage, the result is an asynchronous or ripple divider. On an FPGA, prefer a clock-enable for slower internal activity or a dedicated clocking resource when a real divided clock is required.
 
 <a id="core-terms"></a>
+
 ## Core term dictionary
 
 The basic frequency and period meanings follow [NIST’s time-and-frequency definitions](https://www.nist.gov/pml/time-and-frequency-division/popular-links/time-frequency-z/time-and-frequency-z-f); the duty-cycle equation follows [Keysight’s measurement definition](https://helpfiles.keysight.com/scopes/FlexDCA-UG/Content/Topics/Oscilloscope-Mode/Time-Measurements/duty_cycle.htm). Divider implementation terms are tied to the vendor documentation in their rows.
@@ -61,6 +63,7 @@ The basic frequency and period meanings follow [NIST’s time-and-frequency defi
 | **Dual-edge operation** | Deliberate use of both rising and falling reference edges. Dedicated FPGA primitives such as ODDR are designed for opposite-edge output behavior ([AMD ODDR documentation](https://docs.amd.com/r/2020.2-English/ug953-vivado-7series-libraries/ODDR)). | It provides half-period edge placement; it is different from writing an ordinary fabric register in an unsupported two-edge `always` block. |
 
 <a id="what-is-divided"></a>
+
 ## What is actually divided, and why must it be periodic?
 
 The divider acts on the **reference clock or event repetition rate**. It does not divide the constant on a T input, the logic voltage, or ordinary data values. The input clock supplies regularly spaced state-update events; the counter or FSM makes the output pattern repeat after a chosen number of those events.
@@ -71,45 +74,46 @@ A single frequency and division ratio require a repeating reference period. If a
 
 
 <a id="minimum-flip-flops"></a>
+
 ## Minimum number of flip-flops for a counter or divider
 
-If a counter or finite-state machine must represent \(S\) distinct states, the minimum number of flip-flops for **binary state encoding** is
+If a counter or finite-state machine must represent $S$ distinct states, the minimum number of flip-flops for **binary state encoding** is
 
-\[
+$$
 \boxed{m_{\min}=\left\lceil\log_2 S\right\rceil}.
-\]
+$$
 
-Here, \(S\) is the number of required states and \(m_{\min}\) is the minimum number of state flip-flops. The ceiling brackets mean that any fractional result is rounded **upward**, not rounded to the nearest integer. This standard state-encoding rule is stated directly in the [UMBC FSM laboratory notes](https://userpages.cs.umbc.edu/phatak/212/labs-s21/lab10/index.html) and illustrated in the [University of Iowa FSM notes](https://homepage.divms.uiowa.edu/~dwjones/arch/notes/04fsm.html).
+Here, $S$ is the number of required states and $m_{\min}$ is the minimum number of state flip-flops. The ceiling brackets mean that any fractional result is rounded **upward**, not rounded to the nearest integer. This standard state-encoding rule is stated directly in the [UMBC FSM laboratory notes](https://userpages.cs.umbc.edu/phatak/212/labs-s21/lab10/index.html) and illustrated in the [University of Iowa FSM notes](https://homepage.divms.uiowa.edu/~dwjones/arch/notes/04fsm.html).
 
 For hand calculation, the safest equivalent method is
 
-\[
+$$
 \boxed{\text{choose the smallest integer }m\text{ for which }2^m\ge S}.
-\]
+$$
 
-This works because \(m\) flip-flops can encode \(2^m\) different binary combinations.
+This works because $m$ flip-flops can encode $2^m$ different binary combinations.
 
-| Required states \(S\) | Smallest sufficient power of 2 | Minimum flip-flops |
+| Required states $S$ | Smallest sufficient power of 2 | Minimum flip-flops |
 |---:|---:|---:|
-| 1 | \(2^0=1\) | 0 |
-| 2 | \(2^1=2\) | 1 |
-| 3 or 4 | \(2^2=4\) | 2 |
-| 5 to 8 | \(2^3=8\) | 3 |
-| 9 to 16 | \(2^4=16\) | 4 |
+| 1 | $2^0=1$ | 0 |
+| 2 | $2^1=2$ | 1 |
+| 3 or 4 | $2^2=4$ | 2 |
+| 5 to 8 | $2^3=8$ | 3 |
+| 9 to 16 | $2^4=16$ | 4 |
 
-### Applying it to a modulo-\(N\) divider
+### Applying it to a modulo-$N$ divider
 
-A modulo-\(N\) counter has \(N\) distinct counter states. Therefore,
+A modulo-$N$ counter has $N$ distinct counter states. Therefore,
 
-\[
+$$
 \boxed{m_{\min}=\left\lceil\log_2 N\right\rceil}.
-\]
+$$
 
 For example, a modulo-5 divider needs five states:
 
-\[
+$$
 2^2=4<5,\qquad 2^3=8\ge5,
-\]
+$$
 
 so it needs at least three binary-encoded state flip-flops.
 
@@ -117,36 +121,38 @@ so it needs at least three binary-encoded state flip-flops.
 
 The repeating sequence
 
-\[
+$$
 75,\ 98,\ 75,\ 98,\ldots
-\]
+$$
 
 contains only two sequence positions:
 
-\[
+$$
 S_0:\text{ output }75,\qquad
 S_1:\text{ output }98.
-\]
+$$
 
 Therefore,
 
-\[
+$$
 S=2,\qquad
 m_{\min}=\left\lceil\log_2 2\right\rceil=1.
-\]
+$$
 
-The numbers 75 and 98 require a seven-bit **output bus**, but they do not require seven state flip-flops in the minimum-state implementation. One flip-flop stores whether the machine is in \(S_0\) or \(S_1\); combinational selection logic converts that one-bit state into the required seven-bit output.
+The numbers 75 and 98 require a seven-bit **output bus**, but they do not require seven state flip-flops in the minimum-state implementation. One flip-flop stores whether the machine is in $S_0$ or $S_1$; combinational selection logic converts that one-bit state into the required seven-bit output.
 
 > **Exam rule:** Count the required states or sequence positions. Do not substitute the largest output value or the output-bus width into the state-memory formula.
 
 This formula gives the minimum for binary encoding. A one-hot implementation deliberately uses one flip-flop per state, so it may use more flip-flops in exchange for simpler decoding or different timing trade-offs.
 
 <a id="revision-method"></a>
+
 ## How to revise frequency dividers
 
 For every circuit, write the state sequence, mark the exact output transitions, count input periods per complete output period, and calculate duty cycle separately. Then state whether the result is a clock-enable pulse, a continuous waveform, or a real generated clock, and whether the implementation is synchronous or ripple. Use the global [revision plan](../REVISION_PLAN.md) for the review schedule.
 
 <a id="page-01"></a>
+
 ## Page 01 - Chapter cover: what frequency division means
 
 ![Frequency-divider notebook page 1](images/page-01.png)
@@ -185,6 +191,7 @@ The words **cycle or event rate** matter. A terminal-count pulse occurring once 
 If an output waveform repeats after five input-clock periods, what are $T_{out}$ and $f_{out}$, and what extra information is still needed to know its duty cycle?
 
 <a id="page-02"></a>
+
 ## Page 02 - Toggle division by 2 and extension to divide by 4
 
 ![Frequency-divider notebook page 2](images/page-02.png)
@@ -281,33 +288,34 @@ Why does $T=1$ not count as the signal being divided, and what clock connection 
 
 
 <a id="counter-75-98"></a>
+
 ### Worked bridge example - counter sequence 75, 98, 75, 98, ...
 
 **Question:** Design a counter that produces 75, 98, 75, 98, and repeats. Identify the suitable flip-flop and the minimum number of flip-flops.
 
 This example belongs beside the divide-by-2 circuit because its internal state bit uses the same toggle behavior. The important distinction is:
 
-- the one-bit state \(Q\) is a divide-by-2 waveform;
-- the seven-bit **count** output is data selected by \(Q\), not a divided clock.
+- the one-bit state $Q$ is a divide-by-2 waveform;
+- the seven-bit **count** output is data selected by $Q$, not a divided clock.
 
 #### Step 1: Write the required outputs in binary
 
-\[
+$$
 75_{10}=1001011_2,
 \qquad
 98_{10}=1100010_2.
-\]
+$$
 
 Seven output wires are required to represent these values, but the sequence has only two positions:
 
-- \(S_0\): output 75, then go to \(S_1\);
-- \(S_1\): output 98, then go to \(S_0\).
+- $S_0$: output 75, then go to $S_1$;
+- $S_1$: output 98, then go to $S_0$.
 
 Therefore the minimum state memory is
 
-\[
+$$
 \left\lceil \log_2 2 \right\rceil=1
-\]
+$$
 
 flip-flop.
 
@@ -315,52 +323,52 @@ flip-flop.
 
 Let
 
-\[
+$$
 S_0:Q=0,
 \qquad
 S_1:Q=1.
-\]
+$$
 
 The complete state and excitation table is:
 
-| Present state | \(Q(t)\) | Decimal output | Binary output \(C_6C_5C_4C_3C_2C_1C_0\) | Next state | \(Q(t+1)\) | T input |
+| Present state | $Q(t)$ | Decimal output | Binary output $C_6C_5C_4C_3C_2C_1C_0$ | Next state | $Q(t+1)$ | T input |
 |---|---:|---:|---:|---|---:|---:|
-| \(S_0\) | 0 | 75 | 1001011 | \(S_1\) | 1 | 1 |
-| \(S_1\) | 1 | 98 | 1100010 | \(S_0\) | 0 | 1 |
+| $S_0$ | 0 | 75 | 1001011 | $S_1$ | 1 | 1 |
+| $S_1$ | 1 | 98 | 1100010 | $S_0$ | 0 | 1 |
 
 A T flip-flop is the natural choice because both transitions require toggling:
 
-\[
+$$
 0\rightarrow1,\qquad1\rightarrow0.
-\]
+$$
 
-From the T-flip-flop excitation rule, \(T=1\) for both rows. Thus,
+From the T-flip-flop excitation rule, $T=1$ for both rows. Thus,
 
-\[
+$$
 T=1,
 \qquad
 Q^{+}=\overline Q.
-\]
+$$
 
-A D flip-flop could also be used with \(D=\overline Q\), but a T flip-flop states the required behavior most directly.
+A D flip-flop could also be used with $D=\overline Q$, but a T flip-flop states the required behavior most directly.
 
-#### Step 3: Use \(Q\) as a selector
+#### Step 3: Use $Q$ as a selector
 
 The single flip-flop does not store the seven-bit values. It only remembers which value must appear. The output logic is
 
-\[
+$$
 \text{count}=
 \begin{cases}
 1001011_2=75, & Q=0,\\
 1100010_2=98, & Q=1.
 \end{cases}
-\]
+$$
 
 This is simply a seven-bit 2-to-1 multiplexer:
 
 - input 0 is 75;
 - input 1 is 98;
-- select is \(Q\).
+- select is $Q$.
 
 So the implementation uses **one state flip-flop plus combinational output-selection logic**.
 
@@ -368,23 +376,23 @@ So the implementation uses **one state flip-flop plus combinational output-selec
 
 The state sequence is
 
-\[
+$$
 Q:0,1,0,1,\ldots
-\]
+$$
 
-A complete \(Q\) cycle needs two input-clock periods:
+A complete $Q$ cycle needs two input-clock periods:
 
-\[
+$$
 T_Q=2T_{clk},
 \qquad
 f_Q=\frac{f_{clk}}{2}.
-\]
+$$
 
-Therefore \(Q\) itself is a divide-by-2 signal. The displayed data follows
+Therefore $Q$ itself is a divide-by-2 signal. The displayed data follows
 
-\[
+$$
 75,98,75,98,\ldots
-\]
+$$
 
 on successive active clock edges, but the seven-bit bus is not a clock and should not be used to clock other registers.
 
@@ -411,18 +419,19 @@ module counter_75_98 (
 endmodule
 ~~~
 
-The reset places the circuit in \(S_0\), so **count** is 75. Each later rising edge toggles **state**, producing 98, 75, 98, and so on. The reusable source is in [examples/counter_75_98.v](examples/counter_75_98.v).
+The reset places the circuit in $S_0$, so **count** is 75. Each later rising edge toggles **state**, producing 98, 75, 98, and so on. The reusable source is in [examples/counter_75_98.v](examples/counter_75_98.v).
 
 #### Interview answer
 
-> The sequence has two states, so only one flip-flop is required. Choose a T flip-flop with \(T=1\), because the state must toggle every clock. Use its output \(Q\) to select either 75 or 98 through seven-bit combinational logic. \(Q\) is a divide-by-2 waveform; the seven-bit count bus is data.
+> The sequence has two states, so only one flip-flop is required. Choose a T flip-flop with $T=1$, because the state must toggle every clock. Use its output $Q$ to select either 75 or 98 through seven-bit combinational logic. $Q$ is a divide-by-2 waveform; the seven-bit count bus is data.
 
 #### Active recall
 
-Why are seven output bits required but only one flip-flop is required, and which signal in this design has frequency \(f_{clk}/2\)?
+Why are seven output bits required but only one flip-flop is required, and which signal in this design has frequency $f_{clk}/2$?
 
 
 <a id="page-03"></a>
+
 ## Page 03 - Divider definition, stored-state toggling, and duty cycle
 
 ![Frequency-divider notebook page 3](images/page-03.png)
@@ -519,6 +528,7 @@ A rising-edge-only state machine changes only at integer multiples of $T_{in}$, 
 Can two $f_{in}/3$ waveforms have different duty cycles? Give the HIGH duration for 33.33%, 50%, and 66.67% duty.
 
 <a id="page-04"></a>
+
 ## Page 04 - Designing a synchronous modulo-3 divider
 
 ![Frequency-divider notebook page 4](images/page-04.png)
@@ -609,13 +619,14 @@ Across the repeating states $00,01,10$:
 There is no 50% state decode because three full clock periods cannot be split into equal integer numbers of periods.
 
 <a id="divide-by-3-duty-grid"></a>
-### Complete achievable duty cycles for an \(f_{in}/3\) output
 
-Let the input period be \(T_{in}\). For divide by 3,
+### Complete achievable duty cycles for an $f_{in}/3$ output
 
-\[
+Let the input period be $T_{in}$. For divide by 3,
+
+$$
 T_{out}=3T_{in}.
-\]
+$$
 
 The divider ratio fixes this repetition period. Duty cycle is then determined by where the rising and falling output transitions can be placed inside those three input periods.
 
@@ -623,40 +634,40 @@ The divider ratio fixes this repetition period. Duty cycle is then determined by
 
 If the output can change only on input rising edges, its timing resolution is one complete input period:
 
-\[
+$$
 \Delta t=T_{in}.
-\]
+$$
 
-For a divide-by-\(N\) waveform with one contiguous HIGH interval,
+For a divide-by-$N$ waveform with one contiguous HIGH interval,
 
-\[
+$$
 T_{HIGH}=kT_{in},
-\]
+$$
 
 so the achievable nonconstant duty cycles are
 
-\[
+$$
 \boxed{\mathcal D_k=\frac{k}{N}\times100\%,\qquad k=1,2,\ldots,N-1.}
-\]
+$$
 
-For \(N=3\),
+For $N=3$,
 
-\[
+$$
 \mathcal D_k=\frac{k}{3}\times100\%.
-\]
+$$
 
-| \(k\) complete HIGH periods | \(T_{HIGH}\) | \(T_{LOW}\) | Exact duty cycle |
+| $k$ complete HIGH periods | $T_{HIGH}$ | $T_{LOW}$ | Exact duty cycle |
 |---:|---:|---:|---:|
-| 1 | \(T_{in}\) | \(2T_{in}\) | \(1/3=33.33\%\) |
-| 2 | \(2T_{in}\) | \(T_{in}\) | \(2/3=66.67\%\) |
+| 1 | $T_{in}$ | $2T_{in}$ | $1/3=33.33\%$ |
+| 2 | $2T_{in}$ | $T_{in}$ | $2/3=66.67\%$ |
 
-The cases \(k=0\) and \(k=3\) give constant LOW and constant HIGH, respectively, so they are not valid \(f_{in}/3\) clocks.
+The cases $k=0$ and $k=3$ give constant LOW and constant HIGH, respectively, so they are not valid $f_{in}/3$ clocks.
 
 Therefore, a normal rising-edge modulo-3 counter can generate exactly
 
-\[
+$$
 \boxed{33.33\%\ \text{or}\ 66.67\%}
-\]
+$$
 
 without a clock multiplier or another timing phase.
 
@@ -664,139 +675,140 @@ without a clock multiplier or another timing phase.
 
 For an ideal 50% input clock, rising and falling edges occur every half-period:
 
-\[
+$$
 \Delta t=\frac{T_{in}}{2}.
-\]
+$$
 
-A divide-by-\(N\) period therefore contains \(2N\) half-period slots. The achievable nonconstant duty cycles become
+A divide-by-$N$ period therefore contains $2N$ half-period slots. The achievable nonconstant duty cycles become
 
-\[
+$$
 \boxed{\mathcal D_m=\frac{m}{2N}\times100\%,\qquad m=1,2,\ldots,2N-1.}
-\]
+$$
 
 For divide by 3, one output period contains six half-period slots:
 
-\[
+$$
 3T_{in}=6\left(\frac{T_{in}}{2}\right).
-\]
+$$
 
-| \(m\) HIGH half-periods | \(T_{HIGH}\) | \(T_{LOW}\) | Exact duty cycle |
+| $m$ HIGH half-periods | $T_{HIGH}$ | $T_{LOW}$ | Exact duty cycle |
 |---:|---:|---:|---:|
-| 1 | \(0.5T_{in}\) | \(2.5T_{in}\) | \(1/6=16.67\%\) |
-| 2 | \(T_{in}\) | \(2T_{in}\) | \(2/6=33.33\%\) |
-| 3 | \(1.5T_{in}\) | \(1.5T_{in}\) | \(3/6=50\%\) |
-| 4 | \(2T_{in}\) | \(T_{in}\) | \(4/6=66.67\%\) |
-| 5 | \(2.5T_{in}\) | \(0.5T_{in}\) | \(5/6=83.33\%\) |
+| 1 | $0.5T_{in}$ | $2.5T_{in}$ | $1/6=16.67\%$ |
+| 2 | $T_{in}$ | $2T_{in}$ | $2/6=33.33\%$ |
+| 3 | $1.5T_{in}$ | $1.5T_{in}$ | $3/6=50\%$ |
+| 4 | $2T_{in}$ | $T_{in}$ | $4/6=66.67\%$ |
+| 5 | $2.5T_{in}$ | $0.5T_{in}$ | $5/6=83.33\%$ |
 
 Thus, if both input edges are deliberately available, the exact nonconstant set is
 
-\[
+$$
 \boxed{16.67\%,\ 33.33\%,\ 50\%,\ 66.67\%,\ 83.33\%.}
-\]
+$$
 
 This is an ideal timing result. In RTL, ordinary FPGA fabric flip-flops are normally single-edge devices; use coordinated opposite-edge logic or a dedicated DDR/clocking resource rather than assuming that one ordinary register can safely update on both edges. AMD documents ODDR as the dedicated opposite-edge output primitive in 7-series devices ([AMD ODDR](https://docs.amd.com/r/2020.2-English/ug953-vivado-7series-libraries/ODDR)).
 
 #### Why 75% is not on either list
 
-For 75% duty at \(f_{in}/3\),
+For 75% duty at $f_{in}/3$,
 
-\[
+$$
 T_{HIGH}
 =0.75T_{out}
 =\frac34(3T_{in})
 =\frac94T_{in}
 =2.25T_{in},
-\]
+$$
 
 and
 
-\[
+$$
 T_{LOW}
 =T_{out}-T_{HIGH}
 =3T_{in}-2.25T_{in}
 =0.75T_{in}.
-\]
+$$
 
 With rising edges only, the number of required HIGH slots would be
 
-\[
+$$
 \frac{2.25T_{in}}{T_{in}}=2.25,
-\]
+$$
 
 which is not an integer. Even with both original-clock edges, it would be
 
-\[
+$$
 \frac{2.25T_{in}}{T_{in}/2}=4.5,
-\]
+$$
 
-which is still not an integer. The required falling edge lies at \(2.25T_{in}\), but the original rising/falling-edge grid contains \(2T_{in}\) and \(2.5T_{in}\), not \(2.25T_{in}\).
+which is still not an integer. The required falling edge lies at $2.25T_{in}$, but the original rising/falling-edge grid contains $2T_{in}$ and $2.5T_{in}$, not $2.25T_{in}$.
 
 Therefore,
 
-\[
-\boxed{\text{exact 75% duty is impossible using only the original clock's rising and falling edges.}}
-\]
+$$
+\boxed{\text{exact 75\% duty is impossible using only the original clock's rising and falling edges.}}
+$$
 
 #### Why a multiplier is used
 
-A multiplier is not needed to obtain \(f_{in}/3\); the modulo-3 counter already produces that repetition rate. It is needed here only to create finer edge-placement resolution.
+A multiplier is not needed to obtain $f_{in}/3$; the modulo-3 counter already produces that repetition rate. It is needed here only to create finer edge-placement resolution.
 
-If a single-edge design uses a clock multiplied by an integer \(M\), one output period contains \(3M\) fast-clock slots. A desired duty cycle \(\mathcal D\), written as a fraction rather than a percentage, is exactly realizable only when
+If a single-edge design uses a clock multiplied by an integer $M$, one output period contains $3M$ fast-clock slots. A desired duty cycle $\mathcal D$, written as a fraction rather than a percentage, is exactly realizable only when
 
-\[
+$$
 \boxed{n_{HIGH}=3M\mathcal D}
-\]
+$$
 
 is an integer.
 
-For \(\mathcal D=3/4\),
+For $\mathcal D=3/4$,
 
-\[
+$$
 n_{HIGH}=3M\left(\frac34\right)=\frac{9M}{4}.
-\]
+$$
 
-The smallest positive integer \(M\) that makes this an integer is
+The smallest positive integer $M$ that makes this an integer is
 
-\[
+$$
 M=4.
-\]
+$$
 
-A \(4f_{in}\) clock has period
+A $4f_{in}$ clock has period
 
-\[
+$$
 T_{4x}=\frac{T_{in}}{4}.
-\]
+$$
 
-Now one \(f_{in}/3\) output period contains
+Now one $f_{in}/3$ output period contains
 
-\[
+$$
 \frac{3T_{in}}{T_{in}/4}=12
-\]
+$$
 
 fast-clock slots. Keep the output HIGH for nine slots and LOW for three:
 
-\[
+$$
 f_{out}=\frac{4f_{in}}{12}=\frac{f_{in}}{3},
 \qquad
 \mathcal D=\frac{9}{12}\times100\%=75\%.
-\]
+$$
 
 So the standard single-edge implementation is
 
-\[
+$$
 \boxed{4f_{in}\ \longrightarrow\ \text{modulo-12 counter}\ \longrightarrow\
 9\text{ HIGH counts}+3\text{ LOW counts}.}
-\]
+$$
 
-A precise quarter-period phase reference from a PLL or DLL can provide the same required edge placement without exposing a \(4f_{in}\) fabric clock. Likewise, both edges of a \(2f_{in}\) clock give quarter-input-period edge spacing. These are still extra clock-management resources; uncontrolled gate delay is not a reliable substitute because it varies with process, voltage, temperature, and routing. AMD's Clocking Wizard allows output frequency, phase, and duty-cycle requirements to be specified and reports the values the selected clocking primitive can actually achieve ([AMD Clocking Wizard](https://docs.amd.com/r/en-US/pg065-clk-wiz/Configuring-Output-Clocks)).
+A precise quarter-period phase reference from a PLL or DLL can provide the same required edge placement without exposing a $4f_{in}$ fabric clock. Likewise, both edges of a $2f_{in}$ clock give quarter-input-period edge spacing. These are still extra clock-management resources; uncontrolled gate delay is not a reliable substitute because it varies with process, voltage, temperature, and routing. AMD's Clocking Wizard allows output frequency, phase, and duty-cycle requirements to be specified and reports the values the selected clocking primitive can actually achieve ([AMD Clocking Wizard](https://docs.amd.com/r/en-US/pg065-clk-wiz/Configuring-Output-Clocks)).
 
-> **Interview form:** A normal modulo-3 counter gives \(f_{in}/3\) with 33.33% or 66.67% duty. Using both original-clock edges gives duty-cycle steps of \(1/6\), but 75% requires \(4.5/6\) slots and is still impossible. Exact 75% needs quarter-period edge resolution; a standard solution generates \(4f_{in}\), counts modulo 12, and keeps the output HIGH for nine counts and LOW for three.
+> **Interview form:** A normal modulo-3 counter gives $f_{in}/3$ with 33.33% or 66.67% duty. Using both original-clock edges gives duty-cycle steps of $1/6$, but 75% requires $4.5/6$ slots and is still impossible. Exact 75% needs quarter-period edge resolution; a standard solution generates $4f_{in}$, counts modulo 12, and keeps the output HIGH for nine counts and LOW for three.
 
 ### Active recall
 
 Starting from $11$, where do the simplified equations send the counter, and which output polarity gives 66.67% duty?
 
 <a id="page-05"></a>
+
 ## Page 05 - Making divide-by-3 50% and beginning the modulo-5 design
 
 ![Frequency-divider notebook page 5](images/page-05.png)
@@ -894,6 +906,7 @@ The XOR recognition on the page is correct: $D_1$ is 1 exactly when $Q_1$ and $Q
 Why does ORing the 33.33% signal with its falling-edge sample add exactly half an input period, and which modulo-5 next-state bit becomes an XOR?
 
 <a id="page-06"></a>
+
 ## Page 06 - Completing modulo-5 and selecting the correct 50% precursor
 
 ![Frequency-divider notebook page 6](images/page-06.png)
@@ -984,6 +997,7 @@ Texas Instruments' [CD74HC390 datasheet](https://www.ti.com/lit/ds/symlink/cd74h
 Which modulo-5 bit has the contiguous 40% pulse needed for half-cycle extension, and why does extending $Q_2$ fail to produce 50% duty?
 
 <a id="page-07"></a>
+
 ## Page 07 - Solved Q10: divide by 2 with 50% and 25% duty
 
 ![Frequency-divider notebook page 7](images/page-07.png)
@@ -1072,6 +1086,7 @@ These gate-level constructions are appropriate for waveform reasoning and extern
 Why must a 25%-duty divide-by-2 output be HIGH for only $T_{in}/2$, and why can directly ANDing a positive-edge-changing $Q$ with $CLK$ create a runt pulse?
 
 <a id="page-08"></a>
+
 ## Page 08 - Solved Q11 and Q12(a): pulse cutting and divide by 3
 
 ![Frequency-divider notebook page 8](images/page-08.png)
@@ -1162,6 +1177,7 @@ The page correctly identifies that 66.67% is obtained by output polarity, wherea
 Why should the pulse-cutting enable change while $CLK$ is LOW, and why do $Q_1$ and $\overline{Q_1}$ have the same frequency but different duty cycles?
 
 <a id="page-09"></a>
+
 ## Page 09 - Q12(b) 66.67% and 50%, then Q15 divide-by-4 recognition
 
 ![Frequency-divider notebook page 9](images/page-09.png)
@@ -1267,6 +1283,7 @@ The unusual bit labels can hide the familiar circuit. Structurally, it is a sync
 Why can the complement change duty cycle without changing frequency, and which state bit in Q15 is actually the least-significant bit?
 
 <a id="page-10"></a>
+
 ## Page 10 - What divide by 1.5 really means
 
 ![Frequency-divider notebook page 10](images/page-10.png)
@@ -1341,6 +1358,7 @@ These methods naturally produce a pulse train. Whether that pulse train is allow
 Why must every alternate divide-by-1.5 event fall on the negative edge of the input, and why is exact 50% duty not available on a half-period timing grid?
 
 <a id="page-11"></a>
+
 ## Page 11 - Divide by 1.5 using a 50% divide-by-3 precursor and edge detection
 
 ![Frequency-divider notebook page 11](images/page-11.png)
@@ -1433,6 +1451,7 @@ The XOR result is best described as a periodic pulse train. If it is only an ena
 Why does the XOR produce a pulse after both transitions of $A$, and what goes wrong with uniform output spacing if $A$ is not 50% duty?
 
 <a id="page-12"></a>
+
 ## Page 12 - General half-integer method and divide by 2.5
 
 ![Frequency-divider notebook page 12](images/page-12.png)
@@ -1565,6 +1584,7 @@ Do not infer a portable FPGA design by writing one ordinary register that change
 Why does divide by 2.5 begin with divide by 5, and why does a half-input-period XOR delay produce 20% rather than 50% duty?
 
 <a id="page-13"></a>
+
 ## Page 13 - Divide by 1.5 as a both-edge state machine, with RTL
 
 ![Frequency-divider notebook page 13](images/page-13.png)
@@ -1704,6 +1724,7 @@ Neither the original full-cycle grid nor its half-cycle edge grid contains every
 Why does a modulo-3 machine clocked at $2f_{in}$ implement divide by 1.5, and what makes this implementation safer than combining two independent opposite-edge FSMs in ordinary logic?
 
 <a id="points-to-remember"></a>
+
 ## Points to remember
 
 - Division ratio is a period relationship: $T_{out}=N T_{in}$.
@@ -1724,6 +1745,7 @@ Why does a modulo-3 machine clocked at $2f_{in}$ implement divide by 1.5, and wh
 - An actual derived clock must be routed and constrained as a generated clock.
 
 <a id="reference-checks"></a>
+
 ## Reference checks
 
 The page explanations and corrections were cross-checked against:

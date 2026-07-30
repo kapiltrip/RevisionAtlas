@@ -8,29 +8,29 @@ module divide_by_2 (
     output wire clk_out_75
 );
 
-    reg phase_posedge;
-    reg phase_negedge;
+    reg posphase;
+    reg negphase;
 
     always @(posedge clk or posedge reset) begin
         if (reset)
-            phase_posedge <= 1'b0;
+            posphase <= 1'b0;
         else
-            phase_posedge <= ~phase_posedge;
+            posphase <= ~posphase;
     end
 
     always @(negedge clk or posedge reset) begin
         if (reset)
-            phase_negedge <= 1'b0;
+            negphase <= 1'b0;
         else
-            phase_negedge <= phase_posedge;
+            negphase <= posphase;
     end
 
     // All three divide-by-2 waveforms are generated at the same time.
     assign clk_out_25 = reset ? 1'b0 :
-                        phase_posedge & ~phase_negedge;
+                        posphase & ~negphase;
     assign clk_out_50 = reset ? 1'b0 :
-                        phase_posedge;
+                        posphase;
     assign clk_out_75 = reset ? 1'b0 :
-                        phase_posedge | phase_negedge;
+                        posphase | negphase;
 
 endmodule

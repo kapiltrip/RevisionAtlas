@@ -74,7 +74,7 @@ Use each page as a small retrieval cycle. Do not reread the entire notebook pass
 2. **Retrieve - 60 seconds.** Without reading the explanation, say the diagram, assumptions, governing relation, and final conclusion aloud.
 3. **Repair - 2 minutes.** Read **What this page is doing**. Compare it with what you recalled and identify the missing link, not merely the missing sentence.
 4. **Test - 30 seconds.** Answer the **Active recall** question without looking back. If the answer is incomplete, mark the page for the next session.
-5. **Compress - 15 seconds.** End with one sentence in the form: “When ___ changes, ___ changes because ___.”
+5. **Compress - 15 seconds.** End with one sentence in the form: `When _____ changes, _____ changes because _____.`
 
 For numerical pages, add one more step: cover the final value and reproduce the sign, units, and order of magnitude before checking the calculation.
 

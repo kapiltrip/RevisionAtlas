@@ -32,7 +32,7 @@ If a core term cannot be defined, use the subject’s term dictionary before ope
 2. **Retrieve — 60 seconds:** Explain the diagram, assumptions, governing relation, and conclusion without reading.
 3. **Repair — 2 minutes:** Read the explanation and locate the missing link.
 4. **Test — 30 seconds:** Answer the active-recall prompt closed-book.
-5. **Compress — 15 seconds:** Say: “When ___ changes, ___ changes because ___.”
+5. **Compress — 15 seconds:** Say: `When _____ changes, _____ changes because _____.`
 
 For a numerical page, also hide the final result and reproduce the sign, units, equation choice, and order of magnitude.
 

@@ -36,6 +36,7 @@ The sizing and delay trade-offs are cross-checked against the [MIT 6.012 CMOS in
 | [7](#page-07) | Dynamic node initial conditions | [14](#page-14) | Exponential delay calculation |
 
 <a id="page-01"></a>
+
 ## Page 01 - Strength ratio moves the inverter transition
 
 ![Handwritten MOS notes page 1](images/page-01.jpeg)
@@ -57,6 +58,7 @@ Keep strength and resistance ratios inverse: $R_p/R_n\approx\beta_n/\beta_p$ for
 If the pMOS is made wider while everything else is fixed, how do $V_M$ and $t_{PLH}$ move?
 
 <a id="page-02"></a>
+
 ## Page 02 - Reading weak- and strong-pMOS VTC cases
 
 ![Handwritten MOS notes page 2](images/page-02.jpeg)
@@ -78,6 +80,7 @@ Call the inverter “skewed” rather than absolutely weak or strong. A strong p
 Why does a strong pMOS increase the low-state input range but potentially reduce one noise margin on the high side?
 
 <a id="page-03"></a>
+
 ## Page 03 - Sizing a symmetric CMOS inverter
 
 ![Handwritten MOS notes page 3](images/page-03.jpeg)
@@ -102,6 +105,7 @@ The exact width ratio is process- and bias-dependent; it should come from the pr
 If $k'_n=2.5k'_p$ and channel lengths are equal, what width ratio gives $\beta_n=\beta_p$?
 
 <a id="page-04"></a>
+
 ## Page 04 - Equal propagation delay through resistance matching
 
 ![Handwritten MOS notes page 4](images/page-04.jpeg)
@@ -123,6 +127,7 @@ The equality is approximate because the two transitions traverse different devic
 Which assumption allows a transistor-strength ratio to be converted directly into a propagation-delay ratio?
 
 <a id="page-05"></a>
+
 ## Page 05 - Two-input CMOS NAND network and truth table
 
 ![Handwritten MOS notes page 5](images/page-05.jpeg)
@@ -144,6 +149,7 @@ The table's current-path reasoning is more dependable than memorizing NAND outpu
 Why does the pMOS network implement the dual of the nMOS series network?
 
 <a id="page-06"></a>
+
 ## Page 06 - Worst-case NAND charge and discharge delay
 
 ![Handwritten MOS notes page 6](images/page-06.jpeg)
@@ -165,6 +171,7 @@ Series resistance does not scale exactly as ideal $1/W$ across all voltages, and
 Why are series nMOS devices widened in a NAND, while the parallel pMOS devices do not both have to be on for the worst rising edge?
 
 <a id="page-07"></a>
+
 ## Page 07 - Initial conditions during a dynamic output transition
 
 ![Handwritten MOS notes page 7](images/page-07.jpeg)
@@ -186,6 +193,7 @@ The annotation “most potential will appear across channel” should be localiz
 What can change discontinuously at $t=0$: transistor region, capacitor voltage, or capacitor current?
 
 <a id="page-08"></a>
+
 ## Page 08 - Estimating delay from average transistor current
 
 ![Handwritten MOS notes page 8](images/page-08.jpeg)
@@ -210,6 +218,7 @@ The arithmetic mean $[I(0)+I(t_p)]/2$ is an approximation because current does n
 Why does the charge-over-average-current method naturally use $V_{DD}/2$ for a 50% delay measurement?
 
 <a id="page-09"></a>
+
 ## Page 09 - Region trajectory during output discharge
 
 ![Handwritten MOS notes page 9](images/page-09.jpeg)
@@ -231,6 +240,7 @@ The label “nMOS saturation during discharging” is true initially, not for th
 For $V_{GS}=V_{DD}$, at what output voltage does the discharging nMOS leave saturation?
 
 <a id="page-10"></a>
+
 ## Page 10 - Supply voltage creates a power-delay trade-off
 
 ![Handwritten MOS notes page 10](images/page-10.jpeg)
@@ -252,6 +262,7 @@ The page's “$V_{DD}\uparrow, t_p\downarrow, P\uparrow$” is correct as a firs
 Why does delay become especially sensitive to supply voltage when $V_{DD}$ is only slightly above threshold?
 
 <a id="page-11"></a>
+
 ## Page 11 - Switching threshold from equal saturation currents
 
 ![Handwritten MOS notes page 11](images/page-11.jpeg)
@@ -276,6 +287,7 @@ The central both-saturation equation cannot directly produce the entire VTC. Out
 Why is current equality necessary at every DC VTC point, while the both-saturation current formulas are valid only near one part of the curve?
 
 <a id="page-12"></a>
+
 ## Page 12 - Setting up $V_{IL}$ and $V_{IH}$
 
 ![Handwritten MOS notes page 12](images/page-12.jpeg)
@@ -297,6 +309,7 @@ Do not substitute $V_{out}=V_{in}$ when finding $V_{IL}$ or $V_{IH}$. That equal
 Which transistor is linear and which is saturated near $V_{IL}$, and why is the pairing reversed near $V_{IH}$?
 
 <a id="page-13"></a>
+
 ## Page 13 - Correct noise-margin relations and rising-delay formula
 
 ![Handwritten MOS notes page 13](images/page-13.jpeg)
@@ -322,6 +335,7 @@ The displayed delay fraction is an average-current approximation. Confirm whethe
 Which two voltage differences must be nonnegative for compatible cascaded logic gates?
 
 <a id="page-14"></a>
+
 ## Page 14 - Solving an exponential delay equation
 
 ![Handwritten MOS notes page 14](images/page-14.jpeg)

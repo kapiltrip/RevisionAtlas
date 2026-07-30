@@ -28,6 +28,7 @@ The clock-mode meanings are verified against [Microchip’s SPI transfer-mode ta
 | [08](#page-08) | Bit order plus CPOL/CPHA timing modes |
 
 <a id="page-06"></a>
+
 ## Page 06 - SPI wiring and what “full duplex” means
 
 ![Handwritten page 6 - SPI signals and I2C comparison](images/page-06.jpeg)
@@ -55,6 +56,7 @@ The comparison table captures the broad trade-off. I2C uses fewer signal pins an
 During an SPI register read, why must the controller continue transmitting bits even after it has already sent the read command?
 
 <a id="page-07"></a>
+
 ## Page 07 - Two shift registers coupled into one transfer
 
 ![Handwritten page 7 - SPI shift-register architecture](images/page-07.jpeg)
@@ -81,6 +83,7 @@ The LSB/MSB annotations describe one selected bit-order convention; SPI does not
 Start with controller byte `0xA5` and peripheral byte `0x3C`. After exactly eight agreed shift/sample cycles, what byte should each side's receive register contain, and why?
 
 <a id="page-08"></a>
+
 ## Page 08 - CPOL, CPHA, and the four SPI modes
 
 ![Handwritten page 8 - SPI CPOL and CPHA waveforms](images/page-08.jpeg)

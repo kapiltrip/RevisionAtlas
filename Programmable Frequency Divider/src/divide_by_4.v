@@ -12,52 +12,52 @@ module divide_by_4 (
     output wire clk_out_87_5
 );
 
-    reg [1:0] count_posedge;
-    reg [1:0] count_negedge;
+    reg [1:0] posphase;
+    reg [1:0] negphase;
 
-    wire one_cycle_posedge;
-    wire one_cycle_negedge;
-    wire two_cycles_posedge;
-    wire two_cycles_negedge;
-    wire three_cycles_posedge;
-    wire three_cycles_negedge;
+    wire one_cycle_posphase;
+    wire one_cycle_negphase;
+    wire two_cycles_posphase;
+    wire two_cycles_negphase;
+    wire three_cycles_posphase;
+    wire three_cycles_negphase;
 
-    assign one_cycle_posedge    = (count_posedge < 2'd1);
-    assign one_cycle_negedge    = (count_negedge < 2'd1);
-    assign two_cycles_posedge   = (count_posedge < 2'd2);
-    assign two_cycles_negedge   = (count_negedge < 2'd2);
-    assign three_cycles_posedge = (count_posedge < 2'd3);
-    assign three_cycles_negedge = (count_negedge < 2'd3);
+    assign one_cycle_posphase    = (posphase < 2'd1);
+    assign one_cycle_negphase    = (negphase < 2'd1);
+    assign two_cycles_posphase   = (posphase < 2'd2);
+    assign two_cycles_negphase   = (negphase < 2'd2);
+    assign three_cycles_posphase = (posphase < 2'd3);
+    assign three_cycles_negphase = (negphase < 2'd3);
 
     always @(posedge clk or posedge reset) begin
         if (reset)
-            count_posedge <= 2'd3;
+            posphase <= 2'd3;
         else
-            count_posedge <= count_posedge + 1'b1;
+            posphase <= posphase + 1'b1;
     end
 
     always @(negedge clk or posedge reset) begin
         if (reset)
-            count_negedge <= 2'd3;
+            negphase <= 2'd3;
         else
-            count_negedge <= count_posedge;
+            negphase <= posphase;
     end
 
     // One divide-by-4 period contains eight input half-cycles.
     // All valid duty-cycle waveforms are generated simultaneously.
     assign clk_out_12_5 = reset ? 1'b0 :
-                          one_cycle_posedge & ~one_cycle_negedge;
+                          one_cycle_posphase & ~one_cycle_negphase;
     assign clk_out_25   = reset ? 1'b0 :
-                          one_cycle_posedge;
+                          one_cycle_posphase;
     assign clk_out_37_5 = reset ? 1'b0 :
-                          one_cycle_posedge | one_cycle_negedge;
+                          one_cycle_posphase | one_cycle_negphase;
     assign clk_out_50   = reset ? 1'b0 :
-                          two_cycles_posedge;
+                          two_cycles_posphase;
     assign clk_out_62_5 = reset ? 1'b0 :
-                          two_cycles_posedge | two_cycles_negedge;
+                          two_cycles_posphase | two_cycles_negphase;
     assign clk_out_75   = reset ? 1'b0 :
-                          three_cycles_posedge;
+                          three_cycles_posphase;
     assign clk_out_87_5 = reset ? 1'b0 :
-                          three_cycles_posedge | three_cycles_negedge;
+                          three_cycles_posphase | three_cycles_negphase;
 
 endmodule

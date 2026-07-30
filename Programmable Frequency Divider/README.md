@@ -57,6 +57,17 @@ Programmable Frequency Divider/
 | `divide_by_4` | `clk_out_12_5`, `clk_out_25`, `clk_out_37_5`, `clk_out_50`, `clk_out_62_5`, `clk_out_75`, `clk_out_87_5` |
 | `divide_by_5` | `clk_out_10`, `clk_out_20`, ..., `clk_out_90` |
 
+## Editable EDA Playground references
+
+Each divider has its own public playground using Icarus Verilog 12.0, a minimal clock/reset-only testbench, `dump.vcd`, and automatic EPWave opening.
+
+| Divider | Duty-cycle waveforms included | Editable playground |
+|---:|---|---|
+| `/2` | 25%, 50%, 75% | [Open `/2` in EDA Playground](https://www.edaplayground.com/x/tAyC) |
+| `/3` | 16.67%, 33.33%, 50%, 66.67%, 83.33% | [Open `/3` in EDA Playground](https://www.edaplayground.com/x/TQhD) |
+| `/4` | 12.5%, 25%, 37.5%, 50%, 62.5%, 75%, 87.5% | [Open `/4` in EDA Playground](https://www.edaplayground.com/x/NYgj) |
+| `/5` | 10%, 20%, 30%, 40%, 50%, 60%, 70%, 80%, 90% | [Open `/5` in EDA Playground](https://www.edaplayground.com/x/BpW_) |
+
 ## Miscellaneous RTL
 
 | Module | Parameters | Input requirement |

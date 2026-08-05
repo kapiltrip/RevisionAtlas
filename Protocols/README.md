@@ -1,6 +1,6 @@
 # Protocols
 
-This subject collects Kapil's handwritten notes on chip-to-chip serial communication. The source scan is preserved once, while its 16 pages are separated into focused topic rooms so I2C, SPI, and UART can be revised independently without losing the original page order.
+This subject covers hardware communication protocols. The existing 16-page handwritten scan is preserved once and separated into I2C, SPI, and UART rooms. The AMBA branch adds on-chip interconnect study and code without mixing its pipelined bus rules into the serial-protocol notes.
 
 ## Core terms
 
@@ -23,8 +23,9 @@ This subject collects Kapil's handwritten notes on chip-to-chip serial communica
 | [I2C](01%20I2C/README.md) | 1-5 | Two-wire electrical behavior, addressing, START/STOP, ACK/NACK, reads, writes, and clock stretching |
 | [SPI](02%20SPI/README.md) | 6-8 | Four-wire full-duplex transfers, shift-register model, chip select, and the four CPOL/CPHA modes |
 | [UART](03%20UART/README.md) | 9-16 | Asynchronous framing, baud generation, oversampling, and transmitter/receiver RTL architecture |
+| [AMBA](04%20AMBA/README.md) | New sources | AMBA family map; current AHB-Lite timing, FSM correction, RTL, and verification |
 
-The untouched scan is available as [protocols-handwritten-notes.pdf](sources/protocols-handwritten-notes.pdf).
+The untouched serial-protocol scan is available as [protocols-handwritten-notes.pdf](sources/protocols-handwritten-notes.pdf). AHB has its own official specification and later handwritten-note intake inside the [AMBA branch](04%20AMBA/README.md).
 
 ## How to use these notes
 

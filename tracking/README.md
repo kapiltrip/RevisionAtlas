@@ -6,7 +6,7 @@ This is the management view for Revision Atlas. “Revision-ready” means the c
 |---|---|---|---|---|---|
 | MOSFET and CMOS | Ready: 110 pages | Ready for current scope | Planned | Planned | Build five module quick-recall sheets |
 | Static Timing Analysis | Ready: 25 pages | Ready for current scope | Planned | Planned | Extract formula/sign-convention sheet |
-| Protocols | Ready: 16 pages | Ready for I2C, SPI, UART | Planned | Planned | Build signal-ownership comparison sheet |
+| Protocols | Ready: 16 serial pages; AHB foundation added | Ready for I2C, SPI, UART; AHB code verified | Planned | Planned | Add AHB handwritten pages when supplied |
 | FIFO | Architecture guide + starter RTL | Ready for current scope | Planned | Planned | Complete and verify synchronous FIFO contract/RTL |
 | Frequency Dividers | Ready: 13 pages | Ready for current scope | Planned | Planned | Build waveform and duty-cycle test set |
 

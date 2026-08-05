@@ -47,10 +47,10 @@ Revision Atlas currently has six independent subjects:
 | [FIFO](FIFO/README.md) | Architecture guide and starter RTL | RAM, synchronous FIFO, verification, timing, asynchronous FIFO, and CDC reasoning |
 | [Frequency Dividers](Frequency%20Dividers/README.md) | 13 source-linked notebook pages | Divider state sequences, waveforms, duty cycle, and fractional-divider circuits |
 | [Frequency Divider RTL Practice](Programmable%20Frequency%20Divider/README.md) | Separate `/2` through `/5` RTL and self-checking simulations | One clear divider per file, selectable duty cycles, and a Vivado verification roadmap |
-| [Protocols](Protocols/README.md) | I2C, SPI, and UART | Signal ownership, framing, clocking, and RTL timing |
+| [Protocols](Protocols/README.md) | I2C, SPI, UART, and AMBA/AHB | Signal ownership, framing, clocking, pipelined buses, and RTL timing |
 | [Static Timing Analysis](Static%20Timing%20Analysis/README.md) | Storage elements through complete setup/hold path analysis | Definitions, timing equations, sign conventions, and worked paths |
 
-The [Protocols subject](Protocols/README.md) contains 16 source-linked handwritten pages on I2C, SPI, and UART, including baud generation and UART transmitter/receiver RTL reasoning.
+The [Protocols subject](Protocols/README.md) contains 16 source-linked handwritten pages on I2C, SPI, and UART, plus an AMBA branch whose first AHB chapter includes the official Arm specification, FSM correction, and verified RTL.
 
 The [Static Timing Analysis subject](Static%20Timing%20Analysis/README.md) adds 25 source-linked handwritten pages on transmission-gate storage, setup and hold analysis, arrival/required time, slack, clock skew, maximum frequency, and worked timing problems. Every visible red-marker doubt is answered beside its source page.
 
@@ -135,11 +135,13 @@ RevisionAtlas/                          # all-subject management root
 |   |-- 04 CMOS Switching Delay Power and Noise/
 |   `-- 05 CMOS Sizing and NAND Timing/
 |-- Protocols/
-|   |-- README.md                       # I2C, SPI, and UART topic index
+|   |-- README.md                       # serial protocols plus AMBA topic index
 |   |-- sources/                        # untouched 16-page handwritten scan
 |   |-- 01 I2C/                         # pages 1-5 + deep explanations
 |   |-- 02 SPI/                         # pages 6-8 + deep explanations
-|   `-- 03 UART/                        # pages 9-16 + deep explanations
+|   |-- 03 UART/                        # pages 9-16 + deep explanations
+|   `-- 04 AMBA/
+|       `-- 01 AHB/                     # spec, FSM notes, RTL, TB, future handwritten pages
 `-- Static Timing Analysis/
     |-- README.md                       # 25 page-linked STA explanations and answers
     |-- sources/                        # untouched 24-page scan + original page 25 photo

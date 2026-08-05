@@ -36,15 +36,18 @@ The code therefore uses only two ownership states and two phase counters:
 
 ```mermaid
 stateDiagram-v2
+    direction LR
     [*] --> IDLE
-    IDLE --> IDLE: no request
-    IDLE --> IDLE: invalid or unaligned request / error pulse
-    IDLE --> ACTIVE: accept valid request / drive NONSEQ
-    ACTIVE --> ACTIVE: HREADY and another address remains / drive SEQ
-    ACTIVE --> ACTIVE: not HREADY / hold address control and data
-    ACTIVE --> IDLE: final data phase completes / done pulse
-    ACTIVE --> IDLE: completed ERROR response / done plus error
+    IDLE --> IDLE: no request or rejected request
+    IDLE --> ACTIVE: valid request / drive NONSEQ
+    ACTIVE --> ACTIVE: wait state or another beat
+    ACTIVE --> IDLE: final data completes or ERROR
 ```
+
+On the `ACTIVE` self-loop, `HREADY=0` holds every phase register and bus
+output. When `HREADY=1` and another address remains, the manager advances the
+pipeline and drives SEQ. The transition back to `IDLE` produces `done`; an
+ERROR response also produces `error`.
 
 `ACTIVE` does not mean that only one phase exists. The registers below record
 which beat occupies each overlapping phase:

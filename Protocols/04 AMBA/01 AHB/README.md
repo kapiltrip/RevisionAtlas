@@ -16,7 +16,7 @@ states.
 | [Code guide](code/README.md) | File structure, every local interface variable, burst encodings, and simulation command |
 | [Manager RTL](code/rtl/ahb_lite_manager.v) | Corrected synthesizable Verilog for the intentionally limited manager |
 | [Self-checking testbench](code/tb/ahb_lite_manager_tb.v) | Memory subordinate, wait-state insertion, read/write checks, and PASS/FAIL output |
-| [Handwritten notes intake](handwritten/README.md) | Reserved workflow for the handwritten pages Kapil will add |
+| [Lecture and handwritten atlas](handwritten/README.md) | Lecture frames followed by every original page, explanation, corrections, and iPad annotations |
 | [Official Arm specification](sources/ARM-IHI-0033C-AMBA-AHB-Protocol-Specification.pdf) | Local non-confidential ARM IHI 0033C source of truth |
 
 ## Core terms
@@ -105,6 +105,7 @@ lacks them.
 | [Lecture 10 - incremental-burst RTL](https://www.youtube.com/watch?v=uzEg7ziaSaE) | Variables and intended operation used as inspiration; code not copied |
 | [Lecture 11 - INCR4 manager/subordinate/testbench](https://www.youtube.com/watch?v=4jPAmDrMqfY) | Verification scope used as inspiration; testbench rebuilt as self-checking |
 | [Lecture 12 - wrap implementation](https://www.youtube.com/watch?v=3LSP1SvmoyA) | Wrap-boundary teaching example, corrected and generalized using the specification |
+| [Original handwritten source PDFs](../Handwritten%20data/) | Preserved source scans; rendered derivatives are discussed in page order in the handwritten atlas |
 
 ## How to revise this chapter
 
@@ -126,6 +127,8 @@ lacks them.
 
 ## Next additions
 
-- Integrate the handwritten pages when supplied.
-- Add waveform images only after Kapil chooses the preferred simulator/viewer.
+- Revisit the [lecture and handwritten atlas](handwritten/README.md) alongside
+  the corresponding playlist video when revising a timing diagram.
+- Replace a lecture capture only if a clearer frame carries more timing
+  information; preserve the handwritten source scans unchanged.
 - Extend the manager only when a new learning goal requires another burst or size.

@@ -3,26 +3,29 @@
 [Back to AMBA](../README.md) | [Back to Protocols](../../README.md)
 
 This chapter starts AXI from the common `VALID`/`READY` transfer rule and then
-specializes that rule for AXI-Stream. The present stopping point is the Namaste
-FPGA lesson **20. Building AXIS Master**. Material after that lesson is outside
-this revision boundary and has not been summarized in advance.
+specializes that rule for AXI-Stream. The present stopping point is Namaste
+FPGA lesson **29. Agenda**, immediately before the round-robin-arbiter lessons.
+Material after that agenda is outside this revision boundary and has not been
+summarized in advance.
 
 ## Learning layers
 
 | Layer | Material | Status |
 |---|---|:---:|
-| 1 | [Course-video atlas - Day 01](course/Day%2001.md) | COMPLETE THROUGH VIDEO 20 |
+| 1 | [Course-video atlas - Day 01](course/Day%2001.md) | COMPLETE THROUGH LESSON 29 AGENDA |
 | 2 | [Kapil's handwritten AXI notes](handwritten/README.md) | WAITING FOR SOURCE PAGES |
 | Authority | [Arm IHI 0051B - AMBA AXI-Stream Protocol Specification](sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf) | LOCAL SOURCE |
 
-Layer 1 contains real frames from all 19 completed videos: videos 1-9 and
-11-20. Lesson 10 is a code resource rather than a video. Layer 2 is deliberately
-empty until the handwritten notes arrive; no handwritten explanation has been
-invented.
+Layer 1 contains real frames from all 25 completed videos through the Section 3
+agenda. Lessons 10, 22, 26, and 28 are code resources rather than videos; the
+master, slave, and integration resources at the current boundary are rendered
+directly in the atlas. Layer 2 is deliberately empty until the handwritten
+notes arrive; no handwritten explanation has been invented.
 
-The course layer now also contains eight verified, video-only fullscreen frames
-for the pin comparison, handshake rules, signal table, byte qualifiers, use
-cases, stall waveform, and master RTL. The
+The course layer now also contains verified, video-only fullscreen frames for
+the pin comparison, handshake rules, signal table, byte qualifiers, use cases,
+stall waveform, master RTL/testbench, slave FSM/testbench, end-to-end wiring,
+integrated waveforms, and the Section 3 agenda. The
 [Day 01 standards audit](course/Day%2001.md#arm-ihi-0051b-standards-audit)
 checks the lecture and teaching RTL against clause-level details in Arm IHI
 0051B rather than treating the slides as the final authority.
@@ -122,6 +125,10 @@ zero-byte packet-ending event that must not be discarded.
 | Any non-`OKAY` memory response means an empty memory or an automatic retry. | AXI responses encode protocol-defined outcomes such as `SLVERR` and `DECERR`. Recovery is a system/software policy; retry is not implied by every error. |
 | A plain memory is inherently unable to signal valid data or completion. | A raw array has no protocol, but a memory macro can have chip-enable, write-enable, byte-enable, and ready/busy behavior. AXI standardizes scalable decoupled channels; it is not the only possible memory control interface. |
 | The sample master is a reusable production AXI-Stream source. | It is a useful four-beat teaching model. Because `TDATA` is derived continuously from external `din * count`, `din` must remain stable for the whole packet, including stalls. A reusable source should latch its command/data or explicitly document that upstream stability contract. |
+| `TVALID` must stay HIGH continuously from the first packet beat through `TLAST`. | Once a beat is offered, `TVALID` and its information must remain stable until handshake. After an accepted beat, the Transmitter may legally insert one or more `TVALID=0` bubbles before the next beat of the same packet. |
+| The course slave's `dout` stores each received byte. | `dout` is a combinational view of `s_axis_tdata` while the FSM is in `store`. Actual storage requires a register enabled by `s_axis_tvalid && s_axis_tready`, or another downstream handshake. |
+| SystemVerilog `logic` automatically becomes `reg` on inputs and `wire` on outputs. | `logic` is a four-state variable data type with a single-driver expectation. Port direction controls data flow; designers must still reason about nets, variables, and driver count. |
+| A falling edge of `TLAST` proves packet completion. | Completion occurs on a rising edge with `TVALID && TREADY && TLAST`. A later `TLAST` falling edge is only a consequence of a particular implementation. |
 
 ## Source register
 
@@ -129,7 +136,7 @@ zero-byte packet-ending event that must not be discarded.
 |---|---|
 | [Arm IHI 0051B - AMBA AXI-Stream Protocol Specification](sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf) | Authority for handshake, byte types, packet boundaries, optional signals, ordering, and AXI4-Stream versus AXI5-Stream behavior |
 | [Arm IHI 0022H - AMBA AXI and ACE Protocol Specification](https://developer.arm.com/-/media/Arm%20Developer%20Community/PDF/IHI0022H_amba_axi_protocol_spec.pdf) | Authority for the five memory-mapped channels and AXI4/AXI4-Lite distinctions |
-| [Namaste FPGA course page](https://namaste-fpga.com/student/learn/53) | Lesson order, drawings, waveform examples, and sample RTL through lesson 20 |
+| [Namaste FPGA course page](https://namaste-fpga.com/student/learn/53) | Lesson order, drawings, waveform examples, and sample RTL through the lesson 29 agenda |
 | [Course-video atlas](course/Day%2001.md) | Saved real frames and frame-specific explanations from the completed lessons |
 | [AMD AXI DMA core overview](https://docs.amd.com/r/en-US/pg021_axi_dma/Core-Overview) | Primary reference for the memory-mapped-to-stream and stream-to-memory-mapped DMA directions |
 | [AMD AXI4-Stream Video signaling guide](https://docs.amd.com/r/en-US/ug934_axi_videoIP/AXI4-Stream-Signaling-Interface) | Primary reference for video-profile `TUSER[0]` start-of-frame and `TLAST` end-of-line meanings |
@@ -160,11 +167,21 @@ zero-byte packet-ending event that must not be discarded.
 - Why may a zero-byte transfer with `TLAST=1` still be meaningful?
 - Which reset signal is required LOW during reset, and what is the synchronous
   release requirement for `ARESETn`?
+- Why may `TVALID` go LOW between two beats of one packet without violating
+  AXI-Stream?
+- Why is the course slave's `dout` not a stored-byte output?
+- Which event should a testbench use instead of `@(negedge TLAST)` to count a
+  completed packet?
+- Why does the course slave create a startup bubble before its first accepted
+  beat?
+- Which signal travels from the Receiver back to the Transmitter when the two
+  blocks are connected?
 
 ## Next additions
 
 - Add Kapil's handwritten pages as Layer 2 and map each page to the matching
   video and protocol rule.
-- Add the master-verification lesson only after Kapil reaches it.
-- Turn the four-beat teaching master into a self-checking RTL exercise after
-  the lecture's verification boundary is reached.
+- Begin the round-robin-arbiter material only when Kapil asks to extend beyond
+  the current Section 3 agenda boundary.
+- Turn the teaching master/slave pair into a self-checking RTL exercise with
+  randomized stalls, inter-beat bubbles, assertions, and a scoreboard.

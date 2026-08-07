@@ -29,6 +29,8 @@ notes and intentionally contains no invented pages or explanations.
 
 ## Current boundary
 
-The course layer currently ends at **Building AXIS Master**. Handwritten pages
-about later topics can be preserved when provided, but they will not be merged
-into the completed-learning path until Kapil reaches the corresponding lesson.
+The course layer currently ends at the Section 3 **Agenda** after the master,
+slave, and end-to-end AXI-Stream connection lessons. Handwritten pages about
+later round-robin-arbiter or FIFO topics can be preserved when provided, but
+they will not be merged into the completed-learning path until Kapil reaches
+the corresponding lesson.

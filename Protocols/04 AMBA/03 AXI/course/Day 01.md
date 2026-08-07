@@ -1,11 +1,11 @@
-# Day 01 - AXI foundations and AXI-Stream master
+# Day 01 - AXI foundations and AXI-Stream master/slave integration
 
 [Back to AXI](../README.md) | [Back to AMBA](../../README.md) | [Handwritten layer](../handwritten/README.md)
 
-This is Layer 1 of the AXI notes. It follows the completed Namaste FPGA videos
-in their original order and stops at **20. Building AXIS Master**. Every image
-below is a real frame captured from the lesson video. The explanations use the
-lecture as the teaching path and the
+This is Layer 1 of the AXI notes. It follows the completed Namaste FPGA lessons
+in their original order and stops at **29. Agenda**, immediately before the
+round-robin-arbiter lessons begin. Every image below is a real frame captured
+from the lesson video. The explanations use the lecture as the teaching path and the
 [Arm AXI-Stream specification](../sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf)
 as the authority.
 
@@ -32,9 +32,19 @@ as the authority.
 | 18 | [Waveforms part 2](#video-18---waveforms-part-2) | No-back-pressure trace |
 | 19 | [Waveforms part 3](#video-19---waveforms-part-3) | Mid-packet and final-beat stalls |
 | 20 | [Building the AXI-Stream master](#video-20---building-the-axi-stream-master) | FSM, counter, outputs, and hidden assumptions |
+| 21 | [Verifying the master](#video-21---verifying-the-master) | Five four-beat packets and waveform interpretation |
+| 22 | [Master code resource](#lesson-22---master-code-resource) | Exact master RTL and supplied testbench |
+| 23 | [Building the slave part 1](#video-23---building-the-slave-part-1) | Port directions and Receiver flowchart |
+| 24 | [Building the slave part 2](#video-24---building-the-slave-part-2) | Receiver FSM, `TREADY`, and lecture-model limitations |
+| 25 | [Verifying the slave](#video-25---verifying-the-slave) | Finding the deliberately invalid source stimulus |
+| 26 | [Slave code resource](#lesson-26---slave-code-resource) | Exact slave RTL and supplied testbench |
+| 27 | [Connecting master and slave](#video-27---connecting-master-and-slave) | End-to-end wiring and accepted packet sequence |
+| 28 | [Integration code resource](#lesson-28---integration-code-resource) | Top-level wiring and system testbench |
+| 29 | [Section 3 agenda](#video-29---section-3-agenda) | Round-robin, AXIS arbiter, and AXIS FIFO roadmap |
 
-Lesson 10 is the section's code resource, not a video, so it is not counted as
-a watched lesson.
+Lessons 10, 22, 26, and 28 are code resources rather than videos. The three
+code resources in the current extension are rendered below because their exact
+RTL and testbench behavior are part of the revision boundary.
 
 ## The trace rule used throughout this page
 
@@ -826,6 +836,568 @@ beat. Its limitations—fixed length, generated rather than buffered payload,
 unlatched command input, and no `TKEEP`/`TUSER`—are deliberate boundaries, not
 general AXI-Stream limitations.
 
+### Video 21 - Verifying the master
+
+![Fullscreen master testbench stimulus loop](../images/Day%2001/21-verify-master-testbench-fullscreen.png)
+
+The testbench holds active-LOW reset for ten rising edges, raises
+`m_axis_tready`, asserts `newd`, chooses a random eight-bit `din`, and waits for
+the generated packet to finish. The loop repeats five times, so the intended
+observation is five packets with four accepted beats per packet.
+
+The payload is not four bytes sliced from `din`. The RTL calculates
+`m_axis_tdata = din * count`, so one packet is:
+
+| Accepted beat | `count` | `m_axis_tdata` | `m_axis_tlast` |
+|---:|---:|---:|:---:|
+| 0 | 0 | $0 \times din$ | 0 |
+| 1 | 1 | $1 \times din$ | 0 |
+| 2 | 2 | $2 \times din$ | 0 |
+| 3 | 3 | $3 \times din$ | 1 |
+
+Because `TDATA` is eight bits, multiplication wraps modulo $2^8$ if the result
+exceeds 255. That wrap is ordinary Verilog width truncation, not an
+AXI-Stream rule.
+
+![Fullscreen master waveform with repeated four-beat packets](../images/Day%2001/21-verify-master-waveform-fullscreen.png)
+
+Read the waveform from handshake edges rather than from the width of the green
+regions. With the testbench holding `m_axis_tready=1`, every rising edge with
+`m_axis_tvalid=1` accepts one beat. `m_axis_tlast` is meaningful only on the
+fourth accepted beat. The next packet may use a new `din`, but the current
+packet's `din` must remain stable because the teaching master never latches it.
+
+#### What this simulation proves—and what it does not
+
+The trace proves the happy path: reset, command start, four consecutive
+handshakes, final-beat marking, and repetition. It does **not** prove
+back-pressure correctness because `m_axis_tready` remains HIGH during each
+packet. A stronger test must lower `m_axis_tready` on a middle beat and on the
+final beat, then assert that `TVALID`, `TDATA`, and `TLAST` remain stable.
+
+Waiting for `@(negedge m_axis_tlast)` is also specific to this implementation.
+A protocol-aware scoreboard should detect completion at the accepted final
+beat:
+
+$$
+\text{packet\_done} = \text{TVALID} \land \text{TREADY} \land \text{TLAST}
+$$
+
+That condition still works when the final beat is stalled for several cycles;
+the falling edge of `TLAST` is not itself an AXI-Stream event.
+
+#### Testbench race and initialization details
+
+The supplied testbench changes reset, `newd`, and `din` using blocking
+assignments immediately after `@(posedge m_axis_aclk)`. The DUT also samples on
+that edge, so simulation ordering can create a race. A robust testbench drives
+inputs on the falling edge, through a clocking block, or with nonblocking
+assignments scheduled before the next sampling edge. It should also initialize
+`m_axis_tready`, `newd`, and `din` before the reset wait so no accidental `X`
+value enters checks.
+
+### Lesson 22 - Master code resource
+
+The course resource provides the complete teaching master and its happy-path
+testbench. The same listing is reproduced here with whitespace normalized so
+the implementation can be revised without leaving the page.
+
+```systemverilog
+module axis_m(
+    input  wire       m_axis_aclk,
+    input  wire       m_axis_aresetn,
+    input  wire       newd,
+    input  wire [7:0] din,
+    input  wire       m_axis_tready,
+    output wire       m_axis_tvalid,
+    output wire [7:0] m_axis_tdata,
+    output wire       m_axis_tlast
+);
+
+typedef enum bit {idle = 1'b0, tx = 1'b1} state_type;
+state_type state = idle, next_state = idle;
+reg [2:0] count = 0;
+
+always @(posedge m_axis_aclk) begin
+    if (m_axis_aresetn == 1'b0)
+        state <= idle;
+    else
+        state <= next_state;
+end
+
+always @(posedge m_axis_aclk) begin
+    if (state == idle)
+        count <= 0;
+    else if (state == tx && count != 3 && m_axis_tready == 1'b1)
+        count <= count + 1;
+    else
+        count <= count;
+end
+
+always @(*) begin
+    case (state)
+        idle: begin
+            if (newd == 1'b1)
+                next_state = tx;
+            else
+                next_state = idle;
+        end
+
+        tx: begin
+            if (m_axis_tready == 1'b1) begin
+                if (count != 3)
+                    next_state = tx;
+                else
+                    next_state = idle;
+            end else begin
+                next_state = tx;
+            end
+        end
+
+        default: next_state = idle;
+    endcase
+end
+
+assign m_axis_tdata  = m_axis_tvalid ? din * count : 0;
+assign m_axis_tlast  = (count == 3 && state == tx) ? 1'b1 : 1'b0;
+assign m_axis_tvalid = (state == tx) ? 1'b1 : 1'b0;
+
+endmodule
+```
+
+```systemverilog
+module tb_axis_m;
+    wire [7:0] m_axis_tdata;
+    wire       m_axis_tlast;
+    reg        m_axis_tready;
+    wire       m_axis_tvalid;
+    reg        m_axis_aclk = 0;
+    reg        m_axis_aresetn;
+    reg        newd;
+    reg  [7:0] din;
+
+    axis_m dut (
+        .m_axis_tdata(m_axis_tdata),
+        .m_axis_tlast(m_axis_tlast),
+        .m_axis_tready(m_axis_tready),
+        .m_axis_tvalid(m_axis_tvalid),
+        .m_axis_aclk(m_axis_aclk),
+        .m_axis_aresetn(m_axis_aresetn),
+        .newd(newd),
+        .din(din)
+    );
+
+    always #10 m_axis_aclk = ~m_axis_aclk;
+
+    initial begin
+        m_axis_aresetn = 0;
+        repeat (10) @(posedge m_axis_aclk);
+        for (int i = 0; i < 5; i++) begin
+            @(posedge m_axis_aclk);
+            m_axis_aresetn = 1;
+            m_axis_tready  = 1'b1;
+            newd = 1;
+            din = $random();
+            @(negedge m_axis_tlast);
+            m_axis_tready = 1'b0;
+        end
+    end
+endmodule
+```
+
+Two shorthand choices deserve a red flag during revision. `newd` is never
+explicitly lowered, so returning to `idle` can immediately request another
+packet. Also, the testbench has no assertion that the accepted sequence equals
+$\{0,din,2din,3din\}$ or that the held beat remains stable during a stall.
+
+### Video 23 - Building the slave part 1
+
+![Fullscreen comparison of master/slave ports and the Receiver flowchart](../images/Day%2001/23-building-slave-p1-18.png)
+
+The slave is the AXI-Stream **Receiver**. Signal ownership reverses across the
+link, not the meaning of the signals:
+
+| Link signal | Master/Transmitter port | Slave/Receiver port | Owner |
+|---|---|---|---|
+| `ACLK`, `ARESETn` | input | input | System clock/reset source |
+| `TVALID` | output | input | Transmitter |
+| `TDATA` | output | input | Transmitter |
+| `TLAST` | output | input | Transmitter |
+| `TREADY` | input | output | Receiver |
+
+The flowchart's “sample data” action must be read as “consume data on a rising
+edge where `TVALID && TREADY` is true.” Seeing `TVALID=1` tells the Receiver an
+offer exists; it does not by itself complete the transfer. Similarly,
+`TLAST=1` announces that the **offered** beat is the final beat, but the packet
+ends only when that beat handshakes.
+
+The Receiver is allowed to keep `TREADY=1` in advance, wait for `TVALID`, or
+deassert `TREADY` while it is busy. In a real multiplier, filter, or parser,
+ready must describe storage/processing capacity—not merely the FSM state name.
+If the block cannot retain an input beat while processing an earlier one, it
+must lower `TREADY` before its storage becomes full.
+
+### Video 24 - Building the slave part 2
+
+![Fullscreen slave state register and next-state decoder](../images/Day%2001/24-building-slave-p2-18.png)
+
+![Fullscreen store-state conditions beside the Receiver flowchart](../images/Day%2001/24-building-slave-p2-fsm-fullscreen.png)
+
+The teaching Receiver uses `idle` and `store` states. An encoded `last_byte`
+state is declared but never used. In `idle`, observing `TVALID=1` schedules
+entry to `store`; in `store`, the design drives `TREADY=1`. This creates one
+cycle of startup latency because the first valid offer is not accepted while
+the state is still `idle` and `TREADY=0`. A compliant Transmitter holds that
+first offer until ready rises.
+
+Within `store`, the next-state decoder distinguishes:
+
+| `TVALID` | `TLAST` | Course next state | Correct interpretation while `TREADY=1` |
+|:---:|:---:|---|---|
+| 1 | 0 | `store` | Accept a non-final beat. |
+| 1 | 1 | `idle` | Accept the final beat, then return idle. |
+| 0 | 0 | `idle` | **Course simplification:** no transfer exists; this can legally be an inter-beat bubble. |
+| 0 | 1 | `idle` | `TLAST` is not meaningful as a transfer while `TVALID=0`. |
+
+#### Important correction: packets may contain bubbles
+
+The lecture suggests `TVALID` must remain continuously HIGH for the whole
+packet and treats a LOW cycle mid-packet as an incomplete/error transfer. The
+base protocol does not impose that rule. Once a particular beat is offered
+with `TVALID=1`, the Transmitter cannot retract or change it until a handshake.
+After that beat is accepted, the Transmitter may insert cycles with
+`TVALID=0` before offering the next beat—even before `TLAST` has occurred.
+
+Therefore a packet-tracking Receiver must not discard packet context merely
+because one cycle has `TVALID=0`. It should wait in its packet state until the
+next **accepted** beat. A profile may separately forbid bubbles, but that would
+be an application constraint, not the general AXI-Stream rule.
+
+#### `dout` is not storage
+
+The assignment `dout = (state == store) ? s_axis_tdata : 0` is a combinational
+view of the input bus. It does not remember an accepted beat. `dout` is useful
+only when accompanied by an enable such as
+`sample_en = s_axis_tvalid && s_axis_tready`, or when the accepted data is
+registered:
+
+```systemverilog
+always_ff @(posedge s_axis_aclk) begin
+    if (!s_axis_aresetn)
+        dout <= '0;
+    else if (s_axis_tvalid && s_axis_tready)
+        dout <= s_axis_tdata;
+end
+```
+
+Registering creates real storage and prevents downstream logic from treating
+an unaccepted or invalid bus value as data.
+
+### Video 25 - Verifying the slave
+
+![Fullscreen supplied slave-testbench stimulus](../images/Day%2001/25-verify-slave-18.png)
+
+The testbench raises `TVALID` and changes `TDATA` on every loop iteration. The
+instructor then correctly identifies the resulting first-cycle violation:
+`TREADY` is LOW, yet the stimulus moves to another `TDATA` value. A legal
+Transmitter must hold the offered beat until the Receiver accepts it.
+
+![Fullscreen slave waveform ending the packet and returning to idle](../images/Day%2001/25-verify-slave-waveform-fullscreen.png)
+
+The visible state transition after the final beat is correct only because
+`store` implies `TREADY=1`. The decisive edge satisfies all three terms:
+
+$$
+\text{final\_fire} = \text{TVALID} \land \text{TREADY} \land \text{TLAST}
+$$
+
+After that edge, returning to `idle` is safe. Returning merely because `TLAST`
+is visible would be unsafe if the final beat were stalled.
+
+#### Handshake-correct source task
+
+A source driver should randomize or choose one beat, assert it, and wait without
+changing it until `TREADY` is sampled HIGH:
+
+```systemverilog
+task automatic send_beat(input logic [7:0] data,
+                         input logic       last);
+    @(negedge s_axis_aclk);
+    s_axis_tdata  <= data;
+    s_axis_tlast  <= last;
+    s_axis_tvalid <= 1'b1;
+
+    do @(posedge s_axis_aclk);
+    while (!s_axis_tready);
+
+    @(negedge s_axis_aclk);
+    s_axis_tvalid <= 1'b0;
+    s_axis_tlast  <= 1'b0;
+endtask
+```
+
+The falling-edge drive avoids racing the DUT's rising-edge sampling. A
+scoreboard should count data only when `TVALID && TREADY`, and assertions should
+check that an offered beat remains stable while stalled.
+
+The lecture's description of SystemVerilog `logic` as automatically becoming
+`reg` for inputs and `wire` for outputs is an oversimplification. `logic` is a
+four-state variable data type that permits one driver; port direction controls
+data flow. It removes many old `reg`/`wire` declarations, but it does not make
+multiple-driver nets legal or replace reasoning about who drives a signal.
+
+### Lesson 26 - Slave code resource
+
+```systemverilog
+module axis_s(
+    input  wire       s_axis_aclk,
+    input  wire       s_axis_aresetn,
+    output wire       s_axis_tready,
+    input  wire       s_axis_tvalid,
+    input  wire [7:0] s_axis_tdata,
+    input  wire       s_axis_tlast,
+    output wire [7:0] dout
+);
+
+typedef enum bit [1:0] {
+    idle      = 2'b00,
+    store     = 2'b01,
+    last_byte = 2'b10
+} state_type;
+state_type state = idle, next_state = idle;
+
+always @(posedge s_axis_aclk) begin
+    if (s_axis_aresetn == 1'b0)
+        state <= idle;
+    else
+        state <= next_state;
+end
+
+always @(*) begin
+    case (state)
+        idle: begin
+            if (s_axis_tvalid == 1'b1)
+                next_state = store;
+            else
+                next_state = idle;
+        end
+
+        store: begin
+            if (s_axis_tlast == 1'b1 && s_axis_tvalid == 1'b1)
+                next_state = idle;
+            else if (s_axis_tlast == 1'b0 && s_axis_tvalid == 1'b1)
+                next_state = store;
+            else
+                next_state = idle;
+        end
+
+        default: next_state = idle;
+    endcase
+end
+
+assign s_axis_tready = (state == store);
+assign dout = (state == store) ? s_axis_tdata : 8'h00;
+
+endmodule
+```
+
+```systemverilog
+`timescale 1ns / 1ps
+
+module axis_s_tb;
+    logic       s_axis_aclk = 0;
+    logic       s_axis_aresetn;
+    logic       s_axis_tvalid;
+    logic [7:0] s_axis_tdata;
+    logic       s_axis_tlast;
+    logic       s_axis_tready;
+    logic [7:0] dout;
+
+    axis_s uut (
+        .s_axis_aclk(s_axis_aclk),
+        .s_axis_aresetn(s_axis_aresetn),
+        .s_axis_tready(s_axis_tready),
+        .s_axis_tvalid(s_axis_tvalid),
+        .s_axis_tdata(s_axis_tdata),
+        .s_axis_tlast(s_axis_tlast),
+        .dout(dout)
+    );
+
+    always #10 s_axis_aclk = ~s_axis_aclk;
+
+    initial begin
+        s_axis_tvalid  = 0;
+        s_axis_tdata   = 8'h00;
+        s_axis_tlast   = 0;
+        s_axis_aresetn = 0;
+        repeat (5) @(posedge s_axis_aclk);
+        s_axis_aresetn = 1;
+
+        for (int i = 0; i < 10; i++) begin
+            @(posedge s_axis_aclk);
+            s_axis_tvalid = 1;
+            s_axis_tdata  = $urandom;
+        end
+
+        @(posedge s_axis_aclk);
+        s_axis_tlast = 1;
+        @(posedge s_axis_aclk);
+        s_axis_tlast  = 0;
+        s_axis_tvalid = 0;
+        $finish;
+    end
+endmodule
+```
+
+The RTL is small enough to expose the distinction between **protocol legality**
+and **application usefulness**. Its ready/valid handshakes can accept beats,
+but it neither buffers them nor emits a downstream-valid signal. It is a
+teaching Receiver, not yet a reusable data-processing endpoint.
+
+### Video 27 - Connecting master and slave
+
+![Fullscreen elaborated master-to-slave wiring beside the top-level RTL](../images/Day%2001/27-connect-master-slave-18.png)
+
+The top module connects one shared clock and reset to both endpoints. Four
+internal nets form the stream link:
+
+```text
+axis_m.m_axis_tvalid ─────► axis_s.s_axis_tvalid
+axis_m.m_axis_tdata  ─────► axis_s.s_axis_tdata
+axis_m.m_axis_tlast  ─────► axis_s.s_axis_tlast
+axis_m.m_axis_tready ◄───── axis_s.s_axis_tready
+```
+
+This direction diagram is the integration contract. `TREADY` is the only
+course link signal driven from slave to master; the payload and its validity
+and packet marker travel from master to slave. Both blocks use the same `clk`,
+so no clock-domain crossing logic is needed here. If their clocks were
+unrelated, directly wiring them would be invalid; an asynchronous AXI-Stream
+FIFO or clock converter would be required.
+
+The course uses positional module instantiation. It works only while the child
+port order remains exactly unchanged. Named connections are safer because a
+future port insertion cannot silently swap `TREADY`, `TVALID`, `TDATA`, or
+`TLAST`.
+
+![Fullscreen integrated master/slave waveform with repeated packets](../images/Day%2001/27-connect-master-slave-waveform-fullscreen.png)
+
+For a command value $din=7$, the master offers $0,7,14,21$ and asserts `TLAST`
+with 21. For $din=10$, it offers $0,10,20,30$. Those are four **eight-bit
+transfers**, not four individual bits. On every edge where the internal
+`valid_t && ready_t` is HIGH, `dout` reflects the accepted `data` value because
+the slave is in `store`.
+
+#### Startup bubble and back-pressure path
+
+The slave begins in `idle`, so `ready_t=0`. Once the master reaches `tx`,
+`valid_t=1` and the slave schedules `store`. The master must hold beat zero
+during that startup bubble. After the slave enters `store`, `ready_t=1` and the
+four beats can fire on consecutive edges. The same return path would stop the
+master counter if a real slave later lowered ready while processing.
+
+No combinational loop exists in this pair: master `TVALID` comes from its
+registered state, slave `TREADY` comes from its registered state, and each FSM
+uses the opposite handshake input only to choose a later state. More complex
+blocks must still be reviewed for combinational `TREADY`/`TVALID` paths that
+could create long timing paths or loops across several components.
+
+### Lesson 28 - Integration code resource
+
+```systemverilog
+module top (
+    input        clk,
+    input        rst,
+    input        newd,
+    input  [7:0] din,
+    output [7:0] dout,
+    output       last
+);
+    wire       last_t;
+    wire       valid_t;
+    wire       ready_t;
+    wire [7:0] data;
+
+    axis_m m1 (clk, rst, newd, din,
+               ready_t, valid_t, data, last_t);
+    axis_s s1 (clk, rst,
+               ready_t, valid_t, data, last_t, dout);
+
+    assign last = last_t;
+endmodule
+```
+
+```systemverilog
+module top_tb;
+    reg        clk = 0;
+    reg        rst;
+    reg        newd;
+    reg  [7:0] din;
+    wire [7:0] dout;
+    wire       last;
+
+    top dut (clk, rst, newd, din, dout, last);
+
+    always #10 clk = ~clk;
+
+    initial begin
+        rst = 1'b0;
+        repeat (10) @(posedge clk);
+        rst = 1'b1;
+
+        for (int i = 0; i < 10; i++) begin
+            @(posedge clk);
+            newd = 1;
+            din = $urandom_range(0, 15);
+            @(negedge last);
+        end
+        $finish;
+    end
+endmodule
+```
+
+The same local-control caveats remain: initialize `newd` and `din`, define
+whether `newd` is a pulse or level, avoid driving on the DUT sampling edge, and
+detect packet completion with `valid_t && ready_t && last_t`. Exporting raw
+`last_t` for waveform visibility is harmless, but external logic must not count
+it as completion without the other handshake terms.
+
+A safer top-level style makes ownership visible:
+
+```systemverilog
+axis_m m1 (
+    .m_axis_aclk   (clk),
+    .m_axis_aresetn(rst),
+    .newd          (newd),
+    .din           (din),
+    .m_axis_tready (ready_t),
+    .m_axis_tvalid (valid_t),
+    .m_axis_tdata  (data),
+    .m_axis_tlast  (last_t)
+);
+```
+
+The slave should be instantiated with the corresponding named `s_axis_*`
+ports. This adds no hardware; it prevents connection-order bugs.
+
+### Video 29 - Section 3 agenda
+
+![Fullscreen Section 3 agenda: round-robin arbiter, AXIS arbiter, and AXIS FIFO](../images/Day%2001/29-section3-agenda-18.png)
+
+This agenda is the requested stopping boundary. It previews three related but
+distinct components:
+
+| Component | Core problem | AXI-Stream-specific responsibility |
+|---|---|---|
+| Round-robin arbiter | Choose fairly among persistent requesters. | Initially none; first learn the grant rotation independently. |
+| AXIS arbiter | Multiplex several Transmitters onto one Receiver. | Route the selected payload/sidebands and return `TREADY` only to the selected source while preserving packet/order rules. |
+| AXIS FIFO | Buffer accepted transfers when producer and consumer timing differ. | Store the complete beat bundle, generate upstream `TREADY` from space, and generate downstream `TVALID` from occupancy. |
+
+Ethernet is mentioned because packet traffic often needs buffering and fair
+arbitration among flows. The agenda does not yet define an implementation, so
+the round-robin algorithms and AXIS FIFO RTL intentionally begin in the next
+course layer rather than being invented here.
+
 ## Arm IHI 0051B standards audit
 
 This second-pass audit checks the lecture interpretation and sample master
@@ -927,6 +1499,21 @@ is correct.
 | Accept a new command while busy | NOT DEFINED | `newd` is a local teaching input, not an AXI-Stream signal. A reusable block needs a command handshake or a documented “only pulse while idle” contract. |
 | Support arbitrary packet lengths and byte qualifiers | OUT OF SCOPE | Four beats and no `TKEEP`/`TSTRB`/`TUSER` are legal profile choices, not general protocol limitations. |
 
+### Course-slave and integration compliance result
+
+| Check | Result | Reason |
+|---|:---:|---|
+| Accept data only on `TVALID && TREADY` | PASS AT INTERFACE | In `store`, `TREADY=1`; the Transmitter must hold the first offer while the Receiver moves out of `idle`. |
+| Wait for `TVALID` before raising `TREADY` | PASS | A Receiver is explicitly allowed to wait for valid. The cost here is one startup bubble. |
+| Preserve packet context across a `TVALID=0` bubble | NOT PROVIDED | The FSM returns to `idle`. No offered beat is lost, because the next valid beat waits for ready, but a packet-processing application would lose its in-packet context. |
+| Treat LOW `TVALID` mid-packet as a protocol error | INCORRECT LECTURE CLAIM | Bubbles between accepted transfers are legal in base AXI-Stream. Only an already asserted valid offer must remain asserted and stable until handshake. |
+| Present only accepted data on `dout` | FAIL AS LOCAL OUTPUT CONTRACT | `dout` is a combinational mirror of `TDATA` in `store` and has no local valid pulse. Downstream logic needs `fire` or a registered accepted value. |
+| Finish only on an accepted `TLAST` beat | PASS IN THIS FSM | The `TLAST && TVALID` test occurs in `store`, where `TREADY` is necessarily HIGH. Writing the full three-term condition would make that dependency explicit. |
+| Drive protocol-required reset value | PASS | The Receiver has no `TVALID` output. AXI-Stream does not require `TREADY` or data outputs to take a particular reset value. |
+| Use a protocol-compliant slave testbench source | FAIL, THEN IDENTIFIED | The supplied loop changes `TDATA` before the first `TREADY`; the lesson correctly flags it as the assignment to fix. |
+| Connect signal ownership correctly at top level | PASS | Valid, data, and last travel master-to-slave; ready returns slave-to-master; both endpoints share the same clock and reset. |
+| Verify stalls, bubbles, and data integrity end-to-end | NOT COVERED | The integrated test is a no-back-pressure demonstration without assertions or a scoreboard. |
+
 ## Points to remember
 
 - One rising edge with `TVALID && TREADY` means exactly one accepted transfer.
@@ -941,6 +1528,16 @@ is correct.
   route among multiple components.
 - A waveform is counted by handshake edges, not by how long a signal stays
   HIGH.
+- `TVALID` may be LOW between beats of one packet. It must stay HIGH only after
+  a specific beat has been offered and until that beat handshakes.
+- A Receiver samples or stores data on `fire`, not merely because `TDATA` is
+  visible and not merely because its FSM is in a state named `store`.
+- A combinational `dout = TDATA` path is not storage. Register the accepted beat
+  or propagate a local valid/ready contract.
+- Packet completion is `TVALID && TREADY && TLAST`; a later falling edge of
+  `TLAST` is implementation behavior, not the protocol event.
+- Prefer named module-port connections for multi-signal interfaces so a port
+  list change cannot silently corrupt the link.
 
 ## Active-recall checkpoint
 
@@ -963,6 +1560,16 @@ is correct.
     stop producing physical samples?
 12. Why is the I2S interface a protocol converter rather than another name for
     AXI-Stream?
+13. Why is the first beat stalled for one cycle when the course slave begins in
+    `idle`?
+14. Is a cycle with `TVALID=0` between two packet beats an AXI-Stream error?
+15. What exact condition should enable a register that captures `s_axis_tdata`?
+16. Why does the course `dout` signal not prove that a byte was stored?
+17. What is invalid about changing testbench `TDATA` while `TVALID=1` and
+    `TREADY=0`?
+18. For $din=10$, which four eight-bit values does the course master send?
+19. Why is `@(negedge TLAST)` weaker than observing an accepted final beat?
+20. Which four link nets connect the master and slave, and who drives each one?
 
 ## Layer 2 intake point
 

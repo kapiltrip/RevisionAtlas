@@ -20,6 +20,13 @@ Layer 1 contains real frames from all 19 completed videos: videos 1-9 and
 empty until the handwritten notes arrive; no handwritten explanation has been
 invented.
 
+The course layer now also contains eight verified, video-only fullscreen frames
+for the pin comparison, handshake rules, signal table, byte qualifiers, use
+cases, stall waveform, and master RTL. The
+[Day 01 standards audit](course/Day%2001.md#arm-ihi-0051b-standards-audit)
+checks the lecture and teaching RTL against clause-level details in Arm IHI
+0051B rather than treating the slides as the final authority.
+
 ## Where each AXI interface fits
 
 | Interface | Addressed? | Transfer shape | Best first mental model |
@@ -78,8 +85,8 @@ actual asymmetric rules in
 
 | Signal | Driven by | Meaning at a transfer edge |
 |---|---|---|
-| `ACLK` | Clock source | All interface inputs are sampled on its rising edge. |
-| `ARESETn` | Reset source | Active-LOW reset; the course's sample RTL uses synchronous assertion because reset is tested inside `always @(posedge ACLK)`. |
+| `ACLK` | Clock source | All interface inputs are sampled on its rising edge, and interface outputs change after rising edges. |
+| `ARESETn` | Reset source | Active-LOW reset. Protocol assertion may be asynchronous, but deassertion must be synchronous. The course RTL chooses synchronous assertion too because reset is tested only inside `always @(posedge ACLK)`. |
 | `TVALID` | Transmitter | The complete offered transfer is valid now. |
 | `TREADY` | Receiver | The Receiver can accept the offered transfer now. |
 | `TDATA` | Transmitter | Payload; byte lane $x$ is `TDATA[(8x+7):8x]`. |
@@ -88,13 +95,20 @@ actual asymmetric rules in
 | `TLAST` | Transmitter | Marks a packet boundary when the stream uses packets. |
 | `TID` | Transmitter | Identifies a logical stream for ordering/interleaving rules. |
 | `TDEST` | Transmitter | Supplies destination/routing information to an interconnect. |
-| `TUSER` | Transmitter | Carries application-defined sideband information associated with a transfer. |
+| `TUSER` | Transmitter | Carries application-defined sideband information. The base transport model associates User bits with bytes, so null-byte removal and width conversion need special care. |
+| `TWAKEUP` | Transmitter, AXI5-Stream only | Optional glitch-free activity indication for power/clock wake-up; it is not part of the transfer handshake and must not appear on AXI4-Stream. |
 
 `TKEEP`, `TSTRB`, and even `TLAST` are conditional or optional for some usage
 models; they are not universally mandatory pins. If `TREADY` is omitted for an
 always-accepting Receiver, it defaults HIGH. The default and optional-signal
 rules are defined in
 [chapter 3 of Arm IHI 0051B](sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf).
+
+An omitted `TLAST` needs a deliberate system default: HIGH is recommended when
+the interconnect topology is unknown, while fixed LOW is safe only when no
+interconnect function waits for a boundary to drain. A transfer with every
+`TKEEP` bit LOW is legal, and if it carries `TLAST=1` it can represent a
+zero-byte packet-ending event that must not be discarded.
 
 ## Lecture precision and corrections
 
@@ -143,6 +157,9 @@ rules are defined in
   still has multiple sources and destinations?
 - What assumption about `din` is hidden inside the course's sample master?
 - Why must the beat counter advance on a handshake rather than every clock?
+- Why may a zero-byte transfer with `TLAST=1` still be meaningful?
+- Which reset signal is required LOW during reset, and what is the synchronous
+  release requirement for `ARESETn`?
 
 ## Next additions
 

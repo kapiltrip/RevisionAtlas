@@ -108,14 +108,17 @@ an interconnect between multiple stream components. `TDEST`, arbitration, and
 switching can route packets while each individual link remains one Transmitter
 to one Receiver.
 
-**Pitfall:** AXI4-Lite is not for “one bit” only. Its data bus commonly carries
-32 or 64 bits; “Lite” means no bursts and a simpler memory-mapped feature set.
+**Pitfall:** AXI4-Lite is not for “one bit” only. Its standard data-bus widths
+are 32 or 64 bits; “Lite” means no bursts and a simpler memory-mapped feature
+set.
 
 ### Video 3 - Interface pins
 
 ![Lecture comparison of the AXI-Stream, AXI4-Lite, and AXI4 signal groups](../images/Day%2001/03-interface-pins-28.png)
 
 ![Expanded AXI4 signal-group comparison](../images/Day%2001/03-interface-pins-72.png)
+
+![Fullscreen interface-pin comparison without the course sidebar or player controls](../images/Day%2001/03-interface-pins-fullscreen.png)
 
 The growing blocks in the frames are directionally correct: AXI-Stream can be
 very small, AXI4-Lite adds five memory-mapped channels, and AXI4 adds burst,
@@ -160,10 +163,13 @@ AXI solves the interface problem with five independent channels:
 
 The write-address and write-data handshakes are independent. A correct
 Subordinate cannot assume that `AW` and `W` are accepted in one fixed order; it
-must buffer or coordinate them safely. The `B` response is produced only after
-the write requirements have been satisfied. On reads, `RVALID` means the
-Subordinate is presenting valid read data; `RREADY` means the Manager can accept
-it.
+must buffer or coordinate them safely. In AXI4, the Subordinate must not assert
+`BVALID` until it has accepted the write address and the final write-data
+transfer marked by `WLAST`; AXI4-Lite has one write-data transfer and no burst
+`WLAST`. On reads, the Subordinate asserts `RVALID` only after the read-address
+handshake, and the transfer completes when the Manager also asserts `RREADY`.
+These dependencies are defined in
+[Arm IHI 0022H](https://developer.arm.com/-/media/Arm%20Developer%20Community/PDF/IHI0022H_amba_axi_protocol_spec.pdf).
 
 Two lecture simplifications need care:
 
@@ -174,11 +180,20 @@ Two lecture simplifications need care:
    command a retry. `SLVERR` and `DECERR` have defined protocol meanings;
    recovery is a system decision.
 
+More precisely, `SLVERR` says the access reached a Subordinate but the
+Subordinate could not complete it successfully. `DECERR` is normally generated
+by an interconnect when it cannot decode a valid route to a Subordinate.
+`EXOKAY` belongs to successful exclusive-access handling in full AXI and is not
+a normal AXI4-Lite response. None of these response encodings empties memory or
+automatically reissues the transaction.
+
 ### Video 5 - Understanding `VALID`/`READY`
 
 ![Source-to-destination valid-ready waveform beside the Arm rule excerpt](../images/Day%2001/05-handshake-fundamentals-30.png)
 
 ![Three legal relative timings for valid and ready](../images/Day%2001/05-handshake-fundamentals-72.png)
+
+![Fullscreen valid-ready timing and the three handshake rules](../images/Day%2001/05-handshake-fullscreen.png)
 
 The first frame connects the abstract words to pins. The source drives the
 information and `VALID`; the destination drives `READY` in the opposite
@@ -204,6 +219,8 @@ effect of the transfer, not a second transfer.
 ![Handshake rule slide with the source and destination waveform](../images/Day%2001/06-handshake-rules-28.png)
 
 ![Ready-before-valid, valid-before-ready, and simultaneous cases](../images/Day%2001/06-handshake-rules-72.png)
+
+![Fullscreen handshake-rule frame with source and destination ownership](../images/Day%2001/06-handshake-rules-fullscreen.png)
 
 The frames show three legal orderings:
 
@@ -333,19 +350,21 @@ for arbitrary Receiver back-pressure before another RTL block is connected.
 
 ![Signal table with stream identifiers, destination, user, and wake-up context](../images/Day%2001/12-typical-signals-p1-75.png)
 
+![Fullscreen signal-table frame showing TID, TDEST, TUSER, and TWAKEUP](../images/Day%2001/12-typical-signals-fullscreen.png)
+
 The left side of the frames shows `TVALID`, `TREADY`, `TDATA`, `TKEEP`, and
 `TLAST` changing together as one transfer bundle. The right side anchors the
 lecture to the Arm signal table.
 
 | Signal group | Deep meaning |
 |---|---|
-| `ACLK`, `ARESETn` | All transfers are sampled on the rising edge of `ACLK`. Active-LOW reset naming does not by itself say synchronous or asynchronous; the RTL sensitivity list decides that. |
+| `ACLK`, `ARESETn` | Interface inputs are sampled on rising `ACLK` edges and outputs change after rising edges. The protocol permits asynchronous reset assertion but requires synchronous deassertion. The course RTL chooses synchronous assertion as well because reset is tested only inside `always @(posedge ACLK)`. |
 | `TVALID`, `TREADY` | The only signals needed to decide whether a transfer occurred. `TREADY` may be permanently HIGH only if the Receiver can truly accept every offered beat. |
-| `TDATA` | Payload divided into byte lanes. Lane $x$ is `TDATA[(8x+7):8x]`; low-order lanes are earlier bytes in a fully packed stream. |
+| `TDATA` | Payload divided into byte lanes. Lane $x$ is `TDATA[(8x+7):8x]`; low-order lanes represent earlier byte positions in the stream. |
 | `TKEEP`, `TSTRB` | Per-byte classification. They are optional when every lane always contains a data byte. |
-| `TLAST` | The packet delimiter. It identifies the final **accepted transfer**, so it remains asserted with that beat during a stall. |
+| `TLAST` | The packet delimiter. It is asserted on the offered transfer that becomes the final transfer when accepted, so it remains asserted with that beat during a stall. |
 | `TID` | Logical stream identity. It is not simply a video-row number; its precise meaning is defined by the system profile. |
-| `TDEST` | Routing information used by an interconnect to select a destination. |
+| `TDEST` | Coarse routing information that an interconnect can use to select a destination. |
 | `TUSER` | Application-defined metadata whose interpretation must be agreed by both endpoints. |
 
 The lecture says `TWAKEUP` is outside AXI-Stream. The version distinction is:
@@ -354,11 +373,21 @@ wake-up signal. It indicates interface-associated activity and must not be
 treated as another transfer handshake. This history is stated in
 [Arm IHI 0051B](../sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf).
 
+The small-print rules are also important. `TWAKEUP` must be glitch-free, may
+assert before or after `TVALID`, and is recommended at least one cycle before
+`TVALID`. If `TWAKEUP` and `TVALID` are HIGH together, `TWAKEUP` must remain
+HIGH until `TREADY` is asserted. A Receiver may wait for `TWAKEUP` before
+raising `TREADY`, so a Transmitter that implements wake-up but never asserts it
+can deadlock the interface. These rules apply only when the AXI5-Stream
+`Wakeup_Signal` property is enabled.
+
 ### Video 13 - Typical signals part 2
 
 ![Eight byte lanes with TKEEP qualification and the Arm qualifier text](../images/Day%2001/13-typical-signals-p2-30.png)
 
 ![Position-byte example and the relationship between TKEEP and TSTRB](../images/Day%2001/13-typical-signals-p2-72.png)
+
+![Fullscreen TKEEP and TSTRB truth table beside the lecture padding example](../images/Day%2001/13-byte-qualifiers-fullscreen.png)
 
 Each qualifier bit maps to exactly one byte lane:
 
@@ -398,6 +427,8 @@ FPGA streams expose `TKEEP` but not `TSTRB`.
 ![Five-channel memory-mapped AXI compared with a one-way stream path](../images/Day%2001/14-use-cases-45.png)
 
 ![Lecture use-case slide showing the ADC, camera, audio, DMA, DDR, generator, and FIFO paths](../images/Day%2001/14-use-cases-pipelines-context.png)
+
+![Fullscreen AXI-Stream use cases with only the video frame visible](../images/Day%2001/14-use-cases-fullscreen.png)
 
 The first frame explains **why AXI-Stream exists**. Memory-mapped AXI carries an
 address because a requester can choose among many memory locations or
@@ -704,6 +735,8 @@ the packet end only when that transfer is accepted, not merely when it observes
 
 ![Final D3 and TLAST held together during the last-beat stall](../images/Day%2001/19-waveform-p3-80.png)
 
+![Fullscreen three-packet waveform with no stall, middle stall, and final-beat stall](../images/Day%2001/19-waveforms-fullscreen.png)
+
 The middle-stall trace is:
 
 | Cycle | `TVALID` | `TREADY` | `TDATA` | `TLAST` | Action at edge |
@@ -732,6 +765,8 @@ bundle includes any implemented `TKEEP`, `TSTRB`, `TID`, `TDEST`, and `TUSER`.
 ![TX-state next-state logic checking ready and the final count](../images/Day%2001/20-building-master-52.png)
 
 ![Synchronous state register and handshake-gated count logic](../images/Day%2001/20-building-master-84.png)
+
+![Fullscreen AXIS master next-state RTL around the ready-gated transmit state](../images/Day%2001/20-building-master-fullscreen.png)
 
 The design sends a fixed four-beat packet. It uses two states:
 
@@ -790,6 +825,107 @@ movement. It is small enough to trace manually and correctly holds the final
 beat. Its limitations—fixed length, generated rather than buffered payload,
 unlatched command input, and no `TKEEP`/`TUSER`—are deliberate boundaries, not
 general AXI-Stream limitations.
+
+## Arm IHI 0051B standards audit
+
+This second-pass audit checks the lecture interpretation and sample master
+against the small-print requirements in the local
+[Arm IHI 0051B specification](../sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf).
+“Master” and “slave” are retained when discussing the course RTL port names;
+the Issue B specification uses **Transmitter** and **Receiver**.
+
+### Interface shape and optional-signal details
+
+The signal list and default rules are in
+[sections 2.1 and 3.1](../sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf#page=16).
+
+| Minor standard rule | Consequence for design and waveform reading |
+|---|---|
+| `TDATA_WIDTH` must be an integer number of bytes. Power-of-two byte widths are expected in many designs but are not a protocol requirement. | A non-power-of-two width can still be AXI-Stream compliant. Never infer compliance from a familiar width such as 32 or 64 bits alone. |
+| Arm recommends `TDATA` widths of 8, 16, 32, 64, 128, 256, 512, or 1024 bits, but the normative width rule is byte granularity. | “Recommended” and “required” are different. A tool or IP profile may impose a narrower set than the base protocol. |
+| `TDATA` itself can be absent. If absent, `TSTRB` must also be absent; `TKEEP`, if present, defines the byte-equivalent width for conversion. | AXI-Stream can transport control/sideband events without a conventional payload. The common `TDATA`-carrying interface is not the only legal form. |
+| `TREADY` is optional and defaults HIGH when omitted, although the specification recommends including it. | An omitted `TREADY` means the Transmitter assumes every offered transfer is accepted. It cannot respond to back-pressure; including the pin can still expose an illegal LOW as an error. |
+| If `TKEEP` is absent, it defaults to all HIGH. If `TSTRB` is absent, it defaults to `TKEEP`. | A simple interface without either qualifier represents every lane as a data byte. No hidden null or position bytes exist in that configuration. |
+| `TID`, `TDEST`, and `TUSER` are optional. Undriven Receiver bits are fixed LOW. | Both endpoints must agree on the sideband contract. Merely having ports with matching names does not guarantee that their meanings match. |
+| `TLAST` is optional. For a stream with no packet concept it can be tied LOW, tied HIGH, or generated periodically, but the choice affects merging, arbitration, and buffering. | When topology is unknown and a component has no `TLAST`, Arm recommends defaulting it HIGH so an interconnect cannot delay data indefinitely while waiting for a boundary. Fixed LOW is safe only when the topology guarantees no boundary-dependent draining. |
+
+### Handshake, clock, and reset details
+
+These rules come from
+[sections 2.2 and 2.8](../sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf#page=18).
+
+| Minor standard rule | Consequence for the course waveforms and RTL |
+|---|---|
+| `TVALID` may lead `TREADY`, `TREADY` may lead `TVALID`, or both may assert together. | The only acceptance test is their sampled conjunction on a rising edge. Signal ordering alone does not create a transfer. |
+| The Transmitter must not wait for `TREADY` before asserting `TVALID`. | This is the deadlock-prevention dependency. The course master satisfies it because `newd` can move the FSM into `tx` even when `m_axis_tready=0`. |
+| The Receiver may wait for `TVALID` before asserting `TREADY`, and may assert or deassert `TREADY` while no valid offer exists. | `TREADY` is not required to remain HIGH. Pre-asserting it is a latency optimization, not a protocol obligation. |
+| Once `TVALID` is HIGH, `TVALID` and all valid data/control information must remain unchanged until a handshake. | The held bundle includes enabled `TDATA`, `TKEEP`, `TSTRB`, `TLAST`, `TID`, `TDEST`, and `TUSER`, not just the visible payload. |
+| All inputs are sampled on rising `ACLK` edges and all outputs change after a rising edge. | A direct AXI-Stream link is a single-clock interface. Crossing unrelated clocks requires a clock-conversion component such as an asynchronous FIFO or stream clock converter. |
+| `ARESETn` is active LOW. Assertion may be asynchronous, but deassertion must be synchronous to `ACLK`. | Reset release must not occur at an arbitrary point in the clock cycle. A reset synchronizer is normally used when the external reset release is asynchronous. |
+| While reset is active, `TVALID` must be LOW; every other interface output may take any value. | A testbench should judge reset compliance primarily from `TVALID`. Requiring every data/sideband signal to be zero is an implementation preference, not a base-protocol rule. |
+| After reset is sampled HIGH, the Transmitter may first drive `TVALID` HIGH only after the following rising edge. | The course state register naturally enforces this: reset leaves the state in `idle`, and the later sampled `newd` transition makes `TVALID` HIGH after a clock edge. |
+
+### Byte, packet, conversion, and ordering details
+
+The relevant clauses are
+[sections 2.4-2.7](../sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf#page=21)
+and
+[chapter 4](../sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf#page=40).
+
+| Minor standard rule | Consequence for a real stream path |
+|---|---|
+| Low-order `TDATA` byte lanes are earlier in a packed byte stream. | Byte lane $0$ is `TDATA[7:0]`; lane $x$ is `TDATA[(8x+7):8x]`. A left-to-right hexadecimal drawing can visually reverse the time order if this convention is forgotten. |
+| Data-byte values, counts, and relative positions must be preserved. Position-byte counts and relative positions must also be preserved. Null bytes may be inserted or removed. | An interconnect may repack a stream, but it cannot silently alter meaningful data or the holes whose positions carry information. |
+| A transfer with every `TKEEP` bit LOW is legal. It may be suppressed only when `TLAST` is also LOW. | “No valid byte lanes” does not automatically mean “illegal transfer.” A zero-byte transfer with `TLAST=1` can terminate a packet or flush buffered data and must not simply disappear. |
+| The count of packet boundaries and assertions of `TLAST` must be preserved from Transmitter to Receiver. | Width converters may move `TLAST` to the final output transfer, but they cannot lose, invent, or merge away packet endings. |
+| AXI-Stream has no explicit start-of-packet signal. | For a given `TID`/`TDEST`, a packet begins at the first transfer after reset or the first transfer after the previous `TLAST`. Application profiles can add a start marker in `TUSER`, but base AXI-Stream does not. |
+| Every byte in one packet has the same `TID` and `TDEST`. Transfers with different identifiers, or transfers separated by an asserted `TLAST`, must not be merged. | Routing and logical-stream identity are packet invariants even when an interconnect repacks beat widths. |
+| Streams with different `TID`/`TDEST` values may be interleaved transfer-by-transfer unless the `Continuous_Packets` property forbids it. | `TLAST` is an efficient arbitration point, not a universal rule that arbitration can occur only at packet boundaries. A continuous-packet interface is the stricter exception. |
+| Transfers must remain ordered; AXI-Stream reordering is not permitted. | If a later accepted transfer from a Transmitter reaches a destination, all earlier transfers on that path must already have reached it. |
+| Merging is permitted only when identifiers match, byte order and sideband associations remain correct, and the earlier transfer does not have `TLAST=1`. | An upsizer may wait for more bytes, but an asserted `TLAST` tells it not to merge with the following packet and provides a reason to drain promptly. |
+| AXI-Stream defines no maximum packet length. | A four-beat packet is a teaching choice in the course master, not a protocol limit comparable to a fixed AXI memory-mapped burst length. |
+
+### TUSER and compatibility details
+
+`TUSER` is more precise than a generic “extra bits” description. Section 2.9
+models it on a per-byte basis. User bits associated with a byte whose `TKEEP`
+is LOW are not guaranteed to transfer, and if an interconnect removes that null
+byte it removes the associated User bits. When an interconnect inserts a null
+byte, the new User bits are fixed LOW.
+
+Transfer-wide `TUSER` information is reliable through an interconnect only
+under restrictions that preserve its byte association—for example, matching
+input/output data widths and no repacking that changes which bytes share a
+transfer. A system profile can still define one transfer-wide start flag, but
+the designer must confirm how width converters preserve it.
+
+Finally, section 3.2 warns that **interface compatibility does not guarantee
+functional compatibility**. Two blocks can have the same data width and signal
+set yet disagree about pixel packing, audio-channel order, packet boundaries,
+or `TUSER` meaning. The use-case contract is part of integration correctness.
+
+### AXI5-Stream wake-up detail
+
+`TWAKEUP` exists only on AXI5-Stream when `Wakeup_Signal=True`. It is synchronous
+to `ACLK` but must also be glitch-free so another clock domain can sample it.
+It can assert before or after `TVALID`; if both are HIGH in the same cycle,
+`TWAKEUP` remains HIGH until `TREADY` is asserted. A Receiver may wait for
+`TWAKEUP` before asserting `TREADY`, which is why an implemented-but-never-driven
+wake-up path can deadlock even though the ordinary valid/ready dependency rule
+is correct.
+
+### Course-master compliance result
+
+| Check | Result | Reason |
+|---|:---:|---|
+| Assert `TVALID` without waiting for `TREADY` | PASS | Entry into `tx` depends on `newd`, not on `m_axis_tready`. |
+| Hold the offered beat during back-pressure | CONDITIONAL PASS | State and count hold, so `TVALID`, `TLAST`, and the count-selected data hold only if external `din` also remains stable. |
+| Advance exactly once per handshake | PASS | In `tx`, the counter advances only with `m_axis_tready`; because `m_axis_tvalid` is exactly `state==tx`, this is equivalent to the full fire condition. |
+| Preserve the final beat until acceptance | PASS | The FSM leaves `tx` at `count==3` only when `m_axis_tready=1`. |
+| Drive `TVALID` LOW during reset | CONDITIONAL PASS | After a rising edge with reset LOW, state becomes `idle` and `m_axis_tvalid` is LOW. Because the sample uses synchronous-reset RTL, a system that permits asynchronous assertion must ensure the interface's reset implementation clears `TVALID` with the required timing. |
+| Handle asynchronous reset release safely | SYSTEM REQUIREMENT | The sample RTL uses synchronous reset logic. Any asynchronous external deassertion must be synchronized before it reaches this interface. |
+| Accept a new command while busy | NOT DEFINED | `newd` is a local teaching input, not an AXI-Stream signal. A reusable block needs a command handshake or a documented “only pulse while idle” contract. |
+| Support arbitrary packet lengths and byte qualifiers | OUT OF SCOPE | Four beats and no `TKEEP`/`TSTRB`/`TUSER` are legal profile choices, not general protocol limitations. |
 
 ## Points to remember
 

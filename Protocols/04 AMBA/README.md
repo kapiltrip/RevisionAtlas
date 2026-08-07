@@ -3,9 +3,9 @@
 [Back to Protocols](../README.md)
 
 AMBA is Arm's Advanced Microcontroller Bus Architecture: a family of on-chip
-interconnect protocols rather than one bus. This folder keeps AHB and APB in
-separate chapters so their timing rules are learned together without mixing
-their signal names or transfer models.
+interconnect protocols rather than one bus. This folder keeps AHB, APB, and AXI
+in separate chapters so their timing rules are learned without mixing signal
+names or transfer models.
 
 ## Chapter map
 
@@ -13,6 +13,7 @@ their signal names or transfer models.
 |---:|---|---|:---:|
 | 1 | [AHB](01%20AHB/README.md) | Pipelined transfers, wait states, `HTRANS`, bursts, handwritten pages, RTL, and verification | ACTIVE |
 | 2 | [APB](02%20APB/README.md) | Setup/access timing, wait states, errors, and handwritten pages | ACTIVE |
+| 3 | [AXI](03%20AXI/README.md) | AXI family selection, valid-ready handshakes, AXI-Stream signals, stalls, and master RTL | ACTIVE THROUGH AXIS MASTER |
 
 ## Keep the names separate
 
@@ -21,11 +22,16 @@ their signal names or transfer models.
   and data phases.
 - **APB** is a simpler peripheral bus with SETUP and ACCESS phases. It does not
   use AHB's `HTRANS`, `HBURST`, or pipelined address/data rules.
+- **AXI** uses independent valid-ready channels. AXI4 and AXI4-Lite are
+  memory-mapped; AXI-Stream moves unaddressed streams through a Transmitter and
+  Receiver.
 
 The sources of truth are Arm's
 [AMBA AHB Protocol Specification, ARM IHI 0033C](01%20AHB/sources/ARM-IHI-0033C-AMBA-AHB-Protocol-Specification.pdf)
 and
-[AMBA APB Protocol Specification, ARM IHI 0024E](02%20APB/sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf).
+[AMBA APB Protocol Specification, ARM IHI 0024E](02%20APB/sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf),
+plus the
+[AMBA AXI-Stream Protocol Specification, ARM IHI 0051B](03%20AXI/sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf).
 
 ## Handwritten source intake
 
@@ -48,8 +54,14 @@ PDF pages and 35 unique instructional pages.
 |   |-- handwritten/
 |   |-- images/
 |   `-- sources/
-`-- 02 APB/
+|-- 02 APB/
+|   |-- README.md
+|   |-- handwritten/
+|   |-- images/
+|   `-- sources/
+`-- 03 AXI/
     |-- README.md
+    |-- course/
     |-- handwritten/
     |-- images/
     `-- sources/

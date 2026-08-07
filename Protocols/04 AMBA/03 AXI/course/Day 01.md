@@ -3,9 +3,9 @@
 [Back to AXI](../README.md) | [Back to AMBA](../../README.md) | [Handwritten layer](../handwritten/README.md)
 
 This is Layer 1 of the AXI notes. It follows the completed Namaste FPGA lessons
-in their original order and stops at **29. Agenda**, immediately before the
-round-robin-arbiter lessons begin. Every image below is a real frame captured
-from the lesson video. The explanations use the lecture as the teaching path and the
+in their original order and stops at **33. Code**, immediately before
+**Implementing AXIS Arbiter P1**. Every course image below is a real frame
+captured from the lesson video. The explanations use the lecture as the teaching path and the
 [Arm AXI-Stream specification](../sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf)
 as the authority.
 
@@ -41,10 +41,14 @@ as the authority.
 | 27 | [Connecting master and slave](#video-27---connecting-master-and-slave) | End-to-end wiring and accepted packet sequence |
 | 28 | [Integration code resource](#lesson-28---integration-code-resource) | Top-level wiring and system testbench |
 | 29 | [Section 3 agenda](#video-29---section-3-agenda) | Round-robin, AXIS arbiter, and AXIS FIFO roadmap |
+| 30 | [Round-robin arbiter part 1](#video-30---round-robin-arbiter-part-1) | Fairness objective, initial priority, and grant timing |
+| 31 | [Round-robin arbiter part 2](#video-31---round-robin-arbiter-part-2) | Three-state Moore FSM and rotating priority |
+| 32 | [Round-robin arbiter part 3](#video-32---round-robin-arbiter-part-3) | Testbench scenarios and alternating grants |
+| 33 | [Round-robin code resource](#lesson-33---round-robin-code-resource) | Complete arbiter RTL, testbench, and review findings |
 
-Lessons 10, 22, 26, and 28 are code resources rather than videos. The three
-code resources in the current extension are rendered below because their exact
-RTL and testbench behavior are part of the revision boundary.
+Lessons 10, 22, 26, 28, and 33 are code resources rather than videos. The four
+code resources in the completed implementation path are rendered below because
+their exact RTL and testbench behavior are part of the revision boundary.
 
 ## The trace rule used throughout this page
 
@@ -1395,8 +1399,284 @@ distinct components:
 
 Ethernet is mentioned because packet traffic often needs buffering and fair
 arbitration among flows. The agenda does not yet define an implementation, so
-the round-robin algorithms and AXIS FIFO RTL intentionally begin in the next
-course layer rather than being invented here.
+the AXIS-specific datapath and FIFO RTL are not invented in advance here.
+
+### Video 30 - Round-robin arbiter part 1
+
+![Fullscreen two-request timing example and round-robin decision flow](../images/Day%2001/30-round-robin-p1-concept-fullscreen.png)
+
+This lesson deliberately starts with a plain request/grant arbiter, not yet an
+AXI-Stream interface. There are two requesters, `req1` and `req2`, and two
+one-hot grants, `gnt1` and `gnt2`. The initial idle tie-break favors requester
+1, but after one requester is served, the other requester becomes the preferred
+choice. That rotating preference is what separates round-robin behavior from a
+permanent fixed-priority arbiter.
+
+The grant is state-decoded, so a request sampled in one cycle produces a grant
+after the next active clock edge:
+
+| Sampled requests | Previous arbitration state | Next grant | Reason |
+|:---:|---|---|---|
+| `10` | `idle` | `gnt1` | Only requester 1 is asking. |
+| `01` | `idle` | `gnt2` | Only requester 2 is asking. |
+| `11` | `idle` | `gnt1` | Reset/idle tie-break gives requester 1 initial priority. |
+| `11` | after `gnt1` | `gnt2` | Rotate priority to the requester that did not just win. |
+| `11` | after `gnt2` | `gnt1` | Rotate back symmetrically. |
+
+The highlighted grants in the course waveform therefore lag the corresponding
+sampled requests by one state-register update. They are not combinational
+same-cycle acknowledgements.
+
+#### What “equal service” means here
+
+If both requests remain asserted, the steady-state grant sequence is:
+
+$$
+gnt1,\ gnt2,\ gnt1,\ gnt2,\ldots
+$$
+
+Each persistent requester receives one of every two grant cycles, and after the
+initial decision neither can be bypassed twice by the other. This fairness
+claim assumes one grant cycle completes one unit of service. If an operation
+takes several cycles, the arbiter needs an explicit `done`, `accept`, or
+handshake event and must rotate only when service actually completes.
+
+### Video 31 - Round-robin arbiter part 2
+
+![Fullscreen next-state RTL beside the round-robin flowchart](../images/Day%2001/31-round-robin-p2-fullscreen.png)
+
+The FSM is a Moore machine: `gnt1` and `gnt2` depend only on the registered
+state. The three state meanings are:
+
+| State | Current output | Stored arbitration history |
+|---|---|---|
+| `idle` | No grant | No requester is currently selected; use the initial tie-break. |
+| `s1` | `gnt1=1`, `gnt2=0` | Requester 1 is being served now, so requester 2 gets first choice next. |
+| `s2` | `gnt1=0`, `gnt2=1` | Requester 2 is being served now, so requester 1 gets first choice next. |
+
+The full next-state table makes the rotating priority visible:
+
+| Current state | `req1 req2 = 00` | `10` | `01` | `11` |
+|---|---|---|---|---|
+| `idle` | `idle` | `s1` | `s2` | `s1` |
+| `s1` | `idle` | `s1` | `s2` | `s2` |
+| `s2` | `idle` | `s1` | `s2` | `s1` |
+
+#### Why `s1` checks `req2` before `req1`
+
+State `s1` already means requester 1 owns the **current** grant. If both
+requests are still HIGH, checking `req1` first would keep choosing `s1` forever
+and requester 2 could starve. Checking `req2` first implements:
+
+$$
+\text{next}(s1,\ req2=1)=s2
+$$
+
+Requester 1 is allowed to remain in `s1` only when requester 2 is not waiting.
+The `s2` logic is the exact mirror: it checks `req1` first because requester 2
+has just received service. The order of an `if`/`else if` chain is therefore
+hardware priority, not cosmetic source-code ordering.
+
+This is the direct solution to the question on the
+[handwritten fairness page](../handwritten/README.md#page-1---why-does-s1-check-req2-first).
+
+#### Reset and decoder details
+
+The plain arbiter uses a synchronous, active-HIGH reset:
+`always @(posedge clk)` samples `rst`, then loads `idle` when `rst=1`. That is
+different from AXI's active-LOW `ARESETn` naming and reset contract. The
+next-state block uses blocking assignments because it models combinational
+logic, while the state register uses a nonblocking assignment.
+
+Every state and branch assigns `next_state`, and the output decoder assigns
+both grants in every state, so the shown RTL does not infer latches. In `s1`,
+the output decoder sets `gnt1=1`; any spoken phrase suggesting grant 1 becomes
+zero in `s1` is simply a narration slip—the code and state meaning are clear.
+
+### Video 32 - Round-robin arbiter part 3
+
+![Fullscreen round-robin testbench stimulus sequence](../images/Day%2001/32-round-robin-p3-testbench-fullscreen.png)
+
+The supplied testbench covers three scenarios in order:
+
+1. `req1=1, req2=0` checks that requester 1 can win alone.
+2. `req1=0, req2=1` checks that requester 2 can win alone.
+3. `req1=1, req2=1` for five clock edges checks the rotating-priority path.
+
+After the one-cycle state latency, the expected persistent-contention sequence
+is `gnt1`, `gnt2`, `gnt1`, `gnt2`, and so on. Mutual exclusion must always hold:
+
+$$
+\neg(gnt1 \land gnt2)
+$$
+
+The waveform demonstrates alternation, but the testbench is observational—it
+contains no assertions or scoreboard. It also changes request values
+immediately after `@(posedge clk)` with blocking assignments, which can race the
+DUT's state register. Driving requests on `negedge clk`, using nonblocking
+assignments, or using a clocking block makes the sampling relationship
+deterministic.
+
+Two useful assertions for a stronger test are:
+
+```systemverilog
+assert property (@(posedge clk) !(gnt1 && gnt2));
+assert property (@(posedge clk) disable iff (rst)
+                 (gnt1 && req1 && req2) |=>
+                 (!req1 || !req2 || gnt2));
+```
+
+The second property is specific to persistent simultaneous requests: if
+requester 1 is granted while both remain asserted, requester 2 must be granted
+on the next cycle.
+
+### Lesson 33 - Round-robin code resource
+
+The course design listing, with whitespace normalized, is:
+
+```systemverilog
+`timescale 1ns / 1ps
+
+module robin (
+    input      clk,
+    input      rst,
+    input      req1,
+    input      req2,
+    output reg gnt1,
+    output reg gnt2
+);
+
+typedef enum bit [1:0] {
+    idle = 2'b00,
+    s1   = 2'b01,
+    s2   = 2'b10
+} state_type;
+state_type state, next_state;
+
+always @(posedge clk) begin
+    if (rst)
+        state <= idle;
+    else
+        state <= next_state;
+end
+
+always @(*) begin
+    case (state)
+        idle: begin
+            if (req1)
+                next_state = s1;
+            else if (req2)
+                next_state = s2;
+            else
+                next_state = idle;
+        end
+
+        s1: begin
+            if (req2)
+                next_state = s2;
+            else if (req1)
+                next_state = s1;
+            else
+                next_state = idle;
+        end
+
+        s2: begin
+            if (req1)
+                next_state = s1;
+            else if (req2)
+                next_state = s2;
+            else
+                next_state = idle;
+        end
+
+        default: next_state = idle;
+    endcase
+end
+
+always @(*) begin
+    case (state)
+        idle: begin
+            gnt1 = 1'b0;
+            gnt2 = 1'b0;
+        end
+        s1: begin
+            gnt1 = 1'b1;
+            gnt2 = 1'b0;
+        end
+        s2: begin
+            gnt1 = 1'b0;
+            gnt2 = 1'b1;
+        end
+        default: begin
+            gnt1 = 1'b0;
+            gnt2 = 1'b0;
+        end
+    endcase
+end
+
+endmodule
+```
+
+The supplied testbench is:
+
+```systemverilog
+module tb;
+    reg  clk = 0;
+    reg  rst = 0;
+    reg  req1, req2;
+    wire gnt1, gnt2;
+
+    robin dut (
+        .clk (clk),
+        .rst (rst),
+        .req1(req1),
+        .req2(req2),
+        .gnt1(gnt1),
+        .gnt2(gnt2)
+    );
+
+    always #5 clk = ~clk;
+
+    initial begin
+        rst = 1;
+        repeat (5) @(posedge clk);
+        rst = 0;
+
+        req1 = 1;
+        req2 = 0;
+        @(posedge clk);
+
+        req1 = 0;
+        req2 = 1;
+        @(posedge clk);
+
+        req1 = 1;
+        req2 = 1;
+        repeat (5) @(posedge clk);
+        $stop;
+    end
+endmodule
+```
+
+#### Code-review findings
+
+| Check | Result | Detail |
+|---|:---:|---|
+| One-hot grants | PASS | `idle` drives none; `s1` and `s2` drive exactly one. |
+| Rotate when both persist | PASS | `s1` prioritizes `req2`; `s2` prioritizes `req1`. |
+| Avoid starving requester 2 | PASS AFTER INITIAL TIE-BREAK | `idle` initially favors requester 1, but persistent contention alternates thereafter. |
+| Keep serving the sole requester | PASS | `s1` can remain `s1` and `s2` can remain `s2` when the other request is absent. |
+| Avoid inferred latches | PASS | All next-state and grant paths, including defaults, are assigned. |
+| Make testbench sampling race-free | NEEDS IMPROVEMENT | Requests and reset change on the same positive edge used by the DUT. |
+| Verify behavior automatically | NOT PROVIDED | The testbench stops after visual stimulus and has no assertions/scoreboard. |
+| Model unknown/uninitialized state | LIMITED | `enum bit` is two-state. An `enum logic` state type provides stronger `X` visibility in simulation. |
+| Define request lifetime | SYSTEM CONTRACT | A requester should normally hold `req` until its grant/service-accept event; otherwise a short pulse can be missed. |
+
+This module is still a **request/grant arbiter**, not an AXI-Stream arbiter.
+An AXIS version must arbitrate complete transfer bundles, return `TREADY` only
+to the selected source, preserve a stalled selected beat, and define whether a
+grant is held for one beat or until accepted `TLAST`. Those implementation
+details begin after the present stopping boundary.
 
 ## Arm IHI 0051B standards audit
 
@@ -1538,6 +1818,13 @@ is correct.
   `TLAST` is implementation behavior, not the protocol event.
 - Prefer named module-port connections for multi-signal interfaces so a port
   list change cannot silently corrupt the link.
+- `idle` supplies only the initial arbiter tie-break; `s1` and `s2` reverse the
+  priority so a persistent competing request cannot starve.
+- A grant decoded from registered state appears after the request is sampled;
+  it is not a combinational same-cycle acknowledgement.
+- Rotate priority when one unit of service is accepted or completed. A
+  multi-cycle resource needs a completion event instead of rotating every
+  clock.
 
 ## Active-recall checkpoint
 
@@ -1570,11 +1857,20 @@ is correct.
 18. For $din=10$, which four eight-bit values does the course master send?
 19. Why is `@(negedge TLAST)` weaker than observing an accepted final beat?
 20. Which four link nets connect the master and slave, and who drives each one?
+21. Why does `s1` check `req2` before checking `req1`?
+22. If both requests remain HIGH after reset, what state and grant sequence
+    should appear?
+23. What starvation bug appears if `s1` gives `req1` first priority again?
+24. Why is the initial `idle` decision not perfectly symmetric even though the
+    long-term schedule is fair?
+25. Which additional event is needed before rotating a grant for a multi-cycle
+    shared resource?
+26. Why is the lesson 33 module still not an AXI-Stream arbiter?
 
-## Layer 2 intake point
+## Layer 2 status
 
-When the handwritten notes arrive, each page will be placed in the
-[handwritten layer](../handwritten/README.md) and mapped back to the exact video
-and screenshot above. The written page will then receive its own transcription,
-verification, correction, and active-recall question without replacing this
-course layer.
+The first handwritten page is now in the
+[handwritten layer](../handwritten/README.md#page-1---why-does-s1-check-req2-first).
+It maps to Video 31 and contains the complete solution to why `s1` checks
+`req2` first. Future pages will receive the same transcription, verification,
+correction, and active-recall treatment without replacing this course layer.

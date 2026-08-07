@@ -4,28 +4,29 @@
 
 This chapter starts AXI from the common `VALID`/`READY` transfer rule and then
 specializes that rule for AXI-Stream. The present stopping point is Namaste
-FPGA lesson **29. Agenda**, immediately before the round-robin-arbiter lessons.
-Material after that agenda is outside this revision boundary and has not been
-summarized in advance.
+FPGA lesson **33. Code**, immediately before **Implementing AXIS Arbiter P1**.
+Material after the plain round-robin arbiter is outside this revision boundary
+and has not been summarized in advance.
 
 ## Learning layers
 
 | Layer | Material | Status |
 |---|---|:---:|
-| 1 | [Course-video atlas - Day 01](course/Day%2001.md) | COMPLETE THROUGH LESSON 29 AGENDA |
-| 2 | [Kapil's handwritten AXI notes](handwritten/README.md) | WAITING FOR SOURCE PAGES |
+| 1 | [Course-video atlas - Day 01](course/Day%2001.md) | COMPLETE THROUGH LESSON 33 CODE |
+| 2 | [Kapil's handwritten AXI notes](handwritten/README.md) | STARTED - 1 ROUND-ROBIN PAGE |
 | Authority | [Arm IHI 0051B - AMBA AXI-Stream Protocol Specification](sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf) | LOCAL SOURCE |
 
-Layer 1 contains real frames from all 25 completed videos through the Section 3
-agenda. Lessons 10, 22, 26, and 28 are code resources rather than videos; the
-master, slave, and integration resources at the current boundary are rendered
-directly in the atlas. Layer 2 is deliberately empty until the handwritten
-notes arrive; no handwritten explanation has been invented.
+Layer 1 contains real frames from all 28 completed videos through Round Robin
+Arbiter P3. Lessons 10, 22, 26, 28, and 33 are code resources rather than
+videos; the master, slave, integration, and round-robin resources at the
+current boundary are rendered directly in the atlas. Layer 2 now contains
+Kapil's first handwritten page and its verified fairness solution.
 
 The course layer now also contains verified, video-only fullscreen frames for
 the pin comparison, handshake rules, signal table, byte qualifiers, use cases,
 stall waveform, master RTL/testbench, slave FSM/testbench, end-to-end wiring,
-integrated waveforms, and the Section 3 agenda. The
+integrated waveforms, the Section 3 agenda, and the round-robin FSM/testbench.
+The
 [Day 01 standards audit](course/Day%2001.md#arm-ihi-0051b-standards-audit)
 checks the lecture and teaching RTL against clause-level details in Arm IHI
 0051B rather than treating the slides as the final authority.
@@ -136,7 +137,7 @@ zero-byte packet-ending event that must not be discarded.
 |---|---|
 | [Arm IHI 0051B - AMBA AXI-Stream Protocol Specification](sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf) | Authority for handshake, byte types, packet boundaries, optional signals, ordering, and AXI4-Stream versus AXI5-Stream behavior |
 | [Arm IHI 0022H - AMBA AXI and ACE Protocol Specification](https://developer.arm.com/-/media/Arm%20Developer%20Community/PDF/IHI0022H_amba_axi_protocol_spec.pdf) | Authority for the five memory-mapped channels and AXI4/AXI4-Lite distinctions |
-| [Namaste FPGA course page](https://namaste-fpga.com/student/learn/53) | Lesson order, drawings, waveform examples, and sample RTL through the lesson 29 agenda |
+| [Namaste FPGA course page](https://namaste-fpga.com/student/learn/53) | Lesson order, drawings, waveform examples, and sample RTL through lesson 33 |
 | [Course-video atlas](course/Day%2001.md) | Saved real frames and frame-specific explanations from the completed lessons |
 | [AMD AXI DMA core overview](https://docs.amd.com/r/en-US/pg021_axi_dma/Core-Overview) | Primary reference for the memory-mapped-to-stream and stream-to-memory-mapped DMA directions |
 | [AMD AXI4-Stream Video signaling guide](https://docs.amd.com/r/en-US/ug934_axi_videoIP/AXI4-Stream-Signaling-Interface) | Primary reference for video-profile `TUSER[0]` start-of-frame and `TLAST` end-of-line meanings |
@@ -176,12 +177,15 @@ zero-byte packet-ending event that must not be discarded.
   beat?
 - Which signal travels from the Receiver back to the Transmitter when the two
   blocks are connected?
+- Why does state `s1` check `req2` before checking `req1`?
+- If both requests stay HIGH, what grant sequence proves round-robin fairness?
+- Why is the plain request/grant arbiter not yet an AXI-Stream arbiter?
 
 ## Next additions
 
-- Add Kapil's handwritten pages as Layer 2 and map each page to the matching
-  video and protocol rule.
-- Begin the round-robin-arbiter material only when Kapil asks to extend beyond
-  the current Section 3 agenda boundary.
+- Add later handwritten pages to Layer 2 and map each one to the matching video
+  and protocol rule.
+- Begin **Implementing AXIS Arbiter P1** only when Kapil asks to extend beyond
+  the current lesson 33 boundary.
 - Turn the teaching master/slave pair into a self-checking RTL exercise with
   randomized stalls, inter-beat bubbles, assertions, and a scoreboard.

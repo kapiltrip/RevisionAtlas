@@ -150,45 +150,41 @@ This minimal testbench does only four jobs:
 
 Self-checking code is optional. It is useful for automated regression tests because it prints `PASS` or `FAIL` without requiring visual inspection. For learning the divider and inspecting its timing manually, the minimal testbench above is sufficient.
 
-## Main TODO
+## Progress
 
-| Order | What we will do | Status |
-|---:|---|:---:|
-| 1 | Implement standalone `/2` with 25%, 50%, and 75% duty cycles | DONE |
-| 2 | Implement standalone `/3` with all five listed duty cycles | DONE |
-| 3 | Implement standalone `/4` with all seven listed duty cycles | DONE |
-| 4 | Implement standalone `/5` with all nine listed duty cycles | DONE |
-| 5 | Create one clock/reset-only self-checking testbench per normal divider | DONE |
-| 6 | Simulate every normal configuration with Icarus Verilog | DONE |
-| 7 | Implement and test all agreed custom-duty cases | DONE |
-| 8 | Implement and test `/1.5`, `/2.5`, `/3.5`, and `/4.5` pulse outputs | DONE |
-| 9 | Synthesize and inspect each design in Vivado | NEXT |
+- [x] Implement standalone `/2`, `/3`, `/4`, and `/5` modules with every
+  listed duty cycle.
+- [x] Create a self-checking testbench for each normal divider and simulate all
+  configurations with Icarus Verilog.
+- [x] Implement and test the agreed custom-duty cases.
+- [x] Implement and test `/1.5`, `/2.5`, `/3.5`, and `/4.5` pulse outputs.
+- [ ] Synthesize and inspect each design in Vivado.
 
 ## Miscellaneous cases completed
 
-| Type | Target | Implemented counts | Status |
-|---|---|---|:---:|
-| Custom duty | `/2` at 33.33% | `3x` clock, modulo-6, two HIGH counts | DONE |
-| Custom duty | `/2` at 60% | `5x` clock, modulo-10, six HIGH counts | DONE |
-| Custom duty | `/3` at 25% | `4x` clock, modulo-12, three HIGH counts | DONE |
-| Custom duty | `/3` at 40% | `5x` clock, modulo-15, six HIGH counts | DONE |
-| Custom duty | `/3` at 75% | `4x` clock, modulo-12, nine HIGH counts | DONE |
-| Custom duty | `/4` at 33.33% | `3x` clock, modulo-12, four HIGH counts | DONE |
-| Custom duty | `/4` at 80% | `5x` clock, modulo-20, sixteen HIGH counts | DONE |
-| Custom duty | `/5` at 25% | `4x` clock, modulo-20, five HIGH counts | DONE |
-| Custom duty | `/5` at 33.33% | `3x` clock, modulo-15, five HIGH counts | DONE |
-| Custom duty | `/5` at 75% | `4x` clock, modulo-20, fifteen HIGH counts | DONE |
-| Fractional pulse | `/1.5` | `2x` clock and modulo-3 | DONE |
-| Fractional pulse | `/2.5` | `2x` clock and modulo-5 | DONE |
-| Fractional pulse | `/3.5` | `2x` clock and modulo-7 | DONE |
-| Fractional pulse | `/4.5` | `2x` clock and modulo-9 | DONE |
+| Type | Target | Implemented counts |
+|---|---|---|
+| Custom duty | `/2` at 33.33% | `3x` clock, modulo-6, two HIGH counts |
+| Custom duty | `/2` at 60% | `5x` clock, modulo-10, six HIGH counts |
+| Custom duty | `/3` at 25% | `4x` clock, modulo-12, three HIGH counts |
+| Custom duty | `/3` at 40% | `5x` clock, modulo-15, six HIGH counts |
+| Custom duty | `/3` at 75% | `4x` clock, modulo-12, nine HIGH counts |
+| Custom duty | `/4` at 33.33% | `3x` clock, modulo-12, four HIGH counts |
+| Custom duty | `/4` at 80% | `5x` clock, modulo-20, sixteen HIGH counts |
+| Custom duty | `/5` at 25% | `4x` clock, modulo-20, five HIGH counts |
+| Custom duty | `/5` at 33.33% | `3x` clock, modulo-15, five HIGH counts |
+| Custom duty | `/5` at 75% | `4x` clock, modulo-20, fifteen HIGH counts |
+| Fractional pulse | `/1.5` | `2x` clock and modulo-3 |
+| Fractional pulse | `/2.5` | `2x` clock and modulo-5 |
+| Fractional pulse | `/3.5` | `2x` clock and modulo-7 |
+| Fractional pulse | `/4.5` | `2x` clock and modulo-9 |
 
-## Still later
+## Later extensions
 
-| Feature | Plan | Status |
-|---|---|:---:|
-| Other exact custom duty cycle | Calculate its required clock resolution and HIGH/total counts first | Later |
-| Live reconfiguration | Apply new settings only at a clean output-period boundary | Later |
+- For another exact custom duty cycle, first calculate the required clock
+  resolution and HIGH/total counts.
+- For live reconfiguration, apply new settings only at a clean output-period
+  boundary.
 
 ## Not included
 

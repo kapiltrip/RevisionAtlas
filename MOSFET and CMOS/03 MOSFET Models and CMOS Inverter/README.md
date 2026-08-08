@@ -23,23 +23,6 @@ The small-signal definitions follow [MIT 6.012’s MOSFET equivalent-circuit lec
 | **Switching threshold (`V_M`)** | VTC point where `V_in=V_out`. It summarizes strength balance but is not the only input threshold and is not valid across the whole curve. |
 | **Device strength (`β`)** | Long-channel current-factor shorthand containing mobility, oxide capacitance, and `W/L`. Equal `β_n` and `β_p` is a sizing condition, not a natural material equality. |
 
-## Page map
-
-| Page | Revision focus | Page | Revision focus |
-|---:|---|---:|---|
-| [1](#page-01) | pMOS transfer curve | [13](#page-13) | Output resistance |
-| [2](#page-02) | MOSFET symbols | [14](#page-14) | Small-signal current-source model |
-| [3](#page-03) | nMOS enhancement device | [15](#page-15) | Gate overlap/intrinsic capacitance |
-| [4](#page-04) | nMOS piecewise model | [16](#page-16) | Body-junction capacitance |
-| [5](#page-05) | Deep-triode resistance | [17](#page-17) | pMOS enhancement curves |
-| [6](#page-06) | Transconductance | [18](#page-18) | pMOS symbols and signs |
-| [7](#page-07) | Channel-length modulation | [19](#page-19) | MOSFET as amplifier |
-| [8](#page-08) | Effective channel length | [20](#page-20) | pMOS region equations |
-| [9](#page-09) | Lambda model | [21](#page-21) | CMOS inverter current balance |
-| [10](#page-10) | Early voltage | [22](#page-22) | Switching-point derivation |
-| [11](#page-11) | Current increase from shortening | [23](#page-23) | General and symmetric $V_M$ |
-| [12](#page-12) | Non-ideal saturation slope | [24](#page-24) | Inverter numerical/VTC check |
-
 <a id="page-01"></a>
 
 ## Page 01 - pMOS transfer characteristics

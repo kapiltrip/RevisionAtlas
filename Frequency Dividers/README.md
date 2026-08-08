@@ -9,14 +9,16 @@ This chapter follows the handwritten notebook page by page. Every source page is
 
 ## Quick index
 
-| Revision area | Jump directly |
-|---|---|
-| Fundamentals | [Core term dictionary](#core-terms) · [What is actually divided?](#what-is-divided) · [Minimum flip-flops](#minimum-flip-flops) · [Revision method](#revision-method) |
-| Basic integer division | [Page 01: divider meaning](#page-01) · [Page 02: toggle divide-by-2 and divide-by-4](#page-02) · [75/98 counter example](#counter-75-98) · [Page 03: duty cycle](#page-03) |
-| Modulo and duty-cycle designs | [Page 04: modulo-3](#page-04) · [Complete f/3 duty-cycle grid](#divide-by-3-duty-grid) · [Page 05: divide-by-3 and modulo-5](#page-05) · [Page 06: modulo-5](#page-06) · [Page 07: divide-by-2 duty cycles](#page-07) · [Page 08: pulse cutting and divide-by-3](#page-08) · [Page 09: divide-by-3 and divide-by-4](#page-09) |
-| Fractional division | [Page 10: divide-by-1.5 meaning](#page-10) · [Page 11: divide-by-1.5 edge detection](#page-11) · [Page 12: divide-by-2.5](#page-12) · [Page 13: both-edge state machine](#page-13) |
-| Related coding subject | [Programmable Frequency Divider — subject plan](../Programmable%20Frequency%20Divider/README.md) |
-| Final review | [Points to remember](#points-to-remember) · [Reference checks](#reference-checks) |
+- **Fundamentals:** [terms](#core-terms), [what is divided](#what-is-divided),
+  [minimum flip-flops](#minimum-flip-flops), and [revision method](#revision-method).
+- **Integer division:** [divider meaning](#page-01), [toggle `/2` and `/4`](#page-02),
+  [the 75/98 counter](#counter-75-98), and [duty cycle](#page-03).
+- **Modulo and duty-cycle designs:** [modulo-3](#page-04),
+  [the complete `/3` grid](#divide-by-3-duty-grid), and [pages 5-9](#page-05).
+- **Fractional division:** [pages 10-13](#page-10).
+- **RTL practice:** [programmable frequency divider](../Programmable%20Frequency%20Divider/README.md).
+- **Final review:** [points to remember](#points-to-remember) and
+  [reference checks](#reference-checks).
 
 A frequency divider creates a periodic output whose frequency is related to the input clock by
 

@@ -23,23 +23,6 @@ These meanings follow the electrostatic sequence in [MIT 6.012, MOS Capacitors I
 | **Surface potential (`ψ_s`)** | Electrostatic potential of the semiconductor surface relative to the neutral bulk; it quantifies band bending and classifies the surface regime. |
 | **Depletion width (`x_d`)** | Depth of the space-charge region under the depletion approximation. It grows as more majority carriers are removed until strong inversion limits further first-order growth. |
 
-## Page map
-
-| Page | Revision focus | Page | Revision focus |
-|---:|---|---:|---|
-| [1](#page-01) | MOS structure and work function | [13](#page-13) | Strong inversion |
-| [2](#page-02) | Vacuum and Fermi references | [14](#page-14) | Surface potential classification |
-| [3](#page-03) | Electron affinity and work-function difference | [15](#page-15) | Five surface conditions |
-| [4](#page-04) | Ideal MOS assumptions | [16](#page-16) | Complementary n-type picture |
-| [5](#page-05) | Flat-band condition | [17](#page-17) | p-substrate depletion width |
-| [6](#page-06) | Blank source page | [18](#page-18) | n-substrate depletion width |
-| [7](#page-07) | Accumulation | [19](#page-19) | Charge, field, and potential profiles |
-| [8](#page-08) | From flat band to depletion | [20](#page-20) | Electric-field boundary condition |
-| [9](#page-09) | Depletion charge and bands | [21](#page-21) | Potential distribution |
-| [10](#page-10) | Band and carrier profiles | [22](#page-22) | Field-area method |
-| [11](#page-11) | Deeper depletion | [23](#page-23) | Electrostatics numerical example |
-| [12](#page-12) | Inversion begins | [24](#page-24) | Non-ideal work-function effect |
-
 <a id="page-01"></a>
 
 ## Page 01 - MOS structure and the meaning of work function

@@ -38,13 +38,16 @@ Begin every trace with the written interface contract. For each clock edge, mark
 
 This is the handwritten plan converted into an implementation order:
 
-| Stage | Build or study | Why it comes here | Evidence required before moving on |
-|---:|---|---|---|
-| 1 | RAM | The FIFO needs storage, and the RAM's port and read-latency behavior affect the complete FIFO interface. | A clear memory contract and the intended memory resource visible after synthesis |
-| 2 | Synchronous FIFO around the RAM | One clock lets the storage, pointers, flags, and boundary rules be understood without CDC complexity. | Correct ordering, wrap-around, `full`, `empty`, overflow, and underflow behavior |
-| 3 | Verification, synthesis, and timing | Functional simulation alone does not prove that the intended RAM was inferred or that the design meets timing. | Passing directed/random tests, correct inferred hardware, and clean timing reports |
-| 4 | Asynchronous FIFO | Only after the FIFO rules are stable should independent write and read clocks be introduced. | Correct local flags, synchronized Gray pointers, CDC review, and defined reset behavior |
-| 5 | Asynchronous-FIFO verification | CDC latency and unrelated clocks create cases that a single-clock testbench cannot expose. | Passing tests across clock ratios, phase relationships, stalls, wrap-around, and resets |
+1. **RAM:** define ports, read latency, collision behavior, and confirm the
+   intended memory resource after synthesis.
+2. **Synchronous FIFO:** prove ordering, wrap-around, flags, overflow, and
+   underflow with one clock before adding CDC behavior.
+3. **Verification, synthesis, and timing:** pass directed/random tests, inspect
+   inferred hardware, and obtain clean timing reports.
+4. **Asynchronous FIFO:** add local binary/Gray pointers, synchronized remote
+   pointers, domain-local flags, and a written reset policy.
+5. **Asynchronous verification:** vary clock ratio and phase, stalls, resets,
+   and repeated wrap-around while checking ordering and capacity invariants.
 
 The order matters. If RAM behavior, FIFO boundary rules, verification, and CDC are learned simultaneously, a failure is difficult to localize. Here, every stage introduces only one new class of problem.
 
@@ -265,14 +268,9 @@ The FIFO topic is complete only when all of the following can be demonstrated an
 
 ## Planned folder growth
 
-Only this approach README is needed now. When implementation begins, grow this topic without mixing the stages:
-
-| Future area | Intended content |
-|---|---|
-| RAM | Memory experiments and synthesis observations |
-| Synchronous FIFO | One-clock design, written contract, and waveforms |
-| Synchronous verification | Directed tests, randomized scoreboard, invariants, and coverage |
-| Asynchronous FIFO | CDC architecture, constraints, and pointer reasoning |
-| Asynchronous verification | Independent-clock tests, CDC reports, and reset experiments |
+When implementation begins, keep RAM experiments, synchronous RTL,
+synchronous verification, asynchronous RTL, and asynchronous verification in
+separate directories. That separation makes synthesis observations, CDC
+constraints, scoreboards, and reset experiments easy to locate.
 
 The guiding rule is: **make the FIFO contract correct in one clock, prove the inferred hardware, and only then introduce clock-domain crossing.**

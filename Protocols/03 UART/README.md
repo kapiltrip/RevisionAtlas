@@ -22,19 +22,6 @@ The framing and receiver terms are verified against the [Microchip USART guide](
 | **FSM — finite-state machine** | A finite set of stored states plus transition/output rules; in UART it sequences `IDLE`, `START`, `DATA`, optional `PARITY`, and `STOP`. |
 | **Nonblocking assignment (`<=`)** | A Verilog/SystemVerilog procedural assignment that evaluates its right-hand side when the statement executes but schedules the left-hand-side update for the nonblocking-assignment update region ([IEEE 1800-2023](https://standards.ieee.org/ieee/1800/7743/)). In clocked RTL, this lets multiple registers sample the same pre-edge state rather than acquiring source-order dependencies. |
 
-## Page map
-
-| Page | Revision focus |
-|---:|---|
-| [09](#page-09) | UART purpose, asynchronous links, electrical standards, baud and bit rate |
-| [10](#page-10) | Bit time and the system-clock divider calculation |
-| [11](#page-11) | 16x oversampling and UART frame length |
-| [12](#page-12) | Idle, START, data, optional parity, STOP, and conversion direction |
-| [13](#page-13) | Baud-rate generator pulses, counter ranges, and width calculation |
-| [14](#page-14) | Transmitter interface and FSM |
-| [15](#page-15) | Receiver interface, mid-bit sampling, and counters |
-| [16](#page-16) | Receiver pseudocode, STOP validation, and nonblocking assignments |
-
 <a id="page-09"></a>
 
 ## Page 09 - UART as asynchronous framed serial communication

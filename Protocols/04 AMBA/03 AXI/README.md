@@ -1,191 +1,267 @@
-# 03 - AMBA AXI
+# 03 — AMBA AXI
 
 [Back to AMBA](../README.md) | [Back to Protocols](../../README.md)
 
-This chapter starts AXI from the common `VALID`/`READY` transfer rule and then
-specializes that rule for AXI-Stream. The present stopping point is Namaste
-FPGA lesson **33. Code**, immediately before **Implementing AXIS Arbiter P1**.
-Material after the plain round-robin arbiter is outside this revision boundary
-and has not been summarized in advance.
+AXI is AMBA's decoupled, channel-based interface family. The common rule is
+simple—information transfers only when `VALID && READY`—but AXI depth comes
+from applying that rule independently to address, data, and response channels
+while preserving transaction dependencies, ordering, and payload stability.
 
-## Learning layers
+This chapter covers memory-mapped AXI4 and AXI4-Lite as interview foundations,
+then connects them to the existing AXI-Stream lesson and question notes.
 
-| Layer | Material | Status |
-|---|---|:---:|
-| 1 | [Course-video atlas - Day 01](course/Day%2001.md) | COMPLETE THROUGH LESSON 33 CODE |
-| 2 | [Kapil's handwritten AXI notes](handwritten/README.md) | STARTED - 1 ROUND-ROBIN PAGE |
-| Authority | [Arm IHI 0051B - AMBA AXI-Stream Protocol Specification](sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf) | LOCAL SOURCE |
+## Open this chapter
 
-Layer 1 contains real frames from all 28 completed videos through Round Robin
-Arbiter P3. Lessons 10, 22, 26, 28, and 33 are code resources rather than
-videos; the master, slave, integration, and round-robin resources at the
-current boundary are rendered directly in the atlas. Layer 2 now contains
-Kapil's first handwritten page and its verified fairness solution.
+- [AXI Day 01 notes](../notes/AXI%20Day%2001.md) — AXI-Stream handshake,
+  source/sink RTL, stalls, integration, and the plain round-robin arbiter
+  through lesson 33.
+- [AXI question notes](../notes/AXI%20Questions.md) — the round-robin fairness
+  question and its AXI-Stream boundary conditions.
+- [Arm IHI 0051B AXI-Stream specification](sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf)
+  — local stream authority.
+- [Arm IHI 0022H AXI and ACE specification](https://developer.arm.com/-/media/Arm%20Developer%20Community/PDF/IHI0022H_amba_axi_protocol_spec.pdf)
+  — memory-mapped AXI4 and AXI4-Lite authority.
 
-The course layer now also contains verified, video-only fullscreen frames for
-the pin comparison, handshake rules, signal table, byte qualifiers, use cases,
-stall waveform, master RTL/testbench, slave FSM/testbench, end-to-end wiring,
-integrated waveforms, the Section 3 agenda, and the round-robin FSM/testbench.
-The
-[Day 01 standards audit](course/Day%2001.md#arm-ihi-0051b-standards-audit)
-checks the lecture and teaching RTL against clause-level details in Arm IHI
-0051B rather than treating the slides as the final authority.
+## Choose the correct AXI interface
 
-## Where each AXI interface fits
+- **AXI4:** memory-mapped, burst-capable, ID-based, and suitable for
+  high-throughput memories, DMA engines, and interconnects.
+- **AXI4-Lite:** memory-mapped and single-beat, with fewer attributes and no
+  transaction IDs. It fits control/status registers.
+- **AXI-Stream:** unaddressed, unidirectional transfer of ordered data and
+  sideband information. It fits DSP, packet, video, and DMA data paths.
 
-| Interface | Addressed? | Transfer shape | Best first mental model |
-|---|:---:|---|---|
-| **AXI4-Stream** | No | A unidirectional sequence of transfers, optionally grouped into packets | A producer and consumer connected by a flow-controlled data pipe |
-| **AXI4-Lite** | Yes | Single-beat memory-mapped reads and writes | Control/status-register access |
-| **AXI4** | Yes | Memory-mapped single or burst transactions, with multiple outstanding operations and IDs when implemented | High-throughput access to memories, DMA engines, and interconnects |
+AXI-Stream is not “AXI4 without address wires.” It is a separate protocol with
+stream and packet semantics.
 
-AXI4-Stream is point-to-point at one interface: one Transmitter connects to one
-Receiver. That does **not** limit a system to only two components. An AXI-Stream
-interconnect can switch, arbitrate, change width, or cross a clock domain while
-preserving the stream rules, as stated by the
-[Arm AXI-Stream specification](sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf).
+## The universal handshake invariant
 
-## Core-term key
-
-| Term | Precise meaning | Hardware meaning |
-|---|---|---|
-| **AMBA** | Arm's Advanced Microcontroller Bus Architecture family of on-chip interface standards. | Independently designed IP blocks can exchange information through a shared electrical and timing contract. |
-| **AXI** | Advanced eXtensible Interface, the AMBA family used for high-performance memory-mapped and streaming communication. | AXI separates information into channels so each channel can use its own flow-control handshake. |
-| **AXI-Stream** | A standard point-to-point interface for exchanging an ordered stream of bytes between a Transmitter and Receiver. | It carries payload and packet metadata without an address phase on every transfer. |
-| **Transmitter / source** | The endpoint that drives `TVALID`, `TDATA`, and associated sideband information. | It owns the offered beat and must keep it stable while stalled. Older material often calls it the master. |
-| **Receiver / destination** | The endpoint that drives `TREADY` and accepts a transfer. | It creates back-pressure by lowering `TREADY`. Older material often calls it the slave. |
-| **Transfer / beat** | One payload-and-sideband item accepted on one rising edge where `TVALID` and `TREADY` are both HIGH. | A beat counter, pointer, or state machine advances once for that edge and not merely once per clock. |
-| **Packet** | A related group of transfers whose final transfer is identified by `TLAST` when packet boundaries are used. | `TLAST` belongs to the same held beat as `TDATA`; it cannot disappear during a stall. |
-| **Back-pressure** | The Receiver's ability to postpone acceptance by driving `TREADY` LOW. | The Transmitter freezes the complete offered beat until acceptance becomes possible. |
-
-These definitions follow the terminology and transfer model in
-[Arm IHI 0051B](sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf).
-
-## The one equation that controls the RTL
-
-Define the acceptance event for cycle $n$ as:
+For any AXI channel:
 
 $$
-\text{fire}[n] = \text{TVALID}[n] \land \text{TREADY}[n]
+\text{fire}=\texttt{VALID}\land\texttt{READY}
 $$
 
-At the rising edge ending cycle $n$:
+At the rising edge where `fire=1`, exactly one beat transfers.
 
-- if `fire` is `1`, exactly one transfer is accepted;
-- if `TVALID=1` and `TREADY=0`, no transfer occurs and `TDATA`, `TLAST`,
-  `TKEEP`, `TSTRB`, `TID`, `TDEST`, and `TUSER` associated with that offered
-  transfer must remain unchanged;
-- if `TVALID=0`, the Receiver must not treat `TDATA` as a transfer, regardless
-  of its visible bit pattern.
+The source owns `VALID` and the channel payload. The destination owns `READY`.
+The source must not wait for `READY` before asserting `VALID`; doing so can
+deadlock with a destination that waits for `VALID`. Once `VALID=1`, the source
+must keep `VALID` and its entire payload stable until a handshake.
 
-The Transmitter is not permitted to wait for `TREADY` before asserting
-`TVALID`. Once `TVALID` is asserted, it remains asserted until a handshake. A
-Receiver **is** permitted to wait for `TVALID` before raising `TREADY`, although
-pre-asserting `TREADY` gives the one-cycle, full-throughput case. These are the
-actual asymmetric rules in
-[section 2.2 of Arm IHI 0051B](sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf).
+The destination may assert `READY` before or after `VALID`. Pre-asserting it
+permits a one-cycle transfer.
 
-## Signal ownership and meaning
+AXI also forbids combinational paths between interface inputs and outputs.
+Registering or buffering channel boundaries avoids long ready loops and makes
+timing closure practical.
 
-| Signal | Driven by | Meaning at a transfer edge |
-|---|---|---|
-| `ACLK` | Clock source | All interface inputs are sampled on its rising edge, and interface outputs change after rising edges. |
-| `ARESETn` | Reset source | Active-LOW reset. Protocol assertion may be asynchronous, but deassertion must be synchronous. The course RTL chooses synchronous assertion too because reset is tested only inside `always @(posedge ACLK)`. |
-| `TVALID` | Transmitter | The complete offered transfer is valid now. |
-| `TREADY` | Receiver | The Receiver can accept the offered transfer now. |
-| `TDATA` | Transmitter | Payload; byte lane $x$ is `TDATA[(8x+7):8x]`. |
-| `TKEEP[x]` | Transmitter | HIGH means byte lane $x$ must be transported; LOW marks a removable null byte. |
-| `TSTRB[x]` | Transmitter | With `TKEEP[x]=1`, HIGH marks a data byte and LOW marks a position byte. The combination `TKEEP=0`, `TSTRB=1` is reserved. |
-| `TLAST` | Transmitter | Marks a packet boundary when the stream uses packets. |
-| `TID` | Transmitter | Identifies a logical stream for ordering/interleaving rules. |
-| `TDEST` | Transmitter | Supplies destination/routing information to an interconnect. |
-| `TUSER` | Transmitter | Carries application-defined sideband information. The base transport model associates User bits with bytes, so null-byte removal and width conversion need special care. |
-| `TWAKEUP` | Transmitter, AXI5-Stream only | Optional glitch-free activity indication for power/clock wake-up; it is not part of the transfer handshake and must not appear on AXI4-Stream. |
+## AXI4 memory-mapped channels
 
-`TKEEP`, `TSTRB`, and even `TLAST` are conditional or optional for some usage
-models; they are not universally mandatory pins. If `TREADY` is omitted for an
-always-accepting Receiver, it defaults HIGH. The default and optional-signal
-rules are defined in
-[chapter 3 of Arm IHI 0051B](sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf).
+- **AW — write address:** `AWADDR`, burst attributes, ID, and protection/cache
+  attributes travel with `AWVALID/AWREADY`.
+- **W — write data:** `WDATA`, byte strobes, and `WLAST` travel with
+  `WVALID/WREADY`.
+- **B — write response:** `BRESP` and `BID` travel with
+  `BVALID/BREADY`.
+- **AR — read address:** `ARADDR`, burst attributes, ID, and attributes travel
+  with `ARVALID/ARREADY`.
+- **R — read data:** `RDATA`, `RRESP`, `RID`, and `RLAST` travel with
+  `RVALID/RREADY`.
 
-An omitted `TLAST` needs a deliberate system default: HIGH is recommended when
-the interconnect topology is unknown, while fixed LOW is safe only when no
-interconnect function waits for a boundary to drain. A transfer with every
-`TKEEP` bit LOW is legal, and if it carries `TLAST=1` it can represent a
-zero-byte packet-ending event that must not be discarded.
+Each channel can stall independently. A design that gates all five channels
+with one global “AXI ready” signal throws away the protocol's decoupling and
+often creates deadlock or throughput problems.
 
-## Lecture precision and corrections
+## Write transaction: independence plus dependency
 
-| Lecture shortcut | Specification-accurate version |
-|---|---|
-| AXI-Stream, AXI-Lite, and AXI4 have fixed totals of 11, 19, and 43 pins. | Pin count is configuration-dependent. Data, address, ID, user, and destination widths vary, and many AXI-Stream signals are optional. Use a signal-set comparison, not one universal total. |
-| `VALID` and `READY` must be completely independent. | The critical deadlock rule is asymmetric: the Transmitter must not wait for `READY` before raising `VALID`; the Receiver may wait for `VALID` before raising `READY`. Good high-throughput Receivers commonly assert `READY` early. |
-| `TKEEP` and `TLAST` are mandatory AXI-Stream signals. | Both depend on the interface's supported data and packet model. Their absence has defined default behavior. |
-| `TWAKEUP` is not part of AXI-Stream. | It is not an AXI4-Stream signal, but it was added as an optional AXI5-Stream wake-up signal in Issue B of the specification. |
-| `TSTRB=0` means ordinary Ethernet padding. | With `TKEEP=1`, `TSTRB=0` means a **position byte**: its position matters but its `TDATA` value does not. Ethernet's 64-byte minimum frame also includes header and FCS, so “4 data bytes plus 60 padded bytes” is not a generally correct Ethernet calculation. |
-| Any non-`OKAY` memory response means an empty memory or an automatic retry. | AXI responses encode protocol-defined outcomes such as `SLVERR` and `DECERR`. Recovery is a system/software policy; retry is not implied by every error. |
-| A plain memory is inherently unable to signal valid data or completion. | A raw array has no protocol, but a memory macro can have chip-enable, write-enable, byte-enable, and ready/busy behavior. AXI standardizes scalable decoupled channels; it is not the only possible memory control interface. |
-| The sample master is a reusable production AXI-Stream source. | It is a useful four-beat teaching model. Because `TDATA` is derived continuously from external `din * count`, `din` must remain stable for the whole packet, including stalls. A reusable source should latch its command/data or explicitly document that upstream stability contract. |
-| `TVALID` must stay HIGH continuously from the first packet beat through `TLAST`. | Once a beat is offered, `TVALID` and its information must remain stable until handshake. After an accepted beat, the Transmitter may legally insert one or more `TVALID=0` bubbles before the next beat of the same packet. |
-| The course slave's `dout` stores each received byte. | `dout` is a combinational view of `s_axis_tdata` while the FSM is in `store`. Actual storage requires a register enabled by `s_axis_tvalid && s_axis_tready`, or another downstream handshake. |
-| SystemVerilog `logic` automatically becomes `reg` on inputs and `wire` on outputs. | `logic` is a four-state variable data type with a single-driver expectation. Port direction controls data flow; designers must still reason about nets, variables, and driver count. |
-| A falling edge of `TLAST` proves packet completion. | Completion occurs on a rising edge with `TVALID && TREADY && TLAST`. A later `TLAST` falling edge is only a consequence of a particular implementation. |
+AW and W are independent. The address can handshake before the data, the data
+can handshake before the address, or both can handshake on the same edge. A
+subordinate that needs both must buffer whichever arrives first.
 
-## Source register
+A correct AXI4 write-response condition is conceptually:
 
-| Source | Use in this chapter |
-|---|---|
-| [Arm IHI 0051B - AMBA AXI-Stream Protocol Specification](sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf) | Authority for handshake, byte types, packet boundaries, optional signals, ordering, and AXI4-Stream versus AXI5-Stream behavior |
-| [Arm IHI 0022H - AMBA AXI and ACE Protocol Specification](https://developer.arm.com/-/media/Arm%20Developer%20Community/PDF/IHI0022H_amba_axi_protocol_spec.pdf) | Authority for the five memory-mapped channels and AXI4/AXI4-Lite distinctions |
-| [Namaste FPGA course page](https://namaste-fpga.com/student/learn/53) | Lesson order, drawings, waveform examples, and sample RTL through lesson 33 |
-| [Course-video atlas](course/Day%2001.md) | Saved real frames and frame-specific explanations from the completed lessons |
-| [AMD AXI DMA core overview](https://docs.amd.com/r/en-US/pg021_axi_dma/Core-Overview) | Primary reference for the memory-mapped-to-stream and stream-to-memory-mapped DMA directions |
-| [AMD AXI4-Stream Video signaling guide](https://docs.amd.com/r/en-US/ug934_axi_videoIP/AXI4-Stream-Signaling-Interface) | Primary reference for video-profile `TUSER[0]` start-of-frame and `TLAST` end-of-line meanings |
+```text
+write address accepted
+AND
+all write data beats accepted, including WLAST
+THEN
+offer BVALID with BRESP/BID
+```
 
-## How to revise this chapter
+The subordinate must not wait for `BREADY` before asserting `BVALID`.
+`BVALID` and its response hold until `BVALID && BREADY`.
 
-1. Write `fire = TVALID && TREADY` before tracing any waveform.
-2. Circle only rising edges where `fire=1`; number accepted beats at those
-   edges.
-3. For every `TREADY=0` interval, verify the entire offered beat is unchanged.
-4. On the final beat, treat `TLAST` as part of the held payload, not as a
-   one-cycle pulse independent of acceptance.
-5. In RTL, gate every beat counter, FIFO pointer, packet counter, and input-data
-   advance with the same `fire` event.
-6. Revisit the [video atlas](course/Day%2001.md), then explain each correction
-   in the table above without looking.
+In AXI4, write data has no `WID`; write-data ordering follows the accepted
+write-address ordering rules. Do not try to pair AW and W by assuming they
+arrive in the same cycle.
 
-## Completion checkpoint
+## Read transaction
 
-- What exact Boolean condition means one transfer happened?
-- Why may a Transmitter assert `TVALID` before `TREADY`, but not wait for it?
-- Which signals must remain stable during back-pressure?
-- How do `TKEEP` and `TSTRB` distinguish data, position, and null bytes?
-- Why can one AXI-Stream link be point-to-point while a larger stream network
-  still has multiple sources and destinations?
-- What assumption about `din` is hidden inside the course's sample master?
-- Why must the beat counter advance on a handshake rather than every clock?
-- Why may a zero-byte transfer with `TLAST=1` still be meaningful?
-- Which reset signal is required LOW during reset, and what is the synchronous
-  release requirement for `ARESETn`?
-- Why may `TVALID` go LOW between two beats of one packet without violating
-  AXI-Stream?
-- Why is the course slave's `dout` not a stored-byte output?
-- Which event should a testbench use instead of `@(negedge TLAST)` to count a
-  completed packet?
-- Why does the course slave create a startup bubble before its first accepted
-  beat?
-- Which signal travels from the Receiver back to the Transmitter when the two
-  blocks are connected?
-- Why does state `s1` check `req2` before checking `req1`?
-- If both requests stay HIGH, what grant sequence proves round-robin fairness?
-- Why is the plain request/grant arbiter not yet an AXI-Stream arbiter?
+An AR handshake creates a read request. The subordinate later offers one or
+more R beats. Every beat transfers on `RVALID && RREADY`; `RLAST` marks the
+final beat of a burst and must remain stable with its beat during a stall.
 
-## Next additions
+The subordinate must not wait for `RREADY` before asserting `RVALID`.
+`RRESP` belongs to each read beat, so a burst can report response information
+per beat rather than only after the entire burst.
 
-- Add later handwritten pages to Layer 2 and map each one to the matching video
-  and protocol rule.
-- Begin **Implementing AXIS Arbiter P1** only when Kapil asks to extend beyond
-  the current lesson 33 boundary.
-- Turn the teaching master/slave pair into a self-checking RTL exercise with
-  randomized stalls, inter-beat bubbles, assertions, and a scoreboard.
+## Burst arithmetic
+
+For AW or AR:
+
+$$
+\text{beats}=\texttt{AxLEN}+1
+$$
+
+$$
+\text{bytes per beat}=2^{\texttt{AxSIZE}}
+$$
+
+`AxBURST` selects FIXED, INCR, or WRAP address behavior.
+
+- **FIXED:** every beat uses the same address, useful for FIFO-like locations.
+- **INCR:** address advances by bytes per beat.
+- **WRAP:** address advances but wraps inside
+  `beats × bytes_per_beat`; legal AXI wrap lengths are 2, 4, 8, or 16 beats.
+
+An AXI transaction must not cross a 4-KiB boundary. A practical check is:
+
+$$
+\texttt{start\_addr[ADDR\_W-1:12]}
+=
+\texttt{last\_byte\_addr[ADDR\_W-1:12]}
+$$
+
+where `last_byte_addr` includes every byte covered by the final beat. Do not
+confuse this system routing boundary with a WRAP burst's smaller local wrap
+region.
+
+## IDs, outstanding transactions, and ordering
+
+AXI4 IDs let a manager issue transactions without waiting for every earlier
+response. Responses carry `BID` or `RID` so the interconnect can route them
+back correctly.
+
+The safe interview rule is:
+
+- transactions with the same relevant ID have ordering guarantees defined by
+  the protocol;
+- different IDs permit more independence and can complete out of issue order;
+- a component that requires an order not guaranteed by AXI must wait for a
+  response or add its own dependency control.
+
+IDs do not mean beats within one burst can be arbitrarily reordered. AXI4-Lite
+removes ID signals and burst support, which simplifies register interfaces but
+does not remove the five-channel handshake model.
+
+## Responses
+
+Memory-mapped AXI uses response encodings:
+
+- `OKAY`: normal access;
+- `EXOKAY`: successful exclusive access where that feature applies;
+- `SLVERR`: the addressed subordinate accepted the request but could not
+  complete it successfully;
+- `DECERR`: the interconnect could not decode the address to a valid target.
+
+An error response does not automatically imply retry. Recovery is a
+system/software decision.
+
+## AXI-Stream data and packet semantics
+
+AXI-Stream uses one forward channel:
+
+- `TVALID`: transmitter offers a beat;
+- `TREADY`: receiver accepts a beat;
+- `TDATA`: payload;
+- `TKEEP`: byte lanes that must be transported;
+- `TSTRB`: distinguishes data bytes from position bytes when `TKEEP=1`;
+- `TLAST`: packet boundary when packet semantics are used;
+- `TID`: logical stream identity;
+- `TDEST`: routing destination;
+- `TUSER`: application-defined sideband;
+- optional AXI5-Stream `TWAKEUP`: wake/activity indication, not a handshake.
+
+During `TVALID && !TREADY`, every implemented forward signal belonging to the
+offered beat must hold, including `TDATA`, `TLAST`, byte qualifiers, ID,
+destination, and user fields.
+
+`TKEEP`, `TSTRB`, and `TLAST` are not universally mandatory pins; their
+presence depends on the interface's byte and packet model. Signal totals are
+therefore configuration-dependent.
+
+## Round-robin arbitration at an AXI-Stream boundary
+
+A plain request/grant arbiter can rotate priority every completed service. An
+AXI-Stream arbiter must additionally preserve the selected source while its
+offered output beat is stalled:
+
+```text
+out_tvalid && !out_tready
+=> selected source and all output payload stay stable
+```
+
+For beat-level arbitration, rotate after an output handshake. For
+packet-level arbitration, keep the source selected through the handshake that
+accepts `TLAST`, then rotate. Rotating merely because a clock edge occurred can
+mix two sources into one stalled beat or packet.
+
+## RTL and verification invariants
+
+For every channel:
+
+- count a transfer only on `VALID && READY`;
+- hold `VALID` and payload during `VALID && !READY`;
+- allow independent stalls on AW, W, B, AR, and R;
+- never require the source to see `READY` before it asserts `VALID`;
+- reset source-side `VALID` outputs LOW;
+- avoid combinational input-to-output paths.
+
+For memory-mapped AXI:
+
+- accept AW and W in either order;
+- issue B only after address and final write data are accepted;
+- check `WSTRB` byte lanes;
+- preserve `WLAST` and `RLAST` through stalls;
+- verify burst address, length, size, wrap, and 4-KiB rules;
+- scoreboard responses by ID and channel;
+- test `SLVERR` and `DECERR`; and
+- randomize back-pressure independently on all channels.
+
+For AXI-Stream:
+
+- randomize receiver stalls and transmitter bubbles;
+- hold sidebands with the stalled beat;
+- count packet completion on `TVALID && TREADY && TLAST`, not on a falling
+  edge of `TLAST`;
+- verify zero-byte or partial-byte cases when `TKEEP` is implemented.
+
+## Course corrections retained
+
+- Do not memorize fixed pin totals for AXI4, AXI4-Lite, or AXI-Stream.
+- The source must not wait for `READY`; the destination may wait for `VALID`.
+- `TKEEP` and `TLAST` depend on the configured stream model.
+- `TWAKEUP` is AXI5-Stream-only.
+- With `TKEEP=1`, `TSTRB=0` marks a position byte, not generic padding.
+- The course master requires external `din` to remain stable because it does
+  not latch the whole command.
+- `TVALID` may contain bubbles between accepted packet beats, but an offered
+  beat cannot be withdrawn before handshake.
+- The course slave's combinational `dout` is not stored data.
+- Packet completion is the accepted `TLAST` beat, not `negedge TLAST`.
+
+The clause-level review remains in the
+[Day 01 standards audit](../notes/AXI%20Day%2001.md#arm-ihi-0051b-standards-audit).
+
+## Recall checkpoint
+
+1. Why may AW and W handshake in either order?
+2. What must happen before a subordinate can offer `BVALID`?
+3. What is the one invariant shared by all five channels?
+4. Derive beats and bytes per beat from `AxLEN` and `AxSIZE`.
+5. Why can a legal WRAP burst still violate the 4-KiB rule?
+6. What do IDs enable, and what ordering assumption is unsafe?
+7. What is removed—and what remains—in AXI4-Lite?
+8. Which AXI-Stream signals must hold during back-pressure?
+9. When should a stream arbiter rotate at beat level and packet level?

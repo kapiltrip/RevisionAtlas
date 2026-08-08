@@ -1,75 +1,91 @@
 # Protocols
 
-This subject covers hardware communication protocols. The existing 16-page handwritten scan is preserved once and separated into I2C, SPI, and UART rooms. The AMBA branch adds on-chip interconnect study and code without mixing its pipelined bus rules into the serial-protocol notes.
+This subject studies communication as an observable hardware contract: who
+drives each signal, when a value is valid, which edge accepts it, how flow
+control works, and how an error is reported. Matching wire names or widths is
+not enough; both endpoints must implement the same timing rules.
 
-## Core terms
+## Open a protocol
 
-| Term | Precise meaning | Physical / practical meaning |
-|---|---|---|
-| **Communication protocol** | An agreed set of electrical, timing, framing, addressing, and response rules that lets endpoints assign the same meaning to signal activity. The NXP I2C specification, for example, defines bus signals, transfer conditions, byte formats, acknowledgment, and arbitration rather than merely naming two wires ([NXP UM10204](https://www.nxp.com/docs/en/user-guide/UM10204.pdf)). | A wire carries voltage; the protocol says when that voltage is data, clock, address, acknowledgment, idle, or an error/termination condition. |
-| **Serial communication** | Transfer in which a word is represented as an ordered sequence of bits over time rather than one simultaneous conductor per bit. | It reduces pin count but requires framing, bit ordering, and timing recovery or an accompanying clock. |
-| **Synchronous serial communication** | Communication in which sampling is referenced to an explicitly transferred or otherwise shared clock. I2C supplies SCL and SPI supplies SCK ([NXP UM10204](https://www.nxp.com/docs/en/user-guide/UM10204.pdf), [Microchip SPI modes](https://onlinedocs.microchip.com/oxy/GUID-A299F4E7-F38C-4DF5-96C0-A87B9F519156-en-US-4/GUID-8A5B8750-B99E-4176-834E-E44E98F4A098.html)). | The receiver knows which clock edge defines a valid data sample. |
-| **Asynchronous serial communication** | Communication without a continuously transferred sampling clock; endpoints agree on nominal symbol timing and recover alignment from framing transitions. A UART receiver begins from the START transition and samples within later bit cells ([Microchip UART reception](https://onlinedocs.microchip.com/oxy/GUID-F2693295-804D-4E36-8BA5-0105C1751EA5-en-US-3/GUID-2966F8A6-816E-45CF-87A6-FB4C876E377D.html)). | “Asynchronous” does not mean untimed. Both endpoints still require sufficiently close baud rates. |
-| **Frame** | A defined sequence that packages payload with timing or control fields such as START, address, parity, acknowledgment, or STOP. Microchip’s common UART `8N1` example contains one START bit, eight data bits, no parity, and one STOP bit ([Microchip USART guide](https://onlinedocs.microchip.com/oxy/GUID-78D70ED6-D060-4984-8F25-B119A2A89ABB-en-US-3/GUID-BA123D56-04C4-40CB-93D5-644DF3FD9C1D.html)). | Framing lets the receiver locate data boundaries and detect some invalid conditions. |
-| **Simplex / half duplex / full duplex** | Simplex carries useful data in one direction; half duplex supports both directions at different times; full duplex supports simultaneous opposite-direction transfer. Microchip documents asynchronous USART with separate RX and TX as full duplex and one-wire operation as half duplex ([Microchip USART guide](https://onlinedocs.microchip.com/oxy/GUID-78D70ED6-D060-4984-8F25-B119A2A89ABB-en-US-3/GUID-BA123D56-04C4-40CB-93D5-644DF3FD9C1D.html)). | Count independent data paths and whether they can be active simultaneously; do not infer duplex only from the protocol name. |
-| **Bit rate** | Number of bits transmitted per second ([Keysight, “Bits Versus Symbols”](https://helpfiles.keysight.com/scopes/FlexDCA-PG/Content/Topics/Quick-Start/theory_bits_vs_symbols.htm)). | It counts transmitted bits; useful payload throughput can be lower after framing, coding, or protocol overhead. |
-| **Baud rate** | Number of signaling symbols transmitted per second ([Keysight, “Bits Versus Symbols”](https://helpfiles.keysight.com/scopes/FlexDCA-PG/Content/Topics/Quick-Start/theory_bits_vs_symbols.htm)). | Baud equals bit rate only when each symbol represents one bit, as in ordinary binary NRZ UART; the definitions are not universally interchangeable. |
-| **Electrical layer versus protocol layer** | Electrical rules define voltage, current drive, polarity, and physical signaling; protocol rules define timing and meaning. | UART framing can be transported through TTL/CMOS GPIO, RS-232, or RS-485 transceivers, but those electrical interfaces are not alternate names for UART. |
+- [I2C](01%20I2C/README.md) — pages 1-5: open-drain two-wire behavior,
+  addressing, START/STOP, ACK/NACK, reads, writes, arbitration, and clock
+  stretching.
+- [SPI](02%20SPI/README.md) — pages 6-8: full-duplex shifting, chip-select
+  topology, bit order, and the four CPOL/CPHA modes.
+- [UART](03%20UART/README.md) — pages 9-16: asynchronous framing, baud
+  generation, oversampling, transmitter/receiver RTL, and sampling error.
+- [AMBA](04%20AMBA/README.md) — on-chip interconnect study:
+  [AHB](04%20AMBA/01%20AHB/README.md),
+  [APB](04%20AMBA/02%20APB/README.md), and
+  [AXI](04%20AMBA/03%20AXI/README.md), including memory-mapped AXI4,
+  AXI4-Lite, and AXI-Stream.
 
-## Ordered path
+The untouched serial-protocol scan is
+[protocols-handwritten-notes.pdf](sources/protocols-handwritten-notes.pdf).
+AMBA specifications and source notes stay inside the AMBA branch.
 
-| Topic room | Source pages | Main coverage |
-|---|---:|---|
-| [I2C](01%20I2C/README.md) | 1-5 | Two-wire electrical behavior, addressing, START/STOP, ACK/NACK, reads, writes, and clock stretching |
-| [SPI](02%20SPI/README.md) | 6-8 | Four-wire full-duplex transfers, shift-register model, chip select, and the four CPOL/CPHA modes |
-| [UART](03%20UART/README.md) | 9-16 | Asynchronous framing, baud generation, oversampling, and transmitter/receiver RTL architecture |
-| [AMBA](04%20AMBA/README.md) | New sources | AMBA family map; current AHB-Lite timing, FSM correction, RTL, and verification |
+## First-principles checklist
 
-The untouched serial-protocol scan is available as [protocols-handwritten-notes.pdf](sources/protocols-handwritten-notes.pdf). AHB has its own official specification and later handwritten-note intake inside the [AMBA branch](04%20AMBA/README.md).
+For any protocol, answer these questions before memorizing signals:
 
-## How to use these notes
+1. Who initiates the operation, and who can delay it?
+2. Who drives every wire during idle, request, data, and response?
+3. Which clock edge or signal transition accepts information?
+4. What must remain stable while the receiver is not ready?
+5. How are address, direction, payload, byte validity, completion, and error
+   represented?
+6. Can multiple operations overlap, and if so, how are their identities kept
+   separate?
+7. Which behavior is guaranteed by the protocol, and which is a device or
+   implementation choice?
 
-Each source page is rendered inline before its discussion. Read the page first, explain its diagram aloud, and only then open the explanation. Every page then provides:
+This sequence applies equally to a UART frame, an APB register access, an AHB
+pipeline, and an AXI channel handshake.
 
-- **Technical discussion:** a formal, page-specific explanation of each visible signal, diagram, equation, or timing relationship in the same order as the source page.
-- **Technical corrections and qualifications:** verified corrections, implementation constraints, and precise limits needed before applying the handwritten statement to hardware.
-- **Active recall:** a closed-book prompt aimed at the causal logic rather than the wording.
+## Serial links versus AMBA
 
-The discussion remains within the subject matter visible or directly implied on its source page. Additional facts are included only when they correct, quantify, or technically deepen that material, and important protocol claims are checked against the manufacturer references below.
+I2C, SPI, and UART normally connect chips or board-level devices through
+serial signaling. AMBA defines synchronous interfaces used mainly between IP
+blocks inside an SoC. That changes the engineering questions:
 
-## How to revise protocols
+- serial protocols emphasize framing, bit timing, electrical drive, and device
+  selection;
+- AMBA protocols emphasize pipelining, ready/valid flow control, address
+  decoding, response routing, bursts, ordering, buffering, and timing closure.
 
-For every transaction, draw the complete waveform and answer in order:
+Do not call AMBA one protocol. It is a family whose members deliberately use
+different transfer models.
 
-1. Who initiates the transfer?
-2. Who drives each wire in every field?
-3. Which edge or transition defines sampling?
-4. Where are address, direction, payload, acknowledgment, and termination represented?
-5. What detects rejection or corruption—and what does not?
-6. Which statement is universal to the protocol and which is device-specific?
+## AMBA study path
 
-Then compare one nearby protocol without saying only “faster” or “fewer wires.” Compare clocking, electrical drive, selection/addressing, duplex behavior, framing, acknowledgment, and implementation cost. Use the global [revision plan](../REVISION_PLAN.md) for the spaced schedule.
+1. Start with **APB** to learn one retained request moving through SETUP and
+   ACCESS.
+2. Learn **AHB** to see why the address of transfer $N+1$ can overlap the data
+   phase of transfer $N$.
+3. Learn **AXI** to separate address, data, and response into independently
+   flow-controlled channels.
+4. Finally trace a bridge. The bridge must buffer request context and translate
+   timing and responses; it is never just a wire rename.
 
-## Question and correction register
+## Revision method
 
-| Page | Issue recognized | Resolution |
-|---|---|---|
-| [I2C page 1](01%20I2C/README.md#page-01) | Are baud rate and bit rate always the same, and is I2C a single-wire bus? | They coincide only for one bit per symbol; ordinary I2C uses two shared signal lines, SDA and SCL. |
-| [I2C page 3](01%20I2C/README.md#page-03) | Do ACK/NACK provide general error detection, and is 5 MHz an ordinary I2C speed? | ACK/NACK reports byte acceptance, not a checksum; 5 Mbit/s belongs to the special unidirectional Ultra Fast-mode. |
-| [I2C page 5](01%20I2C/README.md#page-05) | Who sends ACK during a read? | The controller-receiver ACKs each wanted byte and NACKs the final byte before STOP or a repeated START. |
-| [SPI page 6](02%20SPI/README.md#page-06) | Is SPI always faster than 10 Mbit/s and always exactly four wires? | Neither is guaranteed; rate and wiring depend on the devices and topology. |
-| [SPI page 8](02%20SPI/README.md#page-08) | What do CPOL and CPHA really select? | CPOL selects idle clock level; CPHA selects whether the first or second edge is the sampling edge. |
-| [UART page 10](03%20UART/README.md#page-10) | How many 50 MHz clock cycles form one 9600-baud bit? | $50\,000\,000/9600=5208.333\ldots$, so an integer-only divider is approximate. |
-| [UART page 11](03%20UART/README.md#page-11) | Does 16x oversampling mean 325 clocks per sample at 50 MHz and 9600 baud? | The ideal value is $325.5208\ldots$ clocks; a practical generator must accept error or use fractional timing. |
-| [UART page 16](03%20UART/README.md#page-16) | Why does `sample <= sample + 1'b1` appear to lag inside the same sequential block? | A nonblocking assignment updates after the block, so comparisons in that edge see the old counter value. |
+For each waveform:
 
-## Verification references
+1. mark only the edges that accept data or complete a transfer;
+2. label every visible value with the transaction or beat that owns it;
+3. insert a wait or back-pressure interval and identify every signal that must
+   hold;
+4. trace the error path separately from the normal completion path; and
+5. state one RTL enable and one verification property derived from the timing.
 
-The page discussions were checked against primary manufacturer documentation:
+Use the global [revision plan](../REVISION_PLAN.md) for spaced review.
 
-- [NXP UM10204 - I2C-bus specification and user manual](https://www.nxp.com/docs/en/user-guide/UM10204.pdf)
+## Primary references
+
+- [NXP UM10204 — I2C-bus specification and user manual](https://www.nxp.com/docs/en/user-guide/UM10204.pdf)
 - [Microchip SPI transfer modes](https://onlinedocs.microchip.com/oxy/GUID-A299F4E7-F38C-4DF5-96C0-A87B9F519156-en-US-4/GUID-8A5B8750-B99E-4176-834E-E44E98F4A098.html)
 - [Microchip USART frame principle](https://onlinedocs.microchip.com/oxy/GUID-A9964E93-D46C-42E6-98D2-4ED783ABB2CE-en-US-2/GUID-7BA3A2AA-EFBF-4C3A-BB96-17B8A413DE69.html)
-- [Microchip USART clock recovery](https://onlinedocs.microchip.com/oxy/GUID-84570A8E-125A-4027-9491-9B22A292E347-en-US-5/GUID-34FF3967-6C5B-4AF9-94C0-97078652CF5C.html)
-- [AMD Zynq UART baud-rate generator](https://docs.amd.com/r/en-US/ug585-zynq-7000-SoC-TRM/Baud-Rate-Generator)
-- [TI MSPM0 UART oversampling and majority voting](https://software-dl.ti.com/msp430/esd/MSPM0-SDK/latest/docs/english/driverlib/mspm0l11xx_l13xx_api_guide/html/group___u_a_r_t.html)
+- [Arm AMBA AHB Protocol Specification, IHI 0033C](04%20AMBA/01%20AHB/sources/ARM-IHI-0033C-AMBA-AHB-Protocol-Specification.pdf)
+- [Arm AMBA APB Protocol Specification, IHI 0024E](04%20AMBA/02%20APB/sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf)
+- [Arm AMBA AXI-Stream Protocol Specification, IHI 0051B](04%20AMBA/03%20AXI/sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf)
+- [Arm AMBA AXI and ACE Protocol Specification, IHI 0022H](https://developer.arm.com/-/media/Arm%20Developer%20Community/PDF/IHI0022H_amba_axi_protocol_spec.pdf)

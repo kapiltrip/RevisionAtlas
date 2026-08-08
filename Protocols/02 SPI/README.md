@@ -19,14 +19,6 @@ The clock-mode meanings are verified against [Microchip’s SPI transfer-mode ta
 | **Leading / trailing edge** | The leading edge is the first transition away from the idle level; the trailing edge is the second transition back. “Leading” is not always rising. |
 | **Bit order** | The choice to shift MSB-first or LSB-first. SPI does not impose one universal order; both endpoints must match the peripheral’s specified convention. |
 
-## Page map
-
-| Page | Revision focus |
-|---:|---|
-| [06](#page-06) | Full-duplex wiring, chip select, and a careful I2C comparison |
-| [07](#page-07) | MOSI/MISO ownership and the two coupled shift registers |
-| [08](#page-08) | Bit order plus CPOL/CPHA timing modes |
-
 <a id="page-06"></a>
 
 ## Page 06 - SPI wiring and what “full duplex” means

@@ -15,34 +15,34 @@
 //   beat 3 = req_wdata[127:96]
 // rsp_rdata uses the same packing for completed read beats.
 module ahb_lite_manager (
-    input  wire         HCLK,
-    input  wire         HRESETn,
+    input  wire         HCLK,       // AHB clock; transfers sample on rising edges.
+    input  wire         HRESETn,    // Active-LOW reset; asynchronous assertion here.
 
     // Small command interface used by the testbench or a local controller.
-    input  wire         req_valid,
-    output wire         req_ready,
-    input  wire         req_write,
-    input  wire [1:0]   req_burst,
-    input  wire [31:0]  req_addr,
-    input  wire [127:0] req_wdata,
+    input  wire         req_valid,  // Offers one command with all req_* fields.
+    output wire         req_ready,  // HIGH only while a new command can be accepted.
+    input  wire         req_write,  // 1 = write, 0 = read.
+    input  wire [1:0]   req_burst,  // Local 00=SINGLE, 01=INCR4, 10=WRAP4 code.
+    input  wire [31:0]  req_addr,   // Byte address of the first word-aligned beat.
+    input  wire [127:0] req_wdata,  // Four packed 32-bit write beats, beat 0 in [31:0].
 
-    output reg          done,
-    output reg          error,
-    output reg  [127:0] rsp_rdata,
+    output reg          done,       // One-cycle command-completion/rejection pulse.
+    output reg          error,      // One-cycle local-reject or AHB-error pulse.
+    output reg  [127:0] rsp_rdata,  // Packed completed read beats, beat 0 in [31:0].
 
     // AHB-Lite manager interface.
-    output reg  [31:0]  HADDR,
-    output wire [2:0]   HBURST,
-    output wire         HMASTLOCK,
-    output wire [3:0]   HPROT,
-    output wire [2:0]   HSIZE,
-    output reg  [1:0]   HTRANS,
-    output wire [31:0]  HWDATA,
-    output reg          HWRITE,
+    output reg  [31:0]  HADDR,      // Current address-phase byte address.
+    output wire [2:0]   HBURST,     // Address-phase burst type.
+    output wire         HMASTLOCK,  // Locked-sequence indicator; tied LOW here.
+    output wire [3:0]   HPROT,      // Address-phase protection attributes.
+    output wire [2:0]   HSIZE,      // Transfer size; fixed to 32-bit words.
+    output reg  [1:0]   HTRANS,     // Address-phase IDLE/NONSEQ/SEQ transfer type.
+    output wire [31:0]  HWDATA,     // Write payload for the older data phase.
+    output reg          HWRITE,     // Address-phase direction: 1=write, 0=read.
 
-    input  wire [31:0]  HRDATA,
-    input  wire         HREADY,
-    input  wire         HRESP
+    input  wire [31:0]  HRDATA,     // Read payload for the active data phase.
+    input  wire         HREADY,     // Completes data and advances address when HIGH.
+    input  wire         HRESP       // Active data-phase response: 0=OKAY, 1=ERROR.
 );
 
     // Local command encodings. These are not the HBURST wire encodings.

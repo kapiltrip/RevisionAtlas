@@ -23,18 +23,6 @@ The sizing and delay trade-offs are cross-checked against the [MIT 6.012 CMOS in
 | **PDP — power-delay product** | Product of average power and propagation delay, with dimensions of energy, used as one combined trade-off metric. It does not reveal area or separate leakage/dynamic mechanisms. |
 | **Noise-versus-speed trade-off** | Moving strength ratio can shift switching threshold/noise margins while also changing rise/fall delay. A faster edge in one direction can worsen balance or the opposite edge. |
 
-## Page map
-
-| Page | Revision focus | Page | Revision focus |
-|---:|---|---:|---|
-| [1](#page-01) | Strength ratio and VTC shift | [8](#page-08) | Average-current delay method |
-| [2](#page-02) | Weak/strong pMOS cases | [9](#page-09) | Discharge-region trajectory |
-| [3](#page-03) | Symmetric inverter sizing | [10](#page-10) | Power-delay trade-off |
-| [4](#page-04) | Equal pull-up/pull-down resistance | [11](#page-11) | Switching-threshold current equality |
-| [5](#page-05) | Two-input NAND network | [12](#page-12) | VIL/VIH region setup |
-| [6](#page-06) | NAND worst-case delay | [13](#page-13) | Noise margins and $t_{PLH}$ |
-| [7](#page-07) | Dynamic node initial conditions | [14](#page-14) | Exponential delay calculation |
-
 <a id="page-01"></a>
 
 ## Page 01 - Strength ratio moves the inverter transition

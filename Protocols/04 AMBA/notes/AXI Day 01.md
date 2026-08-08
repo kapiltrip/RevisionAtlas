@@ -1,50 +1,21 @@
-# Day 01 - AXI foundations and AXI-Stream master/slave integration
+# AXI Notes — Day 01
 
-[Back to AXI](../README.md) | [Back to AMBA](../../README.md) | [Handwritten layer](../handwritten/README.md)
+[Back to AXI](../03%20AXI/README.md) | [Back to AMBA](../README.md) | [AXI questions](AXI%20Questions.md)
 
 This is Layer 1 of the AXI notes. It follows the completed Namaste FPGA lessons
 in their original order and stops at **33. Code**, immediately before
 **Implementing AXIS Arbiter P1**. Every course image below is a real frame
 captured from the lesson video. The explanations use the lecture as the teaching path and the
-[Arm AXI-Stream specification](../sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf)
+[Arm AXI-Stream specification](../03%20AXI/sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf)
 as the authority.
 
 ## Day map
 
-| Video | Topic | Main revision target |
-|---:|---|---|
-| 1 | [Agenda](#video-1---agenda) | AXI family and handshake roadmap |
-| 2 | [Use cases of the AXI interfaces](#video-2---use-cases-of-the-axi-interfaces) | Stream versus memory-mapped selection |
-| 3 | [Interface pins](#video-3---interface-pins) | Why the signal sets differ |
-| 4 | [Simple memory versus AXI memory](#video-4---simple-memory-versus-axi-memory) | Five independent memory-mapped channels |
-| 5 | [Understanding `VALID`/`READY`](#video-5---understanding-validready) | One transfer edge |
-| 6 | [`VALID`/`READY` rules](#video-6---validready-rules) | Deadlock avoidance and stability |
-| 7 | [Handshake RTL part 1](#video-7---handshake-rtl-part-1) | Transmitter FSM |
-| 8 | [Handshake RTL part 2](#video-8---handshake-rtl-part-2) | Receiver FSM |
-| 9 | [Verifying the handshake](#video-9---verifying-the-handshake) | Reading the simulation edge-by-edge |
-| 11 | [AXI-Stream agenda](#video-11---axi-stream-agenda) | Signal, transaction, and RTL path |
-| 12 | [Typical signals part 1](#video-12---typical-signals-part-1) | Payload, packet, routing, and user signals |
-| 13 | [Typical signals part 2](#video-13---typical-signals-part-2) | `TKEEP` and `TSTRB` truth table |
-| 14 | [AXI-Stream use cases](#video-14---axi-stream-use-cases) | Data-processing pipelines |
-| 15 | [AXI-Stream transactions](#video-15---axi-stream-transactions) | Continuous packet transfer |
-| 16 | [Implementation approaches](#video-16---implementation-approaches) | RTL, templates, and HLS |
-| 17 | [Waveforms part 1](#video-17---waveforms-part-1) | Master I/O and three timing cases |
-| 18 | [Waveforms part 2](#video-18---waveforms-part-2) | No-back-pressure trace |
-| 19 | [Waveforms part 3](#video-19---waveforms-part-3) | Mid-packet and final-beat stalls |
-| 20 | [Building the AXI-Stream master](#video-20---building-the-axi-stream-master) | FSM, counter, outputs, and hidden assumptions |
-| 21 | [Verifying the master](#video-21---verifying-the-master) | Five four-beat packets and waveform interpretation |
-| 22 | [Master code resource](#lesson-22---master-code-resource) | Exact master RTL and supplied testbench |
-| 23 | [Building the slave part 1](#video-23---building-the-slave-part-1) | Port directions and Receiver flowchart |
-| 24 | [Building the slave part 2](#video-24---building-the-slave-part-2) | Receiver FSM, `TREADY`, and lecture-model limitations |
-| 25 | [Verifying the slave](#video-25---verifying-the-slave) | Finding the deliberately invalid source stimulus |
-| 26 | [Slave code resource](#lesson-26---slave-code-resource) | Exact slave RTL and supplied testbench |
-| 27 | [Connecting master and slave](#video-27---connecting-master-and-slave) | End-to-end wiring and accepted packet sequence |
-| 28 | [Integration code resource](#lesson-28---integration-code-resource) | Top-level wiring and system testbench |
-| 29 | [Section 3 agenda](#video-29---section-3-agenda) | Round-robin, AXIS arbiter, and AXIS FIFO roadmap |
-| 30 | [Round-robin arbiter part 1](#video-30---round-robin-arbiter-part-1) | Fairness objective, initial priority, and grant timing |
-| 31 | [Round-robin arbiter part 2](#video-31---round-robin-arbiter-part-2) | Three-state Moore FSM and rotating priority |
-| 32 | [Round-robin arbiter part 3](#video-32---round-robin-arbiter-part-3) | Testbench scenarios and alternating grants |
-| 33 | [Round-robin code resource](#lesson-33---round-robin-code-resource) | Complete arbiter RTL, testbench, and review findings |
+- [Videos 1-4 — interface selection and memory-mapped channels](#section-1---introduction-to-axi)
+- [Videos 5-9 — `VALID`/`READY`, source/sink RTL, and waveform verification](#video-5---understanding-validready)
+- [Videos 11-28 — AXI-Stream signals, packets, stalls, RTL, and integration](#section-2---axi-stream-interface-fundamentals)
+- [Videos 29-33 — round-robin arbitration and code review](#video-29---section-3-agenda)
+- [Standards audit — details the lesson examples omit](#arm-ihi-0051b-standards-audit)
 
 Lessons 10, 22, 26, 28, and 33 are code resources rather than videos. The four
 code resources in the completed implementation path are rendered below because
@@ -67,7 +38,7 @@ videos to `TVALID`, `TREADY`, `TDATA`, and `TLAST` in AXI-Stream.
 
 ### Video 1 - Agenda
 
-![Agenda listing AXI interface types and the valid-ready implementation](../images/Day%2001/01-agenda-50.png)
+![Agenda listing AXI interface types and the valid-ready implementation](images/AXI/Day%2001/01-agenda-50.png)
 
 The agenda has two branches. The first asks which AXI interface matches an
 application. The second asks how all AXI channels move information safely.
@@ -95,14 +66,14 @@ technology?
 
 ### Video 2 - Use cases of the AXI interfaces
 
-![AXI family comparison and ADC-to-FIR signal-processing path](../images/Day%2001/02-axi-family-use-cases-30.png)
+![AXI family comparison and ADC-to-FIR signal-processing path](images/AXI/Day%2001/02-axi-family-use-cases-30.png)
 
 The right side shows the cleanest AXI-Stream mental model: samples leave an ADC,
 enter an FIR filter, and continue in one direction. The filter does not need a
 new destination address with every sample. It needs the next sample plus a way
 to pause the producer if its pipeline cannot accept one.
 
-![Processor, register peripheral, and the AXI family selection table](../images/Day%2001/02-axi-family-use-cases-72.png)
+![Processor, register peripheral, and the AXI family selection table](images/AXI/Day%2001/02-axi-family-use-cases-72.png)
 
 The processor-to-peripheral drawing represents a different problem. A processor
 must identify *which* peripheral register to access and whether it is reading or
@@ -128,11 +99,11 @@ set.
 
 ### Video 3 - Interface pins
 
-![Lecture comparison of the AXI-Stream, AXI4-Lite, and AXI4 signal groups](../images/Day%2001/03-interface-pins-28.png)
+![Lecture comparison of the AXI-Stream, AXI4-Lite, and AXI4 signal groups](images/AXI/Day%2001/03-interface-pins-28.png)
 
-![Expanded AXI4 signal-group comparison](../images/Day%2001/03-interface-pins-72.png)
+![Expanded AXI4 signal-group comparison](images/AXI/Day%2001/03-interface-pins-72.png)
 
-![Fullscreen interface-pin comparison without the course sidebar or player controls](../images/Day%2001/03-interface-pins-fullscreen.png)
+![Fullscreen interface-pin comparison without the course sidebar or player controls](images/AXI/Day%2001/03-interface-pins-fullscreen.png)
 
 The growing blocks in the frames are directionally correct: AXI-Stream can be
 very small, AXI4-Lite adds five memory-mapped channels, and AXI4 adds burst,
@@ -156,14 +127,14 @@ properties and signal widths.
 
 ### Video 4 - Simple memory versus AXI memory
 
-![Simple memory drawing and the four missing-control questions](../images/Day%2001/04-simple-vs-axi-memory-30.png)
+![Simple memory drawing and the four missing-control questions](images/AXI/Day%2001/04-simple-vs-axi-memory-30.png)
 
 The whiteboard lists four questions: when write/read data is valid, when an
 address is valid, whether an update succeeded, and whether the target can accept
 work. A bare address/data bundle does not answer them. It needs an external
 timing convention or explicit controls.
 
-![Five AXI memory-mapped channels with separate timing waveforms](../images/Day%2001/04-simple-vs-axi-memory-72.png)
+![Five AXI memory-mapped channels with separate timing waveforms](images/AXI/Day%2001/04-simple-vs-axi-memory-72.png)
 
 AXI solves the interface problem with five independent channels:
 
@@ -203,11 +174,11 @@ automatically reissues the transaction.
 
 ### Video 5 - Understanding `VALID`/`READY`
 
-![Source-to-destination valid-ready waveform beside the Arm rule excerpt](../images/Day%2001/05-handshake-fundamentals-30.png)
+![Source-to-destination valid-ready waveform beside the Arm rule excerpt](images/AXI/Day%2001/05-handshake-fundamentals-30.png)
 
-![Three legal relative timings for valid and ready](../images/Day%2001/05-handshake-fundamentals-72.png)
+![Three legal relative timings for valid and ready](images/AXI/Day%2001/05-handshake-fundamentals-72.png)
 
-![Fullscreen valid-ready timing and the three handshake rules](../images/Day%2001/05-handshake-fullscreen.png)
+![Fullscreen valid-ready timing and the three handshake rules](images/AXI/Day%2001/05-handshake-fullscreen.png)
 
 The first frame connects the abstract words to pins. The source drives the
 information and `VALID`; the destination drives `READY` in the opposite
@@ -230,11 +201,11 @@ effect of the transfer, not a second transfer.
 
 ### Video 6 - `VALID`/`READY` rules
 
-![Handshake rule slide with the source and destination waveform](../images/Day%2001/06-handshake-rules-28.png)
+![Handshake rule slide with the source and destination waveform](images/AXI/Day%2001/06-handshake-rules-28.png)
 
-![Ready-before-valid, valid-before-ready, and simultaneous cases](../images/Day%2001/06-handshake-rules-72.png)
+![Ready-before-valid, valid-before-ready, and simultaneous cases](images/AXI/Day%2001/06-handshake-rules-72.png)
 
-![Fullscreen handshake-rule frame with source and destination ownership](../images/Day%2001/06-handshake-rules-fullscreen.png)
+![Fullscreen handshake-rule frame with source and destination ownership](images/AXI/Day%2001/06-handshake-rules-fullscreen.png)
 
 The frames show three legal orderings:
 
@@ -262,11 +233,11 @@ Use this implementation checklist:
 
 ### Video 7 - Handshake RTL part 1
 
-![Two-state source flowchart beside the initial Verilog](../images/Day%2001/07-handshake-rtl-p1-20.png)
+![Two-state source flowchart beside the initial Verilog](images/AXI/Day%2001/07-handshake-rtl-p1-20.png)
 
-![Source reset and new-data state logic](../images/Day%2001/07-handshake-rtl-p1-50.png)
+![Source reset and new-data state logic](images/AXI/Day%2001/07-handshake-rtl-p1-50.png)
 
-![Wait-for-receiver state holding valid until ready](../images/Day%2001/07-handshake-rtl-p1-82.png)
+![Wait-for-receiver state holding valid until ready](images/AXI/Day%2001/07-handshake-rtl-p1-82.png)
 
 The source FSM has a “new data” state and a “wait for slave” state. When data is
 available, it loads `M_data`, asserts `M_valid`, and moves to the waiting state.
@@ -288,11 +259,11 @@ change `M_data` or deassert `M_valid`.
 
 ### Video 8 - Handshake RTL part 2
 
-![Receiver flowchart: ready, wait for valid, and receive](../images/Day%2001/08-handshake-rtl-p2-20.png)
+![Receiver flowchart: ready, wait for valid, and receive](images/AXI/Day%2001/08-handshake-rtl-p2-20.png)
 
-![Receiver wait-for-data state and data capture](../images/Day%2001/08-handshake-rtl-p2-52.png)
+![Receiver wait-for-data state and data capture](images/AXI/Day%2001/08-handshake-rtl-p2-52.png)
 
-![Receiver process-data state returning to readiness](../images/Day%2001/08-handshake-rtl-p2-84.png)
+![Receiver process-data state returning to readiness](images/AXI/Day%2001/08-handshake-rtl-p2-84.png)
 
 The Receiver raises `S_ready` while it has storage, waits for `M_valid`, captures
 `M_data`, lowers ready while “processing,” and later returns to the ready state.
@@ -312,11 +283,11 @@ registered FSM may lower `READY` for the following cycle.
 
 ### Video 9 - Verifying the handshake
 
-![Simulation during reset and the first ready state](../images/Day%2001/09-verify-handshake-18.png)
+![Simulation during reset and the first ready state](images/AXI/Day%2001/09-verify-handshake-18.png)
 
-![Waveform where valid and ready overlap for acceptance](../images/Day%2001/09-verify-handshake-52.png)
+![Waveform where valid and ready overlap for acceptance](images/AXI/Day%2001/09-verify-handshake-52.png)
 
-![Post-edge Receiver data update in the verification waveform](../images/Day%2001/09-verify-handshake-84.png)
+![Post-edge Receiver data update in the verification waveform](images/AXI/Day%2001/09-verify-handshake-84.png)
 
 Read the waveform from left to right:
 
@@ -345,7 +316,7 @@ would include every sideband signal, not only `data`.
 
 ### Video 11 - AXI-Stream agenda
 
-![Agenda for signals, AXI-Stream transactions, and master/slave RTL](../images/Day%2001/11-agenda.png)
+![Agenda for signals, AXI-Stream transactions, and master/slave RTL](images/AXI/Day%2001/11-agenda.png)
 
 The second-section agenda moves from vocabulary to hardware in three steps:
 identify the signals, understand write/read-style stream movement, and then
@@ -360,11 +331,11 @@ for arbitrary Receiver back-pressure before another RTL block is connected.
 
 ### Video 12 - Typical signals part 1
 
-![AXI-Stream waveforms and the first half of the official signal table](../images/Day%2001/12-typical-signals-p1-25.png)
+![AXI-Stream waveforms and the first half of the official signal table](images/AXI/Day%2001/12-typical-signals-p1-25.png)
 
-![Signal table with stream identifiers, destination, user, and wake-up context](../images/Day%2001/12-typical-signals-p1-75.png)
+![Signal table with stream identifiers, destination, user, and wake-up context](images/AXI/Day%2001/12-typical-signals-p1-75.png)
 
-![Fullscreen signal-table frame showing TID, TDEST, TUSER, and TWAKEUP](../images/Day%2001/12-typical-signals-fullscreen.png)
+![Fullscreen signal-table frame showing TID, TDEST, TUSER, and TWAKEUP](images/AXI/Day%2001/12-typical-signals-fullscreen.png)
 
 The left side of the frames shows `TVALID`, `TREADY`, `TDATA`, `TKEEP`, and
 `TLAST` changing together as one transfer bundle. The right side anchors the
@@ -385,7 +356,7 @@ The lecture says `TWAKEUP` is outside AXI-Stream. The version distinction is:
 AXI4-Stream Issue A has no `TWAKEUP`; AXI5-Stream Issue B adds it as an optional
 wake-up signal. It indicates interface-associated activity and must not be
 treated as another transfer handshake. This history is stated in
-[Arm IHI 0051B](../sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf).
+[Arm IHI 0051B](../03%20AXI/sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf).
 
 The small-print rules are also important. `TWAKEUP` must be glitch-free, may
 assert before or after `TVALID`, and is recommended at least one cycle before
@@ -397,11 +368,11 @@ can deadlock the interface. These rules apply only when the AXI5-Stream
 
 ### Video 13 - Typical signals part 2
 
-![Eight byte lanes with TKEEP qualification and the Arm qualifier text](../images/Day%2001/13-typical-signals-p2-30.png)
+![Eight byte lanes with TKEEP qualification and the Arm qualifier text](images/AXI/Day%2001/13-typical-signals-p2-30.png)
 
-![Position-byte example and the relationship between TKEEP and TSTRB](../images/Day%2001/13-typical-signals-p2-72.png)
+![Position-byte example and the relationship between TKEEP and TSTRB](images/AXI/Day%2001/13-typical-signals-p2-72.png)
 
-![Fullscreen TKEEP and TSTRB truth table beside the lecture padding example](../images/Day%2001/13-byte-qualifiers-fullscreen.png)
+![Fullscreen TKEEP and TSTRB truth table beside the lecture padding example](images/AXI/Day%2001/13-byte-qualifiers-fullscreen.png)
 
 Each qualifier bit maps to exactly one byte lane:
 
@@ -438,11 +409,11 @@ FPGA streams expose `TKEEP` but not `TSTRB`.
 
 ### Video 14 - AXI-Stream use cases
 
-![Five-channel memory-mapped AXI compared with a one-way stream path](../images/Day%2001/14-use-cases-45.png)
+![Five-channel memory-mapped AXI compared with a one-way stream path](images/AXI/Day%2001/14-use-cases-45.png)
 
-![Lecture use-case slide showing the ADC, camera, audio, DMA, DDR, generator, and FIFO paths](../images/Day%2001/14-use-cases-pipelines-context.png)
+![Lecture use-case slide showing the ADC, camera, audio, DMA, DDR, generator, and FIFO paths](images/AXI/Day%2001/14-use-cases-pipelines-context.png)
 
-![Fullscreen AXI-Stream use cases with only the video frame visible](../images/Day%2001/14-use-cases-fullscreen.png)
+![Fullscreen AXI-Stream use cases with only the video frame visible](images/AXI/Day%2001/14-use-cases-fullscreen.png)
 
 The first frame explains **why AXI-Stream exists**. Memory-mapped AXI carries an
 address because a requester can choose among many memory locations or
@@ -638,9 +609,9 @@ means**.
 
 ### Video 15 - AXI-Stream transactions
 
-![DSP, camera, audio, and FIFO stream paths beside the minimal signal set](../images/Day%2001/15-transactions-28.png)
+![DSP, camera, audio, and FIFO stream paths beside the minimal signal set](images/AXI/Day%2001/15-transactions-28.png)
 
-![Minimal transaction path and the continuously ready packet waveform](../images/Day%2001/15-transactions-72.png)
+![Minimal transaction path and the continuously ready packet waveform](images/AXI/Day%2001/15-transactions-72.png)
 
 The minimal packet example transfers $D_0$, $D_1$, $D_2$, and $D_3$. When the
 Receiver keeps `TREADY=1`, the Transmitter can maintain `TVALID=1` and present a
@@ -688,9 +659,9 @@ in several internal protocols.
 
 ### Video 17 - Waveforms part 1
 
-![AXI-Stream master ports above three valid-ready timing scenarios](../images/Day%2001/17-waveform-p1-30.png)
+![AXI-Stream master ports above three valid-ready timing scenarios](images/AXI/Day%2001/17-waveform-p1-30.png)
 
-![Master output bundle and the delayed-ready portions of the waveform](../images/Day%2001/17-waveform-p1-72.png)
+![Master output bundle and the delayed-ready portions of the waveform](images/AXI/Day%2001/17-waveform-p1-72.png)
 
 The module boundary makes ownership explicit:
 
@@ -714,9 +685,9 @@ The third case is the best check for a broken master. A design that generates
 
 ### Video 18 - Waveforms part 2
 
-![Complete three-case waveform with the no-back-pressure packet first](../images/Day%2001/18-waveform-p2-30.png)
+![Complete three-case waveform with the no-back-pressure packet first](images/AXI/Day%2001/18-waveform-p2-30.png)
 
-![No-back-pressure trace reaching the final D3 and TLAST beat](../images/Day%2001/18-waveform-p2-75.png)
+![No-back-pressure trace reaching the final D3 and TLAST beat](images/AXI/Day%2001/18-waveform-p2-75.png)
 
 This lesson traces the first case in detail. After reset is released, the source
 enters its transmit phase, raises `TVALID`, and presents $D_0$. Because
@@ -743,13 +714,13 @@ the packet end only when that transfer is accepted, not merely when it observes
 
 ### Video 19 - Waveforms part 3
 
-![Middle-of-packet stall beginning on D2](../images/Day%2001/19-waveform-p3-22.png)
+![Middle-of-packet stall beginning on D2](images/AXI/Day%2001/19-waveform-p3-22.png)
 
-![D2 held across back-pressure until ready returns](../images/Day%2001/19-waveform-p3-50.png)
+![D2 held across back-pressure until ready returns](images/AXI/Day%2001/19-waveform-p3-50.png)
 
-![Final D3 and TLAST held together during the last-beat stall](../images/Day%2001/19-waveform-p3-80.png)
+![Final D3 and TLAST held together during the last-beat stall](images/AXI/Day%2001/19-waveform-p3-80.png)
 
-![Fullscreen three-packet waveform with no stall, middle stall, and final-beat stall](../images/Day%2001/19-waveforms-fullscreen.png)
+![Fullscreen three-packet waveform with no stall, middle stall, and final-beat stall](images/AXI/Day%2001/19-waveforms-fullscreen.png)
 
 The middle-stall trace is:
 
@@ -774,13 +745,13 @@ bundle includes any implemented `TKEEP`, `TSTRB`, `TID`, `TDEST`, and `TUSER`.
 
 ### Video 20 - Building the AXI-Stream master
 
-![Master ports and the ready/last flowchart](../images/Day%2001/20-building-master-18.png)
+![Master ports and the ready/last flowchart](images/AXI/Day%2001/20-building-master-18.png)
 
-![TX-state next-state logic checking ready and the final count](../images/Day%2001/20-building-master-52.png)
+![TX-state next-state logic checking ready and the final count](images/AXI/Day%2001/20-building-master-52.png)
 
-![Synchronous state register and handshake-gated count logic](../images/Day%2001/20-building-master-84.png)
+![Synchronous state register and handshake-gated count logic](images/AXI/Day%2001/20-building-master-84.png)
 
-![Fullscreen AXIS master next-state RTL around the ready-gated transmit state](../images/Day%2001/20-building-master-fullscreen.png)
+![Fullscreen AXIS master next-state RTL around the ready-gated transmit state](images/AXI/Day%2001/20-building-master-fullscreen.png)
 
 The design sends a fixed four-beat packet. It uses two states:
 
@@ -842,7 +813,7 @@ general AXI-Stream limitations.
 
 ### Video 21 - Verifying the master
 
-![Fullscreen master testbench stimulus loop](../images/Day%2001/21-verify-master-testbench-fullscreen.png)
+![Fullscreen master testbench stimulus loop](images/AXI/Day%2001/21-verify-master-testbench-fullscreen.png)
 
 The testbench holds active-LOW reset for ten rising edges, raises
 `m_axis_tready`, asserts `newd`, chooses a random eight-bit `din`, and waits for
@@ -863,7 +834,7 @@ Because `TDATA` is eight bits, multiplication wraps modulo $2^8$ if the result
 exceeds 255. That wrap is ordinary Verilog width truncation, not an
 AXI-Stream rule.
 
-![Fullscreen master waveform with repeated four-beat packets](../images/Day%2001/21-verify-master-waveform-fullscreen.png)
+![Fullscreen master waveform with repeated four-beat packets](images/AXI/Day%2001/21-verify-master-waveform-fullscreen.png)
 
 Read the waveform from handshake edges rather than from the width of the green
 regions. With the testbench holding `m_axis_tready=1`, every rising edge with
@@ -1016,7 +987,7 @@ $\{0,din,2din,3din\}$ or that the held beat remains stable during a stall.
 
 ### Video 23 - Building the slave part 1
 
-![Fullscreen comparison of master/slave ports and the Receiver flowchart](../images/Day%2001/23-building-slave-p1-18.png)
+![Fullscreen comparison of master/slave ports and the Receiver flowchart](images/AXI/Day%2001/23-building-slave-p1-18.png)
 
 The slave is the AXI-Stream **Receiver**. Signal ownership reverses across the
 link, not the meaning of the signals:
@@ -1043,9 +1014,9 @@ must lower `TREADY` before its storage becomes full.
 
 ### Video 24 - Building the slave part 2
 
-![Fullscreen slave state register and next-state decoder](../images/Day%2001/24-building-slave-p2-18.png)
+![Fullscreen slave state register and next-state decoder](images/AXI/Day%2001/24-building-slave-p2-18.png)
 
-![Fullscreen store-state conditions beside the Receiver flowchart](../images/Day%2001/24-building-slave-p2-fsm-fullscreen.png)
+![Fullscreen store-state conditions beside the Receiver flowchart](images/AXI/Day%2001/24-building-slave-p2-fsm-fullscreen.png)
 
 The teaching Receiver uses `idle` and `store` states. An encoded `last_byte`
 state is declared but never used. In `idle`, observing `TVALID=1` schedules
@@ -1099,14 +1070,14 @@ an unaccepted or invalid bus value as data.
 
 ### Video 25 - Verifying the slave
 
-![Fullscreen supplied slave-testbench stimulus](../images/Day%2001/25-verify-slave-18.png)
+![Fullscreen supplied slave-testbench stimulus](images/AXI/Day%2001/25-verify-slave-18.png)
 
 The testbench raises `TVALID` and changes `TDATA` on every loop iteration. The
 instructor then correctly identifies the resulting first-cycle violation:
 `TREADY` is LOW, yet the stimulus moves to another `TDATA` value. A legal
 Transmitter must hold the offered beat until the Receiver accepts it.
 
-![Fullscreen slave waveform ending the packet and returning to idle](../images/Day%2001/25-verify-slave-waveform-fullscreen.png)
+![Fullscreen slave waveform ending the packet and returning to idle](images/AXI/Day%2001/25-verify-slave-waveform-fullscreen.png)
 
 The visible state transition after the final beat is correct only because
 `store` implies `TREADY=1`. The decisive edge satisfies all three terms:
@@ -1260,7 +1231,7 @@ teaching Receiver, not yet a reusable data-processing endpoint.
 
 ### Video 27 - Connecting master and slave
 
-![Fullscreen elaborated master-to-slave wiring beside the top-level RTL](../images/Day%2001/27-connect-master-slave-18.png)
+![Fullscreen elaborated master-to-slave wiring beside the top-level RTL](images/AXI/Day%2001/27-connect-master-slave-18.png)
 
 The top module connects one shared clock and reset to both endpoints. Four
 internal nets form the stream link:
@@ -1284,7 +1255,7 @@ port order remains exactly unchanged. Named connections are safer because a
 future port insertion cannot silently swap `TREADY`, `TVALID`, `TDATA`, or
 `TLAST`.
 
-![Fullscreen integrated master/slave waveform with repeated packets](../images/Day%2001/27-connect-master-slave-waveform-fullscreen.png)
+![Fullscreen integrated master/slave waveform with repeated packets](images/AXI/Day%2001/27-connect-master-slave-waveform-fullscreen.png)
 
 For a command value $din=7$, the master offers $0,7,14,21$ and asserts `TLAST`
 with 21. For $din=10$, it offers $0,10,20,30$. Those are four **eight-bit
@@ -1386,7 +1357,7 @@ ports. This adds no hardware; it prevents connection-order bugs.
 
 ### Video 29 - Section 3 agenda
 
-![Fullscreen Section 3 agenda: round-robin arbiter, AXIS arbiter, and AXIS FIFO](../images/Day%2001/29-section3-agenda-18.png)
+![Fullscreen Section 3 agenda: round-robin arbiter, AXIS arbiter, and AXIS FIFO](images/AXI/Day%2001/29-section3-agenda-18.png)
 
 This agenda is the requested stopping boundary. It previews three related but
 distinct components:
@@ -1403,7 +1374,7 @@ the AXIS-specific datapath and FIFO RTL are not invented in advance here.
 
 ### Video 30 - Round-robin arbiter part 1
 
-![Fullscreen two-request timing example and round-robin decision flow](../images/Day%2001/30-round-robin-p1-concept-fullscreen.png)
+![Fullscreen two-request timing example and round-robin decision flow](images/AXI/Day%2001/30-round-robin-p1-concept-fullscreen.png)
 
 This lesson deliberately starts with a plain request/grant arbiter, not yet an
 AXI-Stream interface. There are two requesters, `req1` and `req2`, and two
@@ -1443,7 +1414,7 @@ handshake event and must rotate only when service actually completes.
 
 ### Video 31 - Round-robin arbiter part 2
 
-![Fullscreen next-state RTL beside the round-robin flowchart](../images/Day%2001/31-round-robin-p2-fullscreen.png)
+![Fullscreen next-state RTL beside the round-robin flowchart](images/AXI/Day%2001/31-round-robin-p2-fullscreen.png)
 
 The FSM is a Moore machine: `gnt1` and `gnt2` depend only on the registered
 state. The three state meanings are:
@@ -1478,7 +1449,7 @@ has just received service. The order of an `if`/`else if` chain is therefore
 hardware priority, not cosmetic source-code ordering.
 
 This is the direct solution to the question on the
-[handwritten fairness page](../handwritten/README.md#page-1---why-does-s1-check-req2-first).
+[fairness question note](AXI%20Questions.md#page-1---why-does-s1-check-req2-first).
 
 #### Reset and decoder details
 
@@ -1495,7 +1466,7 @@ zero in `s1` is simply a narration slip—the code and state meaning are clear.
 
 ### Video 32 - Round-robin arbiter part 3
 
-![Fullscreen round-robin testbench stimulus sequence](../images/Day%2001/32-round-robin-p3-testbench-fullscreen.png)
+![Fullscreen round-robin testbench stimulus sequence](images/AXI/Day%2001/32-round-robin-p3-testbench-fullscreen.png)
 
 The supplied testbench covers three scenarios in order:
 
@@ -1682,14 +1653,14 @@ details begin after the present stopping boundary.
 
 This second-pass audit checks the lecture interpretation and sample master
 against the small-print requirements in the local
-[Arm IHI 0051B specification](../sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf).
+[Arm IHI 0051B specification](../03%20AXI/sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf).
 “Master” and “slave” are retained when discussing the course RTL port names;
 the Issue B specification uses **Transmitter** and **Receiver**.
 
 ### Interface shape and optional-signal details
 
 The signal list and default rules are in
-[sections 2.1 and 3.1](../sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf#page=16).
+[sections 2.1 and 3.1](../03%20AXI/sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf#page=16).
 
 | Minor standard rule | Consequence for design and waveform reading |
 |---|---|
@@ -1704,7 +1675,7 @@ The signal list and default rules are in
 ### Handshake, clock, and reset details
 
 These rules come from
-[sections 2.2 and 2.8](../sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf#page=18).
+[sections 2.2 and 2.8](../03%20AXI/sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf#page=18).
 
 | Minor standard rule | Consequence for the course waveforms and RTL |
 |---|---|
@@ -1720,9 +1691,9 @@ These rules come from
 ### Byte, packet, conversion, and ordering details
 
 The relevant clauses are
-[sections 2.4-2.7](../sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf#page=21)
+[sections 2.4-2.7](../03%20AXI/sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf#page=21)
 and
-[chapter 4](../sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf#page=40).
+[chapter 4](../03%20AXI/sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf#page=40).
 
 | Minor standard rule | Consequence for a real stream path |
 |---|---|
@@ -1867,10 +1838,7 @@ is correct.
     shared resource?
 26. Why is the lesson 33 module still not an AXI-Stream arbiter?
 
-## Layer 2 status
+## Related question note
 
-The first handwritten page is now in the
-[handwritten layer](../handwritten/README.md#page-1---why-does-s1-check-req2-first).
-It maps to Video 31 and contains the complete solution to why `s1` checks
-`req2` first. Future pages will receive the same transcription, verification,
-correction, and active-recall treatment without replacing this course layer.
+The [round-robin fairness question](AXI%20Questions.md#page-1---why-does-s1-check-req2-first)
+maps to Video 31 and explains why `s1` checks `req2` first.

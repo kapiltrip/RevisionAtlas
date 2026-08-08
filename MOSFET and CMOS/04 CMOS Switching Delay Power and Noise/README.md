@@ -23,23 +23,6 @@ Delay, noise, and power definitions follow the [MIT 6.012 CMOS inverter lecture]
 | **`V_IL`, `V_IH`, `V_OL`, `V_OH`** | Guaranteed/defined input and output voltage boundaries used to classify valid LOW/HIGH levels. They are not all equal to the inverter switching threshold. |
 | **Noise margin (`NML`, `NMH`)** | `NML=V_IL−V_OL` and `NMH=V_OH−V_IH`; the allowable unwanted voltage before one valid output can become an invalid input. |
 
-## Page map
-
-| Page | Revision focus | Page | Revision focus |
-|---:|---|---:|---|
-| [1](#page-01) | Inverter region calculation | [13](#page-13) | Propagation-delay waveforms |
-| [2](#page-02) | Near-rail resistance picture | [14](#page-14) | pMOS pass behavior |
-| [3](#page-03) | On-resistance and rail limits | [15](#page-15) | nMOS/pMOS level limits |
-| [4](#page-04) | Pull-down to logic 0 | [16](#page-16) | Transmission gate |
-| [5](#page-05) | Symmetric inverter conditions | [17](#page-17) | Static and dynamic power |
-| [6](#page-06) | Five VTC regions | [18](#page-18) | Capacitor charging energy |
-| [7](#page-07) | Region-based current example | [19](#page-19) | Dynamic-power derivation |
-| [8](#page-08) | Both devices saturated | [20](#page-20) | Power numerical example |
-| [9](#page-09) | VTC mapping and gate load | [21](#page-21) | Switching-threshold calculation |
-| [10](#page-10) | Equivalent resistance | [22](#page-22) | VIL, VIH, VOL, VOH |
-| [11](#page-11) | Output-capacitor transient | [23](#page-23) | Noise-margin geometry |
-| [12](#page-12) | RC rise and fall | [24](#page-24) | Strength and delay ratios |
-
 <a id="page-01"></a>
 
 ## Page 01 - Solving an inverter point by transistor regions

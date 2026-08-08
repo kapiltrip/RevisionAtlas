@@ -19,16 +19,6 @@ The terms below follow the bus definitions and transaction rules in the [NXP I2C
 | **Arbitration** | A controller that tries to send released HIGH but observes dominant LOW loses ownership and stops driving. This works because every participant observes the actual wired bus. |
 | **Clock stretching** | A target delays progress by holding SCL LOW after the controller releases it. The controller must wait for the physical line to rise. |
 
-## Page map
-
-| Page | Revision focus |
-|---:|---|
-| [01](#page-01) | Protocol rules, synchronous transfer, roles, addressing, and rate terminology |
-| [02](#page-02) | Addressed bus topology, GPIO output styles, and the open-drain circuit |
-| [03](#page-03) | Wired-AND behavior, pull-ups, clock stretching, and official speed modes |
-| [04](#page-04) | START, address plus direction, ACK/NACK, and byte framing |
-| [05](#page-05) | Read ownership, final NACK, STOP, and complete transaction reasoning |
-
 <a id="page-01"></a>
 
 ## Page 01 - What a protocol defines and why I2C is synchronous

@@ -52,24 +52,6 @@ It is therefore not “STA **or** simulation.” STA is used because timing cove
 
 For every problem, draw the launch edge, capture edge, full clock paths, and full data path before substituting numbers. Write **arrival time** and **required time** as separate expressions, choose maximum delays for setup and minimum delays for hold, and only then calculate slack. After solving, explain why each term is added or subtracted and why changing frequency can or cannot repair the result. Use the global [revision plan](../REVISION_PLAN.md) for scheduling.
 
-## Page map
-
-| Page | Revision focus | Page | Revision focus |
-|---:|---|---:|---|
-| [1](#page-01) | Why STA; transmission-gate operation | [14](#page-14) | Correct hold inequality; setup versus hold criticality |
-| [2](#page-02) | 4:1 multiplexer using transmission gates | [15](#page-15) | Positive and negative clock skew |
-| [3](#page-03) | Transmission-gate D latch and feedback | [16](#page-16) | Maximum frequency from flip-flop parameters |
-| [4](#page-04) | Negative-edge master-slave flip-flop | [17](#page-17) | Testing candidate clock periods |
-| [5](#page-05) | Active-low latch and internal setup path | [18](#page-18) | Frequency and hold-violation examples |
-| [6](#page-06) | Physical meaning of hold time | [19](#page-19) | Clock latency equations; negative hold time |
-| [7](#page-07) | Register-to-register setup derivation | [20](#page-20) | Effective and negative setup/hold times |
-| [8](#page-08) | Full adder built from half adders | [21](#page-21) | Why data delay improves hold margin |
-| [9](#page-09) | Required time, arrival time, and setup slack | [22](#page-22) | General setup/hold equations with clock delays |
-| [10](#page-10) | Inequality equivalence; sticky-note correction | [23](#page-23) | Worked skew example and missing data-path delay |
-| [11](#page-11) | Min/max delay tuples and path bookkeeping | [24](#page-24) | Three-register pipeline and symbolic $f_{max}$ |
-| [12](#page-12) | Worst-case setup pairing and clock corners | [25](#page-25) | Final numerical problem, including red correction |
-| [13](#page-13) | Hold analysis, min delays, and hold slack |  |  |
-
 ## The timing spine used throughout these pages
 
 For one register-to-register path, define:

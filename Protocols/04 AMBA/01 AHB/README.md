@@ -1,134 +1,198 @@
-# 01 - AMBA AHB
+# 01 — AMBA AHB
 
 [Back to AMBA](../README.md) | [Back to Protocols](../../README.md)
 
-This chapter builds a trustworthy AHB foundation from the protocol itself,
-then uses the ALL ABOUT VLSI lecture series only as a teaching reference. The
-current code is deliberately small: a 32-bit AHB-Lite manager that performs
-SINGLE, INCR4, and WRAP4 word transfers, including read/write data and wait
-states.
+AHB is a synchronous AMBA interface with separate address and data phases.
+Its defining performance mechanism is **phase overlap**: while transfer $N$ is
+in its data phase, transfer $N+1$ can already present address and control.
 
-## Chapter map
+The implementation in this chapter is intentionally narrower than the
+protocol: one 32-bit AHB-Lite manager supporting SINGLE, INCR4, and WRAP4 word
+transfers, reads and writes, wait states, and one command at a time.
 
-| Part | Purpose |
-|---|---|
-| [FSM and lecture correction](code/FSM.md) | The lecturer's drawn FSM, a clean replacement diagram, and why the RTL uses fewer states |
-| [Code guide](code/README.md) | File structure, every local interface variable, burst encodings, and simulation command |
-| [Manager RTL](code/rtl/ahb_lite_manager.v) | Corrected synthesizable Verilog for the intentionally limited manager |
-| [Self-checking testbench](code/tb/ahb_lite_manager_tb.v) | Memory subordinate, wait-state insertion, read/write checks, and PASS/FAIL output |
-| [Lecture and handwritten atlas](handwritten/README.md) | Lecture frames followed by every original page, explanation, corrections, and iPad annotations |
-| [Official Arm specification](sources/ARM-IHI-0033C-AMBA-AHB-Protocol-Specification.pdf) | Local non-confidential ARM IHI 0033C source of truth |
+## Open this chapter
 
-## Core terms
+- [AHB notes](../notes/AHB.md) — every source page,
+  waveform explanation, corrections, and active recall.
+- [FSM correction](code/FSM.md) — why a literal address-state/data-state FSM
+  can serialize a pipelined bus.
+- [Code guide](code/README.md) — local command interface, phase registers,
+  invariants, and simulation.
+- [Manager RTL](code/rtl/ahb_lite_manager.v) — synthesizable Verilog-2001.
+- [Self-checking testbench](code/tb/ahb_lite_manager_tb.v) — subordinate
+  memory, waits, stability checks, and data scoreboarding.
+- [Arm IHI 0033C specification](sources/ARM-IHI-0033C-AMBA-AHB-Protocol-Specification.pdf)
+  — protocol authority.
 
-The definitions and rules below are checked against Arm's
-[AMBA AHB Protocol Specification, ARM IHI 0033C](https://documentation-service.arm.com/static/6141bf0d674a052ae36ca811).
+## Roles and signal ownership
 
-| Term | Precise meaning | Hardware meaning |
-|---|---|---|
-| **AMBA** | Advanced Microcontroller Bus Architecture, Arm's family of on-chip interface and interconnect protocols. | It supplies common contracts so independently designed IP blocks can connect without inventing a private bus. |
-| **AHB** | Advanced High-performance Bus, an AMBA protocol with separate address and data phases and support for single and burst transfers. | Address/control for transfer $N+1$ can overlap the data phase of transfer $N$, improving throughput. |
-| **AHB-Lite** | The single-manager subset of AHB. | Removing multi-manager arbitration keeps this learning design focused on transfer timing rather than bus ownership. |
-| **Manager** | The interface component that initiates a transfer and drives address/control plus write data. Older material often calls it a master. | In this chapter the manager drives `HADDR`, `HTRANS`, `HWRITE`, `HSIZE`, `HBURST`, and `HWDATA`. |
-| **Subordinate** | The addressed component that completes a transfer and supplies readiness, response, and read data. Older material often calls it a slave. | The testbench memory drives `HREADY`, `HRESP`, and `HRDATA`. |
-| **Address phase** | One cycle in which the manager presents the address and control for a transfer. | A subordinate samples it only on a rising edge where `HREADY` is HIGH. |
-| **Data phase** | One or more cycles in which write data is accepted or read data is returned. | `HREADY=0` lengthens this phase; the associated bus information must remain valid during the wait. |
-| **`HTRANS`** | Two-bit transfer type: IDLE, BUSY, NONSEQ, or SEQ. | The first real beat uses NONSEQ; later beats of the same burst use SEQ. `HTRANS[1]=1` identifies a valid transfer. |
-| **`HREADY`** | Completion/extension handshake from the selected subordinate path. | HIGH completes the current data phase and permits the next address phase to advance; LOW inserts a wait state and freezes the transfer. |
-| **Burst** | A related sequence of transfers whose type and length are encoded by `HBURST`. | INCR4 walks through four increasing addresses; WRAP4 still increments but wraps inside a four-beat boundary. |
+The **manager** initiates a transfer. It drives `HADDR`, `HTRANS`, `HWRITE`,
+`HSIZE`, `HBURST`, protection attributes, and write data.
 
-## The central timing idea
+The **subordinate** completes a selected transfer. Its response path supplies
+`HRDATA`, `HREADYOUT`, and `HRESP`.
 
-Every AHB transfer has one address phase and a later data phase. They belong to
-the same transfer even though another transfer's address can be visible during
-that data phase.
+The **interconnect** decodes `HADDR` into `HSELx` during the address phase and
+later multiplexes the selected subordinate's response into manager-facing
+`HRDATA`, `HREADY`, and `HRESP`. Because the bus is pipelined, the response
+selection must remember the older transfer; decoding the new visible address
+again can route the wrong response.
+
+AHB-Lite removes multiple-manager arbitration. It does not remove decoding,
+response multiplexing, pipelining, wait states, bursts, or errors.
+
+## The two-lane timing model
+
+Always trace two lanes:
 
 ```text
-Clock cycle        1              2              3              4
-Address phase    beat 0         beat 1         beat 2         beat 3
-Data phase         -            beat 0         beat 1         beat 2
-Next cycle                                                        beat 3 data
+Cycle interval        1           2           3           4
+Address/control       A           B           C         IDLE
+Data/result           -           A           B           C
 ```
 
-If `HREADY` becomes LOW during a data phase, both that transfer and the
-pipelined next address are held. The manager must not increment an address,
-advance its beat counter, change `HTRANS`, or replace write data merely because
-a clock edge occurred. It advances only on a completion edge where `HREADY` is
-HIGH.
+At the edge ending cycle 2, transfer A can complete while address B is
+accepted. The address and data visible in one cycle usually belong to
+different transfers.
 
-## Transfer and burst encodings used by the RTL
-
-| Operation | `HTRANS` first/later | `HBURST` | `HSIZE` | Beats |
-|---|---|---:|---:|---:|
-| SINGLE word | NONSEQ / none | `3'b000` | `3'b010` | 1 |
-| INCR4 words | NONSEQ / SEQ | `3'b011` | `3'b010` | 4 |
-| WRAP4 words | NONSEQ / SEQ | `3'b010` | `3'b010` | 4 |
-
-`HSIZE=3'b010` means a 32-bit word. The manager rejects an address whose low
-two bits are not `00`, because a word transfer must be word-aligned.
-
-For WRAP4 words, the boundary size is:
+For a manager, define:
 
 $$
-4\text{ beats}\times 4\text{ bytes per beat}=16\text{ bytes}
+\text{address\_accept}
+= \texttt{HREADY} \land \texttt{HTRANS[1]}
 $$
 
-Therefore a burst beginning at `0x3C` uses:
+`HTRANS[1]=1` covers NONSEQ and SEQ. A subordinate additionally qualifies its
+address acceptance with its own `HSELx`.
+
+Once an accepted address creates a data phase:
+
+$$
+\text{data\_complete}
+= \text{data\_phase\_valid} \land \texttt{HREADY}
+$$
+
+These are related pipeline events, not a request/ack pair on one channel.
+`HREADY` describes the current data phase while also gating whether the
+address pipeline may advance.
+
+## What a wait state means
+
+`HREADY=0` extends the current data phase. In ordinary valid-transfer cases:
+
+- the current data-phase context remains outstanding;
+- write data for that transfer must not be replaced;
+- the next valid address/control packet must remain valid until accepted;
+- beat counters and burst address state do not advance; and
+- read data and response are not consumed as a completed result.
+
+The specification has controlled exceptions for IDLE, BUSY, and the first
+cycle of an ERROR response. The educational RTL chooses a conservative hold
+policy during normal waits and changes `HTRANS` to IDLE only when canceling the
+pipelined next transfer for ERROR.
+
+## `HTRANS` is transfer validity plus sequence meaning
+
+- `IDLE (00)`: no data transfer is required.
+- `BUSY (01)`: a manager inserts time inside a burst but does not create a
+  data beat.
+- `NONSEQ (10)`: first beat of a burst or a transfer unrelated to the previous
+  one.
+- `SEQ (11)`: later beat whose address follows the active burst rules.
+
+Only NONSEQ and SEQ create real transfers. A counter enabled on every clock, or
+on BUSY, produces the wrong beat count.
+
+## Size, burst, and address generation
+
+`HSIZE` encodes bytes per beat:
+
+$$
+\text{bytes per beat}=2^{\texttt{HSIZE}}
+$$
+
+`HBURST` selects SINGLE, undefined INCR, or fixed INCR/WRAP lengths. For a
+wrapping burst:
+
+$$
+\text{wrap region bytes}
+= \text{beats}\times\text{bytes per beat}
+$$
+
+The current RTL fixes `HSIZE=3'b010`, so each beat is four bytes. WRAP4
+therefore wraps within a 16-byte region. Starting at `0x3C`:
 
 ```text
 0x3C -> 0x30 -> 0x34 -> 0x38
 ```
 
-The upper address bits select the 16-byte region and the low four bits wrap
-modulo 16. This is why masking only with a hard-coded value from one example is
-not a general implementation method; the boundary comes from burst length and
-transfer size.
+The low four address bits wrap modulo 16 while the upper bits retain the
+selected region. This boundary is different from AHB's system-level rule that
+an incrementing burst must not cross a 1-KiB address boundary.
 
-## What is intentionally not in this first version
+Address alignment follows transfer size. The learning manager rejects a word
+request when `req_addr[1:0] != 2'b00`.
 
-- No multiple managers or arbitration.
-- No undefined-length INCR burst, INCR8/16, or WRAP8/16.
-- No byte, halfword, or wider transfer sizes.
-- No multiple outstanding commands.
-- No AHB5 security, exclusive transfer, parity, or extended memory attributes.
+## Responses and ERROR timing
 
-These are omitted to keep the first implementation readable, not because AHB
-lacks them.
+`HREADY=1` with an OKAY response completes a normal data phase. AHB's ERROR
+response occupies two cycles because the next address has already entered the
+pipeline:
 
-## Source register
+1. first ERROR cycle: `HRESP=ERROR`, `HREADY=0`; the manager is given time to
+   cancel the next transfer by driving IDLE;
+2. final ERROR cycle: `HRESP=ERROR`, `HREADY=1`; the failed data phase
+   completes with an error.
 
-| Source | How it is used |
-|---|---|
-| [Arm IHI 0033C - AMBA AHB Protocol Specification](sources/ARM-IHI-0033C-AMBA-AHB-Protocol-Specification.pdf) | Authority for signal meanings, pipelining, transfer sizes, `HTRANS`, `HREADY`, and burst boundaries |
-| [AMBA AHB Protocol Batch 2 playlist](https://www.youtube.com/playlist?list=PLqPfWwayuBvNX_IQPBHGJn8YFkvI86lr9) | Topic order and beginner-oriented examples only |
-| [Lecture 9 - AHB master FSM](https://www.youtube.com/watch?v=DmYdSlO2MiE) | Captured state-diagram reference and comparison point |
-| [Lecture 10 - incremental-burst RTL](https://www.youtube.com/watch?v=uzEg7ziaSaE) | Variables and intended operation used as inspiration; code not copied |
-| [Lecture 11 - INCR4 manager/subordinate/testbench](https://www.youtube.com/watch?v=4jPAmDrMqfY) | Verification scope used as inspiration; testbench rebuilt as self-checking |
-| [Lecture 12 - wrap implementation](https://www.youtube.com/watch?v=3LSP1SvmoyA) | Wrap-boundary teaching example, corrected and generalized using the specification |
-| [Original handwritten source PDFs](../Handwritten%20data/) | Preserved source scans; rendered derivatives are discussed in page order in the handwritten atlas |
+An error is still a completion event. Local logic must retire the failed
+operation once, record failure, and avoid treating read data as successful
+payload.
 
-## How to revise this chapter
+## AHB versus AHB-Lite
 
-1. Draw two adjacent clock cycles and place transfer 0's data phase under
-   transfer 1's address phase.
-2. Freeze the drawing for one cycle and explain exactly what `HREADY=0` holds.
-3. Write the four addresses for INCR4 and WRAP4 from the same starting address.
-4. Explain why NONSEQ starts a burst and SEQ continues it.
-5. Read [the FSM correction](code/FSM.md), then trace the RTL counters with the
-   testbench's WRAP4 example.
+AHB supports systems with multiple managers through interconnect arbitration
+and routing. AHB-Lite is the single-manager subset and is the right first
+implementation for learning the transfer pipeline. “Lite” does not mean
+single transfer only; bursts and wait states remain valid.
 
-## Completion checkpoint
+AHB is also different from AXI. It has one shared address/data pipeline and no
+AXI-style transaction IDs or five independent channel handshakes.
 
-- Why is AHB pipelined even though each transfer still has an address and data phase?
-- Which transfer does `HWDATA` belong to when a different address is visible?
-- What state, address, control, and data must hold while `HREADY` is LOW?
-- Why does WRAP4 of 32-bit words use a 16-byte boundary?
-- What is wrong with driving protocol outputs to `X` in ordinary functional RTL?
+## RTL and verification invariants
 
-## Next additions
+A manager or monitor should make these properties explicit:
 
-- Revisit the [lecture and handwritten atlas](handwritten/README.md) alongside
-  the corresponding playlist video when revising a timing diagram.
-- Replace a lecture capture only if a clearer frame carries more timing
-  information; preserve the handwritten source scans unchanged.
-- Extend the manager only when a new learning goal requires another burst or size.
+- after accepting a local command, capture every field needed after that edge;
+- advance address and beat state only for accepted NONSEQ/SEQ phases;
+- hold the outstanding data-phase identity until `HREADY=1`;
+- associate `HWDATA` with the older accepted write address;
+- sample `HRDATA` and `HRESP` only at the data completion edge;
+- keep normal bus outputs stable through an `HREADY=0` wait;
+- treat BUSY and IDLE as non-beats;
+- check fixed-burst length, alignment, wrap address sequence, and the 1-KiB
+  rule; and
+- verify both cycles of ERROR, not only the final `HREADY=1` cycle.
+
+The included testbench covers SINGLE, INCR4, WRAP4, reads, writes, inserted
+wait states, bus stability, and unaligned-request rejection. Injecting a
+two-cycle ERROR response is the most important remaining negative test.
+
+## Deliberate implementation limits
+
+- one manager and one command in flight;
+- 32-bit word transfers only;
+- SINGLE, INCR4, and WRAP4 only;
+- no undefined INCR, INCR8/16, WRAP8/16, byte, or halfword support;
+- no exclusive, atomic, parity, user, security, or extended memory attributes.
+
+These are implementation limits, not protocol limits.
+
+## Recall checkpoint
+
+1. Why can `HADDR=B` and `HWDATA=A` be correct in the same cycle?
+2. Which event creates a real data phase?
+3. Which event completes that data phase?
+4. Why does a normal wait freeze both data context and the next valid address?
+5. Why is an AHB ERROR response two cycles?
+6. Derive the WRAP4 word boundary without memorizing 16.
+7. What remains in AHB-Lite after arbitration is removed?

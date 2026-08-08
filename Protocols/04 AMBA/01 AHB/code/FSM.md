@@ -9,7 +9,7 @@ The screenshot below is from the playlist's
 lecture. It is saved as evidence of the teaching model, not treated as the
 protocol authority.
 
-![Lecture AHB master FSM with IDLE, read/write address states, and read/write data states](../images/lecture-ahb-master-fsm.png)
+![Lecture AHB manager FSM with IDLE, read/write address states, and read/write data states](../../notes/images/AHB/lecture/ahb-master-fsm.png)
 
 The lecture uses five conceptual states:
 

@@ -149,7 +149,7 @@ This formula gives the minimum for binary encoding. A one-hot implementation del
 
 ## How to revise frequency dividers
 
-For every circuit, write the state sequence, mark the exact output transitions, count input periods per complete output period, and calculate duty cycle separately. Then state whether the result is a clock-enable pulse, a continuous waveform, or a real generated clock, and whether the implementation is synchronous or ripple. Use the global [revision method](../guides/REVISION_METHOD.md) for the review schedule.
+For every circuit, write the state sequence, mark the exact output transitions, count input periods per complete output period, and calculate duty cycle separately. Then state whether the result is a clock-enable pulse, a continuous waveform, or a real generated clock, and whether the implementation is synchronous or ripple. Use the global [revision method](../_internal/repository/guides/REVISION_METHOD.md) for the review schedule.
 
 <a id="page-01"></a>
 

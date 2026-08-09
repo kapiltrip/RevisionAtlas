@@ -1,6 +1,6 @@
 # AXI handwritten layer
 
-[Back to AXI](../README.md) | [Course-video Day 01](../course/Day%2001.md) | [Back to AMBA](../../README.md)
+[Back to AXI](../README.md) | [Course atlas](../course/README.md) | [Back to AMBA](../../README.md)
 
 This is Layer 2 of the AXI chapter. It preserves Kapil's handwritten AXI notes,
 maps each page to the exact course lesson, and places the verified solution
@@ -8,17 +8,16 @@ beside the original question.
 
 ## Intake status
 
-| Source | Status | Planned treatment |
-|---|:---:|---|
-| Handwritten AXI pages | 1 PAGE ADDED | Original page preserved and rendered inline |
-| Course-video mapping | ACTIVE | Page 1 maps to [Video 31 - Round-robin arbiter part 2](../course/Day%2001.md#video-31---round-robin-arbiter-part-2) |
-| Protocol verification | READY | Check each statement against [Arm IHI 0051B](../sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf) |
+- One handwritten page is present; its original image is preserved below.
+- The page maps directly to
+  [Video 31 — Round-robin arbiter part 2](../course/Section%2003%20-%20AXI-Stream%20IPs.md#video-31---round-robin-arbiter-part-2).
+- Any later AXI-Stream claim will be checked against
+  [Arm IHI 0051B](../sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf).
 
 ## Handwritten-page index
 
-| Page | Topic | Main question | Status |
-|---:|---|---|:---:|
-| 1 | [Round-robin next-state priority](#page-1---why-does-s1-check-req2-first) | Why does `s1` test `req2` before `req1`? | SOLVED |
+- [Page 1 — Round-robin next-state priority](#page-1---why-does-s1-check-req2-first):
+  why `s1` tests `req2` before `req1`, fully solved below.
 
 ## Page 1 - Why does `s1` check `req2` first?
 
@@ -168,8 +167,8 @@ priority for the next grant.
 
 ## Current boundary
 
-The course layer currently ends at **33. Code**, after the plain round-robin
-arbiter RTL and testbench and before **Implementing AXIS Arbiter P1**.
-Handwritten pages about the later AXIS arbiter or FIFO topics can be preserved
-when provided, but they will not be merged into the completed-learning path
-until Kapil requests the corresponding extension.
+The course layer currently ends at **49. Understanding Write data channel**.
+Sections 1-3 are complete, and Section 4 is documented through its fifth
+lesson. This handwritten layer currently has one page mapped to Video 31;
+future handwritten arbiter, FIFO, or AXI4-Lite pages should be linked to their
+matching section file without extending beyond the live course boundary.

@@ -9,11 +9,14 @@ names or transfer models.
 
 ## Chapter map
 
-| Order | Chapter | Current scope | Status |
-|---:|---|---|:---:|
-| 1 | [AHB](01%20AHB/README.md) | Pipelined transfers, wait states, `HTRANS`, bursts, handwritten pages, RTL, and verification | ACTIVE |
-| 2 | [APB](02%20APB/README.md) | Setup/access timing, wait states, errors, and handwritten pages | ACTIVE |
-| 3 | [AXI](03%20AXI/README.md) | AXI family selection, valid-ready handshakes, AXI-Stream signals, stalls, and master RTL | ACTIVE THROUGH AXIS MASTER |
+1. [AHB](01%20AHB/README.md) covers pipelined address/data phases, wait states,
+   `HTRANS`, bursts, handwritten pages, corrected FSM reasoning, RTL, and
+   verification.
+2. [APB](02%20APB/README.md) covers SETUP/ACCESS timing, wait states, error
+   reporting, and the matching handwritten pages.
+3. [AXI](03%20AXI/README.md) covers interface selection, independent
+   `VALID`/`READY` channels, AXI-Stream signals and IP, then AXI4-Lite through
+   write-address and write-data lessons. The course boundary is lesson 49.
 
 ## Keep the names separate
 
@@ -32,6 +35,8 @@ and
 [AMBA APB Protocol Specification, ARM IHI 0024E](02%20APB/sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf),
 plus the
 [AMBA AXI-Stream Protocol Specification, ARM IHI 0051B](03%20AXI/sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf).
+Memory-mapped AXI4 and AXI4-Lite distinctions are checked against the official
+[AMBA AXI and ACE Protocol Specification, ARM IHI 0022H](https://developer.arm.com/-/media/Arm%20Developer%20Community/PDF/IHI0022H_amba_axi_protocol_spec.pdf).
 
 ## Handwritten source intake
 

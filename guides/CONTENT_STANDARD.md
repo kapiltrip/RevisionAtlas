@@ -1,6 +1,8 @@
-# Revision Atlas Content Standard
+# Content Standard
 
-This file defines what “explained” means in Revision Atlas. A note is not complete merely because a formula, acronym, or diagram has been copied. The reader should be able to answer:
+[Guide index](README.md) | [Back to RevisionSolved](../README.md)
+
+This file defines what “explained” means in RevisionSolved. A note is not complete merely because a formula, acronym, or diagram has been copied. The reader should be able to answer:
 
 1. What does the term mean?
 2. Why is it called that?
@@ -34,7 +36,9 @@ Use the smallest version of this pattern that fully explains the idea:
 - **Do not confuse it with:** Name the nearest misleading alternative.
 - **Interview form:** A short answer that can be spoken accurately in 20–40 seconds when the term is interview-relevant.
 
-Not every term needs six bullets. A compact table row is enough when the distinctions are simple. A difficult or disputed term should use the full card.
+Not every term needs six bullets. A compact comparative table is useful when it
+exposes an exact mapping or a nearby distinction; otherwise use direct prose. A
+difficult or disputed term should use the full card.
 
 ## “Why” questions are mandatory
 
@@ -105,7 +109,7 @@ Every topic or unit README must contain:
 - active-recall prompts;
 - a short completion checkpoint.
 
-Use [the subject template](templates/subject-template.md) when adding a new subject.
+Use [the subject template](../templates/subject-template.md) when adding a new subject.
 
 ## Completion test
 

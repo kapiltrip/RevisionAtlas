@@ -1,6 +1,6 @@
 # Protocols
 
-This subject covers hardware communication protocols. The existing 16-page handwritten scan is preserved once and separated into I2C, SPI, and UART rooms. The AMBA branch adds on-chip interconnect study and code without mixing its pipelined bus rules into the serial-protocol notes.
+This subject covers hardware communication protocols. The existing 16-page handwritten scan is preserved once and separated into I2C, SPI, and UART rooms. The AMBA branch adds AHB, APB, and AXI as separate on-chip interconnect chapters so their bus phases, channels, and handshake rules are not mixed into the serial-protocol notes or into one another.
 
 ## Core terms
 
@@ -18,14 +18,21 @@ This subject covers hardware communication protocols. The existing 16-page handw
 
 ## Ordered path
 
-| Topic room | Source pages | Main coverage |
-|---|---:|---|
-| [I2C](01%20I2C/README.md) | 1-5 | Two-wire electrical behavior, addressing, START/STOP, ACK/NACK, reads, writes, and clock stretching |
-| [SPI](02%20SPI/README.md) | 6-8 | Four-wire full-duplex transfers, shift-register model, chip select, and the four CPOL/CPHA modes |
-| [UART](03%20UART/README.md) | 9-16 | Asynchronous framing, baud generation, oversampling, and transmitter/receiver RTL architecture |
-| [AMBA](04%20AMBA/README.md) | New sources | AMBA family map; current AHB-Lite timing, FSM correction, RTL, and verification |
+1. [I2C](01%20I2C/README.md), source pages 1–5: two-wire electrical
+   behavior, addressing, START/STOP, ACK/NACK, reads, writes, and clock
+   stretching.
+2. [SPI](02%20SPI/README.md), source pages 6–8: full-duplex shift-register
+   movement, chip selection, and the four CPOL/CPHA modes.
+3. [UART](03%20UART/README.md), source pages 9–16: asynchronous framing, baud
+   generation, oversampling, and transmitter/receiver RTL architecture.
+4. [AMBA](04%20AMBA/README.md), separate sources: AHB pipelining and RTL, APB
+   setup/access timing, and the AXI section-organized course atlas through
+   lesson 49.
 
-The untouched serial-protocol scan is available as [protocols-handwritten-notes.pdf](sources/protocols-handwritten-notes.pdf). AHB has its own official specification and later handwritten-note intake inside the [AMBA branch](04%20AMBA/README.md).
+The untouched serial-protocol scan is available as
+[protocols-handwritten-notes.pdf](sources/protocols-handwritten-notes.pdf).
+Each AMBA chapter keeps its own authoritative specification and learning
+evidence inside the [AMBA branch](04%20AMBA/README.md).
 
 ## How to use these notes
 
@@ -48,7 +55,7 @@ For every transaction, draw the complete waveform and answer in order:
 5. What detects rejection or corruption—and what does not?
 6. Which statement is universal to the protocol and which is device-specific?
 
-Then compare one nearby protocol without saying only “faster” or “fewer wires.” Compare clocking, electrical drive, selection/addressing, duplex behavior, framing, acknowledgment, and implementation cost. Use the global [revision plan](../REVISION_PLAN.md) for the spaced schedule.
+Then compare one nearby protocol without saying only “faster” or “fewer wires.” Compare clocking, electrical drive, selection/addressing, duplex behavior, framing, acknowledgment, and implementation cost. Use the global [revision method](../guides/REVISION_METHOD.md) for the spaced schedule.
 
 ## Question and correction register
 

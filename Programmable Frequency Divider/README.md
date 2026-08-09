@@ -1,6 +1,6 @@
 # Frequency Divider RTL Practice — `/2` Through `/5`
 
-[Back to Revision Atlas](../README.md) | [Frequency-divider theory](../Frequency%20Dividers/README.md)
+[Back to RevisionSolved](../README.md) | [Frequency-divider theory](../Frequency%20Dividers/README.md)
 
 > **Status:** The standalone `/2`, `/3`, `/4`, and `/5` dividers are complete. The agreed custom-duty and fractional-pulse cases are also implemented with simple parameterized RTL and self-checking testbenches. Vivado synthesis is next.
 
@@ -150,19 +150,16 @@ This minimal testbench does only four jobs:
 
 Self-checking code is optional. It is useful for automated regression tests because it prints `PASS` or `FAIL` without requiring visual inspection. For learning the divider and inspecting its timing manually, the minimal testbench above is sufficient.
 
-## Main TODO
+## Progress
 
-| Order | What we will do | Status |
-|---:|---|:---:|
-| 1 | Implement standalone `/2` with 25%, 50%, and 75% duty cycles | DONE |
-| 2 | Implement standalone `/3` with all five listed duty cycles | DONE |
-| 3 | Implement standalone `/4` with all seven listed duty cycles | DONE |
-| 4 | Implement standalone `/5` with all nine listed duty cycles | DONE |
-| 5 | Create one clock/reset-only self-checking testbench per normal divider | DONE |
-| 6 | Simulate every normal configuration with Icarus Verilog | DONE |
-| 7 | Implement and test all agreed custom-duty cases | DONE |
-| 8 | Implement and test `/1.5`, `/2.5`, `/3.5`, and `/4.5` pulse outputs | DONE |
-| 9 | Synthesize and inspect each design in Vivado | NEXT |
+The standalone `/2`, `/3`, `/4`, and `/5` modules, all listed normal duty
+cycles, their clock/reset testbenches, and the Icarus Verilog simulations are
+complete. The agreed custom-duty cases and `/1.5`, `/2.5`, `/3.5`, and `/4.5`
+fractional pulse outputs are also implemented and tested.
+
+The next evidence boundary is Vivado synthesis: synthesize each module as the
+top, inspect the inferred counters/registers and clocking, then record timing
+only after the constraints are correct.
 
 ## Miscellaneous cases completed
 
@@ -185,10 +182,10 @@ Self-checking code is optional. It is useful for automated regression tests beca
 
 ## Still later
 
-| Feature | Plan | Status |
-|---|---|:---:|
-| Other exact custom duty cycle | Calculate its required clock resolution and HIGH/total counts first | Later |
-| Live reconfiguration | Apply new settings only at a clean output-period boundary | Later |
+- For another exact custom duty cycle, first calculate the required clock
+  resolution and the HIGH-to-total count ratio.
+- For live reconfiguration, apply new settings only at a clean output-period
+  boundary so the change cannot create a shortened or extra pulse.
 
 ## Not included
 

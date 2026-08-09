@@ -1,27 +1,64 @@
-# Subject Dashboard and Review Queue
+# Coverage and Review Queue
 
-This is the management view for Revision Atlas. “Revision-ready” means the current scope has explanations, term definitions, citations, and retrieval prompts; it does not mean the entire academic subject is complete.
+[Back to RevisionSolved](../README.md) | [Revision method](../guides/REVISION_METHOD.md)
 
-| Subject / topic | Source-linked explanation | Cited term layer | Quick recall / formula layer | Mixed tests | Next action |
-|---|---|---|---|---|---|
-| MOSFET and CMOS | Ready: 110 pages | Ready for current scope | Planned | Planned | Build five module quick-recall sheets |
-| Static Timing Analysis | Ready: 25 pages | Ready for current scope | Planned | Planned | Extract formula/sign-convention sheet |
-| Protocols | Ready: 16 serial pages; AHB foundation added | Ready for I2C, SPI, UART; AHB code verified | Planned | Planned | Add AHB handwritten pages when supplied |
-| FIFO | Architecture guide + starter RTL | Ready for current scope | Planned | Planned | Complete and verify synchronous FIFO contract/RTL |
-| Frequency Dividers | Ready: 13 pages | Ready for current scope | Planned | Planned | Build waveform and duty-cycle test set |
+“Revision-ready” means the stated source boundary has deep explanations, term
+definitions, corrections, and retrieval prompts. It does not mean the entire
+academic subject is complete.
 
-## Review queue format
+## Current coverage
 
-Copy one row per weak term, page, derivation, waveform, or design invariant.
+### MOSFET and CMOS
 
-| Item | Subject | Mark | Last reviewed | Next due | Repair action |
-|---|---|---|---|---|---|
-| `<term/page/question>` | `<subject>` | `R / H / M` | `YYYY-MM-DD` | `YYYY-MM-DD` | `<define / derive / draw / solve / implement>` |
+- Ready: all 110 pages across five notebooks are rendered and discussed.
+- Present strength: device physics, regions, inverter behavior, delay, power,
+  noise, and sizing are source-linked and cited.
+- Next high-value layer: five module-level quick-recall sheets.
 
-Queue rules:
+### Static Timing Analysis
 
-- `M` — due tomorrow; repair the prerequisite and solve another example.
-- `H` — due in three days; answer a contrast or “why” question.
-- `R` — due in seven days, then Day 14 and Day 30.
+- Ready: all 25 pages are rendered and discussed, including visible corrections
+  and worked sign conventions.
+- Present strength: storage elements, setup/hold paths, skew, arrival/required
+  time, slack, and maximum frequency.
+- Next high-value layer: one formula and sign-convention sheet.
 
-The full session method and subject-specific tests are in [How to Revise a Subject](../REVISION_PLAN.md).
+### Protocols
+
+- Ready: all 16 handwritten serial-protocol pages for I2C, SPI, and UART.
+- AMBA: AHB has specification-backed notes and verified RTL; APB has its
+  handwritten layer; AXI has one handwritten page and a section-organized
+  course atlas through lesson 49.
+- Next high-value action: extend AXI only after Kapil reaches lesson 50, and add
+  new handwritten pages when supplied.
+
+### FIFO
+
+- Ready: the architecture, contract, pointer, flag, occupancy, and verification
+  guide plus starter RTL/project structure.
+- Next high-value action: complete and verify the synchronous FIFO contract and
+  then derive the CDC-safe asynchronous design.
+
+### Frequency Dividers
+
+- Ready: all 13 notebook pages plus the separate `/2` through `/5` RTL practice
+  area.
+- Next high-value layer: a mixed waveform and duty-cycle test set.
+
+## Review queue
+
+Record each weak term, page, derivation, waveform, or invariant in a notebook
+or tracker using this compact form:
+
+```text
+Item: <term, page, or question>
+Subject: <subject>
+Mark: R | H | M
+Last reviewed: YYYY-MM-DD
+Next due: YYYY-MM-DD
+Repair action: define | derive | draw | solve | implement
+```
+
+- `M` is due tomorrow; repair the prerequisite and solve another example.
+- `H` is due in three days; answer a contrast or “why” question.
+- `R` is due in seven days, then Day 14 and Day 30.

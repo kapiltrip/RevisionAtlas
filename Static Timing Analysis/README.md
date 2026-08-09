@@ -50,7 +50,7 @@ It is therefore not “STA **or** simulation.” STA is used because timing cove
 
 ## How to revise STA
 
-For every problem, draw the launch edge, capture edge, full clock paths, and full data path before substituting numbers. Write **arrival time** and **required time** as separate expressions, choose maximum delays for setup and minimum delays for hold, and only then calculate slack. After solving, explain why each term is added or subtracted and why changing frequency can or cannot repair the result. Use the global [revision plan](../REVISION_PLAN.md) for scheduling.
+For every problem, draw the launch edge, capture edge, full clock paths, and full data path before substituting numbers. Write **arrival time** and **required time** as separate expressions, choose maximum delays for setup and minimum delays for hold, and only then calculate slack. After solving, explain why each term is added or subtracted and why changing frequency can or cannot repair the result. Use the global [revision method](../guides/REVISION_METHOD.md) for scheduling.
 
 ## Page map
 

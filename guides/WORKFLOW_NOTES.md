@@ -1,4 +1,6 @@
-# Fixes and Faster Workflows
+# Workflow Notes
+
+[Guide index](README.md) | [Back to RevisionSolved](../README.md)
 
 This file records repository and tool problems that were actually encountered, what caused them, how they were fixed, and the shortest reliable method to use next time.
 

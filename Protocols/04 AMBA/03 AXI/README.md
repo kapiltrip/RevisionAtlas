@@ -2,34 +2,36 @@
 
 [Back to AMBA](../README.md) | [Back to Protocols](../../README.md)
 
-This chapter starts AXI from the common `VALID`/`READY` transfer rule and then
-specializes that rule for AXI-Stream. The present stopping point is Namaste
-FPGA lesson **33. Code**, immediately before **Implementing AXIS Arbiter P1**.
-Material after the plain round-robin arbiter is outside this revision boundary
-and has not been summarized in advance.
+This chapter starts AXI from the common `VALID`/`READY` transfer rule,
+specializes it for AXI-Stream, and then begins the memory-mapped AXI4-Lite
+path. The present stopping point is Namaste FPGA lesson
+**49. Understanding Write data channel**. Lessons 50 and later remain outside
+the revision boundary.
 
 ## Learning layers
 
-| Layer | Material | Status |
-|---|---|:---:|
-| 1 | [Course-video atlas - Day 01](course/Day%2001.md) | COMPLETE THROUGH LESSON 33 CODE |
-| 2 | [Kapil's handwritten AXI notes](handwritten/README.md) | STARTED - 1 ROUND-ROBIN PAGE |
-| Authority | [Arm IHI 0051B - AMBA AXI-Stream Protocol Specification](sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf) | LOCAL SOURCE |
+- **Course layer:** the [section-organized course atlas](course/README.md) is
+  complete through lesson 49.
+- **Handwritten layer:** [Kapil's AXI notes](handwritten/README.md) currently
+  contain one fully solved round-robin fairness page.
+- **Authority layer:** the local
+  [Arm IHI 0051B AXI-Stream specification](sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf)
+  governs streaming claims; the official Arm IHI 0022H source governs
+  memory-mapped AXI4 and AXI4-Lite distinctions.
 
-Layer 1 contains real frames from all 28 completed videos through Round Robin
-Arbiter P3. Lessons 10, 22, 26, 28, and 33 are code resources rather than
-videos; the master, slave, integration, and round-robin resources at the
-current boundary are rendered directly in the atlas. Layer 2 now contains
-Kapil's first handwritten page and its verified fairness solution.
+Layer 1 is split into the instructor's top-level course sections and contains
+real frames from all 41 completed video lessons through Write Data Channel.
+Lessons 10, 22, 26, 28, 33, 38, 42, and 44 are code resources rather than
+videos. Layer 2 contains Kapil's first handwritten page and its verified
+fairness solution.
 
-The course layer now also contains verified, video-only fullscreen frames for
-the pin comparison, handshake rules, signal table, byte qualifiers, use cases,
-stall waveform, master RTL/testbench, slave FSM/testbench, end-to-end wiring,
-integrated waveforms, the Section 3 agenda, and the round-robin FSM/testbench.
-The
-[Day 01 standards audit](course/Day%2001.md#arm-ihi-0051b-standards-audit)
-checks the lecture and teaching RTL against clause-level details in Arm IHI
-0051B rather than treating the slides as the final authority.
+The course layer contains verified, video-only full-screen frames for the
+handshake path, master/slave integration, round-robin logic, AXI-Stream
+arbiter, AXI-Stream FIFO, and the completed AXI4-Lite introduction. The
+[AXI-Stream standards audit](course/Section%2002%20-%20AXI-Stream%20Interface%20Fundamentals.md#arm-ihi-0051b-standards-audit)
+checks the lecture and teaching RTL against Arm IHI 0051B. Section 4 separately
+labels full-AXI, AXI3, and AXI4-Lite signals so the lecture diagrams are not
+mistaken for one interchangeable port list.
 
 ## Where each AXI interface fits
 
@@ -133,14 +135,22 @@ zero-byte packet-ending event that must not be discarded.
 
 ## Source register
 
-| Source | Use in this chapter |
-|---|---|
-| [Arm IHI 0051B - AMBA AXI-Stream Protocol Specification](sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf) | Authority for handshake, byte types, packet boundaries, optional signals, ordering, and AXI4-Stream versus AXI5-Stream behavior |
-| [Arm IHI 0022H - AMBA AXI and ACE Protocol Specification](https://developer.arm.com/-/media/Arm%20Developer%20Community/PDF/IHI0022H_amba_axi_protocol_spec.pdf) | Authority for the five memory-mapped channels and AXI4/AXI4-Lite distinctions |
-| [Namaste FPGA course page](https://namaste-fpga.com/student/learn/53) | Lesson order, drawings, waveform examples, and sample RTL through lesson 33 |
-| [Course-video atlas](course/Day%2001.md) | Saved real frames and frame-specific explanations from the completed lessons |
-| [AMD AXI DMA core overview](https://docs.amd.com/r/en-US/pg021_axi_dma/Core-Overview) | Primary reference for the memory-mapped-to-stream and stream-to-memory-mapped DMA directions |
-| [AMD AXI4-Stream Video signaling guide](https://docs.amd.com/r/en-US/ug934_axi_videoIP/AXI4-Stream-Signaling-Interface) | Primary reference for video-profile `TUSER[0]` start-of-frame and `TLAST` end-of-line meanings |
+- [Arm IHI 0051B - AMBA AXI-Stream Protocol Specification](sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf)
+  is the authority for handshake, byte types, packet boundaries, optional
+  signals, ordering, and AXI4-Stream versus AXI5-Stream behavior.
+- [Arm IHI 0022H - AMBA AXI and ACE Protocol Specification](https://developer.arm.com/-/media/Arm%20Developer%20Community/PDF/IHI0022H_amba_axi_protocol_spec.pdf)
+  is the authority for the five memory-mapped channels and AXI4/AXI4-Lite
+  distinctions.
+- The [Namaste FPGA course page](https://namaste-fpga.com/student/learn/53)
+  supplies lesson order, drawings, waveform examples, and teaching RTL through
+  lesson 49. The local [course atlas](course/README.md) preserves the selected
+  frames and their verified explanations.
+- The [AMD AXI DMA core overview](https://docs.amd.com/r/en-US/pg021_axi_dma/Core-Overview)
+  supports the memory-mapped-to-stream and stream-to-memory-mapped DMA
+  directions.
+- The [AMD AXI4-Stream Video signaling guide](https://docs.amd.com/r/en-US/ug934_axi_videoIP/AXI4-Stream-Signaling-Interface)
+  supports video-profile `TUSER[0]` start-of-frame and `TLAST` end-of-line
+  meanings.
 
 ## How to revise this chapter
 
@@ -152,7 +162,7 @@ zero-byte packet-ending event that must not be discarded.
    one-cycle pulse independent of acceptance.
 5. In RTL, gate every beat counter, FIFO pointer, packet counter, and input-data
    advance with the same `fire` event.
-6. Revisit the [video atlas](course/Day%2001.md), then explain each correction
+6. Revisit the [video atlas](course/README.md), then explain each correction
    in the table above without looking.
 
 ## Completion checkpoint
@@ -180,12 +190,24 @@ zero-byte packet-ending event that must not be discarded.
 - Why does state `s1` check `req2` before checking `req1`?
 - If both requests stay HIGH, what grant sequence proves round-robin fairness?
 - Why is the plain request/grant arbiter not yet an AXI-Stream arbiter?
+- Why must an AXI-Stream arbiter keep its selection fixed during downstream
+  back-pressure?
+- Which three signals define accepted packet completion?
+- Why is a FIFO output invalid if `m_axis_tvalid` waits for
+  `m_axis_tready`?
+- What happens to FIFO occupancy on a simultaneous push and pop?
+- Which burst and ID fields are absent from AXI4-Lite?
+- Why is `WID` an AXI3 signal rather than an AXI4-Lite signal?
+- Which `WSTRB` bit enables `WDATA[23:16]`?
 
 ## Next additions
 
 - Add later handwritten pages to Layer 2 and map each one to the matching video
   and protocol rule.
-- Begin **Implementing AXIS Arbiter P1** only when Kapil asks to extend beyond
-  the current lesson 33 boundary.
+- Begin **Understanding Write response channel** only after Kapil reaches
+  lesson 50 and asks to extend the current boundary.
 - Turn the teaching master/slave pair into a self-checking RTL exercise with
   randomized stalls, inter-beat bubbles, assertions, and a scoreboard.
+- Turn the arbiter and FIFO demonstrations into protocol-hardened exercises
+  with randomized back-pressure, simultaneous FIFO push/pop, wraparound, and
+  end-to-end scoreboards.

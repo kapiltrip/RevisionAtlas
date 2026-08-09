@@ -1,6 +1,6 @@
 # `<Subject Name>`
 
-[Back to Revision Atlas](../README.md)
+[Back to RevisionSolved](../README.md)
 
 ## Purpose and boundary
 
@@ -13,9 +13,7 @@ State what the subject explains, verifies, predicts, or implements. State what i
 
 ## Topic path
 
-| Order | Topic | Coverage | Status |
-|---:|---|---|---|
-| 1 | `<Topic>` | `<Concepts>` | Planned / In progress / Revision-ready |
+1. **`<Topic>`** — `<Concepts>` — `Planned / In progress / Revision-ready`
 
 ## Core terms
 
@@ -43,7 +41,7 @@ For a difficult term, use the full card:
 
 ## How to revise this subject
 
-State the best closed-book test: drawing, derivation, waveform, state trace, code result, comparison, or numerical problem. Link to the global [revision plan](../REVISION_PLAN.md).
+State the best closed-book test: drawing, derivation, waveform, state trace, code result, comparison, or numerical problem. Link to the global [revision method](../guides/REVISION_METHOD.md).
 
 ## Source register
 

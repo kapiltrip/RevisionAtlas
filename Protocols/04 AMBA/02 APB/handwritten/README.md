@@ -5,7 +5,7 @@
 This atlas follows each lecture waveform with its explanation and then the
 corresponding original notebook or iPad page. The authority for corrections is
 Arm's
-[AMBA APB Protocol Specification, ARM IHI 0024E](../sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf).
+[AMBA APB Protocol Specification, ARM IHI 0024E](../../../../_internal/Protocols/04%20AMBA/02%20APB/sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf).
 
 ## How to reason about an APB page
 
@@ -28,7 +28,7 @@ All APB signals are interpreted at rising `PCLK` edges. `PREADY` is not a
 free-standing valid signal; it has completion meaning only for the selected
 transfer in ACCESS. This phase context is what turns a signal list into a
 protocol
-([Arm IHI 0024E, §§2.1, 3.1, and 4.1](../sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf)).
+([Arm IHI 0024E, §§2.1, 3.1, and 4.1](../../../../_internal/Protocols/04%20AMBA/02%20APB/sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf)).
 
 ## Source-page map
 
@@ -48,7 +48,7 @@ sequence.
 
 ### Lecture frame: a bridge reaches simple peripherals
 
-![Lecture frame showing the APB bridge role](../images/lecture/apb-bridge-role.png)
+![Lecture frame showing the APB bridge role](../../../../_internal/Protocols/04%20AMBA/02%20APB/images/lecture/apb-bridge-role.png)
 
 The frame places APB behind a system-bus bridge. High-performance traffic can
 remain on AHB or another AMBA system bus, while the bridge converts a selected
@@ -72,11 +72,11 @@ pipelined, so the bridge cannot rely on the upstream address remaining present
 for the entire APB transfer. It acts as both a timing converter and a request
 buffer. For a read it additionally captures `PRDATA`; for an error it maps
 `PSLVERR` into the upstream protocol's response
-([Arm IHI 0024E, §§1.1 and 3.4.3](../sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf)).
+([Arm IHI 0024E, §§1.1 and 3.4.3](../../../../_internal/Protocols/04%20AMBA/02%20APB/sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf)).
 
 ### Original notebook page 19: overview and bridge
 
-![Original handwritten APB overview and bridge page](images/01-apb-overview-and-bridge.jpg)
+![Original handwritten APB overview and bridge page](../../../../_internal/Protocols/04%20AMBA/02%20APB/handwritten/images/01-apb-overview-and-bridge.jpg)
 
 The page correctly describes APB as low-bandwidth, low-complexity peripheral
 communication and draws an AHB/APB bridge. The term “low power” is best
@@ -93,7 +93,7 @@ does not pipeline addresses, encode bursts, arbitrate between transfer types,
 or provide separate handshakes for read and write data. Every access follows
 one SETUP and one-or-more ACCESS cycles. That regularity reduces the state and
 interface logic a register peripheral must implement
-([Arm IHI 0024E, §1.1](../sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf)).
+([Arm IHI 0024E, §1.1](../../../../_internal/Protocols/04%20AMBA/02%20APB/sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf)).
 
 APB is optimized for programmable control/status registers. For a UART status
 read, `PADDR` chooses the status register and `PWRITE=0` chooses read. During
@@ -111,7 +111,7 @@ the APB transfer; APB only accesses the UART's memory-mapped registers.
 
 ### Original notebook page 20: signals as one transaction
 
-![Original handwritten APB interface signals](images/02-apb-interface-signals.jpg)
+![Original handwritten APB interface signals](../../../../_internal/Protocols/04%20AMBA/02%20APB/handwritten/images/02-apb-interface-signals.jpg)
 
 Read the listed signals in the order of an access. The requester first asserts
 the target's `PSEL`, drives `PADDR`, selects read/write with `PWRITE`, and drives
@@ -123,7 +123,7 @@ assert `PSLVERR` for an error.
 Address, direction, select, and write data are already valid in SETUP and stay
 valid through ACCESS completion. `PENABLE` identifies that the transfer has
 moved from SETUP into ACCESS
-([Arm IHI 0024E, Chapter 3](../sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf)).
+([Arm IHI 0024E, Chapter 3](../../../../_internal/Protocols/04%20AMBA/02%20APB/sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf)).
 
 The page's signal names become clearer when grouped by ownership and purpose:
 
@@ -140,7 +140,7 @@ but its result is UNPREDICTABLE, so a requester should generate addresses
 aligned for the intended register/data access. `PWDATA` and `PRDATA` are
 separate physical buses, but read and write transfers cannot occur
 concurrently because they share one `PSEL`/`PENABLE`/`PREADY` transfer state
-([Arm IHI 0024E, §§2.1.1-2.1.2](../sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf)).
+([Arm IHI 0024E, §§2.1.1-2.1.2](../../../../_internal/Protocols/04%20AMBA/02%20APB/sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf)).
 
 Read the phase values as a state table rather than independent enables:
 
@@ -152,7 +152,7 @@ Read the phase values as a state table rather than independent enables:
 
 ### Lecture frame: write with no wait state
 
-![Lecture waveform for an APB write without wait states](../images/lecture/apb-write-no-wait.png)
+![Lecture waveform for an APB write without wait states](../../../../_internal/Protocols/04%20AMBA/02%20APB/images/lecture/apb-write-no-wait.png)
 
 At the first rising edge, the requester enters SETUP: `PSEL=1`, `PENABLE=0`,
 and address/write data are valid. At the next rising edge it enters ACCESS by
@@ -176,11 +176,11 @@ the peripheral a full cycle to decode the address and direction. ACCESS is the
 phase in which readiness is sampled. This is why a permanently ready
 peripheral can tie `PREADY` HIGH yet still takes the mandatory two-cycle
 sequence
-([Arm IHI 0024E, §3.1.1](../sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf)).
+([Arm IHI 0024E, §3.1.1](../../../../_internal/Protocols/04%20AMBA/02%20APB/sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf)).
 
 ### Original notebook page 21: SETUP then ACCESS
 
-![Original handwritten APB transfer phases](images/03-apb-transfer-phases.jpg)
+![Original handwritten APB transfer phases](../../../../_internal/Protocols/04%20AMBA/02%20APB/handwritten/images/03-apb-transfer-phases.jpg)
 
 The page's phase split is correct. `PSEL=1, PENABLE=0` identifies SETUP, and
 `PSEL=1, PENABLE=1` identifies ACCESS. The write data is not newly introduced
@@ -207,13 +207,13 @@ SETUP(A) -> ACCESS(A, done) -> SETUP(B) -> ACCESS(B, done)
 but `PENABLE` goes LOW for `SETUP(B)`, and B's address/data replace A only after
 A has completed. For a different peripheral, the requester also changes which
 `PSELx` is asserted during the new SETUP
-([Arm IHI 0024E, §§3.1.1 and 4.1](../sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf)).
+([Arm IHI 0024E, §§3.1.1 and 4.1](../../../../_internal/Protocols/04%20AMBA/02%20APB/sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf)).
 
 ## 3. Wait states mean “hold ACCESS”
 
 ### Lecture frame: write with wait states
 
-![Lecture waveform for an APB write with wait states](../images/lecture/apb-write-wait-states.png)
+![Lecture waveform for an APB write with wait states](../../../../_internal/Protocols/04%20AMBA/02%20APB/images/lecture/apb-write-wait-states.png)
 
 This waveform starts exactly like the no-wait write. The difference occurs
 after `PENABLE` rises: `PREADY=0` keeps the controller in ACCESS. `PSEL` and
@@ -234,11 +234,11 @@ break side-effect registers such as FIFO push ports.
 `PREADY` can have any value outside ACCESS. Therefore a waveform that shows it
 HIGH in IDLE or SETUP is not promising early completion. Only the combination
 of selected ACCESS plus ready has protocol meaning
-([Arm IHI 0024E, §3.1.2](../sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf)).
+([Arm IHI 0024E, §3.1.2](../../../../_internal/Protocols/04%20AMBA/02%20APB/sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf)).
 
 ### Original notebook page 22: stability through waits
 
-![Original handwritten APB wait-state page](images/04-apb-wait-states-and-stability.jpg)
+![Original handwritten APB wait-state page](../../../../_internal/Protocols/04%20AMBA/02%20APB/handwritten/images/04-apb-wait-states-and-stability.jpg)
 
 The page correctly states that a LOW `PREADY` extends the data/access phase.
 Make the stability rule precise: during all extended ACCESS cycles, the
@@ -256,7 +256,7 @@ through an extended ACCESS: `PADDR`, `PWRITE`, `PSELx`, `PENABLE`, `PWDATA`,
 and, when implemented, `PSTRB`, `PPROT`, `PAUSER`, and `PWUSER`. The peripheral
 can therefore decode once and finish later without defending itself against a
 moving request
-([Arm IHI 0024E, §3.1.2](../sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf)).
+([Arm IHI 0024E, §3.1.2](../../../../_internal/Protocols/04%20AMBA/02%20APB/sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf)).
 
 The hardware mechanism is a request register in the bridge/controller. Capture
 the local address, direction, payload, and attributes before or on entry to
@@ -272,7 +272,7 @@ handshake.
 
 ### iPad page: annotated waited write
 
-![Annotated iPad page for an APB write wait state](images/ipad-01-apb-write-wait-state.jpg)
+![Annotated iPad page for an APB write wait state](../../../../_internal/Protocols/04%20AMBA/02%20APB/handwritten/images/ipad-01-apb-write-wait-state.jpg)
 
 The iPad annotation says `PREADY=0` holds the data phase and the requester does
 not sample/complete. That is the right operational model. Add one detail:
@@ -296,13 +296,13 @@ The word “sample” should be assigned to the right side. The completer accept
 `PWDATA` on the final write edge; the requester samples `PREADY` and optional
 `PSLVERR` on that edge. Both are observing the same completion event from
 opposite sides of the interface
-([Arm IHI 0024E, §§3.1.2 and 3.4](../sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf)).
+([Arm IHI 0024E, §§3.1.2 and 3.4](../../../../_internal/Protocols/04%20AMBA/02%20APB/sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf)).
 
 ## 4. Read timing
 
 ### Lecture frame: read with no wait state
 
-![Lecture waveform for an APB read without wait states](../images/lecture/apb-read-no-wait.png)
+![Lecture waveform for an APB read without wait states](../../../../_internal/Protocols/04%20AMBA/02%20APB/images/lecture/apb-read-no-wait.png)
 
 A read uses the same phase sequence as a write, with `PWRITE=0`. The requester
 drives the address in SETUP. The completer supplies `PRDATA` so that it is valid
@@ -314,7 +314,7 @@ request attributes. The requester holds that packet from SETUP through
 completion. The peripheral decodes the address and drives the corresponding
 register value onto `PRDATA`. A no-wait peripheral guarantees the value by the
 end of the first ACCESS cycle
-([Arm IHI 0024E, §3.3.1](../sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf)).
+([Arm IHI 0024E, §3.3.1](../../../../_internal/Protocols/04%20AMBA/02%20APB/sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf)).
 
 Unlike a write, the requester does not drive a payload to be consumed. It
 captures `PRDATA` into a local result register only on the completion edge. A
@@ -322,7 +322,7 @@ combinational value seen in SETUP is not yet a completed read result.
 
 ### Lecture frame: read with wait states
 
-![Lecture waveform for an APB read with wait states](../images/lecture/apb-read-wait-states.png)
+![Lecture waveform for an APB read with wait states](../../../../_internal/Protocols/04%20AMBA/02%20APB/images/lecture/apb-read-wait-states.png)
 
 The request side stays stable while `PREADY=0`. Unlike requester-owned address
 and control, `PRDATA` is a completer output and can settle during the wait; it
@@ -333,7 +333,7 @@ For an extended read, the requester-owned signals `PADDR`, `PWRITE`, `PSEL`,
 `PENABLE`, `PPROT`, and `PAUSER` remain unchanged. `PRDATA` is not in that hold
 list because the completer owns it and may still be calculating or fetching the
 result. It only has to be valid by the final ACCESS edge
-([Arm IHI 0024E, §3.3.2](../sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf)).
+([Arm IHI 0024E, §3.3.2](../../../../_internal/Protocols/04%20AMBA/02%20APB/sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf)).
 
 This asymmetry is the reason “all bus signals must stay stable” is too broad.
 The request must stay stable so its identity cannot change. The response may
@@ -342,7 +342,7 @@ request fields during waits and sample response fields only at completion.
 
 ### Original notebook page 23: read completion and error context
 
-![Original handwritten APB read, wait, and error page](images/05-apb-read-wait-and-errors.jpg)
+![Original handwritten APB read, wait, and error page](../../../../_internal/Protocols/04%20AMBA/02%20APB/handwritten/images/05-apb-read-wait-and-errors.jpg)
 
 The page correctly separates read data from readiness. `PRDATA` provides the
 value, while `PREADY` says when that value can be accepted. If the read is
@@ -364,7 +364,7 @@ requester therefore cannot assume the payload is usable merely because the
 transfer completed. The specification notes that a requester might still use
 the value, so a completer cannot rely on the error signal to hide sensitive or
 unsafe data; robust system logic treats error status and data together
-([Arm IHI 0024E, §§3.3 and 3.4](../sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf)).
+([Arm IHI 0024E, §§3.3 and 3.4](../../../../_internal/Protocols/04%20AMBA/02%20APB/sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf)).
 
 This distinction is important: `PREADY=1` means the protocol operation is over,
 while `PSLVERR=1` says it ended unsuccessfully. Completion and success are two
@@ -374,7 +374,7 @@ different properties of the same final edge.
 
 ### Lecture frame: write error
 
-![Lecture waveform for an APB write error](../images/lecture/apb-write-error.png)
+![Lecture waveform for an APB write error](../../../../_internal/Protocols/04%20AMBA/02%20APB/images/lecture/apb-write-error.png)
 
 The write follows normal SETUP and ACCESS timing. `PSLVERR` is asserted only
 when the final ACCESS edge completes the write. A wait-state cycle cannot be a
@@ -386,11 +386,11 @@ the target register definitely remained unchanged. Arm explicitly allows the
 peripheral either to have changed state or not; that behavior is
 peripheral-specific. Error means “the requested operation did not complete
 normally,” not “the write was certainly rolled back”
-([Arm IHI 0024E, §§3.4 and 3.4.1](../sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf)).
+([Arm IHI 0024E, §§3.4 and 3.4.1](../../../../_internal/Protocols/04%20AMBA/02%20APB/sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf)).
 
 ### Lecture frame: read error
 
-![Lecture waveform for an APB read error](../images/lecture/apb-read-error.png)
+![Lecture waveform for an APB read error](../../../../_internal/Protocols/04%20AMBA/02%20APB/images/lecture/apb-read-error.png)
 
 The same timing rule applies to a read. Although a value may be visible on
 `PRDATA`, the requester cannot assume data from an errored access is valid
@@ -405,19 +405,19 @@ $$
 $$
 
 `PSLVERR=0` at that edge means a normal completion; `PSLVERR=1` means an error
-completion ([Arm IHI 0024E, §3.4](../sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf)).
+completion ([Arm IHI 0024E, §3.4](../../../../_internal/Protocols/04%20AMBA/02%20APB/sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf)).
 
 For a bridge, error translation preserves the result across protocols. An APB
 `PSLVERR` maps to AHB `HRESP` for either read or write; an AXI bridge maps it to
 the appropriate read or write response. The phase timing changes, but the fact
 that the peripheral reported failure must not be lost
-([Arm IHI 0024E, §3.4.3](../sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf)).
+([Arm IHI 0024E, §3.4.3](../../../../_internal/Protocols/04%20AMBA/02%20APB/sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf)).
 
 ## 6. Controller state machine
 
 ### Lecture frame: IDLE, SETUP, and ACCESS
 
-![Lecture state diagram for APB operation](../images/lecture/apb-operating-states.png)
+![Lecture state diagram for APB operation](../../../../_internal/Protocols/04%20AMBA/02%20APB/images/lecture/apb-operating-states.png)
 
 The state diagram is a direct encoding of the protocol:
 
@@ -440,11 +440,11 @@ The outputs follow directly from state plus the saved request:
 SETUP is not optional and cannot loop. ACCESS is the only state that can loop,
 because only the peripheral knows how many wait cycles it needs. This state
 structure is the official behavior, not merely one possible lecture coding
-style ([Arm IHI 0024E, §4.1](../sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf)).
+style ([Arm IHI 0024E, §4.1](../../../../_internal/Protocols/04%20AMBA/02%20APB/sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf)).
 
 ### Original notebook page 24: waited write and FSM draft
 
-![Original handwritten APB write wait-state and FSM page](images/06-apb-write-wait-and-fsm.jpg)
+![Original handwritten APB write wait-state and FSM page](../../../../_internal/Protocols/04%20AMBA/02%20APB/handwritten/images/06-apb-write-wait-and-fsm.jpg)
 
 The upper timing notes correctly hold `PENABLE` HIGH while `PREADY` is LOW.
 The lower circles are the beginning of the three-state controller. The clean
@@ -486,7 +486,7 @@ capture_error   = complete && PSLVERR
 
 These enables connect the page's circles to observable protocol events and
 prevent counters or result registers from updating repeatedly during waits
-([Arm IHI 0024E, §4.1](../sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf)).
+([Arm IHI 0024E, §4.1](../../../../_internal/Protocols/04%20AMBA/02%20APB/sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf)).
 
 ## AHB versus APB after reading both notebooks
 

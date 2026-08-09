@@ -30,11 +30,11 @@ names or transfer models.
   Receiver.
 
 The sources of truth are Arm's
-[AMBA AHB Protocol Specification, ARM IHI 0033C](01%20AHB/sources/ARM-IHI-0033C-AMBA-AHB-Protocol-Specification.pdf)
+[AMBA AHB Protocol Specification, ARM IHI 0033C](../../_internal/Protocols/04%20AMBA/01%20AHB/sources/ARM-IHI-0033C-AMBA-AHB-Protocol-Specification.pdf)
 and
-[AMBA APB Protocol Specification, ARM IHI 0024E](02%20APB/sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf),
+[AMBA APB Protocol Specification, ARM IHI 0024E](../../_internal/Protocols/04%20AMBA/02%20APB/sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf),
 plus the
-[AMBA AXI-Stream Protocol Specification, ARM IHI 0051B](03%20AXI/sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf).
+[AMBA AXI-Stream Protocol Specification, ARM IHI 0051B](../../_internal/Protocols/04%20AMBA/03%20AXI/sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf).
 Memory-mapped AXI4 and AXI4-Lite distinctions are checked against the official
 [AMBA AXI and ACE Protocol Specification, ARM IHI 0022H](https://developer.arm.com/-/media/Arm%20Developer%20Community/PDF/IHI0022H_amba_axi_protocol_spec.pdf).
 
@@ -56,18 +56,20 @@ PDF pages and 35 unique instructional pages.
 |-- 01 AHB/
 |   |-- README.md
 |   |-- code/
-|   |-- handwritten/
-|   |-- images/
-|   `-- sources/
+|   `-- handwritten/
 |-- 02 APB/
 |   |-- README.md
-|   |-- handwritten/
-|   |-- images/
-|   `-- sources/
+|   `-- handwritten/
 `-- 03 AXI/
     |-- README.md
-    |-- course/
-    |-- handwritten/
-    |-- images/
-    `-- sources/
+    |-- Course Atlas.md
+    |-- Handwritten Notes.md
+    |-- Section 01 - Introduction to AXI.md
+    |-- Section 02 - AXI-Stream Interface Fundamentals.md
+    |-- Section 03 - AXI-Stream IPs.md
+    `-- Section 04 - Getting Started with AXI4-Lite.md
 ```
+
+The corresponding specifications and images are centralized under the
+repository root's `_internal/Protocols/04 AMBA/` tree, which mirrors these
+study folders without adding support directories to their GitHub listings.

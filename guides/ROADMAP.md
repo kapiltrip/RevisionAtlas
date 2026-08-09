@@ -10,6 +10,11 @@ disconnected notes.
 ```text
 RevisionSolved/
 |-- README.md
+|-- _internal/
+|   `-- <Subject>/
+|       `-- <Topic or Unit>/
+|           |-- images/
+|           `-- sources/
 |-- guides/
 |   |-- README.md
 |   |-- CONTENT_STANDARD.md
@@ -20,8 +25,6 @@ RevisionSolved/
 |   |-- README.md
 |   `-- <Topic or Unit>/
 |       |-- README.md
-|       |-- sources/
-|       |-- images/
 |       `-- revision/
 |           |-- quick-recall.md
 |           |-- formula-sheet.md

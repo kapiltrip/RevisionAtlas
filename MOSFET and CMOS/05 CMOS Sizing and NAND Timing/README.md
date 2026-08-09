@@ -1,6 +1,6 @@
 # 05 - CMOS Sizing and NAND Timing
 
-[Back to MOSFET and CMOS](../README.md) | [Previous module](../04%20CMOS%20Switching%20Delay%20Power%20and%20Noise/README.md) | [Untouched source PDF](../sources/mos5.pdf)
+[Back to MOSFET and CMOS](../README.md) | [Previous module](../04%20CMOS%20Switching%20Delay%20Power%20and%20Noise/README.md) | [Untouched source PDF](../../_internal/MOSFET%20and%20CMOS/sources/mos5.pdf)
 
 This module closes the first notebook sequence by connecting transistor-strength ratio to transfer-curve position, rise/fall delay, two-input NAND sizing, current-based timing, and the power-delay/noise trade-offs of a logic path.
 
@@ -39,7 +39,7 @@ The sizing and delay trade-offs are cross-checked against the [MIT 6.012 CMOS in
 
 ## Page 01 - Strength ratio moves the inverter transition
 
-![Handwritten MOS notes page 1](images/page-01.jpeg)
+![Handwritten MOS notes page 1](../../_internal/MOSFET%20and%20CMOS/05%20CMOS%20Sizing%20and%20NAND%20Timing/images/page-01.jpeg)
 
 ### What this page is doing
 
@@ -61,7 +61,7 @@ If the pMOS is made wider while everything else is fixed, how do $V_M$ and $t_{P
 
 ## Page 02 - Reading weak- and strong-pMOS VTC cases
 
-![Handwritten MOS notes page 2](images/page-02.jpeg)
+![Handwritten MOS notes page 2](../../_internal/MOSFET%20and%20CMOS/05%20CMOS%20Sizing%20and%20NAND%20Timing/images/page-02.jpeg)
 
 ### What this page is doing
 
@@ -83,7 +83,7 @@ Why does a strong pMOS increase the low-state input range but potentially reduce
 
 ## Page 03 - Sizing a symmetric CMOS inverter
 
-![Handwritten MOS notes page 3](images/page-03.jpeg)
+![Handwritten MOS notes page 3](../../_internal/MOSFET%20and%20CMOS/05%20CMOS%20Sizing%20and%20NAND%20Timing/images/page-03.jpeg)
 
 ### What this page is doing
 
@@ -108,7 +108,7 @@ If $k'_n=2.5k'_p$ and channel lengths are equal, what width ratio gives $\beta_n
 
 ## Page 04 - Equal propagation delay through resistance matching
 
-![Handwritten MOS notes page 4](images/page-04.jpeg)
+![Handwritten MOS notes page 4](../../_internal/MOSFET%20and%20CMOS/05%20CMOS%20Sizing%20and%20NAND%20Timing/images/page-04.jpeg)
 
 ### What this page is doing
 
@@ -130,7 +130,7 @@ Which assumption allows a transistor-strength ratio to be converted directly int
 
 ## Page 05 - Two-input CMOS NAND network and truth table
 
-![Handwritten MOS notes page 5](images/page-05.jpeg)
+![Handwritten MOS notes page 5](../../_internal/MOSFET%20and%20CMOS/05%20CMOS%20Sizing%20and%20NAND%20Timing/images/page-05.jpeg)
 
 ### What this page is doing
 
@@ -152,7 +152,7 @@ Why does the pMOS network implement the dual of the nMOS series network?
 
 ## Page 06 - Worst-case NAND charge and discharge delay
 
-![Handwritten MOS notes page 6](images/page-06.jpeg)
+![Handwritten MOS notes page 6](../../_internal/MOSFET%20and%20CMOS/05%20CMOS%20Sizing%20and%20NAND%20Timing/images/page-06.jpeg)
 
 ### What this page is doing
 
@@ -174,7 +174,7 @@ Why are series nMOS devices widened in a NAND, while the parallel pMOS devices d
 
 ## Page 07 - Initial conditions during a dynamic output transition
 
-![Handwritten MOS notes page 7](images/page-07.jpeg)
+![Handwritten MOS notes page 7](../../_internal/MOSFET%20and%20CMOS/05%20CMOS%20Sizing%20and%20NAND%20Timing/images/page-07.jpeg)
 
 ### What this page is doing
 
@@ -196,7 +196,7 @@ What can change discontinuously at $t=0$: transistor region, capacitor voltage, 
 
 ## Page 08 - Estimating delay from average transistor current
 
-![Handwritten MOS notes page 8](images/page-08.jpeg)
+![Handwritten MOS notes page 8](../../_internal/MOSFET%20and%20CMOS/05%20CMOS%20Sizing%20and%20NAND%20Timing/images/page-08.jpeg)
 
 ### What this page is doing
 
@@ -221,7 +221,7 @@ Why does the charge-over-average-current method naturally use $V_{DD}/2$ for a 5
 
 ## Page 09 - Region trajectory during output discharge
 
-![Handwritten MOS notes page 9](images/page-09.jpeg)
+![Handwritten MOS notes page 9](../../_internal/MOSFET%20and%20CMOS/05%20CMOS%20Sizing%20and%20NAND%20Timing/images/page-09.jpeg)
 
 ### What this page is doing
 
@@ -243,7 +243,7 @@ For $V_{GS}=V_{DD}$, at what output voltage does the discharging nMOS leave satu
 
 ## Page 10 - Supply voltage creates a power-delay trade-off
 
-![Handwritten MOS notes page 10](images/page-10.jpeg)
+![Handwritten MOS notes page 10](../../_internal/MOSFET%20and%20CMOS/05%20CMOS%20Sizing%20and%20NAND%20Timing/images/page-10.jpeg)
 
 ### What this page is doing
 
@@ -265,7 +265,7 @@ Why does delay become especially sensitive to supply voltage when $V_{DD}$ is on
 
 ## Page 11 - Switching threshold from equal saturation currents
 
-![Handwritten MOS notes page 11](images/page-11.jpeg)
+![Handwritten MOS notes page 11](../../_internal/MOSFET%20and%20CMOS/05%20CMOS%20Sizing%20and%20NAND%20Timing/images/page-11.jpeg)
 
 ### What this page is doing
 
@@ -290,7 +290,7 @@ Why is current equality necessary at every DC VTC point, while the both-saturati
 
 ## Page 12 - Setting up $V_{IL}$ and $V_{IH}$
 
-![Handwritten MOS notes page 12](images/page-12.jpeg)
+![Handwritten MOS notes page 12](../../_internal/MOSFET%20and%20CMOS/05%20CMOS%20Sizing%20and%20NAND%20Timing/images/page-12.jpeg)
 
 ### What this page is doing
 
@@ -312,7 +312,7 @@ Which transistor is linear and which is saturated near $V_{IL}$, and why is the 
 
 ## Page 13 - Correct noise-margin relations and rising-delay formula
 
-![Handwritten MOS notes page 13](images/page-13.jpeg)
+![Handwritten MOS notes page 13](../../_internal/MOSFET%20and%20CMOS/05%20CMOS%20Sizing%20and%20NAND%20Timing/images/page-13.jpeg)
 
 ### What this page is doing
 
@@ -338,7 +338,7 @@ Which two voltage differences must be nonnegative for compatible cascaded logic 
 
 ## Page 14 - Solving an exponential delay equation
 
-![Handwritten MOS notes page 14](images/page-14.jpeg)
+![Handwritten MOS notes page 14](../../_internal/MOSFET%20and%20CMOS/05%20CMOS%20Sizing%20and%20NAND%20Timing/images/page-14.jpeg)
 
 ### What this page is doing
 

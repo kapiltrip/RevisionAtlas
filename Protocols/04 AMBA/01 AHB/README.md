@@ -17,7 +17,7 @@ states.
 | [Manager RTL](code/rtl/ahb_lite_manager.v) | Corrected synthesizable Verilog for the intentionally limited manager |
 | [Self-checking testbench](code/tb/ahb_lite_manager_tb.v) | Memory subordinate, wait-state insertion, read/write checks, and PASS/FAIL output |
 | [Lecture and handwritten atlas](handwritten/README.md) | Lecture frames followed by every original page, explanation, corrections, and iPad annotations |
-| [Official Arm specification](sources/ARM-IHI-0033C-AMBA-AHB-Protocol-Specification.pdf) | Local non-confidential ARM IHI 0033C source of truth |
+| [Official Arm specification](../../../_internal/Protocols/04%20AMBA/01%20AHB/sources/ARM-IHI-0033C-AMBA-AHB-Protocol-Specification.pdf) | Local non-confidential ARM IHI 0033C source of truth |
 
 ## Core terms
 
@@ -99,7 +99,7 @@ lacks them.
 
 | Source | How it is used |
 |---|---|
-| [Arm IHI 0033C - AMBA AHB Protocol Specification](sources/ARM-IHI-0033C-AMBA-AHB-Protocol-Specification.pdf) | Authority for signal meanings, pipelining, transfer sizes, `HTRANS`, `HREADY`, and burst boundaries |
+| [Arm IHI 0033C - AMBA AHB Protocol Specification](../../../_internal/Protocols/04%20AMBA/01%20AHB/sources/ARM-IHI-0033C-AMBA-AHB-Protocol-Specification.pdf) | Authority for signal meanings, pipelining, transfer sizes, `HTRANS`, `HREADY`, and burst boundaries |
 | [AMBA AHB Protocol Batch 2 playlist](https://www.youtube.com/playlist?list=PLqPfWwayuBvNX_IQPBHGJn8YFkvI86lr9) | Topic order and beginner-oriented examples only |
 | [Lecture 9 - AHB master FSM](https://www.youtube.com/watch?v=DmYdSlO2MiE) | Captured state-diagram reference and comparison point |
 | [Lecture 10 - incremental-burst RTL](https://www.youtube.com/watch?v=uzEg7ziaSaE) | Variables and intended operation used as inspiration; code not copied |

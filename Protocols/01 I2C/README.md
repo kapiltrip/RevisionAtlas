@@ -33,7 +33,7 @@ The terms below follow the bus definitions and transaction rules in the [NXP I2C
 
 ## Page 01 - What a protocol defines and why I2C is synchronous
 
-![Handwritten page 1 - protocol definition and I2C basics](images/page-01.jpeg)
+![Handwritten page 1 - protocol definition and I2C basics](../../_internal/Protocols/01%20I2C/images/page-01.jpeg)
 
 ### Technical discussion
 
@@ -62,7 +62,7 @@ State four independent agreements required beyond the physical connection, then 
 
 ## Page 02 - Addressed topology and the reason for open-drain outputs
 
-![Handwritten page 2 - I2C topology and open-drain output](images/page-02.jpeg)
+![Handwritten page 2 - I2C topology and open-drain output](../../_internal/Protocols/01%20I2C/images/page-02.jpeg)
 
 ### Technical discussion
 
@@ -93,7 +93,7 @@ Suppose device A releases SDA while device B pulls it LOW. What voltage appears 
 
 ## Page 03 - Wired-AND behavior, clock stretching, and I2C speed modes
 
-![Handwritten page 3 - pull-up behavior and clock stretching](images/page-03.jpeg)
+![Handwritten page 3 - pull-up behavior and clock stretching](../../_internal/Protocols/01%20I2C/images/page-03.jpeg)
 
 ### Technical discussion
 
@@ -122,7 +122,7 @@ Why must a controller read the physical SCL pin after releasing it, and why woul
 
 ## Page 04 - START, address direction, and the ninth ACK clock
 
-![Handwritten page 4 - I2C data-frame structure](images/page-04.jpeg)
+![Handwritten page 4 - I2C data-frame structure](../../_internal/Protocols/01%20I2C/images/page-04.jpeg)
 
 ### Technical discussion
 
@@ -149,7 +149,7 @@ For each field in `START → address+W → ACK → data → ACK`, state which pa
 
 ## Page 05 - Read ownership, final NACK, and STOP
 
-![Handwritten page 5 - I2C read transaction and STOP](images/page-05.jpeg)
+![Handwritten page 5 - I2C read transaction and STOP](../../_internal/Protocols/01%20I2C/images/page-05.jpeg)
 
 ### Technical discussion
 

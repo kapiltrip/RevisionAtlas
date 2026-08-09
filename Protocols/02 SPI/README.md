@@ -31,7 +31,7 @@ The clock-mode meanings are verified against [Microchip’s SPI transfer-mode ta
 
 ## Page 06 - SPI wiring and what “full duplex” means
 
-![Handwritten page 6 - SPI signals and I2C comparison](images/page-06.jpeg)
+![Handwritten page 6 - SPI signals and I2C comparison](../../_internal/Protocols/02%20SPI/images/page-06.jpeg)
 
 ### Technical discussion
 
@@ -59,7 +59,7 @@ During an SPI register read, why must the controller continue transmitting bits 
 
 ## Page 07 - Two shift registers coupled into one transfer
 
-![Handwritten page 7 - SPI shift-register architecture](images/page-07.jpeg)
+![Handwritten page 7 - SPI shift-register architecture](../../_internal/Protocols/02%20SPI/images/page-07.jpeg)
 
 ### Technical discussion
 
@@ -86,7 +86,7 @@ Start with controller byte `0xA5` and peripheral byte `0x3C`. After exactly eigh
 
 ## Page 08 - CPOL, CPHA, and the four SPI modes
 
-![Handwritten page 8 - SPI CPOL and CPHA waveforms](images/page-08.jpeg)
+![Handwritten page 8 - SPI CPOL and CPHA waveforms](../../_internal/Protocols/02%20SPI/images/page-08.jpeg)
 
 ### Technical discussion
 

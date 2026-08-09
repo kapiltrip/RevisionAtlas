@@ -10,12 +10,12 @@ the revision boundary.
 
 ## Learning layers
 
-- **Course layer:** the [section-organized course atlas](course/README.md) is
+- **Course layer:** the [section-organized course atlas](Course%20Atlas.md) is
   complete through lesson 49.
-- **Handwritten layer:** [Kapil's AXI notes](handwritten/README.md) currently
+- **Handwritten layer:** [Kapil's AXI notes](Handwritten%20Notes.md) currently
   contain one fully solved round-robin fairness page.
 - **Authority layer:** the local
-  [Arm IHI 0051B AXI-Stream specification](sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf)
+  [Arm IHI 0051B AXI-Stream specification](../../../_internal/Protocols/04%20AMBA/03%20AXI/sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf)
   governs streaming claims; the official Arm IHI 0022H source governs
   memory-mapped AXI4 and AXI4-Lite distinctions.
 
@@ -28,7 +28,7 @@ fairness solution.
 The course layer contains verified, video-only full-screen frames for the
 handshake path, master/slave integration, round-robin logic, AXI-Stream
 arbiter, AXI-Stream FIFO, and the completed AXI4-Lite introduction. The
-[AXI-Stream standards audit](course/Section%2002%20-%20AXI-Stream%20Interface%20Fundamentals.md#arm-ihi-0051b-standards-audit)
+[AXI-Stream standards audit](Section%2002%20-%20AXI-Stream%20Interface%20Fundamentals.md#arm-ihi-0051b-standards-audit)
 checks the lecture and teaching RTL against Arm IHI 0051B. Section 4 separately
 labels full-AXI, AXI3, and AXI4-Lite signals so the lecture diagrams are not
 mistaken for one interchangeable port list.
@@ -45,7 +45,7 @@ AXI4-Stream is point-to-point at one interface: one Transmitter connects to one
 Receiver. That does **not** limit a system to only two components. An AXI-Stream
 interconnect can switch, arbitrate, change width, or cross a clock domain while
 preserving the stream rules, as stated by the
-[Arm AXI-Stream specification](sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf).
+[Arm AXI-Stream specification](../../../_internal/Protocols/04%20AMBA/03%20AXI/sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf).
 
 ## Core-term key
 
@@ -61,7 +61,7 @@ preserving the stream rules, as stated by the
 | **Back-pressure** | The Receiver's ability to postpone acceptance by driving `TREADY` LOW. | The Transmitter freezes the complete offered beat until acceptance becomes possible. |
 
 These definitions follow the terminology and transfer model in
-[Arm IHI 0051B](sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf).
+[Arm IHI 0051B](../../../_internal/Protocols/04%20AMBA/03%20AXI/sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf).
 
 ## The one equation that controls the RTL
 
@@ -85,7 +85,7 @@ The Transmitter is not permitted to wait for `TREADY` before asserting
 Receiver **is** permitted to wait for `TVALID` before raising `TREADY`, although
 pre-asserting `TREADY` gives the one-cycle, full-throughput case. These are the
 actual asymmetric rules in
-[section 2.2 of Arm IHI 0051B](sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf).
+[section 2.2 of Arm IHI 0051B](../../../_internal/Protocols/04%20AMBA/03%20AXI/sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf).
 
 ## Signal ownership and meaning
 
@@ -108,7 +108,7 @@ actual asymmetric rules in
 models; they are not universally mandatory pins. If `TREADY` is omitted for an
 always-accepting Receiver, it defaults HIGH. The default and optional-signal
 rules are defined in
-[chapter 3 of Arm IHI 0051B](sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf).
+[chapter 3 of Arm IHI 0051B](../../../_internal/Protocols/04%20AMBA/03%20AXI/sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf).
 
 An omitted `TLAST` needs a deliberate system default: HIGH is recommended when
 the interconnect topology is unknown, while fixed LOW is safe only when no
@@ -135,7 +135,7 @@ zero-byte packet-ending event that must not be discarded.
 
 ## Source register
 
-- [Arm IHI 0051B - AMBA AXI-Stream Protocol Specification](sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf)
+- [Arm IHI 0051B - AMBA AXI-Stream Protocol Specification](../../../_internal/Protocols/04%20AMBA/03%20AXI/sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf)
   is the authority for handshake, byte types, packet boundaries, optional
   signals, ordering, and AXI4-Stream versus AXI5-Stream behavior.
 - [Arm IHI 0022H - AMBA AXI and ACE Protocol Specification](https://developer.arm.com/-/media/Arm%20Developer%20Community/PDF/IHI0022H_amba_axi_protocol_spec.pdf)
@@ -143,7 +143,7 @@ zero-byte packet-ending event that must not be discarded.
   distinctions.
 - The [Namaste FPGA course page](https://namaste-fpga.com/student/learn/53)
   supplies lesson order, drawings, waveform examples, and teaching RTL through
-  lesson 49. The local [course atlas](course/README.md) preserves the selected
+  lesson 49. The local [course atlas](Course%20Atlas.md) preserves the selected
   frames and their verified explanations.
 - The [AMD AXI DMA core overview](https://docs.amd.com/r/en-US/pg021_axi_dma/Core-Overview)
   supports the memory-mapped-to-stream and stream-to-memory-mapped DMA
@@ -162,7 +162,7 @@ zero-byte packet-ending event that must not be discarded.
    one-cycle pulse independent of acceptance.
 5. In RTL, gate every beat counter, FIFO pointer, packet counter, and input-data
    advance with the same `fire` event.
-6. Revisit the [video atlas](course/README.md), then explain each correction
+6. Revisit the [video atlas](Course%20Atlas.md), then explain each correction
    in the table above without looking.
 
 ## Completion checkpoint

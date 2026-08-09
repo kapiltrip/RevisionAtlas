@@ -1,6 +1,6 @@
 # 03 - MOSFET Models and CMOS Inverter
 
-[Back to MOSFET and CMOS](../README.md) | [Previous module](../02%20Non-Ideal%20MOS%20and%20MOSFET%20Regions/README.md) | [Untouched source PDF](../sources/mos3.pdf)
+[Back to MOSFET and CMOS](../README.md) | [Previous module](../02%20Non-Ideal%20MOS%20and%20MOSFET%20Regions/README.md) | [Untouched source PDF](../../_internal/MOSFET%20and%20CMOS/sources/mos3.pdf)
 
 This module refines the ideal MOSFET into a usable circuit model: transfer curves, on-resistance, transconductance, channel-length modulation, parasitic capacitances, pMOS symmetry, and the CMOS inverter switching point.
 
@@ -44,7 +44,7 @@ The small-signal definitions follow [MIT 6.012’s MOSFET equivalent-circuit lec
 
 ## Page 01 - pMOS transfer characteristics
 
-![Handwritten MOS notes page 1](images/page-01.jpeg)
+![Handwritten MOS notes page 1](../../_internal/MOSFET%20and%20CMOS/03%20MOSFET%20Models%20and%20CMOS%20Inverter/images/page-01.jpeg)
 
 ### What this page is doing
 
@@ -66,7 +66,7 @@ How do the zero-gate-current states of enhancement and depletion pMOS differ?
 
 ## Page 02 - Reading MOSFET symbols
 
-![Handwritten MOS notes page 2](images/page-02.jpeg)
+![Handwritten MOS notes page 2](../../_internal/MOSFET%20and%20CMOS/03%20MOSFET%20Models%20and%20CMOS%20Inverter/images/page-02.jpeg)
 
 ### What this page is doing
 
@@ -88,7 +88,7 @@ What symbol feature distinguishes enhancement from depletion mode, and what feat
 
 ## Page 03 - nMOS enhancement operation and output curves
 
-![Handwritten MOS notes page 3](images/page-03.jpeg)
+![Handwritten MOS notes page 3](../../_internal/MOSFET%20and%20CMOS/03%20MOSFET%20Models%20and%20CMOS%20Inverter/images/page-03.jpeg)
 
 ### What this page is doing
 
@@ -110,7 +110,7 @@ Why do both the linear-region slope and the saturation current increase with $V_
 
 ## Page 04 - Piecewise long-channel nMOS model
 
-![Handwritten MOS notes page 4](images/page-04.jpeg)
+![Handwritten MOS notes page 4](../../_internal/MOSFET%20and%20CMOS/03%20MOSFET%20Models%20and%20CMOS%20Inverter/images/page-04.jpeg)
 
 ### What this page is doing
 
@@ -132,7 +132,7 @@ Which inequality selects the region: a comparison between $V_{DS}$ and what gate
 
 ## Page 05 - Deep-triode channel resistance
 
-![Handwritten MOS notes page 5](images/page-05.jpeg)
+![Handwritten MOS notes page 5](../../_internal/MOSFET%20and%20CMOS/03%20MOSFET%20Models%20and%20CMOS%20Inverter/images/page-05.jpeg)
 
 ### What this page is doing
 
@@ -157,7 +157,7 @@ Which four device/bias quantities can be changed to lower the ideal long-channel
 
 ## Page 06 - Transconductance as gate control of current
 
-![Handwritten MOS notes page 6](images/page-06.jpeg)
+![Handwritten MOS notes page 6](../../_internal/MOSFET%20and%20CMOS/03%20MOSFET%20Models%20and%20CMOS%20Inverter/images/page-06.jpeg)
 
 ### What this page is doing
 
@@ -182,7 +182,7 @@ At fixed drain current, what happens to $g_m$ if $W/L$ is increased?
 
 ## Page 07 - Why ideal saturation still has a slope
 
-![Handwritten MOS notes page 7](images/page-07.jpeg)
+![Handwritten MOS notes page 7](../../_internal/MOSFET%20and%20CMOS/03%20MOSFET%20Models%20and%20CMOS%20Inverter/images/page-07.jpeg)
 
 ### What this page is doing
 
@@ -208,7 +208,7 @@ How can $I_D$ rise in saturation if the inversion charge at the drain-end pinch-
 
 ## Page 08 - Effective length and the small-λ approximation
 
-![Handwritten MOS notes page 8](images/page-08.jpeg)
+![Handwritten MOS notes page 8](../../_internal/MOSFET%20and%20CMOS/03%20MOSFET%20Models%20and%20CMOS%20Inverter/images/page-08.jpeg)
 
 ### What this page is doing
 
@@ -233,7 +233,7 @@ Which small-quantity approximation converts a shortened channel into the linear 
 
 ## Page 09 - The channel-length-modulation parameter λ
 
-![Handwritten MOS notes page 9](images/page-09.jpeg)
+![Handwritten MOS notes page 9](../../_internal/MOSFET%20and%20CMOS/03%20MOSFET%20Models%20and%20CMOS%20Inverter/images/page-09.jpeg)
 
 ### What this page is doing
 
@@ -258,7 +258,7 @@ Why is channel-length modulation usually more severe in a shorter device?
 
 ## Page 10 - Early voltage and extrapolated output curves
 
-![Handwritten MOS notes page 10](images/page-10.jpeg)
+![Handwritten MOS notes page 10](../../_internal/MOSFET%20and%20CMOS/03%20MOSFET%20Models%20and%20CMOS%20Inverter/images/page-10.jpeg)
 
 ### What this page is doing
 
@@ -280,7 +280,7 @@ Which device makes the better current source: $V_A=10$ V or $V_A=100$ V, and why
 
 ## Page 11 - Deriving current change from channel shortening
 
-![Handwritten MOS notes page 11](images/page-11.jpeg)
+![Handwritten MOS notes page 11](../../_internal/MOSFET%20and%20CMOS/03%20MOSFET%20Models%20and%20CMOS%20Inverter/images/page-11.jpeg)
 
 ### What this page is doing
 
@@ -302,7 +302,7 @@ If the effective channel shortens by 1% at fixed overdrive, approximately how mu
 
 ## Page 12 - Non-ideal saturation and output conductance
 
-![Handwritten MOS notes page 12](images/page-12.jpeg)
+![Handwritten MOS notes page 12](../../_internal/MOSFET%20and%20CMOS/03%20MOSFET%20Models%20and%20CMOS%20Inverter/images/page-12.jpeg)
 
 ### What this page is doing
 
@@ -324,7 +324,7 @@ At fixed λ, what happens to $r_o$ when bias current doubles?
 
 ## Page 13 - Output resistance and current-source quality
 
-![Handwritten MOS notes page 13](images/page-13.jpeg)
+![Handwritten MOS notes page 13](../../_internal/MOSFET%20and%20CMOS/03%20MOSFET%20Models%20and%20CMOS%20Inverter/images/page-13.jpeg)
 
 ### What this page is doing
 
@@ -346,7 +346,7 @@ Why can increasing drain current raise $g_m$ but reduce $r_o$ at the same time?
 
 ## Page 14 - Small-signal gate and drain control
 
-![Handwritten MOS notes page 14](images/page-14.jpeg)
+![Handwritten MOS notes page 14](../../_internal/MOSFET%20and%20CMOS/03%20MOSFET%20Models%20and%20CMOS%20Inverter/images/page-14.jpeg)
 
 ### What this page is doing
 
@@ -371,7 +371,7 @@ Write the two-source small-signal expression for drain current and identify whic
 
 ## Page 15 - Gate overlap and intrinsic channel capacitances
 
-![Handwritten MOS notes page 15](images/page-15.jpeg)
+![Handwritten MOS notes page 15](../../_internal/MOSFET%20and%20CMOS/03%20MOSFET%20Models%20and%20CMOS%20Inverter/images/page-15.jpeg)
 
 ### What this page is doing
 
@@ -393,7 +393,7 @@ Why does intrinsic $C_{gd}$ fall when a long-channel MOSFET moves from triode in
 
 ## Page 16 - Source/body and drain/body junction capacitance
 
-![Handwritten MOS notes page 16](images/page-16.jpeg)
+![Handwritten MOS notes page 16](../../_internal/MOSFET%20and%20CMOS/03%20MOSFET%20Models%20and%20CMOS%20Inverter/images/page-16.jpeg)
 
 ### What this page is doing
 
@@ -415,7 +415,7 @@ Why does raising drain voltage usually reduce $C_{db}$ in an nMOS whose body is 
 
 ## Page 17 - pMOS enhancement characteristics
 
-![Handwritten MOS notes page 17](images/page-17.jpeg)
+![Handwritten MOS notes page 17](../../_internal/MOSFET%20and%20CMOS/03%20MOSFET%20Models%20and%20CMOS%20Inverter/images/page-17.jpeg)
 
 ### What this page is doing
 
@@ -437,7 +437,7 @@ State the pMOS saturation condition using positive voltage magnitudes.
 
 ## Page 18 - pMOS symbols and current direction
 
-![Handwritten MOS notes page 18](images/page-18.jpeg)
+![Handwritten MOS notes page 18](../../_internal/MOSFET%20and%20CMOS/03%20MOSFET%20Models%20and%20CMOS%20Inverter/images/page-18.jpeg)
 
 ### What this page is doing
 
@@ -459,7 +459,7 @@ For a CMOS inverter, express both transistor gate-source control voltages using 
 
 ## Page 19 - Why a MOSFET can amplify in saturation
 
-![Handwritten MOS notes page 19](images/page-19.jpeg)
+![Handwritten MOS notes page 19](../../_internal/MOSFET%20and%20CMOS/03%20MOSFET%20Models%20and%20CMOS%20Inverter/images/page-19.jpeg)
 
 ### What this page is doing
 
@@ -485,7 +485,7 @@ Why does high $r_o$ increase the voltage gain of a common-source stage?
 
 ## Page 20 - pMOS equations by region
 
-![Handwritten MOS notes page 20](images/page-20.jpeg)
+![Handwritten MOS notes page 20](../../_internal/MOSFET%20and%20CMOS/03%20MOSFET%20Models%20and%20CMOS%20Inverter/images/page-20.jpeg)
 
 ### What this page is doing
 
@@ -507,7 +507,7 @@ Why is a pMOS with $V_{SG}=0$ off even though its absolute gate voltage may be l
 
 ## Page 21 - CMOS inverter at the switching point
 
-![Handwritten MOS notes page 21](images/page-21.jpeg)
+![Handwritten MOS notes page 21](../../_internal/MOSFET%20and%20CMOS/03%20MOSFET%20Models%20and%20CMOS%20Inverter/images/page-21.jpeg)
 
 ### What this page is doing
 
@@ -533,7 +533,7 @@ Why is inverter switching threshold $V_M$ conceptually different from $V_{Tn}$ a
 
 ## Page 22 - Deriving the CMOS switching threshold
 
-![Handwritten MOS notes page 22](images/page-22.jpeg)
+![Handwritten MOS notes page 22](../../_internal/MOSFET%20and%20CMOS/03%20MOSFET%20Models%20and%20CMOS%20Inverter/images/page-22.jpeg)
 
 ### What this page is doing
 
@@ -564,7 +564,7 @@ If pMOS becomes stronger while nMOS is unchanged, does $V_M$ move up or down? Ex
 
 ## Page 23 - General and symmetric switching-point formulas
 
-![Handwritten MOS notes page 23](images/page-23.jpeg)
+![Handwritten MOS notes page 23](../../_internal/MOSFET%20and%20CMOS/03%20MOSFET%20Models%20and%20CMOS%20Inverter/images/page-23.jpeg)
 
 ### What this page is doing
 
@@ -591,7 +591,7 @@ What two matching conditions make the inverter switch at exactly half the supply
 
 ## Page 24 - Numerical region check and inverter transfer curve
 
-![Handwritten MOS notes page 24](images/page-24.jpeg)
+![Handwritten MOS notes page 24](../../_internal/MOSFET%20and%20CMOS/03%20MOSFET%20Models%20and%20CMOS%20Inverter/images/page-24.jpeg)
 
 ### What this page is doing
 

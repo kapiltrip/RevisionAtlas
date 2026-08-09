@@ -1,6 +1,6 @@
 # Frequency Dividers
 
-[Back to RevisionSolved](../README.md) | [Original 13-page notebook](sources/frequency-divider-handwritten-notes.pdf)
+[Back to RevisionSolved](../README.md) | [Original 13-page notebook](../_internal/Frequency%20Dividers/sources/frequency-divider-handwritten-notes.pdf)
 
 This chapter follows the handwritten notebook page by page. Every source page is shown before its explanation, and every visible question, highlighted statement, duty-cycle claim, and circuit is resolved beside the page where it appears.
 
@@ -155,7 +155,7 @@ For every circuit, write the state sequence, mark the exact output transitions, 
 
 ## Page 01 - Chapter cover: what frequency division means
 
-![Frequency-divider notebook page 1](images/page-01.png)
+![Frequency-divider notebook page 1](../_internal/Frequency%20Dividers/images/page-01.png)
 
 ### What this page establishes
 
@@ -194,7 +194,7 @@ If an output waveform repeats after five input-clock periods, what are $T_{out}$
 
 ## Page 02 - Toggle division by 2 and extension to divide by 4
 
-![Frequency-divider notebook page 2](images/page-02.png)
+![Frequency-divider notebook page 2](../_internal/Frequency%20Dividers/images/page-02.png)
 
 ### Why one toggle flip-flop divides by 2
 
@@ -434,7 +434,7 @@ Why are seven output bits required but only one flip-flop is required, and which
 
 ## Page 03 - Divider definition, stored-state toggling, and duty cycle
 
-![Frequency-divider notebook page 3](images/page-03.png)
+![Frequency-divider notebook page 3](../_internal/Frequency%20Dividers/images/page-03.png)
 
 ### The highlighted divider definition
 
@@ -531,7 +531,7 @@ Can two $f_{in}/3$ waveforms have different duty cycles? Give the HIGH duration 
 
 ## Page 04 - Designing a synchronous modulo-3 divider
 
-![Frequency-divider notebook page 4](images/page-04.png)
+![Frequency-divider notebook page 4](../_internal/Frequency%20Dividers/images/page-04.png)
 
 ### Reading the three waveforms
 
@@ -811,7 +811,7 @@ Starting from $11$, where do the simplified equations send the counter, and whic
 
 ## Page 05 - Making divide-by-3 50% and beginning the modulo-5 design
 
-![Frequency-divider notebook page 5](images/page-05.png)
+![Frequency-divider notebook page 5](../_internal/Frequency%20Dividers/images/page-05.png)
 
 ### Extending the divide-by-3 pulse to 50%
 
@@ -909,7 +909,7 @@ Why does ORing the 33.33% signal with its falling-edge sample add exactly half a
 
 ## Page 06 - Completing modulo-5 and selecting the correct 50% precursor
 
-![Frequency-divider notebook page 6](images/page-06.png)
+![Frequency-divider notebook page 6](../_internal/Frequency%20Dividers/images/page-06.png)
 
 ### Checking the drawn modulo-5 circuit
 
@@ -1000,7 +1000,7 @@ Which modulo-5 bit has the contiguous 40% pulse needed for half-cycle extension,
 
 ## Page 07 - Solved Q10: divide by 2 with 50% and 25% duty
 
-![Frequency-divider notebook page 7](images/page-07.png)
+![Frequency-divider notebook page 7](../_internal/Frequency%20Dividers/images/page-07.png)
 
 ### Question
 
@@ -1089,7 +1089,7 @@ Why must a 25%-duty divide-by-2 output be HIGH for only $T_{in}/2$, and why can 
 
 ## Page 08 - Solved Q11 and Q12(a): pulse cutting and divide by 3
 
-![Frequency-divider notebook page 8](images/page-08.png)
+![Frequency-divider notebook page 8](../_internal/Frequency%20Dividers/images/page-08.png)
 
 ### Q11: cut every second input pulse
 
@@ -1180,7 +1180,7 @@ Why should the pulse-cutting enable change while $CLK$ is LOW, and why do $Q_1$ 
 
 ## Page 09 - Q12(b) 66.67% and 50%, then Q15 divide-by-4 recognition
 
-![Frequency-divider notebook page 9](images/page-09.png)
+![Frequency-divider notebook page 9](../_internal/Frequency%20Dividers/images/page-09.png)
 
 ### Q12(b): $f_{in}/3$ with 66.67% duty
 
@@ -1286,7 +1286,7 @@ Why can the complement change duty cycle without changing frequency, and which s
 
 ## Page 10 - What divide by 1.5 really means
 
-![Frequency-divider notebook page 10](images/page-10.png)
+![Frequency-divider notebook page 10](../_internal/Frequency%20Dividers/images/page-10.png)
 
 ### Correct ratio conversion
 
@@ -1361,7 +1361,7 @@ Why must every alternate divide-by-1.5 event fall on the negative edge of the in
 
 ## Page 11 - Divide by 1.5 using a 50% divide-by-3 precursor and edge detection
 
-![Frequency-divider notebook page 11](images/page-11.png)
+![Frequency-divider notebook page 11](../_internal/Frequency%20Dividers/images/page-11.png)
 
 ### Reading the block diagram
 
@@ -1454,7 +1454,7 @@ Why does the XOR produce a pulse after both transitions of $A$, and what goes wr
 
 ## Page 12 - General half-integer method and divide by 2.5
 
-![Frequency-divider notebook page 12](images/page-12.png)
+![Frequency-divider notebook page 12](../_internal/Frequency%20Dividers/images/page-12.png)
 
 ### Turning a half-integer divisor into an odd integer
 
@@ -1587,7 +1587,7 @@ Why does divide by 2.5 begin with divide by 5, and why does a half-input-period 
 
 ## Page 13 - Divide by 1.5 as a both-edge state machine, with RTL
 
-![Frequency-divider notebook page 13](images/page-13.png)
+![Frequency-divider notebook page 13](../_internal/Frequency%20Dividers/images/page-13.png)
 
 ### Interpreting the positive-edge and negative-edge state diagrams
 

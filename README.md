@@ -53,6 +53,7 @@ captures through lesson 49 are true 1535 x 686 full-screen video frames.
 ```text
 RevisionSolved/
 |-- README.md
+|-- _internal/                           # centralized images and source documents
 |-- guides/                              # standards, method, roadmap, work log
 |-- tracking/                            # current coverage and review queue
 |-- templates/                           # structure for a new subject
@@ -67,11 +68,14 @@ RevisionSolved/
 Each mature learning branch follows the same local pattern:
 
 - `README.md` is the entry point and deep explanation layer;
-- `sources/` preserves the original PDF, specification, or notebook;
-- `images/` keeps readable page renders or course frames beside the notes;
+- `_internal/` centrally preserves original source documents and readable image
+  renders while mirroring the study-folder paths;
 - `src/` and `sim/` are used only when the topic has RTL and verification;
 - subfolders represent real chapters or course sections, not arbitrary batches
   of files.
+
+Keeping support material in the single root-level `_internal/` tree prevents
+`images/` and `sources/` from appearing as extra choices inside every chapter.
 
 Subject folders stay at the root on purpose. Moving them under another wrapper
 would add navigation depth, break many local links, and risk absolute paths in

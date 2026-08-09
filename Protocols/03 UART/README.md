@@ -4,7 +4,7 @@ These eight pages progress from asynchronous serial communication into an RTL-or
 
 ## Core term key
 
-The framing and receiver terms are verified against the [Microchip USART guide](https://onlinedocs.microchip.com/oxy/GUID-78D70ED6-D060-4984-8F25-B119A2A89ABB-en-US-3/GUID-BA123D56-04C4-40CB-93D5-644DF3FD9C1D.html) and [Microchip UART reception description](https://onlinedocs.microchip.com/oxy/GUID-F2693295-804D-4E36-8BA5-0105C1751EA5-en-US-3/GUID-2966F8A6-816E-45CF-87A6-FB4C876E377D.html).
+The framing and receiver terms are verified against the  and .
 
 | Term | Meaning |
 |---|---|
@@ -14,32 +14,32 @@ The framing and receiver terms are verified against the [Microchip USART guide](
 | **Idle / START / STOP** | Ordinary non-inverted UART idles HIGH. A LOW START bit creates frame alignment; one or more HIGH STOP bits provide the required end/idle interval. |
 | **Data bits** | The payload bits between START and optional parity/STOP fields; ordinary UART commonly transmits the least-significant data bit first. |
 | **Parity** | An optional extra bit derived from the data bits. It detects an odd number of inverted bits within the covered character but not an even number, and it does not correct an error. |
-| **Baud rate** | Symbol intervals per second ([Keysight, “Bits Versus Symbols”](https://helpfiles.keysight.com/scopes/FlexDCA-PG/Content/Topics/Quick-Start/theory_bits_vs_symbols.htm)). For ordinary binary NRZ UART, one symbol carries one bit, so baud and line bit rate have the same numerical value. |
+| **Baud rate** | Symbol intervals per second (). For ordinary binary NRZ UART, one symbol carries one bit, so baud and line bit rate have the same numerical value. |
 | **Bit time** | Duration of one UART bit cell, $T_{bit}=1/B$ for baud rate $B$. |
 | **Baud tick / clock enable** | A one-system-clock-cycle event used by RTL counters/FSMs to advance bit timing. It is not necessarily a new clock signal. |
 | **Oversampling** | Running receive timing at several ticks per bit so START can be qualified and samples can be placed near bit centers. Microchip documents normal-mode reception with 16 timing clocks and majority samples near the middle. |
 | **Framing error** | A received STOP-bit position that is not HIGH when sampled, indicating that the reconstructed character boundary is invalid. |
 | **FSM — finite-state machine** | A finite set of stored states plus transition/output rules; in UART it sequences `IDLE`, `START`, `DATA`, optional `PARITY`, and `STOP`. |
-| **Nonblocking assignment (`<=`)** | A Verilog/SystemVerilog procedural assignment that evaluates its right-hand side when the statement executes but schedules the left-hand-side update for the nonblocking-assignment update region ([IEEE 1800-2023](https://standards.ieee.org/ieee/1800/7743/)). In clocked RTL, this lets multiple registers sample the same pre-edge state rather than acquiring source-order dependencies. |
+| **Nonblocking assignment (`<=`)** | A Verilog/SystemVerilog procedural assignment that evaluates its right-hand side when the statement executes but schedules the left-hand-side update for the nonblocking-assignment update region (). In clocked RTL, this lets multiple registers sample the same pre-edge state rather than acquiring source-order dependencies. |
 
 ## Page map
 
 | Page | Revision focus |
 |---:|---|
-| [09](#page-09) | UART purpose, asynchronous links, electrical standards, baud and bit rate |
-| [10](#page-10) | Bit time and the system-clock divider calculation |
-| [11](#page-11) | 16x oversampling and UART frame length |
-| [12](#page-12) | Idle, START, data, optional parity, STOP, and conversion direction |
-| [13](#page-13) | Baud-rate generator pulses, counter ranges, and width calculation |
-| [14](#page-14) | Transmitter interface and FSM |
-| [15](#page-15) | Receiver interface, mid-bit sampling, and counters |
-| [16](#page-16) | Receiver pseudocode, STOP validation, and nonblocking assignments |
+|  | UART purpose, asynchronous links, electrical standards, baud and bit rate |
+|  | Bit time and the system-clock divider calculation |
+|  | 16x oversampling and UART frame length |
+|  | Idle, START, data, optional parity, STOP, and conversion direction |
+|  | Baud-rate generator pulses, counter ranges, and width calculation |
+|  | Transmitter interface and FSM |
+|  | Receiver interface, mid-bit sampling, and counters |
+|  | Receiver pseudocode, STOP validation, and nonblocking assignments |
 
 <a id="page-09"></a>
 
 ## Page 09 - UART as asynchronous framed serial communication
 
-![Handwritten page 9 - UART introduction and baud-rate terminology](images/page-09.jpeg)
+
 
 ### Technical discussion
 
@@ -68,7 +68,7 @@ If UART has no shared clock, what event gives the receiver a timing reference, a
 
 ## Page 10 - Bit time and the divider from a 50 MHz clock
 
-![Handwritten page 10 - UART bit-time and clock-cycle calculations](images/page-10.jpeg)
+
 
 ### Technical discussion
 
@@ -121,7 +121,7 @@ From a 50 MHz clock, calculate the ideal cycles per bit at 115200 baud and expla
 
 ## Page 11 - Why the receiver uses 16x oversampling
 
-![Handwritten page 11 - UART oversampling and frame fields](images/page-11.jpeg)
+
 
 ### Technical discussion
 
@@ -150,7 +150,7 @@ The frame sketch shows 1 START bit, 8 data bits, an optional parity bit, and at 
 - **Clarify:** oversampling does not mean the transmitter sends a bit 16 times. It means the receiver inspects the line on a clock-enable grid 16 times faster than the baud rate.
 - **Clarify:** call the remote block a peer transmitter/receiver rather than a master or slave.
 
-See [Microchip's clock-recovery description](https://onlinedocs.microchip.com/oxy/GUID-84570A8E-125A-4027-9491-9B22A292E347-en-US-5/GUID-34FF3967-6C5B-4AF9-94C0-97078652CF5C.html) and [TI's majority-voting behavior](https://software-dl.ti.com/msp430/esd/MSPM0-SDK/latest/docs/english/driverlib/mspm0l11xx_l13xx_api_guide/html/group___u_a_r_t.html).
+See  and .
 
 ### Active recall
 
@@ -160,7 +160,7 @@ Why is a sample enable at 16 times the baud rate useful if the design ultimately
 
 ## Page 12 - Reading the UART frame from idle through STOP
 
-![Handwritten page 12 - UART frame and serial-parallel conversion](images/page-12.jpeg)
+
 
 ### Technical discussion
 
@@ -181,7 +181,7 @@ The lower diagram assigns parallel-to-serial conversion to TX and serial-to-para
 - **Clarify:** START lasts one **bit interval**, which contains many system-clock cycles.
 - **Clarify:** a common 8-N-1 frame has 10 total bit intervals, not 8.
 
-The field order and levels match [Microchip's USART frame definition](https://onlinedocs.microchip.com/oxy/GUID-A9964E93-D46C-42E6-98D2-4ED783ABB2CE-en-US-2/GUID-7BA3A2AA-EFBF-4C3A-BB96-17B8A413DE69.html).
+The field order and levels match .
 
 ### Active recall
 
@@ -191,7 +191,7 @@ Write the exact wire-level sequence for transmitting `0xA6` as 8-N-1, including 
 
 ## Page 13 - Baud-rate generator pulses and counter widths
 
-![Handwritten page 13 - baud-rate generator and divider counters](images/page-13.jpeg)
+
 
 ### Technical discussion
 
@@ -216,7 +216,7 @@ bits, because $2^{12}=4096$ is too small and $2^{13}=8192$ is sufficient. A synt
 - **Clarify:** `tx_en` and `rx_en` are better named `baud_tick` and `sample_tick`; `tx_start` should be a separate request input.
 - **Improvement:** parameterize $f_{clk}$, baud, and oversampling rate, and calculate/report the actual generated rates.
 
-AMD's [UART baud-rate generator description](https://docs.amd.com/r/en-US/ug585-zynq-7000-SoC-TRM/Baud-Rate-Generator) likewise separates a high-rate sample enable from the final TX/RX baud enables.
+AMD's  likewise separates a high-rate sample enable from the final TX/RX baud enables.
 
 ### Active recall
 
@@ -226,7 +226,7 @@ Why does a divide-by-5208 counter compare against 5207, and how many bits must t
 
 ## Page 14 - Building the transmitter as a timed FSM
 
-![Handwritten page 14 - UART transmitter block and FSM](images/page-14.jpeg)
+
 
 ### Technical discussion
 
@@ -259,7 +259,7 @@ If `start_tx` arrives halfway between baud ticks, when should the transmitter la
 
 ## Page 15 - Receiver timing and why sampling moves to bit centers
 
-![Handwritten page 15 - UART receiver FSM and sampling waveform](images/page-15.jpeg)
+
 
 ### Technical discussion
 
@@ -288,7 +288,7 @@ Starting from the first detected LOW sample in 16x mode, describe when the recei
 
 ## Page 16 - Receiver pseudocode and nonblocking-assignment timing
 
-![Handwritten page 16 - UART receiver counters and nonblocking question](images/page-16.jpeg)
+
 
 ### Technical discussion
 

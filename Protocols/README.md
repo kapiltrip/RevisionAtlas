@@ -30,7 +30,7 @@ This subject covers hardware communication protocols. The existing 16-page handw
    lesson 49.
 
 The untouched serial-protocol scan is available as
-[protocols-handwritten-notes.pdf](sources/protocols-handwritten-notes.pdf).
+[protocols-handwritten-notes.pdf](../_internal/Protocols/sources/protocols-handwritten-notes.pdf).
 Each AMBA chapter keeps its own authoritative specification and learning
 evidence inside the [AMBA branch](04%20AMBA/README.md).
 

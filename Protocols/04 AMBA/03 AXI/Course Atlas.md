@@ -1,6 +1,6 @@
 # AXI Course Atlas — Progress Through Lesson 49
 
-[Back to AXI](../README.md) | [Back to AMBA](../../README.md) | [Handwritten layer](../handwritten/README.md)
+[Back to AXI](README.md) | [Back to AMBA](../README.md) | [Handwritten layer](Handwritten%20Notes.md)
 
 The course notes follow the instructor's top-level sections. Each section file
 keeps its lesson order, full-screen evidence, explanation, code-resource notes,
@@ -34,8 +34,8 @@ day-wise so the learning session and source boundary stay recoverable.
 
 ## Capture storage
 
-- [Day 01](../images/Day%2001/) contains lessons 1–33.
-- [Day 02](../images/Day%2002/) contains lessons 34–49.
+- [Day 01](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001) contains lessons 1–33.
+- [Day 02](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002) contains lessons 34–49.
 
 The Day 02 lesson frames are 1535 x 686 full-screen video captures. A section
 may use several frames from one lesson when the diagram, RTL, and waveform each
@@ -74,7 +74,7 @@ stable until an accepted edge.
 
 The course frames establish the teaching sequence. Protocol claims are checked
 against the local
-[Arm AXI-Stream specification](../sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf)
+[Arm AXI-Stream specification](../../../_internal/Protocols/04%20AMBA/03%20AXI/sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf)
 and the official
 [AMBA AXI and ACE Protocol Specification](https://developer.arm.com/-/media/Arm%20Developer%20Community/PDF/IHI0022H_amba_axi_protocol_spec.pdf).
 When a lecture diagram mixes AXI3, AXI4, and AXI4-Lite signals, the matching

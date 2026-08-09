@@ -13,7 +13,7 @@ GPIO, and control/status blocks.
 | Part | Purpose |
 |---|---|
 | [Lecture and handwritten atlas](handwritten/README.md) | Every lecture frame followed by the related original notebook page, explanation, and corrections |
-| [Official Arm specification](sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf) | Local ARM IHI 0024E source of truth |
+| [Official Arm specification](../../../_internal/Protocols/04%20AMBA/02%20APB/sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf) | Local ARM IHI 0024E source of truth |
 
 ## Core terms in transaction order
 
@@ -71,7 +71,7 @@ extensions but are not required to understand the captured waveforms.
 
 | Source | Use |
 |---|---|
-| [Arm IHI 0024E - AMBA APB Protocol Specification](sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf) | Authority for phase timing, stability, readiness, error timing, and the state diagram |
+| [Arm IHI 0024E - AMBA APB Protocol Specification](../../../_internal/Protocols/04%20AMBA/02%20APB/sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf) | Authority for phase timing, stability, readiness, error timing, and the state diagram |
 | [APB playlist](https://www.youtube.com/playlist?list=PLqPfWwayuBvPpjwnJsJ7qSQAXh7NQFMzO) | Teaching order and captured waveform examples |
 | [Original handwritten source PDFs](../Handwritten%20data/) | Preserved notebook and iPad source pages |
 

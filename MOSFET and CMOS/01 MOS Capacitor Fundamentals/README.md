@@ -1,6 +1,6 @@
 # 01 - MOS Capacitor Fundamentals
 
-[Back to MOSFET and CMOS](../README.md) | [Untouched source PDF](../sources/mos1.pdf)
+[Back to MOSFET and CMOS](../README.md) | [Untouched source PDF](../../_internal/MOSFET%20and%20CMOS/sources/mos1.pdf)
 
 This module builds the electrostatic picture beneath every MOSFET: choose energy references, align work functions, bend semiconductor bands with gate voltage, and convert the bending into depletion charge and width.
 
@@ -44,7 +44,7 @@ These meanings follow the electrostatic sequence in [MIT 6.012, MOS Capacitors I
 
 ## Page 01 - MOS structure and the meaning of work function
 
-![Handwritten MOS notes page 1](images/page-01.jpeg)
+![Handwritten MOS notes page 1](../../_internal/MOSFET%20and%20CMOS/01%20MOS%20Capacitor%20Fundamentals/images/page-01.jpeg)
 
 ### What this page is doing
 
@@ -66,7 +66,7 @@ Why can the gate change the surface charge even though ideal SiO2 blocks steady 
 
 ## Page 02 - Absolute energy references and equilibrium
 
-![Handwritten MOS notes page 2](images/page-02.jpeg)
+![Handwritten MOS notes page 2](../../_internal/MOSFET%20and%20CMOS/01%20MOS%20Capacitor%20Fundamentals/images/page-02.jpeg)
 
 ### What this page is doing
 
@@ -88,7 +88,7 @@ What common reference permits a metal work function and a semiconductor work fun
 
 ## Page 03 - Electron affinity, band gap, and work-function difference
 
-![Handwritten MOS notes page 3](images/page-03.jpeg)
+![Handwritten MOS notes page 3](../../_internal/MOSFET%20and%20CMOS/01%20MOS%20Capacitor%20Fundamentals/images/page-03.jpeg)
 
 ### What this page is doing
 
@@ -110,7 +110,7 @@ If p-type doping is increased, which part of $\Phi_s=\chi+(E_C-E_F)/q$ changes?
 
 ## Page 04 - Ideal MOS capacitor assumptions
 
-![Handwritten MOS notes page 4](images/page-04.jpeg)
+![Handwritten MOS notes page 4](../../_internal/MOSFET%20and%20CMOS/01%20MOS%20Capacitor%20Fundamentals/images/page-04.jpeg)
 
 ### What this page is doing
 
@@ -132,7 +132,7 @@ Which two non-ideal effects must be set to zero before $V_G=0$ automatically mea
 
 ## Page 05 - Flat band as the electrostatic reference state
 
-![Handwritten MOS notes page 5](images/page-05.jpeg)
+![Handwritten MOS notes page 5](../../_internal/MOSFET%20and%20CMOS/01%20MOS%20Capacitor%20Fundamentals/images/page-05.jpeg)
 
 ### What this page is doing
 
@@ -154,7 +154,7 @@ Can an equilibrium MOS capacitor have a flat Fermi level but bent conduction and
 
 ## Page 06 - Blank source page
 
-![Blank handwritten source page 6](images/page-06.jpeg)
+![Blank handwritten source page 6](../../_internal/MOSFET%20and%20CMOS/01%20MOS%20Capacitor%20Fundamentals/images/page-06.jpeg)
 
 ### What this page is doing
 
@@ -172,7 +172,7 @@ What changes at the semiconductor surface first when the gate moves away from fl
 
 ## Page 07 - Accumulation on a p-type substrate
 
-![Handwritten MOS notes page 7](images/page-07.jpeg)
+![Handwritten MOS notes page 7](../../_internal/MOSFET%20and%20CMOS/01%20MOS%20Capacitor%20Fundamentals/images/page-07.jpeg)
 
 ### What this page is doing
 
@@ -198,7 +198,7 @@ For p-type silicon, state the sign of gate charge, semiconductor charge, and mob
 
 ## Page 08 - Moving from flat band into depletion
 
-![Handwritten MOS notes page 8](images/page-08.jpeg)
+![Handwritten MOS notes page 8](../../_internal/MOSFET%20and%20CMOS/01%20MOS%20Capacitor%20Fundamentals/images/page-08.jpeg)
 
 ### What this page is doing
 
@@ -220,7 +220,7 @@ Why does positive gate bias leave **negative** depletion charge in a p-type subs
 
 ## Page 09 - Depletion charge, width, and the band picture
 
-![Handwritten MOS notes page 9](images/page-09.jpeg)
+![Handwritten MOS notes page 9](../../_internal/MOSFET%20and%20CMOS/01%20MOS%20Capacitor%20Fundamentals/images/page-09.jpeg)
 
 ### What this page is doing
 
@@ -242,7 +242,7 @@ Under the depletion approximation, why is $\rho(x)$ rectangular while $E(x)$ is 
 
 ## Page 10 - Energy-band and carrier-concentration profiles
 
-![Handwritten MOS notes page 10](images/page-10.jpeg)
+![Handwritten MOS notes page 10](../../_internal/MOSFET%20and%20CMOS/01%20MOS%20Capacitor%20Fundamentals/images/page-10.jpeg)
 
 ### What this page is doing
 
@@ -268,7 +268,7 @@ If $E_i-E_F$ decreases by several $kT$ near the surface, what happens to $n$ and
 
 ## Page 11 - Deeper depletion under increasing positive gate bias
 
-![Handwritten MOS notes page 11](images/page-11.jpeg)
+![Handwritten MOS notes page 11](../../_internal/MOSFET%20and%20CMOS/01%20MOS%20Capacitor%20Fundamentals/images/page-11.jpeg)
 
 ### What this page is doing
 
@@ -290,7 +290,7 @@ Why does inversion eventually dominate additional gate charge even though the de
 
 ## Page 12 - The onset of inversion
 
-![Handwritten MOS notes page 12](images/page-12.jpeg)
+![Handwritten MOS notes page 12](../../_internal/MOSFET%20and%20CMOS/01%20MOS%20Capacitor%20Fundamentals/images/page-12.jpeg)
 
 ### What this page is doing
 
@@ -324,7 +324,7 @@ For the large positive gate bias drawn on this page, explain (1) why electrons m
 
 ## Page 13 - Strong inversion and the $2\phi_F$ criterion
 
-![Handwritten MOS notes page 13](images/page-13.jpeg)
+![Handwritten MOS notes page 13](../../_internal/MOSFET%20and%20CMOS/01%20MOS%20Capacitor%20Fundamentals/images/page-13.jpeg)
 
 ### What this page is doing
 
@@ -346,7 +346,7 @@ Show from the Boltzmann relations why $\psi_s=2\phi_F$ gives $n_s\approx N_A$.
 
 ## Page 14 - Surface potential as the mode classifier
 
-![Handwritten MOS notes page 14](images/page-14.jpeg)
+![Handwritten MOS notes page 14](../../_internal/MOSFET%20and%20CMOS/01%20MOS%20Capacitor%20Fundamentals/images/page-14.jpeg)
 
 ### What this page is doing
 
@@ -368,7 +368,7 @@ Why is $V_G$ not generally equal to $\psi_s$? Name the other voltage contributio
 
 ## Page 15 - Five surface conditions on one potential axis
 
-![Handwritten MOS notes page 15](images/page-15.jpeg)
+![Handwritten MOS notes page 15](../../_internal/MOSFET%20and%20CMOS/01%20MOS%20Capacitor%20Fundamentals/images/page-15.jpeg)
 
 ### What this page is doing
 
@@ -390,7 +390,7 @@ Without drawing bands, list the dominant surface charge for all five conditions 
 
 ## Page 16 - Complementary operation on n-type silicon
 
-![Handwritten MOS notes page 16](images/page-16.jpeg)
+![Handwritten MOS notes page 16](../../_internal/MOSFET%20and%20CMOS/01%20MOS%20Capacitor%20Fundamentals/images/page-16.jpeg)
 
 ### What this page is doing
 
@@ -412,7 +412,7 @@ What gate polarity creates strong inversion on n-type silicon, and which carrier
 
 ## Page 17 - Depletion charge and width for a p-type substrate
 
-![Handwritten MOS notes page 17](images/page-17.jpeg)
+![Handwritten MOS notes page 17](../../_internal/MOSFET%20and%20CMOS/01%20MOS%20Capacitor%20Fundamentals/images/page-17.jpeg)
 
 ### What this page is doing
 
@@ -438,7 +438,7 @@ How does doubling $N_A$ affect $W_d$ and $|Q_d|$ at a fixed surface potential?
 
 ## Page 18 - Depletion charge and width for an n-type substrate
 
-![Handwritten MOS notes page 18](images/page-18.jpeg)
+![Handwritten MOS notes page 18](../../_internal/MOSFET%20and%20CMOS/01%20MOS%20Capacitor%20Fundamentals/images/page-18.jpeg)
 
 ### What this page is doing
 
@@ -460,7 +460,7 @@ Why is n-substrate depletion charge positive even though the depleted mobile car
 
 ## Page 19 - From charge density to field and potential
 
-![Handwritten MOS notes page 19](images/page-19.jpeg)
+![Handwritten MOS notes page 19](../../_internal/MOSFET%20and%20CMOS/01%20MOS%20Capacitor%20Fundamentals/images/page-19.jpeg)
 
 ### What this page is doing
 
@@ -482,7 +482,7 @@ Sketch the expected shapes of $\rho(x)$, $E(x)$, and $\psi(x)$ in oxide and depl
 
 ## Page 20 - Electric field and dielectric boundary condition
 
-![Handwritten MOS notes page 20](images/page-20.jpeg)
+![Handwritten MOS notes page 20](../../_internal/MOSFET%20and%20CMOS/01%20MOS%20Capacitor%20Fundamentals/images/page-20.jpeg)
 
 ### What this page is doing
 
@@ -504,7 +504,7 @@ If $\varepsilon_{si}>\varepsilon_{ox}$, which material has the larger field magn
 
 ## Page 21 - Potential distribution across the MOS stack
 
-![Handwritten MOS notes page 21](images/page-21.jpeg)
+![Handwritten MOS notes page 21](../../_internal/MOSFET%20and%20CMOS/01%20MOS%20Capacitor%20Fundamentals/images/page-21.jpeg)
 
 ### What this page is doing
 
@@ -526,7 +526,7 @@ Which part of the potential is linear and which part is parabolic, and what char
 
 ## Page 22 - Field-area method for voltage
 
-![Handwritten MOS notes page 22](images/page-22.jpeg)
+![Handwritten MOS notes page 22](../../_internal/MOSFET%20and%20CMOS/01%20MOS%20Capacitor%20Fundamentals/images/page-22.jpeg)
 
 ### What this page is doing
 
@@ -548,7 +548,7 @@ Derive $W_d(\psi_s)$ using only the triangle area and Gauss's-law expression for
 
 ## Page 23 - Numerical electrostatics example
 
-![Handwritten MOS notes page 23](images/page-23.jpeg)
+![Handwritten MOS notes page 23](../../_internal/MOSFET%20and%20CMOS/01%20MOS%20Capacitor%20Fundamentals/images/page-23.jpeg)
 
 ### What this page is doing
 
@@ -570,7 +570,7 @@ Why must the oxide field be found through displacement continuity rather than as
 
 ## Page 24 - Beginning the non-ideal MOS capacitor
 
-![Handwritten MOS notes page 24](images/page-24.jpeg)
+![Handwritten MOS notes page 24](../../_internal/MOSFET%20and%20CMOS/01%20MOS%20Capacitor%20Fundamentals/images/page-24.jpeg)
 
 ### What this page is doing
 

@@ -1,6 +1,6 @@
 # AXI handwritten layer
 
-[Back to AXI](../README.md) | [Course atlas](../course/README.md) | [Back to AMBA](../../README.md)
+[Back to AXI](README.md) | [Course atlas](Course%20Atlas.md) | [Back to AMBA](../README.md)
 
 This is Layer 2 of the AXI chapter. It preserves Kapil's handwritten AXI notes,
 maps each page to the exact course lesson, and places the verified solution
@@ -10,9 +10,9 @@ beside the original question.
 
 - One handwritten page is present; its original image is preserved below.
 - The page maps directly to
-  [Video 31 — Round-robin arbiter part 2](../course/Section%2003%20-%20AXI-Stream%20IPs.md#video-31---round-robin-arbiter-part-2).
+  [Video 31 — Round-robin arbiter part 2](Section%2003%20-%20AXI-Stream%20IPs.md#video-31---round-robin-arbiter-part-2).
 - Any later AXI-Stream claim will be checked against
-  [Arm IHI 0051B](../sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf).
+  [Arm IHI 0051B](../../../_internal/Protocols/04%20AMBA/03%20AXI/sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf).
 
 ## Handwritten-page index
 
@@ -21,7 +21,7 @@ beside the original question.
 
 ## Page 1 - Why does `s1` check `req2` first?
 
-![Handwritten round-robin FSM question asking why state s1 checks req2 first](images/Day%2001/round-robin-fairness-question-s1-priority.jpg)
+![Handwritten round-robin FSM question asking why state s1 checks req2 first](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/round-robin-fairness-question-s1-priority.jpg)
 
 ### What is written on the page
 

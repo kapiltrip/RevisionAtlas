@@ -1,6 +1,6 @@
 # Static Timing Analysis (STA)
 
-[Back to Subjects](../README.md) | [Original 24-page scan](sources/sta-handwritten-notes-pages-01-24.pdf) | [Original extra page](sources/sta-handwritten-notes-page-25.jpeg)
+[Back to Subjects](../README.md) | [Original 24-page scan](../_internal/Static%20Timing%20Analysis/sources/sta-handwritten-notes-pages-01-24.pdf) | [Original extra page](../_internal/Static%20Timing%20Analysis/sources/sta-handwritten-notes-page-25.jpeg)
 
 This subject pillar turns 25 handwritten pages into one source-linked revision room. The notes begin with transmission gates, latches, and flip-flops, then build the setup/hold equations, arrival and required time, slack, clock skew, maximum frequency, negative timing parameters, and worked register-to-register examples.
 
@@ -127,7 +127,7 @@ These two equations are the reference frame for the rest of this file. A real si
 
 ## Page 01 - Why STA exists, and how a transmission gate passes data
 
-![STA handwritten notes page 1](images/page-01.jpeg)
+![STA handwritten notes page 1](../_internal/Static%20Timing%20Analysis/images/page-01.jpeg)
 
 ### What this page is doing
 
@@ -240,7 +240,7 @@ Why can STA analyze a path that a simulation testbench never activates, why does
 
 ## Page 02 - A 4:1 multiplexer made from transmission gates
 
-![STA handwritten notes page 2](images/page-02.jpeg)
+![STA handwritten notes page 2](../_internal/Static%20Timing%20Analysis/images/page-02.jpeg)
 
 ### What this page is doing
 
@@ -268,7 +268,7 @@ For $AB=10$, which input is selected, and what complementary control pair must i
 
 ## Page 03 - D latch: transparent path, closed feedback, and memory
 
-![STA handwritten notes page 3](images/page-03.jpeg)
+![STA handwritten notes page 3](../_internal/Static%20Timing%20Analysis/images/page-03.jpeg)
 
 ### What this page is doing
 
@@ -302,7 +302,7 @@ Why are two inverters used in the feedback loop instead of one?
 
 ## Page 04 - Building a negative-edge flip-flop from two latches
 
-![STA handwritten notes page 4](images/page-04.jpeg)
+![STA handwritten notes page 4](../_internal/Static%20Timing%20Analysis/images/page-04.jpeg)
 
 ### What this page is doing
 
@@ -324,7 +324,7 @@ Immediately after the falling edge, which latch is closed, which is open, and wh
 
 ## Page 05 - Active-low D latch and the internal origin of setup time
 
-![STA handwritten notes page 5](images/page-05.jpeg)
+![STA handwritten notes page 5](../_internal/Static%20Timing%20Analysis/images/page-05.jpeg)
 
 ### What this page is doing
 
@@ -354,7 +354,7 @@ Why can a path-delay sum explain the origin of setup time without being equal to
 
 ## Page 06 - Hold time is an endpoint stability requirement
 
-![STA handwritten notes page 6](images/page-06.jpeg)
+![STA handwritten notes page 6](../_internal/Static%20Timing%20Analysis/images/page-06.jpeg)
 
 ### What this page is doing
 
@@ -386,7 +386,7 @@ Why do we use $t_{cq,min}$ and $t_{comb,min}$ for hold rather than their maximum
 
 ## Page 07 - Deriving the setup constraint
 
-![STA handwritten notes page 7](images/page-07.jpeg)
+![STA handwritten notes page 7](../_internal/Static%20Timing%20Analysis/images/page-07.jpeg)
 
 ### What this page is doing
 
@@ -428,7 +428,7 @@ If $t_{cq,max}=0.8\,ns$, $t_{comb,max}=3.7\,ns$, and $t_{su}=0.5\,ns$, what is t
 
 ## Page 08 - Full adder from two half adders
 
-![STA handwritten notes page 8](images/page-08.jpeg)
+![STA handwritten notes page 8](../_internal/Static%20Timing%20Analysis/images/page-08.jpeg)
 
 ### What this page is doing
 
@@ -476,7 +476,7 @@ Prove in one line that $C_1C_2=0$ for every $A,B,C_{in}$.
 
 ## Page 09 - Arrival time, required time, and setup slack
 
-![STA handwritten notes page 9](images/page-09.jpeg)
+![STA handwritten notes page 9](../_internal/Static%20Timing%20Analysis/images/page-09.jpeg)
 
 ### What this page is doing
 
@@ -531,7 +531,7 @@ For the page's example, how much could the combinational maximum delay increase 
 
 ## Page 10 - Equivalent inequalities, but different timing meanings
 
-![STA handwritten notes page 10](images/page-10.jpeg)
+![STA handwritten notes page 10](../_internal/Static%20Timing%20Analysis/images/page-10.jpeg)
 
 ### Red-marker answer: can the inequalities be written interchangeably?
 
@@ -571,7 +571,7 @@ Why is setup slack $R-A$, while hold slack later becomes $A-R$?
 
 ## Page 11 - Keeping min/max ranges and path components coherent
 
-![STA handwritten notes page 11](images/page-11.jpeg)
+![STA handwritten notes page 11](../_internal/Static%20Timing%20Analysis/images/page-11.jpeg)
 
 ### What this page is doing
 
@@ -630,7 +630,7 @@ Why is $(2+9+2)\,ns$ not a valid minimum or maximum for the three-element clock 
 
 ## Page 12 - Worst-case setup uses late data and an early capture boundary
 
-![STA handwritten notes page 12](images/page-12.jpeg)
+![STA handwritten notes page 12](../_internal/Static%20Timing%20Analysis/images/page-12.jpeg)
 
 ### What this page is doing
 
@@ -668,7 +668,7 @@ With $L_L=3\,ns$, $L_C=1\,ns$, $t_{cq,max}=2\,ns$, $t_{comb,max}=8\,ns$, and $t_
 
 ## Page 13 - Hold analysis uses the earliest new data
 
-![STA handwritten notes page 13](images/page-13.jpeg)
+![STA handwritten notes page 13](../_internal/Static%20Timing%20Analysis/images/page-13.jpeg)
 
 ### What this page is doing
 
@@ -720,7 +720,7 @@ If the minimum combinational delay shrinks from $0.2\,ns$ to $0.1\,ns$, what is 
 
 ## Page 14 - Why the hold equation needs min delays and clock skew
 
-![STA handwritten notes page 14](images/page-14.jpeg)
+![STA handwritten notes page 14](../_internal/Static%20Timing%20Analysis/images/page-14.jpeg)
 
 ### Red-marker answer: why is the first equation wrong?
 
@@ -756,7 +756,7 @@ Why can lowering clock frequency fix setup but not a same-cycle hold failure?
 
 ## Page 15 - Positive skew helps setup and hurts hold
 
-![STA handwritten notes page 15](images/page-15.jpeg)
+![STA handwritten notes page 15](../_internal/Static%20Timing%20Analysis/images/page-15.jpeg)
 
 ### What this page is doing
 
@@ -796,7 +796,7 @@ If $S=+0.4\,ns$, by how much does ideal setup margin change, and by how much doe
 
 ## Page 16 - Maximum frequency cannot be assigned to one flip-flop in isolation
 
-![STA handwritten notes page 16](images/page-16.jpeg)
+![STA handwritten notes page 16](../_internal/Static%20Timing%20Analysis/images/page-16.jpeg)
 
 ### What this page is asking
 
@@ -862,7 +862,7 @@ Why is the fastest individual self path not necessarily the path that determines
 
 ## Page 17 - Testing candidate clock periods
 
-![STA handwritten notes page 17](images/page-17.jpeg)
+![STA handwritten notes page 17](../_internal/Static%20Timing%20Analysis/images/page-17.jpeg)
 
 ### What this page is doing
 
@@ -912,7 +912,7 @@ At $T_{clk}=8\,ns$, what is the setup slack of each self path in the page-16 tab
 
 ## Page 18 - Solving frequency and hold examples completely
 
-![STA handwritten notes page 18](images/page-18.jpeg)
+![STA handwritten notes page 18](../_internal/Static%20Timing%20Analysis/images/page-18.jpeg)
 
 ### First example
 
@@ -970,7 +970,7 @@ After adding exactly $0.3\,ns$ minimum/maximum data delay to the self-loop, what
 
 ## Page 19 - General clock-latency equations and negative hold time
 
-![STA handwritten notes page 19](images/page-19.jpeg)
+![STA handwritten notes page 19](../_internal/Static%20Timing%20Analysis/images/page-19.jpeg)
 
 ### What this page is doing
 
@@ -1036,7 +1036,7 @@ If $dly3=0.4\,ns$ and $dly2=0.9\,ns$, what skew does the path have, and does tha
 
 ## Page 20 - Internal data/clock delays create effective timing parameters
 
-![STA handwritten notes page 20](images/page-20.jpeg)
+![STA handwritten notes page 20](../_internal/Static%20Timing%20Analysis/images/page-20.jpeg)
 
 ### What this page is doing
 
@@ -1080,7 +1080,7 @@ For $t_{su,int}=0.8\,ns$, $t_{h,int}=0.2\,ns$, $d_D=0.3\,ns$, and $d_C=1.2\,ns$,
 
 ## Page 21 - Data delay improves hold slack; it does not change intrinsic hold time
 
-![STA handwritten notes page 21](images/page-21.jpeg)
+![STA handwritten notes page 21](../_internal/Static%20Timing%20Analysis/images/page-21.jpeg)
 
 ### What this page is doing
 
@@ -1128,7 +1128,7 @@ If a path has $-0.12\,ns$ hold slack and $+0.40\,ns$ setup slack, what happens i
 
 ## Page 22 - Clean setup and hold equations with launch/capture delays
 
-![STA handwritten notes page 22](images/page-22.jpeg)
+![STA handwritten notes page 22](../_internal/Static%20Timing%20Analysis/images/page-22.jpeg)
 
 ### What this page is doing
 
@@ -1188,7 +1188,7 @@ If launch latency and capture latency both increase by the same $0.7\,ns$, why d
 
 ## Page 23 - Worked skew example: include the entire data path
 
-![STA handwritten notes page 23](images/page-23.jpeg)
+![STA handwritten notes page 23](../_internal/Static%20Timing%20Analysis/images/page-23.jpeg)
 
 ### Reading the diagram
 
@@ -1252,7 +1252,7 @@ What happens to the setup and hold slacks if the two capture-clock inverters are
 
 ## Page 24 - Three-register pipeline: $f_{max}$ is set by the worst stage
 
-![STA handwritten notes page 24](images/page-24.jpeg)
+![STA handwritten notes page 24](../_internal/Static%20Timing%20Analysis/images/page-24.jpeg)
 
 ### What this page is doing
 
@@ -1316,7 +1316,7 @@ Why does the maximum of the stage periods, rather than their sum, determine the 
 
 ## Page 25 - Final numerical clock-skew problem
 
-![STA handwritten notes page 25](images/page-25.jpeg)
+![STA handwritten notes page 25](../_internal/Static%20Timing%20Analysis/images/page-25.jpeg)
 
 ### Interpreting the readable values
 

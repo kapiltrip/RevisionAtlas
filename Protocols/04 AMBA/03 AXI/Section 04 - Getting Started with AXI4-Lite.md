@@ -1,6 +1,6 @@
 # Section 4 - Getting Started with AXI4-Lite
 
-[Previous: Section 3](Section%2003%20-%20AXI-Stream%20IPs.md) | [Course hub](README.md) | [AXI chapter](../README.md)
+[Previous: Section 3](Section%2003%20-%20AXI-Stream%20IPs.md) | [Course hub](Course%20Atlas.md) | [AXI chapter](README.md)
 
 **Course status:** 5/10 lessons complete. This page stops at lesson 49,
 **Understanding Write data channel**. Lessons 50-54 are intentionally not
@@ -37,7 +37,7 @@ called AXI4-Lite.
 
 ### Video 45 - Section 4 agenda
 
-![Full-screen Section 4 agenda for beat, transfer, transaction, channels, signals, and AXI-Lite](../images/Day%2002/45-axi-lite-agenda-50.png)
+![Full-screen Section 4 agenda for beat, transfer, transaction, channels, signals, and AXI-Lite](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/45-axi-lite-agenda-50.png)
 
 The agenda gives the correct learning order. First decide what event is being
 counted; then separate the five memory-mapped channels; then learn the payload
@@ -47,7 +47,7 @@ arriving at the Lite subset.
 
 ### Video 46 - Transaction versus beat versus transfer
 
-![Full-screen handwritten transaction and multi-beat transfer model above a read-burst waveform](../images/Day%2002/46-transaction-beat-transfer-20.png)
+![Full-screen handwritten transaction and multi-beat transfer model above a read-burst waveform](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/46-transaction-beat-transfer-20.png)
 
 The handwritten left side groups address, data, and response into a complete
 transaction. The right side shows $b_0$-$b_3$ as the data items within a
@@ -64,7 +64,7 @@ The words *beat* and *data transfer* are often used interchangeably. Always
 state the channel when ambiguity matters: an address transfer and a data
 transfer are different handshakes.
 
-![Full-screen four-beat read waveform with AR address/control and R data/response channels](../images/Day%2002/46-transaction-beat-transfer-55.png)
+![Full-screen four-beat read waveform with AR address/control and R data/response channels](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/46-transaction-beat-transfer-55.png)
 
 The waveform is a full-AXI read burst. `ARLEN=3` encodes four data beats because:
 
@@ -82,7 +82,7 @@ address transfer and exactly one read-data transfer.
 
 ### Video 47 - Understanding the write address channel
 
-![Full-screen write-address waveform annotated with address, size, burst, length, ID, and encoding tables](../images/Day%2002/47-write-address-channel-85.png)
+![Full-screen write-address waveform annotated with address, size, burst, length, ID, and encoding tables](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/47-write-address-channel-85.png)
 
 The `AW` channel carries **where** and **how** a full-AXI write will occur; it
 does not carry the write data itself. In the frame:
@@ -119,7 +119,7 @@ data beat and ordered responses.
 
 ### Video 48 - Understanding channel IDs
 
-![Full-screen comparison of non-pipelined and pipelined single-beat request/response timing](../images/Day%2002/48-channel-ids-20.png)
+![Full-screen comparison of non-pipelined and pipelined single-beat request/response timing](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/48-channel-ids-20.png)
 
 Without pipelining, the requester waits for the response to address $a_0$
 before sending $a_1$. The link is simple but round-trip latency creates idle
@@ -127,7 +127,7 @@ cycles. With pipelining, the requester can issue $a_1$ before response $d_0$
 returns, increasing the number of outstanding transactions and improving
 throughput.
 
-![Full-screen pipelined waveform using request and response IDs to associate returned data](../images/Day%2002/48-channel-ids-55.png)
+![Full-screen pipelined waveform using request and response IDs to associate returned data](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/48-channel-ids-55.png)
 
 IDs let full AXI associate a response with its originating request. `ARID` is
 returned as `RID`; `AWID` is returned as `BID`. A requester can therefore have
@@ -146,7 +146,7 @@ address request; pipelining keeps multiple distinct transactions outstanding.
 
 ### Video 49 - Understanding the write data channel
 
-![Full-screen write-data waveform with WVALID, WREADY, WDATA, WSTRB, WID, WLAST, byte lanes, and channel directions](../images/Day%2002/49-write-data-channel-35.png)
+![Full-screen write-data waveform with WVALID, WREADY, WDATA, WSTRB, WID, WLAST, byte lanes, and channel directions](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/49-write-data-channel-35.png)
 
 Each write-data beat is accepted on:
 
@@ -210,7 +210,7 @@ write data follows the ordering rules associated with accepted write
 addresses. AXI4-Lite removes both `WID` and `WLAST`; it keeps only the one-beat
 `WDATA`/`WSTRB` payload and its `WVALID`/`WREADY` handshake.
 
-![Full-screen relationship among AWADDR, AWSIZE, AWBURST, AWLEN, four data beats, and burst encodings](../images/Day%2002/49-write-data-channel-85.png)
+![Full-screen relationship among AWADDR, AWSIZE, AWBURST, AWLEN, four data beats, and burst encodings](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/49-write-data-channel-85.png)
 
 This final frame reconnects the data beats to their address command. `AWSIZE`
 sets bytes per beat, `AWLEN+1` sets the beat count, and `AWBURST` determines how
@@ -277,4 +277,4 @@ response behavior is deliberately not pre-empted here.
 9. Which full-AXI signals disappear when the interface is reduced to
    AXI4-Lite?
 
-[Return to the course hub](README.md).
+[Return to the course hub](Course%20Atlas.md).

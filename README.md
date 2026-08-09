@@ -53,10 +53,9 @@ captures through lesson 49 are true 1535 x 686 full-screen video frames.
 ```text
 RevisionSolved/
 |-- README.md
-|-- _internal/                           # centralized images and source documents
-|-- guides/                              # standards, method, roadmap, work log
-|-- tracking/                            # current coverage and review queue
-|-- templates/                           # structure for a new subject
+|-- _internal/
+|   |-- repository/                      # guides, tracking, and templates
+|   `-- <Subject>/                       # centralized images and source documents
 |-- FIFO/
 |-- Frequency Dividers/
 |-- Programmable Frequency Divider/
@@ -68,14 +67,17 @@ RevisionSolved/
 Each mature learning branch follows the same local pattern:
 
 - `README.md` is the entry point and deep explanation layer;
-- `_internal/` centrally preserves original source documents and readable image
-  renders while mirroring the study-folder paths;
+- `_internal/` keeps every non-chapter support tree in one place:
+  `repository/` contains guides, tracking, and templates, while the mirrored
+  subject trees preserve original source documents and readable image renders;
 - `src/` and `sim/` are used only when the topic has RTL and verification;
 - subfolders represent real chapters or course sections, not arbitrary batches
   of files.
 
 Keeping support material in the single root-level `_internal/` tree prevents
-`images/` and `sources/` from appearing as extra choices inside every chapter.
+repository-management folders, `images/`, and `sources/` from competing with
+the actual chapters. The leading underscore also keeps this implementation
+detail visually separate while preserving a conventional root `README.md`.
 
 Subject folders stay at the root on purpose. Moving them under another wrapper
 would add navigation depth, break many local links, and risk absolute paths in
@@ -95,7 +97,7 @@ the concept visible on a page or frame, the explanation should establish:
 7. one recall, waveform, derivation, or verification test that proves the idea
    was understood.
 
-The full writing rule is in the [content standard](guides/CONTENT_STANDARD.md).
+The full writing rule is in the [content standard](_internal/repository/guides/CONTENT_STANDARD.md).
 
 ## One revision cycle
 
@@ -110,22 +112,22 @@ The full writing rule is in the [content standard](guides/CONTENT_STANDARD.md).
 5. **Compress:** finish with `When _____ changes, _____ changes because _____.`
 
 Mark the result `R` for recalled, `H` for hesitant, or `M` for missed. The
-[revision method](guides/REVISION_METHOD.md) defines the full 45–60 minute
+[revision method](_internal/repository/guides/REVISION_METHOD.md) defines the full 45–60 minute
 session and Day 1/3/7/14/30 review ladder.
 
 ## Repository guides
 
-- [Guide index](guides/README.md) explains which management document to use.
-- [Content standard](guides/CONTENT_STANDARD.md) defines the depth, equation,
+- [Guide index](_internal/repository/guides/README.md) explains which management document to use.
+- [Content standard](_internal/repository/guides/CONTENT_STANDARD.md) defines the depth, equation,
   diagram, and citation requirements.
-- [Revision method](guides/REVISION_METHOD.md) defines closed-book sessions and
+- [Revision method](_internal/repository/guides/REVISION_METHOD.md) defines closed-book sessions and
   spaced retrieval.
-- [Coverage and review queue](tracking/README.md) records what is ready and what
+- [Coverage and review queue](_internal/repository/tracking/README.md) records what is ready and what
   should be reviewed next.
-- [Roadmap](guides/ROADMAP.md) controls future subject growth.
-- [Workflow notes](guides/WORKFLOW_NOTES.md) preserve solved setup problems and
+- [Roadmap](_internal/repository/guides/ROADMAP.md) controls future subject growth.
+- [Workflow notes](_internal/repository/guides/WORKFLOW_NOTES.md) preserve solved setup problems and
   reliable local workflows.
-- [Subject template](templates/subject-template.md) is the starting point for a
+- [Subject template](_internal/repository/templates/subject-template.md) is the starting point for a
   new complete subject room.
 
 ## Repository rule

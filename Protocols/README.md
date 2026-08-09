@@ -55,7 +55,7 @@ For every transaction, draw the complete waveform and answer in order:
 5. What detects rejection or corruption—and what does not?
 6. Which statement is universal to the protocol and which is device-specific?
 
-Then compare one nearby protocol without saying only “faster” or “fewer wires.” Compare clocking, electrical drive, selection/addressing, duplex behavior, framing, acknowledgment, and implementation cost. Use the global [revision method](../guides/REVISION_METHOD.md) for the spaced schedule.
+Then compare one nearby protocol without saying only “faster” or “fewer wires.” Compare clocking, electrical drive, selection/addressing, duplex behavior, framing, acknowledgment, and implementation cost. Use the global [revision method](../_internal/repository/guides/REVISION_METHOD.md) for the spaced schedule.
 
 ## Question and correction register
 

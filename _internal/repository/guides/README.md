@@ -1,6 +1,6 @@
 # Repository Guides
 
-[Back to RevisionSolved](../README.md)
+[Back to RevisionSolved](../../../README.md)
 
 This directory contains repository-wide rules and workflows. Subject knowledge
 stays inside its subject folder; these files explain how that knowledge is

@@ -1,6 +1,6 @@
 # Coverage and Review Queue
 
-[Back to RevisionSolved](../README.md) | [Revision method](../guides/REVISION_METHOD.md)
+[Back to RevisionSolved](../../../README.md) | [Revision method](../guides/REVISION_METHOD.md)
 
 “Revision-ready” means the stated source boundary has deep explanations, term
 definitions, corrections, and retrieval prompts. It does not mean the entire

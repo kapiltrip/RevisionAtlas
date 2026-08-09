@@ -1,6 +1,6 @@
 # Repository Roadmap
 
-[Guide index](README.md) | [Back to RevisionSolved](../README.md)
+[Guide index](README.md) | [Back to RevisionSolved](../../../README.md)
 
 RevisionSolved grows by adding complete subject rooms, not by accumulating
 disconnected notes.
@@ -11,16 +11,14 @@ disconnected notes.
 RevisionSolved/
 |-- README.md
 |-- _internal/
+|   |-- repository/
+|   |   |-- guides/
+|   |   |-- tracking/
+|   |   `-- templates/
 |   `-- <Subject>/
 |       `-- <Topic or Unit>/
 |           |-- images/
 |           `-- sources/
-|-- guides/
-|   |-- README.md
-|   |-- CONTENT_STANDARD.md
-|   |-- REVISION_METHOD.md
-|   |-- ROADMAP.md
-|   `-- WORKFLOW_NOTES.md
 |-- <Subject>/
 |   |-- README.md
 |   `-- <Topic or Unit>/
@@ -31,10 +29,6 @@ RevisionSolved/
 |           |-- questions.md
 |           |-- pitfalls.md
 |           `-- tests/
-|-- tracking/
-|   `-- README.md
-`-- templates/
-    `-- subject-template.md
 ```
 
 Source scans remain untouched. Corrections and cited explanations live beside

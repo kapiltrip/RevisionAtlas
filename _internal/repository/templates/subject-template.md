@@ -1,6 +1,6 @@
 # `<Subject Name>`
 
-[Back to RevisionSolved](../README.md)
+[Back to RevisionSolved](../../../README.md)
 
 ## Purpose and boundary
 

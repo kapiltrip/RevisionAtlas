@@ -1,6 +1,6 @@
 # Content Standard
 
-[Guide index](README.md) | [Back to RevisionSolved](../README.md)
+[Guide index](README.md) | [Back to RevisionSolved](../../../README.md)
 
 This file defines what “explained” means in RevisionSolved. A note is not complete merely because a formula, acronym, or diagram has been copied. The reader should be able to answer:
 

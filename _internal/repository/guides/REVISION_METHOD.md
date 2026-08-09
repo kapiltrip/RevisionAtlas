@@ -1,6 +1,6 @@
 # How to Revise a Subject
 
-[Guide index](README.md) | [Back to RevisionSolved](../README.md)
+[Guide index](README.md) | [Back to RevisionSolved](../../../README.md)
 
 This is the repository-wide revision method. It separates **understanding**,
 **retrieval**, **application**, and **scheduling** so revision does not collapse

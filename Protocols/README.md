@@ -26,8 +26,8 @@ This subject covers hardware communication protocols. The existing 16-page handw
 3. [UART](03%20UART/README.md), source pages 9–16: asynchronous framing, baud
    generation, oversampling, and transmitter/receiver RTL architecture.
 4. [AMBA](04%20AMBA/README.md), separate sources: AHB pipelining and RTL, APB
-   setup/access timing, and the AXI section-organized course atlas through
-   lesson 49.
+   setup/access timing, and the complete AXI section-organized course atlas
+   through lesson 128.
 
 The untouched serial-protocol scan is available as
 [protocols-handwritten-notes.pdf](../_internal/Protocols/sources/protocols-handwritten-notes.pdf).

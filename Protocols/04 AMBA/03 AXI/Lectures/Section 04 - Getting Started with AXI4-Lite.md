@@ -1,14 +1,12 @@
 # Section 4 - Getting Started with AXI4-Lite
 
-[Previous: Section 3](Section%2003%20-%20AXI-Stream%20IPs.md) | [Course hub](Course%20Atlas.md) | [AXI chapter](README.md)
+[Previous: Section 3](Section%2003%20-%20AXI-Stream%20IPs.md) | [Course hub](../Course%20Atlas.md) | [AXI chapter](../README.md) | [Next: Section 5](Section%2005%20-%20AXI4-Lite%20Single%20Beat%20without%20Pipeline%20-%20Waveform%20Approach.md)
 
-**Course status:** 5/10 lessons complete. This page stops at lesson 49,
-**Understanding Write data channel**. Lessons 50-54 are intentionally not
-summarized yet.
+**Course status:** 10/10 lessons complete, covering lessons 45-54.
 
-Lessons 45–49 first separate transaction, burst, beat, and channel-transfer
-language; then they examine the write address channel, the purpose of full-AXI
-IDs, and the write data channel with byte strobes. The page continually removes
+The section first separates transaction, burst, beat, and channel-transfer
+language. It then walks all five memory-mapped channels, the four response
+encodings, and the final AXI4-Lite signal set. The page continually removes
 AXI3/full-AXI fields that do not belong on an AXI4-Lite interface.
 
 ## Read this section with the correct protocol lens
@@ -37,7 +35,7 @@ called AXI4-Lite.
 
 ### Video 45 - Section 4 agenda
 
-![Full-screen Section 4 agenda for beat, transfer, transaction, channels, signals, and AXI-Lite](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/45-axi-lite-agenda-50.png)
+![Full-screen Section 4 agenda for beat, transfer, transaction, channels, signals, and AXI-Lite](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/45-axi-lite-agenda-50.png)
 
 The agenda gives the correct learning order. First decide what event is being
 counted; then separate the five memory-mapped channels; then learn the payload
@@ -47,7 +45,7 @@ arriving at the Lite subset.
 
 ### Video 46 - Transaction versus beat versus transfer
 
-![Full-screen handwritten transaction and multi-beat transfer model above a read-burst waveform](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/46-transaction-beat-transfer-20.png)
+![Full-screen handwritten transaction and multi-beat transfer model above a read-burst waveform](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/46-transaction-beat-transfer-20.png)
 
 The handwritten left side groups address, data, and response into a complete
 transaction. The right side shows $b_0$-$b_3$ as the data items within a
@@ -64,7 +62,7 @@ The words *beat* and *data transfer* are often used interchangeably. Always
 state the channel when ambiguity matters: an address transfer and a data
 transfer are different handshakes.
 
-![Full-screen four-beat read waveform with AR address/control and R data/response channels](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/46-transaction-beat-transfer-55.png)
+![Full-screen four-beat read waveform with AR address/control and R data/response channels](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/46-transaction-beat-transfer-55.png)
 
 The waveform is a full-AXI read burst. `ARLEN=3` encodes four data beats because:
 
@@ -82,7 +80,7 @@ address transfer and exactly one read-data transfer.
 
 ### Video 47 - Understanding the write address channel
 
-![Full-screen write-address waveform annotated with address, size, burst, length, ID, and encoding tables](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/47-write-address-channel-85.png)
+![Full-screen write-address waveform annotated with address, size, burst, length, ID, and encoding tables](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/47-write-address-channel-85.png)
 
 The `AW` channel carries **where** and **how** a full-AXI write will occur; it
 does not carry the write data itself. In the frame:
@@ -119,7 +117,7 @@ data beat and ordered responses.
 
 ### Video 48 - Understanding channel IDs
 
-![Full-screen comparison of non-pipelined and pipelined single-beat request/response timing](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/48-channel-ids-20.png)
+![Full-screen comparison of non-pipelined and pipelined single-beat request/response timing](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/48-channel-ids-20.png)
 
 Without pipelining, the requester waits for the response to address $a_0$
 before sending $a_1$. The link is simple but round-trip latency creates idle
@@ -127,7 +125,7 @@ cycles. With pipelining, the requester can issue $a_1$ before response $d_0$
 returns, increasing the number of outstanding transactions and improving
 throughput.
 
-![Full-screen pipelined waveform using request and response IDs to associate returned data](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/48-channel-ids-55.png)
+![Full-screen pipelined waveform using request and response IDs to associate returned data](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/48-channel-ids-55.png)
 
 IDs let full AXI associate a response with its originating request. `ARID` is
 returned as `RID`; `AWID` is returned as `BID`. A requester can therefore have
@@ -146,7 +144,7 @@ address request; pipelining keeps multiple distinct transactions outstanding.
 
 ### Video 49 - Understanding the write data channel
 
-![Full-screen write-data waveform with WVALID, WREADY, WDATA, WSTRB, WID, WLAST, byte lanes, and channel directions](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/49-write-data-channel-35.png)
+![Full-screen write-data waveform with WVALID, WREADY, WDATA, WSTRB, WID, WLAST, byte lanes, and channel directions](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/49-write-data-channel-35.png)
 
 Each write-data beat is accepted on:
 
@@ -168,8 +166,9 @@ The 32-bit `WDATA` bus is divided into four byte lanes:
 | `WSTRB[3]` | `WDATA[31:24]` |
 
 A strobe bit of `1` means that byte lane is valid for the write; `0` means the
-slave must not update that byte. During `WVALID && !WREADY`, `WDATA`, `WSTRB`,
-and `WLAST` must all remain stable.
+Subordinate must not update that byte. During `WVALID && !WREADY`, `WDATA` and
+`WSTRB` remain stable. Full AXI also holds `WLAST` with that stalled beat;
+AXI4-Lite has no `WLAST` signal.
 
 #### Worked partial-write example
 
@@ -210,7 +209,7 @@ write data follows the ordering rules associated with accepted write
 addresses. AXI4-Lite removes both `WID` and `WLAST`; it keeps only the one-beat
 `WDATA`/`WSTRB` payload and its `WVALID`/`WREADY` handshake.
 
-![Full-screen relationship among AWADDR, AWSIZE, AWBURST, AWLEN, four data beats, and burst encodings](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/49-write-data-channel-85.png)
+![Full-screen relationship among AWADDR, AWSIZE, AWBURST, AWLEN, four data beats, and burst encodings](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/49-write-data-channel-85.png)
 
 This final frame reconnects the data beats to their address command. `AWSIZE`
 sets bytes per beat, `AWLEN+1` sets the beat count, and `AWBURST` determines how
@@ -222,9 +221,7 @@ data transfer; byte-level partial updates still use `WSTRB`.
 
 For one AXI4-Lite write, the master may complete the AW handshake first, the W
 handshake first, or both on the same edge. The slave records whichever arrives
-and produces a write response only after it has accepted both pieces. The
-details of the `B` response channel begin in lesson 50 and are intentionally
-left for the next update.
+and produces a write response only after it has accepted both pieces.
 
 #### Hardware state implied by independent arrival
 
@@ -246,9 +243,133 @@ $$
 This expression covers all three legal orders: stored AW followed by W, stored
 W followed by AW, or both handshakes on the same edge. A design that commits
 only when `aw_fire && w_fire` is true in one cycle will lose or deadlock legal
-transactions whose two channels arrive separately. The later `B`-channel
-lesson will determine how and when these one-entry captures are released; that
-response behavior is deliberately not pre-empted here.
+transactions whose two channels arrive separately.
+
+### Video 50 - Understanding the write response channel
+
+![Original full-frame write response waveform and master/slave channel directions](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/050-understanding-write-response-channel-25.png)
+
+The upper waveform finishes the write transaction. The address and data have
+their own acceptance edges; the Subordinate then returns one `BRESP` value on
+the B channel. The response transfer is:
+
+$$
+\text{b\_fire}=\text{BVALID}\land\text{BREADY}
+$$
+
+The frame's direction arrows are the quickest ownership check:
+
+- the Subordinate drives `BVALID` and `BRESP`;
+- the Manager drives `BREADY`;
+- while `BVALID=1` and `BREADY=0`, the Subordinate must keep `BRESP` stable;
+- the response is complete only at a rising edge with `b_fire=1`.
+
+For a single-outstanding teaching slave, `BVALID` is raised only after both the
+AW and W handshakes have occurred. It must not be a one-cycle pulse: if the
+Manager is not ready, `BVALID` remains asserted. After `b_fire`, the slave can
+clear `BVALID`, release its captured address/data flags, and accept the next
+write according to its buffering policy.
+
+The B channel has no data payload. It reports the status of the completed write
+and, in full AXI, can return `BID`. AXI4-Lite has no IDs, so it contains only
+`BRESP`, `BVALID`, and `BREADY`.
+
+### Video 51 - The four response encodings
+
+![Original full-frame AXI response-code table, special-operation notes, and interface diagram](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/051-different-types-of-response-25.png)
+
+`BRESP[1:0]` and `RRESP[1:0]` use the same four encodings:
+
+- `2'b00`, **OKAY**: normal success, and also the response used for an
+  exclusive access that did not obtain exclusive success;
+- `2'b01`, **EXOKAY**: successful exclusive access;
+- `2'b10`, **SLVERR**: the addressed endpoint was reached but could not
+  complete the requested operation successfully;
+- `2'b11`, **DECERR**: no endpoint accepted the address, normally reported by
+  an interconnect decode path.
+
+The critical AXI4-Lite correction is that Lite does not support exclusive
+accesses, so `EXOKAY` is not a valid AXI4-Lite response. A Lite implementation
+uses `OKAY`, `SLVERR`, and `DECERR` as appropriate. Neither error code commands
+an automatic retry; retry, logging, exception handling, or software recovery
+is a system policy outside the handshake itself.
+
+The response must describe the exact accepted operation. A slave cannot change
+`BRESP` or `RRESP` while its corresponding `VALID` is stalled, and a checker or
+scoreboard should sample the response only on the relevant response-channel
+handshake.
+
+### Video 52 - Read address and read data channels, part 1
+
+![Original full-frame read-address and read-data waveforms beside the AXI master/slave diagram](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/052-understanding-read-address-and-data-channel-p1-25.png)
+
+The top half separates request from return data. The Manager offers the address
+on AR and the Subordinate returns data later on R:
+
+$$
+\text{ar\_fire}=\text{ARVALID}\land\text{ARREADY}
+$$
+
+$$
+\text{r\_fire}=\text{RVALID}\land\text{RREADY}
+$$
+
+On full AXI, the AR payload can include `ARID`, `ARLEN`, `ARSIZE`, `ARBURST`,
+`ARLOCK`, `ARCACHE`, `ARPROT`, `ARQOS`, `ARREGION`, and user-defined sideband
+bits. AXI4-Lite retains the single-beat request essentials: `ARADDR`, optional
+`ARPROT`, `ARVALID`, and `ARREADY`.
+
+Once `ar_fire` occurs, a simple slave captures the address or immediately
+decodes it. The read-data source must then assert `RVALID` when `RDATA` and
+`RRESP` are available; it must not wait for `RREADY` before asserting
+`RVALID`. If the Manager stalls, `RDATA`, `RRESP`, and any associated ID/last
+information remain stable until `r_fire`.
+
+### Video 53 - Read address and read data channels, part 2
+
+![Original full-frame completed AXI read waveform with request, data, response, ID, and last-beat timing](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/053-understanding-read-address-and-data-channel-p2-75.png)
+
+The completed waveform makes the burst distinction visible. One accepted AR
+command can produce several accepted R beats. In full AXI:
+
+- `RID` associates each returned beat with its request ID;
+- `RRESP` is carried on every read-data beat;
+- `RLAST` is asserted with the final beat of the burst;
+- every accepted beat advances only on `r_fire`, not merely because the clock
+  advanced.
+
+If the final beat stalls, `RLAST=1`, its `RDATA`, `RRESP`, and `RID` are one
+held payload. `RLAST` cannot be pulsed and withdrawn before acceptance.
+
+AXI4-Lite removes `RID`, `RLAST`, and all burst controls. One AR handshake
+corresponds to one R handshake. Because Lite has no IDs, a one-outstanding
+master is the natural teaching model; a more capable implementation can queue
+requests, but responses still obey the ordered Lite model.
+
+### Video 54 - The complete AXI4-Lite signal set
+
+![Original full-frame five-channel AXI4-Lite waveform and complete signal-direction reference](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/054-axi-lite-signals-75.png)
+
+This frame is the final cleanup pass. The interface has five independent
+channels but one common clock/reset domain:
+
+- **AW:** Manager drives address/protection/valid; Subordinate drives ready.
+- **W:** Manager drives data/strobes/valid; Subordinate drives ready.
+- **B:** Subordinate drives response/valid; Manager drives ready.
+- **AR:** Manager drives address/protection/valid; Subordinate drives ready.
+- **R:** Subordinate drives data/response/valid; Manager drives ready.
+
+The independence is channel-level, not transaction-level. A write still links
+one accepted AW item, one accepted W item, and one accepted B response. A read
+links one accepted AR item and one accepted R result. The implementation needs
+state that preserves those relationships across different cycle timings.
+
+`ACLK` samples all channel handshakes on rising edges. `ARESETn` is active LOW;
+interface `VALID` outputs must be deasserted during reset, and reset release
+must be synchronized to the clock. AXI4-Lite does not add burst length, burst
+type, ID, or last-beat ports. If those names appear in a supposed Lite module,
+recheck whether the module is really full AXI or whether unnecessary signals
+were copied from a template.
 
 ## Section 4 points to remember
 
@@ -262,6 +383,12 @@ response behavior is deliberately not pre-empted here.
 - `WID` is AXI3-only; `WLAST` exists in AXI4 full but not AXI4-Lite.
 - Pipelining means multiple outstanding transactions; bursting means multiple
   data beats controlled by one address request.
+- A write response is issued only after the write address and write data have
+  both been accepted.
+- `BRESP` and `RRESP` remain stable with their `VALID` signal during a stall.
+- AXI4-Lite does not support exclusive accesses, so it does not return
+  `EXOKAY`.
+- `RDATA`, `RRESP`, and `RVALID` belong to one held read-result payload.
 
 ## Active-recall checkpoint
 
@@ -276,5 +403,10 @@ response behavior is deliberately not pre-empted here.
    single-beat transactions?
 9. Which full-AXI signals disappear when the interface is reduced to
    AXI4-Lite?
+10. What two input handshakes must complete before a slave can issue `BVALID`?
+11. Why is `EXOKAY` not a valid AXI4-Lite response?
+12. Which block normally originates `DECERR`?
+13. What must remain stable while `RVALID=1` and `RREADY=0`?
+14. Why is `RLAST` absent from AXI4-Lite?
 
-[Return to the course hub](Course%20Atlas.md).
+[Continue to Section 5](Section%2005%20-%20AXI4-Lite%20Single%20Beat%20without%20Pipeline%20-%20Waveform%20Approach.md).

@@ -3,15 +3,18 @@
 [Back to AMBA](../README.md) | [Back to Protocols](../../README.md)
 
 This chapter starts AXI from the common `VALID`/`READY` transfer rule,
-specializes it for AXI-Stream, and then begins the memory-mapped AXI4-Lite
-path. The present stopping point is Namaste FPGA lesson
-**49. Understanding Write data channel**. Lessons 50 and later remain outside
-the revision boundary.
+specializes it for AXI-Stream and AXI4-Lite, then finishes with full AXI4 burst
+Managers and Subordinates. The Namaste FPGA course is complete through
+**128. TB Code**, with all nine sections verified at 100%.
 
 ## Learning layers
 
-- **Course layer:** the [section-organized course atlas](Course%20Atlas.md) is
-  complete through lesson 49.
+- **Course layer:** the [section-organized lecture index](Lectures/README.md)
+  and [cross-layer course atlas](Course%20Atlas.md) are complete through lesson
+  128.
+- **Instructor-code layer:** the [course-linked Code index](Code/README.md)
+  preserves the teaching modules and testbenches with explicit signal and
+  assumption comments.
 - **Handwritten layer:** [Kapil's AXI notes](Handwritten%20Notes.md) currently
   contain one fully solved round-robin fairness page.
 - **Authority layer:** the local
@@ -19,19 +22,21 @@ the revision boundary.
   governs streaming claims; the official Arm IHI 0022H source governs
   memory-mapped AXI4 and AXI4-Lite distinctions.
 
-Layer 1 is split into the instructor's top-level course sections and contains
-real frames from all 41 completed video lessons through Write Data Channel.
-Lessons 10, 22, 26, 28, 33, 38, 42, and 44 are code resources rather than
-videos. Layer 2 contains Kapil's first handwritten page and its verified
-fairness solution.
+Layer 1 is split into the instructor's nine top-level course sections and
+contains meaningful real frames for 104 of the 105 video lessons. Lesson 16's
+captured source moment was a blank slide transition, so its implementation-flow
+comparison is preserved as text instead of committing an uninformative image.
+The other 23 lessons are code resources. Lessons 50-128 add 123 untouched,
+original-source 1080p frames; no frame is cropped or resized. Layer 2 contains
+Kapil's first handwritten page and its verified fairness solution.
 
-The course layer contains verified, video-only full-screen frames for the
-handshake path, master/slave integration, round-robin logic, AXI-Stream
-arbiter, AXI-Stream FIFO, and the completed AXI4-Lite introduction. The
-[AXI-Stream standards audit](Section%2002%20-%20AXI-Stream%20Interface%20Fundamentals.md#arm-ihi-0051b-standards-audit)
-checks the lecture and teaching RTL against Arm IHI 0051B. Section 4 separately
-labels full-AXI, AXI3, and AXI4-Lite signals so the lecture diagrams are not
-mistaken for one interchangeable port list.
+The course layer contains verified frames for the handshake path,
+master/slave integration, AXI-Stream arbiters and FIFOs, complete AXI4-Lite
+read/write endpoints, protocol checking, GPIO, and full-AXI burst generation.
+The [AXI-Stream standards audit](Lectures/Section%2002%20-%20AXI-Stream%20Interface%20Fundamentals.md#arm-ihi-0051b-standards-audit)
+checks the lecture and teaching RTL against Arm IHI 0051B. The later lecture
+files separately label AXI3, AXI4, and AXI4-Lite signals and document every
+teaching-profile simplification beside the matching lesson.
 
 ## Where each AXI interface fits
 
@@ -143,8 +148,11 @@ zero-byte packet-ending event that must not be discarded.
   distinctions.
 - The [Namaste FPGA course page](https://namaste-fpga.com/student/learn/53)
   supplies lesson order, drawings, waveform examples, and teaching RTL through
-  lesson 49. The local [course atlas](Course%20Atlas.md) preserves the selected
+  lesson 128. The local [course atlas](Course%20Atlas.md) preserves the selected
   frames and their verified explanations.
+- The [AMD AXI Protocol Checker overview](https://docs.amd.com/r/en-US/pg101-axi-protocol-checker/Overview)
+  supports the checker integration and violation-reporting explanations in
+  Section 5.
 - The [AMD AXI DMA core overview](https://docs.amd.com/r/en-US/pg021_axi_dma/Core-Overview)
   supports the memory-mapped-to-stream and stream-to-memory-mapped DMA
   directions.
@@ -200,14 +208,13 @@ zero-byte packet-ending event that must not be discarded.
 - Why is `WID` an AXI3 signal rather than an AXI4-Lite signal?
 - Which `WSTRB` bit enables `WDATA[23:16]`?
 
-## Next additions
+## Further practice
 
 - Add later handwritten pages to Layer 2 and map each one to the matching video
   and protocol rule.
-- Begin **Understanding Write response channel** only after Kapil reaches
-  lesson 50 and asks to extend the current boundary.
-- Turn the teaching master/slave pair into a self-checking RTL exercise with
-  randomized stalls, inter-beat bubbles, assertions, and a scoreboard.
-- Turn the arbiter and FIFO demonstrations into protocol-hardened exercises
-  with randomized back-pressure, simultaneous FIFO push/pop, wraparound, and
-  end-to-end scoreboards.
+- Re-run the exact instructor testbenches with directed ready stalls and relate
+  every result to the corresponding lecture frame.
+- Add separate practice variants only outside the instructor-code folders so
+  the course implementation remains recognizable and directly comparable.
+- Extend scoreboards to derive FIXED, INCR, and WRAP address sequences and
+  check the 4-KiB boundary rule.

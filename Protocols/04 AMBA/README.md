@@ -15,8 +15,9 @@ names or transfer models.
 2. [APB](02%20APB/README.md) covers SETUP/ACCESS timing, wait states, error
    reporting, and the matching handwritten pages.
 3. [AXI](03%20AXI/README.md) covers interface selection, independent
-   `VALID`/`READY` channels, AXI-Stream signals and IP, then AXI4-Lite through
-   write-address and write-data lessons. The course boundary is lesson 49.
+   `VALID`/`READY` channels, AXI-Stream signals and IP, complete AXI4-Lite
+   endpoints and GPIO, protocol checking, and full-AXI FIXED/INCR/WRAP burst
+   implementations. The course is complete through lesson 128.
 
 ## Keep the names separate
 
@@ -48,7 +49,7 @@ first two iPad pages, so those duplicates are preserved in the source folder
 but are not repeated in the learning atlases. This accounts for all 38 source
 PDF pages and 35 unique instructional pages.
 
-## Planned growth
+## Current AXI layout
 
 ```text
 04 AMBA/
@@ -64,10 +65,13 @@ PDF pages and 35 unique instructional pages.
     |-- README.md
     |-- Course Atlas.md
     |-- Handwritten Notes.md
-    |-- Section 01 - Introduction to AXI.md
-    |-- Section 02 - AXI-Stream Interface Fundamentals.md
-    |-- Section 03 - AXI-Stream IPs.md
-    `-- Section 04 - Getting Started with AXI4-Lite.md
+    |-- Lectures/
+    |   |-- Section 01 - Introduction to AXI.md
+    |   |-- ...
+    |   `-- Section 09 - AXI4 Full - Burst-Based Address Generation.md
+    `-- Code/
+        |-- README.md
+        `-- Section 01 ... Section 09 lesson-linked RTL and testbenches
 ```
 
 The corresponding specifications and images are centralized under the

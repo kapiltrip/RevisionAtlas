@@ -33,20 +33,26 @@ usable hardware reasoning.
   pointers, flags, simultaneous operations, verification, and the path from a
   synchronous FIFO to an asynchronous CDC-safe design.
 
-## Current AXI course boundary
+## Complete AXI course atlas
 
 The [AXI chapter](Protocols/04%20AMBA/03%20AXI/README.md) is organized by the
-course's actual sections. Its video layer is complete through lesson **49,
-Understanding Write data channel**:
+course's actual sections and is complete through lesson **128, TB Code**:
 
 - Section 1: 10/10 lessons;
 - Section 2: 18/18 lessons;
 - Section 3: 16/16 lessons;
-- Section 4: 5/10 lessons, stopped deliberately before lesson 50.
+- Section 4: 10/10 lessons;
+- Section 5: 30/30 lessons;
+- Section 6: 9/9 lessons;
+- Section 7: 7/7 lessons;
+- Section 8: 12/12 lessons;
+- Section 9: 16/16 lessons.
 
 Every saved course frame is followed by the relevant mechanism, protocol rule,
-implementation consequence, correction, or verification check. The new
-captures through lesson 49 are true 1535 x 686 full-screen video frames.
+implementation consequence, correction, or verification check. Lessons 50-128
+add 123 untouched original-source frames at 1080p; none are cropped or resized.
+Lecture notes live under `Lectures/`, and exact instructor-linked RTL and
+testbench material is indexed separately under `Code/`.
 
 ## How the repository is organized
 

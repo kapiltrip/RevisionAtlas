@@ -1,6 +1,6 @@
 # Section 1 - Introduction to AXI
 
-[Course hub](Course%20Atlas.md) | [AXI chapter](README.md) | [Next: Section 2](Section%2002%20-%20AXI-Stream%20Interface%20Fundamentals.md)
+[Course hub](../Course%20Atlas.md) | [AXI chapter](../README.md) | [Next: Section 2](Section%2002%20-%20AXI-Stream%20Interface%20Fundamentals.md)
 
 **Course status:** 10/10 lessons complete. Videos 1-9 are explained below; lesson 10 is the matching code resource.
 
@@ -13,7 +13,7 @@ Lesson 10 is the matching code resource rather than a separate video.
 
 ### Video 1 - Agenda
 
-![Agenda listing AXI interface types and the valid-ready implementation](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/01-agenda-50.png)
+![Agenda listing AXI interface types and the valid-ready implementation](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/01-agenda-50.png)
 
 The agenda has two branches. The first asks which AXI interface matches an
 application. The second asks how all AXI channels move information safely.
@@ -41,14 +41,14 @@ technology?
 
 ### Video 2 - Use cases of the AXI interfaces
 
-![AXI family comparison and ADC-to-FIR signal-processing path](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/02-axi-family-use-cases-30.png)
+![AXI family comparison and ADC-to-FIR signal-processing path](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/02-axi-family-use-cases-30.png)
 
 The right side shows the cleanest AXI-Stream mental model: samples leave an ADC,
 enter an FIR filter, and continue in one direction. The filter does not need a
 new destination address with every sample. It needs the next sample plus a way
 to pause the producer if its pipeline cannot accept one.
 
-![Processor, register peripheral, and the AXI family selection table](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/02-axi-family-use-cases-72.png)
+![Processor, register peripheral, and the AXI family selection table](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/02-axi-family-use-cases-72.png)
 
 The processor-to-peripheral drawing represents a different problem. A processor
 must identify *which* peripheral register to access and whether it is reading or
@@ -74,11 +74,11 @@ set.
 
 ### Video 3 - Interface pins
 
-![Lecture comparison of the AXI-Stream, AXI4-Lite, and AXI4 signal groups](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/03-interface-pins-28.png)
+![Lecture comparison of the AXI-Stream, AXI4-Lite, and AXI4 signal groups](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/03-interface-pins-28.png)
 
-![Expanded AXI4 signal-group comparison](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/03-interface-pins-72.png)
+![Expanded AXI4 signal-group comparison](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/03-interface-pins-72.png)
 
-![Fullscreen interface-pin comparison without the course sidebar or player controls](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/03-interface-pins-fullscreen.png)
+![Fullscreen interface-pin comparison without the course sidebar or player controls](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/03-interface-pins-fullscreen.png)
 
 The growing blocks in the frames are directionally correct: AXI-Stream can be
 very small, AXI4-Lite adds five memory-mapped channels, and AXI4 adds burst,
@@ -102,14 +102,14 @@ properties and signal widths.
 
 ### Video 4 - Simple memory versus AXI memory
 
-![Simple memory drawing and the four missing-control questions](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/04-simple-vs-axi-memory-30.png)
+![Simple memory drawing and the four missing-control questions](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/04-simple-vs-axi-memory-30.png)
 
 The whiteboard lists four questions: when write/read data is valid, when an
 address is valid, whether an update succeeded, and whether the target can accept
 work. A bare address/data bundle does not answer them. It needs an external
 timing convention or explicit controls.
 
-![Five AXI memory-mapped channels with separate timing waveforms](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/04-simple-vs-axi-memory-72.png)
+![Five AXI memory-mapped channels with separate timing waveforms](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/04-simple-vs-axi-memory-72.png)
 
 AXI solves the interface problem with five independent channels:
 
@@ -149,11 +149,11 @@ automatically reissues the transaction.
 
 ### Video 5 - Understanding `VALID`/`READY`
 
-![Source-to-destination valid-ready waveform beside the Arm rule excerpt](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/05-handshake-fundamentals-30.png)
+![Source-to-destination valid-ready waveform beside the Arm rule excerpt](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/05-handshake-fundamentals-30.png)
 
-![Three legal relative timings for valid and ready](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/05-handshake-fundamentals-72.png)
+![Three legal relative timings for valid and ready](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/05-handshake-fundamentals-72.png)
 
-![Fullscreen valid-ready timing and the three handshake rules](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/05-handshake-fullscreen.png)
+![Fullscreen valid-ready timing and the three handshake rules](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/05-handshake-fullscreen.png)
 
 The first frame connects the abstract words to pins. The source drives the
 information and `VALID`; the destination drives `READY` in the opposite
@@ -176,11 +176,11 @@ effect of the transfer, not a second transfer.
 
 ### Video 6 - `VALID`/`READY` rules
 
-![Handshake rule slide with the source and destination waveform](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/06-handshake-rules-28.png)
+![Handshake rule slide with the source and destination waveform](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/06-handshake-rules-28.png)
 
-![Ready-before-valid, valid-before-ready, and simultaneous cases](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/06-handshake-rules-72.png)
+![Ready-before-valid, valid-before-ready, and simultaneous cases](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/06-handshake-rules-72.png)
 
-![Fullscreen handshake-rule frame with source and destination ownership](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/06-handshake-rules-fullscreen.png)
+![Fullscreen handshake-rule frame with source and destination ownership](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/06-handshake-rules-fullscreen.png)
 
 The frames show three legal orderings:
 
@@ -208,11 +208,11 @@ Use this implementation checklist:
 
 ### Video 7 - Handshake RTL part 1
 
-![Two-state source flowchart beside the initial Verilog](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/07-handshake-rtl-p1-20.png)
+![Two-state source flowchart beside the initial Verilog](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/07-handshake-rtl-p1-20.png)
 
-![Source reset and new-data state logic](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/07-handshake-rtl-p1-50.png)
+![Source reset and new-data state logic](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/07-handshake-rtl-p1-50.png)
 
-![Wait-for-receiver state holding valid until ready](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/07-handshake-rtl-p1-82.png)
+![Wait-for-receiver state holding valid until ready](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/07-handshake-rtl-p1-82.png)
 
 The source FSM has a “new data” state and a “wait for slave” state. When data is
 available, it loads `M_data`, asserts `M_valid`, and moves to the waiting state.
@@ -234,11 +234,11 @@ change `M_data` or deassert `M_valid`.
 
 ### Video 8 - Handshake RTL part 2
 
-![Receiver flowchart: ready, wait for valid, and receive](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/08-handshake-rtl-p2-20.png)
+![Receiver flowchart: ready, wait for valid, and receive](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/08-handshake-rtl-p2-20.png)
 
-![Receiver wait-for-data state and data capture](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/08-handshake-rtl-p2-52.png)
+![Receiver wait-for-data state and data capture](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/08-handshake-rtl-p2-52.png)
 
-![Receiver process-data state returning to readiness](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/08-handshake-rtl-p2-84.png)
+![Receiver process-data state returning to readiness](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/08-handshake-rtl-p2-84.png)
 
 The Receiver raises `S_ready` while it has storage, waits for `M_valid`, captures
 `M_data`, lowers ready while “processing,” and later returns to the ready state.
@@ -258,11 +258,11 @@ registered FSM may lower `READY` for the following cycle.
 
 ### Video 9 - Verifying the handshake
 
-![Simulation during reset and the first ready state](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/09-verify-handshake-18.png)
+![Simulation during reset and the first ready state](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/09-verify-handshake-18.png)
 
-![Waveform where valid and ready overlap for acceptance](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/09-verify-handshake-52.png)
+![Waveform where valid and ready overlap for acceptance](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/09-verify-handshake-52.png)
 
-![Post-edge Receiver data update in the verification waveform](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/09-verify-handshake-84.png)
+![Post-edge Receiver data update in the verification waveform](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/09-verify-handshake-84.png)
 
 Read the waveform from left to right:
 
@@ -321,4 +321,4 @@ screenshots:
    update of a destination register?
 10. Why do `SLVERR` and `DECERR` not mean “empty memory” or automatic retry?
 
-[Return to the course hub](Course%20Atlas.md).
+[Return to the course hub](../Course%20Atlas.md).

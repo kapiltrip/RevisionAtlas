@@ -10,7 +10,7 @@ beside the original question.
 
 - One handwritten page is present; its original image is preserved below.
 - The page maps directly to
-  [Video 31 — Round-robin arbiter part 2](Section%2003%20-%20AXI-Stream%20IPs.md#video-31---round-robin-arbiter-part-2).
+  [Video 31 — Round-robin arbiter part 2](Lectures/Section%2003%20-%20AXI-Stream%20IPs.md#video-31---round-robin-arbiter-part-2).
 - Any later AXI-Stream claim will be checked against
   [Arm IHI 0051B](../../../_internal/Protocols/04%20AMBA/03%20AXI/sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf).
 
@@ -167,8 +167,8 @@ priority for the next grant.
 
 ## Current boundary
 
-The course layer currently ends at **49. Understanding Write data channel**.
-Sections 1-3 are complete, and Section 4 is documented through its fifth
-lesson. This handwritten layer currently has one page mapped to Video 31;
-future handwritten arbiter, FIFO, or AXI4-Lite pages should be linked to their
-matching section file without extending beyond the live course boundary.
+The course layer is complete through **128. TB Code**, and all nine lecture
+sections live under [Lectures](Lectures). This handwritten layer currently has
+one page mapped to Video 31. Future handwritten arbiter, FIFO, AXI4-Lite, GPIO,
+or burst pages should link to the exact matching lesson without changing the
+completed course sequence.

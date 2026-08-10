@@ -1,6 +1,6 @@
 # Section 2 - AXI-Stream Interface Fundamentals
 
-[Previous: Section 1](Section%2001%20-%20Introduction%20to%20AXI.md) | [Course hub](Course%20Atlas.md) | [Next: Section 3](Section%2003%20-%20AXI-Stream%20IPs.md)
+[Previous: Section 1](Section%2001%20-%20Introduction%20to%20AXI.md) | [Course hub](../Course%20Atlas.md) | [Next: Section 3](Section%2003%20-%20AXI-Stream%20IPs.md)
 
 **Course status:** 18/18 lessons complete (lessons 11-28).
 
@@ -12,7 +12,7 @@ integration, and standards-audit material together. Code-resource lessons 22,
 
 ### Video 11 - AXI-Stream agenda
 
-![Agenda for signals, AXI-Stream transactions, and master/slave RTL](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/11-agenda.png)
+![Agenda for signals, AXI-Stream transactions, and master/slave RTL](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/11-agenda.png)
 
 The second-section agenda moves from vocabulary to hardware in three steps:
 identify the signals, understand write/read-style stream movement, and then
@@ -27,11 +27,11 @@ for arbitrary Receiver back-pressure before another RTL block is connected.
 
 ### Video 12 - Typical signals part 1
 
-![AXI-Stream waveforms and the first half of the official signal table](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/12-typical-signals-p1-25.png)
+![AXI-Stream waveforms and the first half of the official signal table](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/12-typical-signals-p1-25.png)
 
-![Signal table with stream identifiers, destination, user, and wake-up context](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/12-typical-signals-p1-75.png)
+![Signal table with stream identifiers, destination, user, and wake-up context](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/12-typical-signals-p1-75.png)
 
-![Fullscreen signal-table frame showing TID, TDEST, TUSER, and TWAKEUP](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/12-typical-signals-fullscreen.png)
+![Fullscreen signal-table frame showing TID, TDEST, TUSER, and TWAKEUP](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/12-typical-signals-fullscreen.png)
 
 The left side of the frames shows `TVALID`, `TREADY`, `TDATA`, `TKEEP`, and
 `TLAST` changing together as one transfer bundle. The right side anchors the
@@ -52,7 +52,7 @@ The lecture says `TWAKEUP` is outside AXI-Stream. The version distinction is:
 AXI4-Stream Issue A has no `TWAKEUP`; AXI5-Stream Issue B adds it as an optional
 wake-up signal. It indicates interface-associated activity and must not be
 treated as another transfer handshake. This history is stated in
-[Arm IHI 0051B](../../../_internal/Protocols/04%20AMBA/03%20AXI/sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf).
+[Arm IHI 0051B](../../../../_internal/Protocols/04%20AMBA/03%20AXI/sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf).
 
 The small-print rules are also important. `TWAKEUP` must be glitch-free, may
 assert before or after `TVALID`, and is recommended at least one cycle before
@@ -64,11 +64,11 @@ can deadlock the interface. These rules apply only when the AXI5-Stream
 
 ### Video 13 - Typical signals part 2
 
-![Eight byte lanes with TKEEP qualification and the Arm qualifier text](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/13-typical-signals-p2-30.png)
+![Eight byte lanes with TKEEP qualification and the Arm qualifier text](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/13-typical-signals-p2-30.png)
 
-![Position-byte example and the relationship between TKEEP and TSTRB](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/13-typical-signals-p2-72.png)
+![Position-byte example and the relationship between TKEEP and TSTRB](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/13-typical-signals-p2-72.png)
 
-![Fullscreen TKEEP and TSTRB truth table beside the lecture padding example](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/13-byte-qualifiers-fullscreen.png)
+![Fullscreen TKEEP and TSTRB truth table beside the lecture padding example](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/13-byte-qualifiers-fullscreen.png)
 
 Each qualifier bit maps to exactly one byte lane:
 
@@ -105,11 +105,11 @@ FPGA streams expose `TKEEP` but not `TSTRB`.
 
 ### Video 14 - AXI-Stream use cases
 
-![Five-channel memory-mapped AXI compared with a one-way stream path](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/14-use-cases-45.png)
+![Five-channel memory-mapped AXI compared with a one-way stream path](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/14-use-cases-45.png)
 
-![Lecture use-case slide showing the ADC, camera, audio, DMA, DDR, generator, and FIFO paths](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/14-use-cases-pipelines-context.png)
+![Lecture use-case slide showing the ADC, camera, audio, DMA, DDR, generator, and FIFO paths](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/14-use-cases-pipelines-context.png)
 
-![Fullscreen AXI-Stream use cases with only the video frame visible](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/14-use-cases-fullscreen.png)
+![Fullscreen AXI-Stream use cases with only the video frame visible](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/14-use-cases-fullscreen.png)
 
 The first frame explains **why AXI-Stream exists**. Memory-mapped AXI carries an
 address because a requester can choose among many memory locations or
@@ -305,9 +305,9 @@ means**.
 
 ### Video 15 - AXI-Stream transactions
 
-![DSP, camera, audio, and FIFO stream paths beside the minimal signal set](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/15-transactions-28.png)
+![DSP, camera, audio, and FIFO stream paths beside the minimal signal set](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/15-transactions-28.png)
 
-![Minimal transaction path and the continuously ready packet waveform](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/15-transactions-72.png)
+![Minimal transaction path and the continuously ready packet waveform](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/15-transactions-72.png)
 
 The minimal packet example transfers $D_0$, $D_1$, $D_2$, and $D_3$. When the
 Receiver keeps `TREADY=1`, the Transmitter can maintain `TVALID=1` and present a
@@ -355,9 +355,9 @@ in several internal protocols.
 
 ### Video 17 - Waveforms part 1
 
-![AXI-Stream master ports above three valid-ready timing scenarios](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/17-waveform-p1-30.png)
+![AXI-Stream master ports above three valid-ready timing scenarios](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/17-waveform-p1-30.png)
 
-![Master output bundle and the delayed-ready portions of the waveform](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/17-waveform-p1-72.png)
+![Master output bundle and the delayed-ready portions of the waveform](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/17-waveform-p1-72.png)
 
 The module boundary makes ownership explicit:
 
@@ -381,9 +381,9 @@ The third case is the best check for a broken master. A design that generates
 
 ### Video 18 - Waveforms part 2
 
-![Complete three-case waveform with the no-back-pressure packet first](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/18-waveform-p2-30.png)
+![Complete three-case waveform with the no-back-pressure packet first](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/18-waveform-p2-30.png)
 
-![No-back-pressure trace reaching the final D3 and TLAST beat](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/18-waveform-p2-75.png)
+![No-back-pressure trace reaching the final D3 and TLAST beat](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/18-waveform-p2-75.png)
 
 This lesson traces the first case in detail. After reset is released, the source
 enters its transmit phase, raises `TVALID`, and presents $D_0$. Because
@@ -410,13 +410,13 @@ the packet end only when that transfer is accepted, not merely when it observes
 
 ### Video 19 - Waveforms part 3
 
-![Middle-of-packet stall beginning on D2](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/19-waveform-p3-22.png)
+![Middle-of-packet stall beginning on D2](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/19-waveform-p3-22.png)
 
-![D2 held across back-pressure until ready returns](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/19-waveform-p3-50.png)
+![D2 held across back-pressure until ready returns](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/19-waveform-p3-50.png)
 
-![Final D3 and TLAST held together during the last-beat stall](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/19-waveform-p3-80.png)
+![Final D3 and TLAST held together during the last-beat stall](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/19-waveform-p3-80.png)
 
-![Fullscreen three-packet waveform with no stall, middle stall, and final-beat stall](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/19-waveforms-fullscreen.png)
+![Fullscreen three-packet waveform with no stall, middle stall, and final-beat stall](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/19-waveforms-fullscreen.png)
 
 The middle-stall trace is:
 
@@ -441,13 +441,13 @@ bundle includes any implemented `TKEEP`, `TSTRB`, `TID`, `TDEST`, and `TUSER`.
 
 ### Video 20 - Building the AXI-Stream master
 
-![Master ports and the ready/last flowchart](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/20-building-master-18.png)
+![Master ports and the ready/last flowchart](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/20-building-master-18.png)
 
-![TX-state next-state logic checking ready and the final count](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/20-building-master-52.png)
+![TX-state next-state logic checking ready and the final count](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/20-building-master-52.png)
 
-![Synchronous state register and handshake-gated count logic](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/20-building-master-84.png)
+![Synchronous state register and handshake-gated count logic](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/20-building-master-84.png)
 
-![Fullscreen AXIS master next-state RTL around the ready-gated transmit state](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/20-building-master-fullscreen.png)
+![Fullscreen AXIS master next-state RTL around the ready-gated transmit state](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/20-building-master-fullscreen.png)
 
 The design sends a fixed four-beat packet. It uses two states:
 
@@ -509,7 +509,7 @@ general AXI-Stream limitations.
 
 ### Video 21 - Verifying the master
 
-![Fullscreen master testbench stimulus loop](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/21-verify-master-testbench-fullscreen.png)
+![Fullscreen master testbench stimulus loop](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/21-verify-master-testbench-fullscreen.png)
 
 The testbench holds active-LOW reset for ten rising edges, raises
 `m_axis_tready`, asserts `newd`, chooses a random eight-bit `din`, and waits for
@@ -530,7 +530,7 @@ Because `TDATA` is eight bits, multiplication wraps modulo $2^8$ if the result
 exceeds 255. That wrap is ordinary Verilog width truncation, not an
 AXI-Stream rule.
 
-![Fullscreen master waveform with repeated four-beat packets](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/21-verify-master-waveform-fullscreen.png)
+![Fullscreen master waveform with repeated four-beat packets](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/21-verify-master-waveform-fullscreen.png)
 
 Read the waveform from handshake edges rather than from the width of the green
 regions. With the testbench holding `m_axis_tready=1`, every rising edge with
@@ -683,7 +683,7 @@ $\{0,din,2din,3din\}$ or that the held beat remains stable during a stall.
 
 ### Video 23 - Building the slave part 1
 
-![Fullscreen comparison of master/slave ports and the Receiver flowchart](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/23-building-slave-p1-18.png)
+![Fullscreen comparison of master/slave ports and the Receiver flowchart](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/23-building-slave-p1-18.png)
 
 The slave is the AXI-Stream **Receiver**. Signal ownership reverses across the
 link, not the meaning of the signals:
@@ -710,9 +710,9 @@ must lower `TREADY` before its storage becomes full.
 
 ### Video 24 - Building the slave part 2
 
-![Fullscreen slave state register and next-state decoder](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/24-building-slave-p2-18.png)
+![Fullscreen slave state register and next-state decoder](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/24-building-slave-p2-18.png)
 
-![Fullscreen store-state conditions beside the Receiver flowchart](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/24-building-slave-p2-fsm-fullscreen.png)
+![Fullscreen store-state conditions beside the Receiver flowchart](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/24-building-slave-p2-fsm-fullscreen.png)
 
 The teaching Receiver uses `idle` and `store` states. An encoded `last_byte`
 state is declared but never used. In `idle`, observing `TVALID=1` schedules
@@ -766,14 +766,14 @@ an unaccepted or invalid bus value as data.
 
 ### Video 25 - Verifying the slave
 
-![Fullscreen supplied slave-testbench stimulus](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/25-verify-slave-18.png)
+![Fullscreen supplied slave-testbench stimulus](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/25-verify-slave-18.png)
 
 The testbench raises `TVALID` and changes `TDATA` on every loop iteration. The
 instructor then correctly identifies the resulting first-cycle violation:
 `TREADY` is LOW, yet the stimulus moves to another `TDATA` value. A legal
 Transmitter must hold the offered beat until the Receiver accepts it.
 
-![Fullscreen slave waveform ending the packet and returning to idle](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/25-verify-slave-waveform-fullscreen.png)
+![Fullscreen slave waveform ending the packet and returning to idle](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/25-verify-slave-waveform-fullscreen.png)
 
 The visible state transition after the final beat is correct only because
 `store` implies `TREADY=1`. The decisive edge satisfies all three terms:
@@ -927,7 +927,7 @@ teaching Receiver, not yet a reusable data-processing endpoint.
 
 ### Video 27 - Connecting master and slave
 
-![Fullscreen elaborated master-to-slave wiring beside the top-level RTL](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/27-connect-master-slave-18.png)
+![Fullscreen elaborated master-to-slave wiring beside the top-level RTL](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/27-connect-master-slave-18.png)
 
 The top module connects one shared clock and reset to both endpoints. Four
 internal nets form the stream link:
@@ -951,7 +951,7 @@ port order remains exactly unchanged. Named connections are safer because a
 future port insertion cannot silently swap `TREADY`, `TVALID`, `TDATA`, or
 `TLAST`.
 
-![Fullscreen integrated master/slave waveform with repeated packets](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/27-connect-master-slave-waveform-fullscreen.png)
+![Fullscreen integrated master/slave waveform with repeated packets](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/27-connect-master-slave-waveform-fullscreen.png)
 
 For a command value $din=7$, the master offers $0,7,14,21$ and asserts `TLAST`
 with 21. For $din=10$, it offers $0,10,20,30$. Those are four **eight-bit
@@ -1056,14 +1056,14 @@ ports. This adds no hardware; it prevents connection-order bugs.
 
 This second-pass audit checks the lecture interpretation and sample master
 against the small-print requirements in the local
-[Arm IHI 0051B specification](../../../_internal/Protocols/04%20AMBA/03%20AXI/sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf).
+[Arm IHI 0051B specification](../../../../_internal/Protocols/04%20AMBA/03%20AXI/sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf).
 “Master” and “slave” are retained when discussing the course RTL port names;
 the Issue B specification uses **Transmitter** and **Receiver**.
 
 ### Interface shape and optional-signal details
 
 The signal list and default rules are in
-[sections 2.1 and 3.1](../../../_internal/Protocols/04%20AMBA/03%20AXI/sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf#page=16).
+[sections 2.1 and 3.1](../../../../_internal/Protocols/04%20AMBA/03%20AXI/sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf#page=16).
 
 | Minor standard rule | Consequence for design and waveform reading |
 |---|---|
@@ -1078,7 +1078,7 @@ The signal list and default rules are in
 ### Handshake, clock, and reset details
 
 These rules come from
-[sections 2.2 and 2.8](../../../_internal/Protocols/04%20AMBA/03%20AXI/sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf#page=18).
+[sections 2.2 and 2.8](../../../../_internal/Protocols/04%20AMBA/03%20AXI/sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf#page=18).
 
 | Minor standard rule | Consequence for the course waveforms and RTL |
 |---|---|
@@ -1094,9 +1094,9 @@ These rules come from
 ### Byte, packet, conversion, and ordering details
 
 The relevant clauses are
-[sections 2.4-2.7](../../../_internal/Protocols/04%20AMBA/03%20AXI/sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf#page=21)
+[sections 2.4-2.7](../../../../_internal/Protocols/04%20AMBA/03%20AXI/sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf#page=21)
 and
-[chapter 4](../../../_internal/Protocols/04%20AMBA/03%20AXI/sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf#page=40).
+[chapter 4](../../../../_internal/Protocols/04%20AMBA/03%20AXI/sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf#page=40).
 
 | Minor standard rule | Consequence for a real stream path |
 |---|---|

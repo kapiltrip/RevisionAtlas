@@ -1,6 +1,6 @@
 # Section 3 - Using AXI-Stream to Build IP
 
-[Previous: Section 2](Section%2002%20-%20AXI-Stream%20Interface%20Fundamentals.md) | [Course hub](Course%20Atlas.md) | [Next: Section 4](Section%2004%20-%20Getting%20Started%20with%20AXI4-Lite.md)
+[Previous: Section 2](Section%2002%20-%20AXI-Stream%20Interface%20Fundamentals.md) | [Course hub](../Course%20Atlas.md) | [Next: Section 4](Section%2004%20-%20Getting%20Started%20with%20AXI4-Lite.md)
 
 **Course status:** 16/16 lessons complete (lessons 29-44).
 
@@ -13,7 +13,7 @@ that establish their behavior.
 
 ### Video 29 - Section 3 agenda
 
-![Fullscreen Section 3 agenda: round-robin arbiter, AXIS arbiter, and AXIS FIFO](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/29-section3-agenda-18.png)
+![Fullscreen Section 3 agenda: round-robin arbiter, AXIS arbiter, and AXIS FIFO](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/29-section3-agenda-18.png)
 
 This agenda is the transition from interface fundamentals to reusable stream
 IP. It previews three related but distinct components:
@@ -31,7 +31,7 @@ from their actual frames.
 
 ### Video 30 - Round-robin arbiter part 1
 
-![Fullscreen two-request timing example and round-robin decision flow](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/30-round-robin-p1-concept-fullscreen.png)
+![Fullscreen two-request timing example and round-robin decision flow](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/30-round-robin-p1-concept-fullscreen.png)
 
 This lesson deliberately starts with a plain request/grant arbiter, not yet an
 AXI-Stream interface. There are two requesters, `req1` and `req2`, and two
@@ -71,7 +71,7 @@ handshake event and must rotate only when service actually completes.
 
 ### Video 31 - Round-robin arbiter part 2
 
-![Fullscreen next-state RTL beside the round-robin flowchart](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/31-round-robin-p2-fullscreen.png)
+![Fullscreen next-state RTL beside the round-robin flowchart](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/31-round-robin-p2-fullscreen.png)
 
 The FSM is a Moore machine: `gnt1` and `gnt2` depend only on the registered
 state. The three state meanings are:
@@ -106,7 +106,7 @@ has just received service. The order of an `if`/`else if` chain is therefore
 hardware priority, not cosmetic source-code ordering.
 
 This is the direct solution to the question on the
-[handwritten fairness page](Handwritten%20Notes.md#page-1---why-does-s1-check-req2-first).
+[handwritten fairness page](../Handwritten%20Notes.md#page-1---why-does-s1-check-req2-first).
 
 #### Reset and decoder details
 
@@ -123,7 +123,7 @@ zero in `s1` is simply a narration slip—the code and state meaning are clear.
 
 ### Video 32 - Round-robin arbiter part 3
 
-![Fullscreen round-robin testbench stimulus sequence](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/32-round-robin-p3-testbench-fullscreen.png)
+![Fullscreen round-robin testbench stimulus sequence](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/32-round-robin-p3-testbench-fullscreen.png)
 
 The supplied testbench covers three scenarios in order:
 
@@ -308,7 +308,7 @@ details are the subject of lessons 34-44 below.
 
 ### Video 34 - Implementing AXIS arbiter part 1
 
-![Full-screen AXI-Stream arbiter architecture, input packets, output packet, and interface ports](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/34-axis-arbiter-p1-overview-fullscreen.jpg)
+![Full-screen AXI-Stream arbiter architecture, input packets, output packet, and interface ports](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/34-axis-arbiter-p1-overview-fullscreen.jpg)
 
 The frame combines the complete problem statement. Two AXI-Stream
 Transmitters, `axis_m1` and `axis_m2`, feed one Receiver through `axis_arb`.
@@ -344,7 +344,7 @@ beat can remain stalled for many cycles.
 
 ### Video 35 - Implementing AXIS arbiter part 2
 
-![Full-screen request timing and three-state packet-arbiter flowchart](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/35-axis-arbiter-p2-25.png)
+![Full-screen request timing and three-state packet-arbiter flowchart](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/35-axis-arbiter-p2-25.png)
 
 The flowchart reuses `idle`, `s1`, and `s2`, but the meaning is now stronger
 than a one-cycle request grant. `s1` means source 1 owns the output path;
@@ -353,7 +353,7 @@ one that did not just finish. The source must remain owner across every stall
 and every interior packet beat, otherwise the downstream Receiver could see
 one packet assembled from two unrelated inputs.
 
-![Full-screen arbiter RTL showing idle selection and the start of state s1](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/35-axis-arbiter-p2-65.png)
+![Full-screen arbiter RTL showing idle selection and the start of state s1](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/35-axis-arbiter-p2-65.png)
 
 The visible `idle` branch chooses source 1 first when both are available,
 captures its data and `TLAST`, and moves to `s1`; the source-2 path is the
@@ -369,7 +369,7 @@ if (select_s1 && s1_axis_tvalid && m_axis_tready && s1_axis_tlast)
 The explicit `s1_axis_tvalid` term prevents an old or don't-care `TLAST` value
 from ending ownership when no beat is being offered.
 
-![Full-screen arbiter RTL showing the complete s1 and s2 packet-selection branches](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/35-axis-arbiter-p2-88.png)
+![Full-screen arbiter RTL showing the complete s1 and s2 packet-selection branches](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/35-axis-arbiter-p2-88.png)
 
 The last frame shows the mirrored `s1` and `s2` branches. Symmetry matters:
 each state must hold itself while its selected source still owns an
@@ -380,7 +380,7 @@ long or the downstream Receiver is applying back-pressure.
 
 ### Video 36 - Implementing AXIS arbiter part 3
 
-![Full-screen final arbiter state logic and output assignments](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/36-axis-arbiter-p3-25.png)
+![Full-screen final arbiter state logic and output assignments](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/36-axis-arbiter-p3-25.png)
 
 The final RTL frame brings the state machine and output decoder together. The
 registered state stores ownership; the output logic selects data and `TLAST`.
@@ -396,7 +396,7 @@ AXI-Stream stability rule. Changing `next_state` during a stall would change
 the mux input and violate the downstream channel even if both sources are
 individually compliant.
 
-![Full-screen arbiter output decoder for data, last, and valid](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/36-axis-arbiter-p3-65.png)
+![Full-screen arbiter output decoder for data, last, and valid](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/36-axis-arbiter-p3-65.png)
 
 #### Important protocol correction
 
@@ -420,7 +420,7 @@ still fails as soon as `m_axis_tready` goes LOW.
 
 ### Video 37 - Verifying the AXI-Stream arbiter
 
-![Full-screen arbiter testbench with reset, randomized data, source valid, source last, and downstream ready](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/37-verify-axis-arbiter-25.png)
+![Full-screen arbiter testbench with reset, randomized data, source valid, source last, and downstream ready](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/37-verify-axis-arbiter-25.png)
 
 The testbench enables source 1, randomizes both data inputs, marks packet ends,
 and keeps `m_axis_tready=1` for the illustrated run. It exercises source
@@ -428,7 +428,7 @@ selection and packet order, but constant ready removes the hardest protocol
 case. A stronger test must independently randomize downstream back-pressure
 and must freeze each source's complete beat whenever its own `TREADY` is LOW.
 
-![Full-screen Vivado waveform showing source packets, output data, TLAST, state, and registered payload](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/37-verify-axis-arbiter-65.png)
+![Full-screen Vivado waveform showing source packets, output data, TLAST, state, and registered payload](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/37-verify-axis-arbiter-65.png)
 
 The waveform shows `state` moving through `idle`, `s1`, and `s2`, while the
 output data follows one input packet at a time. Read it by marking only rising
@@ -455,7 +455,7 @@ sideband through the same selection as `TDATA`.
 
 ### Video 39 - Implementing AXI-Stream FIFO part 1
 
-![Full-screen FIFO module ports, payload memories, pointers, flags, and occupancy counter](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/39-axis-fifo-p1-20.png)
+![Full-screen FIFO module ports, payload memories, pointers, flags, and occupancy counter](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/39-axis-fifo-p1-20.png)
 
 The FIFO interface stores more than `TDATA`. The visible design has separate
 arrays for `TDATA`, `TKEEP`, and `TLAST`, because those values describe one
@@ -473,7 +473,7 @@ $$
 \text{pop}=m\_axis\_tvalid\land m\_axis\_tready
 $$
 
-![Full-screen FIFO timing diagram showing a packet buffered before the consumer becomes ready](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/39-axis-fifo-p1-55.png)
+![Full-screen FIFO timing diagram showing a packet buffered before the consumer becomes ready](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/39-axis-fifo-p1-55.png)
 
 The producer sends $D_0$-$D_3$ before the consumer is ready. The FIFO accepts
 those beats while space exists, then presents them later in the same order.
@@ -483,7 +483,7 @@ occupancy reaches full and `s_axis_tready` must go LOW.
 
 ### Video 40 - Implementing AXI-Stream FIFO part 2
 
-![Full-screen FIFO arrays, pointers, count, full detection, and empty detection](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/40-axis-fifo-p2-20.png)
+![Full-screen FIFO arrays, pointers, count, full detection, and empty detection](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/40-axis-fifo-p2-20.png)
 
 The design uses 16-entry arrays and five-bit write/read pointers plus a five-bit
 occupancy counter. `empty` is derived from `count==0`. The screenshot derives
@@ -500,7 +500,7 @@ If entries are indexed `0` through `DEPTH-1`, pointers must wrap at
 `DEPTH-1`; simply allowing a five-bit pointer to increment beyond 15 can index
 outside a 16-entry array.
 
-![Full-screen FIFO reset block initializing pointers, count, valid, keep, last, and data](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/40-axis-fifo-p2-55.png)
+![Full-screen FIFO reset block initializing pointers, count, valid, keep, last, and data](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/40-axis-fifo-p2-55.png)
 
 Reset establishes empty state: both pointers and count become zero, and the
 registered downstream valid is cleared. Clearing every memory element is not
@@ -509,7 +509,7 @@ required for protocol correctness because an empty FIFO must not assert
 Resetting metadata/valid and ignoring unoccupied RAM contents is often the
 better implementation.
 
-![Full-screen FIFO write and read branches updating memory, pointers, count, and output valid](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/40-axis-fifo-p2-85.png)
+![Full-screen FIFO write and read branches updating memory, pointers, count, and output valid](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/40-axis-fifo-p2-85.png)
 
 The visible code uses an `else if` chain: it either writes or reads in one
 cycle. A streaming FIFO should normally permit one push and one pop on the same
@@ -529,7 +529,7 @@ it is nonempty and hold that item through a downstream stall.
 
 ### Video 41 - FIFO RTL continuation and verification
 
-![Full-screen FIFO testbench signals and DUT instantiation](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/41-axis-fifo-p3-course-labeled-p2-20.png)
+![Full-screen FIFO testbench signals and DUT instantiation](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/41-axis-fifo-p3-course-labeled-p2-20.png)
 
 The course labels this second consecutive item "P2"; in the notes it is treated
 as the continuation/verification lesson. The testbench connects the full beat
@@ -537,7 +537,7 @@ bundle and exposes internal memory, pointers, flags, and count for waveform
 debugging. Those internal signals are useful evidence, but correctness must be
 judged from accepted input and output transfers, not from pointer motion alone.
 
-![Full-screen FIFO waveform filling to full, holding occupancy, and draining to empty](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/41-axis-fifo-p3-course-labeled-p2-55.png)
+![Full-screen FIFO waveform filling to full, holding occupancy, and draining to empty](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/41-axis-fifo-p3-course-labeled-p2-55.png)
 
 The waveform shows the write pointer and count increasing while input beats
 arrive, `full` asserting near maximum occupancy, then the read pointer advancing
@@ -561,7 +561,7 @@ independent of downstream `TREADY`.
 
 ### Video 43 - AXI-Stream FIFO alternate implementation
 
-![Full-screen alternate FIFO interface using wire outputs with the same beat memories and pointers](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/43-axis-fifo-alternate-20.png)
+![Full-screen alternate FIFO interface using wire outputs with the same beat memories and pointers](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/43-axis-fifo-alternate-20.png)
 
 The alternate version changes downstream outputs from registered signals to
 wires. That supports a fall-through view in which the current memory head is
@@ -580,14 +580,14 @@ during `m_axis_tvalid && !m_axis_tready`. A synchronous block RAM cannot always
 provide this zero-latency read shape, so implementation style and target memory
 primitive must agree.
 
-![Full-screen alternate FIFO sequential memory update and pointer/count logic](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/43-axis-fifo-alternate-55.png)
+![Full-screen alternate FIFO sequential memory update and pointer/count logic](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/43-axis-fifo-alternate-55.png)
 
 The sequential block still owns `push`, `pop`, pointers, and occupancy. Output
 wires do not eliminate the need for the four-case count update. If a priority
 `else if` remains, the alternate interface may look more responsive while
 still discarding one of two simultaneous events.
 
-![Full-screen alternate FIFO waveform showing fill, full, drain, pointers, and count](../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/43-axis-fifo-alternate-85.png)
+![Full-screen alternate FIFO waveform showing fill, full, drain, pointers, and count](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/43-axis-fifo-alternate-85.png)
 
 The waveform again demonstrates fill and drain under the supplied stimulus.
 Its most useful signals are `count`, `full`, `empty`, `wr_ptr`, and `rd_ptr`:

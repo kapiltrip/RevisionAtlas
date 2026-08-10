@@ -23,12 +23,10 @@ Managers and Subordinates. The Namaste FPGA course is complete through
   memory-mapped AXI4 and AXI4-Lite distinctions.
 
 Layer 1 is split into the instructor's nine top-level course sections and
-contains meaningful real frames for 104 of the 105 video lessons. Lesson 16's
-captured source moment was a blank slide transition, so its implementation-flow
-comparison is preserved as text instead of committing an uninformative image.
-The other 23 lessons are code resources. Lessons 50-128 add 123 untouched,
-original-source 1080p frames; no frame is cropped or resized. Layer 2 contains
-Kapil's first handwritten page and its verified fairness solution.
+contains meaningful real frames for all 105 video lessons. The other 23 lessons
+are code resources. Lessons 50-128 add 123 untouched, original-source 1080p
+frames; no frame is cropped or resized. Layer 2 contains Kapil's first
+handwritten page and its verified fairness solution.
 
 The course layer contains verified frames for the handshake path,
 master/slave integration, AXI-Stream arbiters and FIFOs, complete AXI4-Lite

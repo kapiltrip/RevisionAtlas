@@ -329,24 +329,37 @@ the accepted beat sequence and packet boundary must remain identical.
 gaps are permitted unless a stricter application profile forbids them. When
 `TVALID` is HIGH and a beat is stalled, however, it cannot be withdrawn.
 
-### Video 16 - Implementation approaches
+### Video 16 - Ways to implement AXI Interface
 
-This short lesson compares three engineering paths. Its saved frame was a blank
-slide transition, so it is intentionally not embedded as a primary study image;
-the technical comparison is preserved below instead of presenting an unreadable
-capture.
+![The instructor's complete three-path map for implementing a custom AXI interface](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/16-ways-to-implement-axi-interface-70.png)
 
-| Approach | What is generated | Control | Main trade-off |
-|---|---|---|---|
-| Hand-written RTL | The designer writes protocol and application logic | Highest visibility over buffering, latency, and microarchitecture | Most design and verification effort |
-| Vivado IP/template flow | A vendor-generated wrapper/template with insertion points | Good RTL access, but some structure is tool-generated | Faster integration with tool conventions |
-| HLS | C/C++ behavior plus interface directives becomes RTL | Control comes through pragmas, scheduling constraints, and generated reports | Fast algorithm exploration; latency/resource results still require inspection |
+The instructor divides custom AXI-interface development into three paths:
+
+- **Peripheral RTL from scratch:** declare the AXI ports and write the
+  handshake, state, datapath, and application behavior directly. This exposes
+  every accepted beat and stall, but the designer also owns every protocol
+  detail and all verification.
+- **Vivado Verilog Template:** let Vivado generate the AXI-facing RTL structure,
+  then place the required application logic into that template. This retains a
+  Verilog implementation while reducing the work of creating the interface
+  shell manually.
+- **Vivado HLS:** describe behavior at a higher level and let the tool generate
+  RTL and its AXI interface. This can accelerate algorithm-oriented work, but
+  the generated scheduling, latency, and resource use still have to be checked.
+
+![The instructor's final annotation selecting the Vivado Verilog Template path](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/16-ways-to-implement-axi-interface-90.png)
+
+The final annotation marks **Vivado Verilog Template** as the path followed by
+the course. That choice matters for the next lessons: the interface shell comes
+from the tool, while the learner can still inspect and edit the exact Verilog
+that decides when `TVALID`, `TREADY`, `TDATA`, and `TLAST` change.
 
 “HLS gives less control” is too absolute. HLS exposes pipeline initiation
 interval, latency, resource binding, and interface directives, but control is
 expressed differently and generated RTL can be harder to reason about
-cycle-by-cycle. Hand-written RTL is valuable here because the learning goal is
-to see exactly why a beat counter advances or stalls.
+cycle-by-cycle. Working in the generated Verilog template is valuable here
+because the learning goal is to see exactly why a beat counter advances or
+stalls.
 
 Also, processors do not literally “only understand AXI.” In a Zynq device, AXI
 is the standard interface exposed between the processing system and programmable

@@ -3,10 +3,10 @@
 [Back to AXI](../README.md) | [Course atlas](../Course%20Atlas.md) | [Instructor code](../Code/README.md) | [Handwritten notes](../Handwritten%20Notes.md)
 
 These nine files mirror the instructor's nine top-level sections. Every lesson
-number appears once, in course order. Meaningful video frames stay beside the
-explanation; lesson 16 explicitly records why its blank transition frame is not
-embedded. Downloadable lessons point to the separately organized instructor
-code instead of introducing a different implementation.
+number appears once, in course order. All 105 video lessons keep meaningful
+original-source frames beside their explanations. Downloadable lessons point
+to the separately organized instructor code instead of introducing a different
+implementation.
 
 ## Section order
 

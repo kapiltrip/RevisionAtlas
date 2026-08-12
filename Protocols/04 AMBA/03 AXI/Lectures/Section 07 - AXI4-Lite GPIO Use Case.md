@@ -44,6 +44,14 @@ accepted target address. A low strobe preserves the old byte; it does not write
 zero. Address decode and strobe merge therefore belong to the same committed
 write operation, even if AW and W arrived on different cycles.
 
+#### Handwritten page 44 - GPIO registers and byte strobes
+
+![Handwritten AXI notes: GPIO registers and byte strobes](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/44-axi-lite-gpio-registers-and-byte-strobes.jpg)
+
+**Explanation:** Each `WSTRB` bit enables one byte lane of the GPIO register
+update. Partial writes therefore require per-byte write enables rather than
+replacing all 32 bits whenever any strobe is asserted.
+
 ### Video 96 - Debouncing the GPIO input
 
 ![Original full-frame debounce counter RTL and switch-bounce diagram](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/096-building-axi-lite-gpio-ip-p2-debouncing-25.png)
@@ -61,6 +69,15 @@ metastability synchronizer before the debounce counter consumes it. The course
 code demonstrates the debounce decision and its chosen count width. Its inline
 comments identify the assumed clock rate, debounce interval, initial level,
 and whether synchronization is outside the lesson block.
+
+#### Handwritten page 45 - GPIO button debouncing
+
+![Handwritten AXI notes: GPIO button debouncing](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/45-gpio-button-debouncing.jpg)
+
+**Explanation:** The sample-wait-sample idea rejects short mechanical
+transitions. Because the external switch is asynchronous to `ACLK`,
+synchronization must precede the debounce filter so metastability is not treated
+as an ordinary bounce sample.
 
 ### Video 97 - GPIO write FSM
 
@@ -80,6 +97,24 @@ the paired teaching code documents the response used for that case.
 `BVALID` remains asserted until `b_fire`. Clearing it after one clock would
 make the register update visible while potentially losing the response—the
 software-visible operation would no longer have a reliable completion.
+
+#### Handwritten page 46 - GPIO read/write flowchart
+
+![Handwritten AXI notes: GPIO read/write flowchart](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/46-gpio-read-write-flowchart.jpg)
+
+**Explanation:** The flowchart serializes register access and returns either a
+response or read data. It should accept `AW` and `W` independently rather than
+requiring both `VALID` signals in the same cycle, while still allowing only the
+intended number of outstanding commands.
+
+#### Handwritten page 47 - GPIO Subordinate write FSM
+
+![Handwritten AXI notes: GPIO Subordinate write FSM](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/47-gpio-subordinate-write-fsm.jpg)
+
+**Explanation:** The detailed states retain the write address and wait for write
+data before updating the register. `AWREADY` and `WREADY` may be controlled
+separately, provided an accepted item is stored until the transaction can
+finish.
 
 ### Video 98 - GPIO read FSM
 

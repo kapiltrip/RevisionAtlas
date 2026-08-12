@@ -52,6 +52,14 @@ The counter must not advance during `WVALID && !WREADY` or
 `RVALID && !RREADY`. Otherwise the held payload and its last marker would no
 longer describe the same beat.
 
+#### Handwritten page 48 - AXI4 single-beat signal set
+
+![Handwritten AXI notes: AXI4 single-beat signal set](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/48-axi4-single-beat-signals.jpg)
+
+**Explanation:** The full-AXI address channel retains size, length, burst, and
+ID fields even for a single-beat teaching example. A single beat uses `AWLEN=0`,
+and the only accepted write-data beat carries `WLAST=1`.
+
 ### Video 103 - Write FSM
 
 ![Original full-frame write FSM and burst waveform](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/103-write-fsm-25.png)
@@ -67,6 +75,22 @@ by `beat_q == AWLEN_q`. The counter increments only on `w_fire`; `WLAST` is
 derived from or registered with that same held beat. After final `w_fire`, the
 FSM waits for `BVALID` and completes on `b_fire`.
 
+#### Handwritten page 49 - AXI4 write FSM: address and data
+
+![Handwritten AXI notes: AXI4 write FSM: address and data](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/49-axi4-write-fsm-address-and-data.jpg)
+
+**Explanation:** The FSM issues the address, streams write beats, and advances
+its counter only on `WVALID && WREADY`. Both `AWVALID` and each write payload
+must remain stable until their own acceptance edges.
+
+#### Handwritten page 50 - AXI4 write FSM: last beat and response
+
+![Handwritten AXI notes: AXI4 write FSM: last beat and response](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/50-axi4-write-fsm-last-and-response.jpg)
+
+**Explanation:** `WLAST` is asserted with the final valid write beat and held
+through any stall. Only the accepted final beat leads to the write-response
+phase, which finishes on `BVALID && BREADY`.
+
 ### Video 104 - Read FSM
 
 ![Original full-frame read FSM and returned burst waveform](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/104-read-fsm-25.png)
@@ -80,6 +104,14 @@ associates the burst with the accepted `ARID`.
 The Manager must remain ready only when it has storage for the next result. If
 it lowers `RREADY`, `RDATA`, `RRESP`, `RID`, and `RLAST` freeze. The read FSM
 leaves its data state only on an accepted beat with `RLAST=1`.
+
+#### Handwritten page 51 - AXI4 read FSM
+
+![Handwritten AXI notes: AXI4 read FSM](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/51-axi4-read-fsm.jpg)
+
+**Explanation:** The read sequence sends `AR`, accepts `R` beats, and completes
+on an accepted `RLAST`. The Manager controls `RREADY`; the Subordinate controls
+`RVALID`, `RDATA`, `RRESP`, and `RLAST`.
 
 ### Video 105 - Implementing the write channel
 

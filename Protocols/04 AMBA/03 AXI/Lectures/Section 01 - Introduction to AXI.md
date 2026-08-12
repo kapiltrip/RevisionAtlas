@@ -72,6 +72,15 @@ to one Receiver.
 are 32 or 64 bits; “Lite” means no bursts and a simpler memory-mapped feature
 set.
 
+#### Handwritten page 1 - AXI family selection and use cases
+
+![Handwritten AXI notes: AXI family selection and use cases](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/01-axi-family-selection-and-use-cases.jpg)
+
+**Explanation:** This page contrasts unaddressed AXI-Stream flow, AXI4-Lite
+register access, and AXI4 burst traffic. Read its application sketches with the
+lecture decision table: the interface is chosen from the communication pattern,
+not merely from data width.
+
 ### Video 3 - Interface pins
 
 ![Lecture comparison of the AXI-Stream, AXI4-Lite, and AXI4 signal groups](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/03-interface-pins-28.png)
@@ -99,6 +108,31 @@ or when two components disagree on `TDATA` width. Compare the actual interface
 properties and signal widths.
 
 **Recall:** Which two kinds of width make a fixed AXI pin count impossible?
+
+#### Handwritten page 2 - AXI variants and the gaps in a simple memory port
+
+![Handwritten AXI notes: AXI variants and the gaps in a simple memory port](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/02-axi-variants-and-simple-memory-gaps.jpg)
+
+**Explanation:** The signal-count comparison is configuration-dependent, while
+the four questions beside the simple memory are fundamental: address validity,
+data validity, acceptance, and completion all need an explicit timing contract.
+
+#### Handwritten page 3 - Five memory-mapped channels
+
+![Handwritten AXI notes: Five memory-mapped channels](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/03-axi-five-channel-overview.jpg)
+
+**Explanation:** The drawing correctly separates write address, write data,
+write response, read address, and read data. The key implementation consequence
+is that the `AW` and `W` handshakes are independent even though both belong to
+one write transaction.
+
+#### Handwritten page 4 - Write response and read-channel directions
+
+![Handwritten AXI notes: Write response and read-channel directions](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/04-memory-mapped-response-and-read-channels.jpg)
+
+**Explanation:** This continuation records the remaining channel signals and
+their directions. A Manager drives `BREADY` and `RREADY`; a Subordinate drives
+`BVALID`, `BRESP`, `RVALID`, `RDATA`, and the read response.
 
 ### Video 4 - Simple memory versus AXI memory
 
@@ -174,6 +208,14 @@ The destination register normally changes just after $E_3$ because sequential
 logic sampled the inputs at that edge. That visible post-edge change is the
 effect of the transfer, not a second transfer.
 
+#### Handwritten page 5 - `VALID`/`READY` ownership and acceptance
+
+![Handwritten AXI notes: `VALID`/`READY` ownership and acceptance](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/05-valid-ready-handshake-rules.jpg)
+
+**Explanation:** The page captures the central rule: a transfer is accepted only
+at a rising edge where both signals are HIGH. `VALID` must not wait for `READY`;
+`READY` may be asserted early whenever the destination has capacity.
+
 ### Video 6 - `VALID`/`READY` rules
 
 ![Handshake rule slide with the source and destination waveform](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/06-handshake-rules-28.png)
@@ -206,6 +248,15 @@ Use this implementation checklist:
   through the component to an interface output and creates a long or cyclic
   path at integration.
 
+#### Handwritten page 6 - Source handshake flowchart
+
+![Handwritten AXI notes: Source handshake flowchart](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/06-source-handshake-flowchart.jpg)
+
+**Explanation:** The source flow correctly holds `VALID` until acceptance.
+Completion is not caused by `READY` alone: the offered payload transfers only on
+an edge satisfying `VALID && READY`, and every payload field must remain stable
+during a stall.
+
 ### Video 7 - Handshake RTL part 1
 
 ![Two-state source flowchart beside the initial Verilog](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/07-handshake-rtl-p1-20.png)
@@ -232,6 +283,14 @@ stimulus in verification code; production RTL receives or computes real data.
 **State invariant:** in the wait state, if `S_ready=0`, the next edge must not
 change `M_data` or deassert `M_valid`.
 
+#### Handwritten page 7 - Source and destination handshake RTL
+
+![Handwritten AXI notes: Source and destination handshake RTL](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/07-source-and-destination-handshake-rtl.jpg)
+
+**Explanation:** The two local state machines separate source progress from
+destination progress. In the source logic, both data and `VALID` must remain
+unchanged while the destination keeps `READY` LOW.
+
 ### Video 8 - Handshake RTL part 2
 
 ![Receiver flowchart: ready, wait for valid, and receive](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/08-handshake-rtl-p2-20.png)
@@ -255,6 +314,15 @@ ones are processed.
 Do not lower `READY` merely because `VALID` became HIGH before the acceptance
 edge. The transfer event is the edge where both are HIGH. After that edge, the
 registered FSM may lower `READY` for the following cycle.
+
+#### Handwritten page 8 - Destination readiness and data capture
+
+![Handwritten AXI notes: Destination readiness and data capture](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/08-destination-ready-and-data-capture-rtl.jpg)
+
+**Explanation:** The destination page reinforces that `READY` and `VALID` are
+independently generated. Data capture belongs on the accepted-transfer edge;
+avoid a combinational path that lets `READY` and `VALID` depend on each other in
+a loop.
 
 ### Video 9 - Verifying the handshake
 

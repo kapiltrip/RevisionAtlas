@@ -98,6 +98,15 @@ input address, input data, and write strobes. Those are not AXI signals. They
 are the course's application-side request interface, translated into AW/W/B
 channel activity by the Manager.
 
+#### Handwritten page 32 - Single beat without pipelining
+
+![Handwritten AXI notes: Single beat without pipelining](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/32-single-beat-without-pipelining.jpg)
+
+**Explanation:** The three write phases are address, data, and response. This
+teaching profile completes all work for one request before starting another;
+waveform-oriented and FSM-oriented RTL are two organizations of that policy, not
+different AXI protocols.
+
 ### Video 59 - Signals for single beat without pipeline, part 2
 
 ![Original full-frame completed single-beat read/write channel diagram and waveforms](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/059-signals-in-single-beat-without-pipeline-p2-25.png)
@@ -154,6 +163,24 @@ assignments update after the sampled edge. Conditions inside the same clocked
 block read the pre-edge values. When reasoning about “set valid” and “clear on
 ready,” explicitly identify which branch wins if both conditions are true.
 
+#### Handwritten page 33 - AXI4-Lite write Manager ports and reset
+
+![Handwritten AXI notes: AXI4-Lite write Manager ports and reset](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/33-axil-write-master-ports-and-reset.jpg)
+
+**Explanation:** The port list exposes independent address, data, and response
+channels. Reset clears the offered controls, while a new command must create
+separate `AWVALID` and `WVALID` obligations that remain until their respective
+handshakes.
+
+#### Handwritten page 34 - Write address and response control
+
+![Handwritten AXI notes: Write address and response control](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/34-axil-write-master-address-and-response-logic.jpg)
+
+**Explanation:** The Manager starts a write, waits for address acceptance, and
+later acknowledges `BVALID`. Do not clear address and data validity from a
+single combined condition unless the design has separately recorded which
+handshake has completed.
+
 ### Video 62 - Write-only Manager implementation, part 2
 
 ![Original full-frame write-data and write-response logic beside the reference waveform](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/062-axil-master-with-only-write-implementation-p2-25.png)
@@ -174,6 +201,14 @@ address offered/accepted, data offered/accepted, response awaited/accepted.
 Treating them as one universal “write done” pulse hides legal AW/W timing
 differences and is the first thing a protocol checker will expose.
 
+#### Handwritten page 35 - Write data control and Subordinate ports
+
+![Handwritten AXI notes: Write data control and Subordinate ports](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/35-axil-write-data-and-subordinate-ports.jpg)
+
+**Explanation:** `WDATA` and `WSTRB` must remain stable until `WREADY`. The
+Subordinate interface below must be prepared for `AW` and `W` to arrive in
+either order and retain the first item until its partner arrives.
+
 ### Video 63 - Write-only Subordinate implementation, part 1
 
 ![Original full-frame write-only Subordinate address logic beside the transaction waveform](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/063-axil-slave-with-only-write-implementation-p1-25.png)
@@ -186,6 +221,14 @@ Because the paired lesson is one-outstanding and no-pipeline, one address slot
 is sufficient. That is an implementation capacity limit, not an AXI rule. The
 flag representing a stored address is cleared only when the write has advanced
 far enough that the slot can safely be reused.
+
+#### Handwritten page 36 - Subordinate write-address control
+
+![Handwritten AXI notes: Subordinate write-address control](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/36-axil-subordinate-write-address-control.jpg)
+
+**Explanation:** The page begins the `AWREADY` logic and then contrasts write
+and read channels. A correct Subordinate must not discard an accepted address
+merely because the matching data has not arrived in the same cycle.
 
 ### Video 64 - Write-only Subordinate implementation, part 2
 
@@ -299,6 +342,23 @@ With no pipeline, the local side cannot issue a second address while the first
 read result is outstanding. The terminal event is `r_fire`; merely seeing
 `RVALID` is not completion if `RREADY` is LOW.
 
+#### Handwritten page 37 - AXI4-Lite read Manager interface
+
+![Handwritten AXI notes: AXI4-Lite read Manager interface](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/37-axil-read-master-interface.jpg)
+
+**Explanation:** The read path contains an `AR` request and an `R` response. The
+Manager owns `ARVALID`, `ARADDR`, and `RREADY`; the Subordinate owns `ARREADY`,
+`RVALID`, `RDATA`, and `RRESP`.
+
+#### Handwritten page 38 - Read-address and read-data control
+
+![Handwritten AXI notes: Read-address and read-data control](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/38-axil-read-master-address-and-data-control.jpg)
+
+**Explanation:** The Manager holds `ARVALID` until the address handshake and
+asserts `RREADY` when it can accept the response. `RVALID` must be generated by
+the Subordinate independently of whether the Manager has already raised
+`RREADY`.
+
 ### Video 74 - Read-only Manager implementation, part 2
 
 ![Original full-frame read-address register and ARVALID logic](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/074-axil-master-with-only-read-implementation-p2-25.png)
@@ -331,6 +391,15 @@ cannot always consume the result, `RREADY` must reflect that capacity and the
 captured result needs its own valid flag. The exact course code documents the
 simpler assumed local behavior rather than silently claiming an unbounded
 buffer.
+
+#### Handwritten page 39 - Read-response readiness
+
+![Handwritten AXI notes: Read-response readiness](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/39-axil-read-response-ready-control.jpg)
+
+**Explanation:** This page finishes the registered `RREADY` behavior and
+response storage. The architectural event is the `RVALID && RREADY` edge; a
+pulse policy is acceptable only if it cannot miss a response and meets the
+intended throughput.
 
 ### Video 76 - Read-only Subordinate implementation, part 1
 

@@ -62,6 +62,15 @@ raising `TREADY`, so a Transmitter that implements wake-up but never asserts it
 can deadlock the interface. These rules apply only when the AXI5-Stream
 `Wakeup_Signal` property is enabled.
 
+#### Handwritten page 9 - AXI-Stream signal set
+
+![Handwritten AXI notes: AXI-Stream signal set](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/09-axis-signal-set.jpg)
+
+**Explanation:** The mandatory clock, reset, handshake, and data signals are
+separated from packet qualifiers. `TKEEP`, `TLAST`, `TID`, `TDEST`, `TUSER`, and
+`TWAKEUP` are feature-dependent, so their presence and widths must match at
+integration time.
+
 ### Video 13 - Typical signals part 2
 
 ![Eight byte lanes with TKEEP qualification and the Arm qualifier text](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/13-typical-signals-p2-30.png)
@@ -102,6 +111,15 @@ padding bytes” is not a generally valid frame calculation.
 If an interface omits `TKEEP`, the protocol default is all ones. If it omits
 `TSTRB`, `TSTRB` defaults to `TKEEP`. These defaults explain why many simple
 FPGA streams expose `TKEEP` but not `TSTRB`.
+
+#### Handwritten page 10 - `TKEEP`, `TSTRB`, and `TLAST`
+
+![Handwritten AXI notes: `TKEEP`, `TSTRB`, and `TLAST`](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/10-tkeep-tstrb-and-tlast.jpg)
+
+**Explanation:** The qualifier truth table distinguishes null, position, and
+data bytes. `TSTRB` is meaningful only for a byte retained by `TKEEP`, and
+`TLAST` marks the packet boundary rather than simply the end of an arbitrary
+clock sequence.
 
 ### Video 14 - AXI-Stream use cases
 
@@ -366,6 +384,14 @@ is the standard interface exposed between the processing system and programmable
 logic; the processor core itself executes an instruction set and participates
 in several internal protocols.
 
+#### Handwritten page 11 - AXI implementation options and source ports
+
+![Handwritten AXI notes: AXI implementation options and source ports](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/11-axis-implementation-options-and-master-ports.jpg)
+
+**Explanation:** The page moves from implementation choices to a custom
+AXI-Stream source interface. The `m_axis_` payload and `TVALID` are outputs of
+the source, while `TREADY` returns from the destination and gates progress.
+
 ### Video 17 - Waveforms part 1
 
 ![AXI-Stream master ports above three valid-ready timing scenarios](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/17-waveform-p1-30.png)
@@ -519,6 +545,23 @@ movement. It is small enough to trace manually and correctly holds the final
 beat. Its limitations—fixed length, generated rather than buffered payload,
 unlatched command input, and no `TKEEP`/`TUSER`—are deliberate boundaries, not
 general AXI-Stream limitations.
+
+#### Handwritten page 12 - AXI-Stream source flowchart
+
+![Handwritten AXI notes: AXI-Stream source flowchart](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/12-axis-master-flowchart.jpg)
+
+**Explanation:** The source sequence waits for new data, asserts the payload and
+`TVALID`, and advances only after `TREADY`. The final-beat decision must use the
+count of accepted beats, not elapsed cycles, so stalls cannot shorten a packet.
+
+#### Handwritten page 13 - Source stall handling and destination interface
+
+![Handwritten AXI notes: Source stall handling and destination interface](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/13-axis-master-stall-and-slave-interface.jpg)
+
+**Explanation:** The source-side notes identify the stalled transmit state,
+while the lower diagram introduces the destination ports. A robust
+implementation holds `TDATA`, `TKEEP`, and `TLAST` together whenever `TVALID=1`
+and `TREADY=0`.
 
 ### Video 21 - Verifying the master
 
@@ -721,6 +764,15 @@ ready must describe storage/processing capacity—not merely the FSM state name.
 If the block cannot retain an input beat while processing an earlier one, it
 must lower `TREADY` before its storage becomes full.
 
+#### Handwritten page 14 - AXI-Stream destination flowchart
+
+![Handwritten AXI notes: AXI-Stream destination flowchart](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/14-axis-slave-flowchart.jpg)
+
+**Explanation:** The destination advertises readiness, samples a beat on the
+handshake edge, and uses accepted `TLAST` to end the packet. A packet may
+contain bubbles, so a temporary drop in `TVALID` is not itself an end-of-packet
+event.
+
 ### Video 24 - Building the slave part 2
 
 ![Fullscreen slave state register and next-state decoder](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/24-building-slave-p2-18.png)
@@ -776,6 +828,15 @@ end
 
 Registering creates real storage and prevents downstream logic from treating
 an unaccepted or invalid bus value as data.
+
+#### Handwritten page 15 - AXI-Stream destination state machine
+
+![Handwritten AXI notes: AXI-Stream destination state machine](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/15-axis-slave-state-machine.jpg)
+
+**Explanation:** The state sketch separates waiting, storing, and packet
+completion. `dout` represents the captured beat in this teaching design; deeper
+buffering requires explicit storage rather than assuming the output register is
+a FIFO.
 
 ### Video 25 - Verifying the slave
 
@@ -986,6 +1047,15 @@ uses the opposite handshake input only to choose a later state. More complex
 blocks must still be reviewed for combinational `TREADY`/`TVALID` paths that
 could create long timing paths or loops across several components.
 
+#### Handwritten page 16 - Master/slave wiring and round-robin preview
+
+![Handwritten AXI notes: Master/slave wiring and round-robin preview](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/16-master-slave-wiring-and-round-robin-intro.jpg)
+
+**Explanation:** The forward signals connect source to destination while
+`TREADY` travels backward. The round-robin preview anticipates the next section:
+once an AXI-Stream arbiter selects a packet, it must retain that source until an
+accepted `TLAST`.
+
 ### Lesson 28 - Integration code resource
 
 ```systemverilog
@@ -1063,7 +1133,6 @@ axis_m m1 (
 
 The slave should be instantiated with the corresponding named `s_axis_*`
 ports. This adds no hardware; it prevents connection-order bugs.
-
 
 ## Arm IHI 0051B standards audit
 

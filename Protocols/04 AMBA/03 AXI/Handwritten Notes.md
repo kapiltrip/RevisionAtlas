@@ -3,15 +3,15 @@
 [Back to AXI](README.md) | [Course atlas](Course%20Atlas.md) | [Back to AMBA](../README.md)
 
 This page preserves Kapil's earlier handwritten AXI question and its verified
-solution. The complete, current handwritten layer now lives in
-[AXI Chapters](Chapters.md), where all 60 newly scanned pages appear directly
-below their matching lecture screenshots and explanations.
+solution. The complete, current handwritten layer now lives inside the
+[nine lecture sections](Lectures/README.md), where all 60 newly scanned pages
+appear directly below their matching lecture screenshots and explanations.
 
 ## Intake status
 
 - This earlier handwritten page is preserved below.
 - The three later scan sets contain 60 pages and are fully integrated in
-  [AXI Chapters](Chapters.md).
+  the [matching lecture sections](Lectures/README.md).
 - The page maps directly to
   [Video 31 — Round-robin arbiter part 2](Lectures/Section%2003%20-%20AXI-Stream%20IPs.md#video-31---round-robin-arbiter-part-2).
 - Any later AXI-Stream claim will be checked against
@@ -172,7 +172,6 @@ priority for the next grant.
 
 The course layer is complete through **128. TB Code**, and all nine lecture
 sections live under [Lectures](Lectures). This legacy page remains mapped to
-Video 31; the current integrated sequence in [AXI Chapters](Chapters.md) adds
-60 pages spanning interface selection, handshaking, AXI-Stream, AXI4-Lite,
-GPIO, full AXI4, and burst addressing without changing the completed course
-order.
+Video 31. The existing [lecture sections](Lectures/README.md) now add 60 pages
+spanning interface selection, handshaking, AXI-Stream, AXI4-Lite, GPIO, full
+AXI4, and burst addressing without changing the completed course order.

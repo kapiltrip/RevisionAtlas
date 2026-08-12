@@ -8,6 +8,11 @@ original-source frames beside their explanations. Downloadable lessons point
 to the separately organized instructor code instead of introducing a different
 implementation.
 
+The same nine files also contain Kapil's handwritten pages. Within each matching
+lesson, the order is the original lecture screenshot, the detailed lecture
+explanation, the handwritten page, and then a page-specific explanation. No
+separate combined chapter file is required.
+
 ## Section order
 
 1. [Section 1 - Introduction to AXI](Section%2001%20-%20Introduction%20to%20AXI.md),

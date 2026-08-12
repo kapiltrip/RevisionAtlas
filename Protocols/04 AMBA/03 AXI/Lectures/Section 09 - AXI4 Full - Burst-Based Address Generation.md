@@ -48,6 +48,31 @@ The memory sketch shows why the address is not a normal array walk. Each
 accepted data beat is a separate transfer even though the address value repeats.
 Beat counters and last markers still advance only on data-channel handshakes.
 
+#### Handwritten page 52 - Burst types and a FIXED-address example
+
+![Handwritten AXI notes: Burst types and a FIXED-address example](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/52-axi4-burst-types-and-fixed-address-example.jpg)
+
+**Explanation:** The page motivates bursts by amortizing memory-access latency
+and lists FIXED, INCR, and WRAP. In FIXED mode every beat uses the same transfer
+address even though the data sequence contains multiple beats.
+
+#### Handwritten page 53 - `AxSIZE` and bytes per beat
+
+![Handwritten AXI notes: `AxSIZE` and bytes per beat](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/53-axsize-and-bytes-per-beat.jpg)
+
+**Explanation:** The worked values apply `bytes_per_beat = 2^AxSIZE`. A
+four-byte beat occupies four byte lanes; an unaligned starting address is
+possible only within the protocol's alignment and lane rules, with strobes
+identifying valid write lanes.
+
+#### Handwritten page 54 - Beat, burst length, and FIXED addresses
+
+![Handwritten AXI notes: Beat, burst length, and FIXED addresses](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/54-beat-burst-length-and-fixed-addresses.jpg)
+
+**Explanation:** A beat is one data-channel transfer, while a burst is the
+transaction's ordered beat sequence. `AxLEN+1` is the beat count, and FIXED
+leaves the transfer address unchanged for every accepted beat.
+
 ### Video 115 - Implementing FIXED writes
 
 ![Original full-frame Verilog FIXED-mode next-address selection](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/115-implementation-of-fixed-mode-during-write-25.png)
@@ -83,6 +108,14 @@ For a narrow transfer, byte-lane selection and `WSTRB` must match the current
 address. A reusable generator also handles an unaligned first address according
 to the AXI rules. The course code's supported alignment and data-width profile
 is documented directly in the source.
+
+#### Handwritten page 55 - FIXED and incrementing address examples
+
+![Handwritten AXI notes: FIXED and incrementing address examples](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/55-fixed-and-incrementing-address-examples.jpg)
+
+**Explanation:** The top example revisits FIXED addressing; the lower example
+begins INCR. For INCR, the next transfer address advances by `2^AxSIZE` after
+each beat, subject to the burst boundary rules.
 
 ### Video 117 - Implementing INCR writes
 
@@ -122,6 +155,40 @@ to the transfer size. The start can be inside the wrap window rather than at
 its lower boundary, so the visible sequence can increment to the upper edge,
 wrap, and finish below the starting address.
 
+#### Handwritten page 56 - WRAP boundary formula
+
+![Handwritten AXI notes: WRAP boundary formula](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/56-wrap-boundary-formula.jpg)
+
+**Explanation:** A WRAP burst uses a window of `beats * bytes_per_beat`. The
+lower boundary is `floor(start/window) * window`, and the upper boundary is one
+window above it; address generation wraps to the lower boundary on reaching the
+upper one.
+
+#### Handwritten page 57 - Wrapping address sequence
+
+![Handwritten AXI notes: Wrapping address sequence](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/57-wrapping-address-sequence.jpg)
+
+**Explanation:** For four beats of four bytes, the window is 16 bytes. The
+address sequence advances by four bytes inside that window and returns to its
+lower boundary after the highest transfer address.
+
+#### Handwritten page 58 - WRAP boundary examples
+
+![Handwritten AXI notes: WRAP boundary examples](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/58-wrap-boundary-examples.jpg)
+
+**Explanation:** The examples vary `AxLEN`, `AxSIZE`, and the starting address.
+Legal AXI WRAP burst lengths are 2, 4, 8, or 16 beats - encoded by `AxLEN`
+values 1, 3, 7, or 15.
+
+#### Handwritten page 59 - WRAP length validity and boundary alignment
+
+![Handwritten AXI notes: WRAP length validity and boundary alignment](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/59-wrap-length-validity-and-boundary-alignment.jpg)
+
+**Explanation:** The highlighted six-beat case is intentionally invalid: WRAP
+length must be a supported power-of-two beat count. The boundary calculation
+must use integer floor division so the lower boundary stays aligned to the
+complete wrap window.
+
 ### Video 119 - Implementing WRAP writes
 
 ![Original full-frame handwritten wrap-boundary calculation used by the RTL](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/119-implementation-of-wrap-mode-during-write-25.png)
@@ -153,6 +220,14 @@ the current one is accepted.
 During `RVALID && !RREADY`, the current address, selected `RDATA`, `RRESP`,
 `RID`, and `RLAST` remain stable. The generator advances on `r_fire`; tying it
 to the clock or `RVALID` alone would skip memory locations under back-pressure.
+
+#### Handwritten page 60 - AXI course summary and next steps
+
+![Handwritten AXI notes: AXI course summary and next steps](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/60-axi-course-summary-and-next-steps.jpg)
+
+**Explanation:** The final page summarizes the three interface families and the
+five channels of memory-mapped AXI. AXI-Stream itself has one forward payload
+handshake, while AXI4-Lite and AXI4 use the five-channel read/write structure.
 
 ### Video 121 - Implementing the full Manager
 

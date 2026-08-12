@@ -121,6 +121,23 @@ both grants in every state, so the shown RTL does not infer latches. In `s1`,
 the output decoder sets `gnt1=1`; any spoken phrase suggesting grant 1 becomes
 zero in `s1` is simply a narration slip—the code and state meaning are clear.
 
+#### Handwritten page 17 - Round-robin priority rotation
+
+![Handwritten AXI notes: Round-robin priority rotation](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/17-round-robin-priority-rotation.jpg)
+
+**Explanation:** The highlighted branch order is functional hardware priority.
+After requester 1 is served in `s1`, checking `req2` first prevents a persistent
+requester 1 from starving requester 2; `s2` applies the symmetric rule.
+
+#### Earlier handwritten question - Round-robin fairness
+
+![Handwritten round-robin fairness question about the priority order in state s1](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/round-robin-fairness-question-s1-priority.jpg)
+
+**Explanation:** This earlier question asks why `s1` tests `req2` before `req1`.
+State `s1` already grants requester 1, so requester 2 must receive the next
+tie-break. Reversing the branch order would let a persistent `req1` keep the FSM
+in `s1` and starve requester 2.
+
 ### Video 32 - Round-robin arbiter part 3
 
 ![Fullscreen round-robin testbench stimulus sequence](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/32-round-robin-p3-testbench-fullscreen.png)
@@ -342,6 +359,14 @@ $$
 Checking `TLAST` without the other two terms is insufficient because a final
 beat can remain stalled for many cycles.
 
+#### Handwritten page 18 - AXI-Stream arbiter interfaces and states
+
+![Handwritten AXI notes: AXI-Stream arbiter interfaces and states](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/18-axis-arbiter-interface-and-states.jpg)
+
+**Explanation:** Two source interfaces feed one destination interface, with one
+state per selected source. State is packet ownership: the arbiter must route
+payload, `TVALID`, `TLAST`, and the corresponding return `TREADY` consistently.
+
 ### Video 35 - Implementing AXIS arbiter part 2
 
 ![Full-screen request timing and three-state packet-arbiter flowchart](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/35-axis-arbiter-p2-25.png)
@@ -377,6 +402,23 @@ unaccepted/interior beat, then give the other waiting source first choice only
 after the accepted final beat. Fairness is therefore measured in **packets**,
 not cycles. One source can legitimately occupy many cycles if its packet is
 long or the downstream Receiver is applying back-pressure.
+
+#### Handwritten page 19 - Arbiter idle and source-1 logic
+
+![Handwritten AXI notes: Arbiter idle and source-1 logic](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/19-axis-arbiter-idle-and-s1-logic.jpg)
+
+**Explanation:** The temporary payload registers preserve the selected beat. The
+packet-safe transition condition is an accepted final beat, `TVALID && TREADY &&
+TLAST`; seeing `TLAST` without a handshake is not enough to switch sources.
+
+#### Handwritten page 20 - Arbiter source-1 and source-2 logic
+
+![Handwritten AXI notes: Arbiter source-1 and source-2 logic](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/20-axis-arbiter-s1-and-s2-logic.jpg)
+
+**Explanation:** The mirrored branches implement rotating preference between
+sources. Back-pressure must freeze both the selection and its entire payload
+bundle, even if the competing source becomes valid while the current packet is
+stalled.
 
 ### Video 36 - Implementing AXIS arbiter part 3
 
@@ -481,6 +523,14 @@ This is temporal decoupling: the FIFO absorbs a finite timing mismatch; it does
 not create infinite bandwidth. If the consumer remains slower long enough,
 occupancy reaches full and `s_axis_tready` must go LOW.
 
+#### Handwritten page 21 - AXI-Stream FIFO interface and data flow
+
+![Handwritten AXI notes: AXI-Stream FIFO interface and data flow](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/21-axis-fifo-interface-and-flow.jpg)
+
+**Explanation:** The FIFO decouples producer timing from consumer timing. Each
+stored entry is a complete beat bundle - data, keep, and last - while input
+readiness follows available capacity and output validity follows occupancy.
+
 ### Video 40 - Implementing AXI-Stream FIFO part 2
 
 ![Full-screen FIFO arrays, pointers, count, full detection, and empty detection](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/40-axis-fifo-p2-20.png)
@@ -526,6 +576,31 @@ The same frame loads output registers only when `m_axis_tready && !empty`.
 That makes `m_axis_tvalid` wait for ready, repeating the dependency problem
 seen in the arbiter. A compliant FIFO must present a valid head item whenever
 it is nonempty and hold that item through a downstream stall.
+
+#### Handwritten page 22 - FIFO storage and consumer handshake
+
+![Handwritten AXI notes: FIFO storage and consumer handshake](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/22-axis-fifo-storage-and-consumer-handshake.jpg)
+
+**Explanation:** The vector-versus-array note leads into the three parallel
+memories. Their indices must always move together, and simultaneous push/pop
+must preserve occupancy instead of allowing two independent assignments to
+overwrite the count update.
+
+#### Handwritten page 23 - FIFO pointers, count, and reset
+
+![Handwritten AXI notes: FIFO pointers, count, and reset](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/23-axis-fifo-pointers-count-and-reset.jpg)
+
+**Explanation:** The pointers address storage while `count` distinguishes full
+from empty when pointer values coincide. Reset clears validity and occupancy;
+pointer widths and full detection must match the actual depth.
+
+#### Handwritten page 24 - FIFO read/write control
+
+![Handwritten AXI notes: FIFO read/write control](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/24-axis-fifo-read-write-control.jpg)
+
+**Explanation:** The page traces the write and read branches and the registered
+output. A compact invariant is `next_count = count + push - pop`, where `push`
+and `pop` are handshake events, including the simultaneous case.
 
 ### Video 41 - FIFO RTL continuation and verification
 

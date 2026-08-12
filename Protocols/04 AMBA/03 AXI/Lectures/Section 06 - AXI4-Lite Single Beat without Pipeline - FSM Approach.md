@@ -65,6 +65,14 @@ The course interface omits optional protection fields and supports one command
 at a time. Those are declared teaching constraints in the matching
 [Code](../Code/README.md), not alternate AXI meanings.
 
+#### Handwritten page 40 - Combined AXI4-Lite Manager ports
+
+![Handwritten AXI notes: Combined AXI4-Lite Manager ports](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/40-axil-combined-manager-ports-and-channels.jpg)
+
+**Explanation:** The combined block exposes three write channels and two read
+channels. With one outstanding operation, the control FSM must arbitrate local
+read/write requests and remember which response completes the selected command.
+
 ### Video 88 - Manager implementation part 1: write
 
 ![Original full-frame write FSM branch beside the first write-control RTL](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/088-master-implementation-p1-write-25.png)
@@ -80,6 +88,15 @@ The highlighted branches show why pre-edge versus post-edge state matters. A
 handshake condition consumes the currently offered item. If a flag is both set
 for a new item and cleared for an old handshake in one clocked block, branch
 priority must preserve the instructor's intended single-item lifetime.
+
+#### Handwritten page 41 - Combined Manager write FSM
+
+![Handwritten AXI notes: Combined Manager write FSM](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/41-axil-manager-write-fsm.jpg)
+
+**Explanation:** The state sketch sequences address/data acceptance and the
+write response. Command inputs should be captured before they can change, and
+any timeout behavior is a teaching-design policy rather than part of the AXI
+protocol.
 
 ### Video 89 - Manager implementation part 2: write
 
@@ -112,6 +129,22 @@ marks it and `RREADY` accepts it.
 During `RVALID && !RREADY`, the Subordinate holds data/response and the FSM must
 remain in its receive state. Returning to idle from a level of `RVALID` without
 requiring `RREADY` would lose a stalled response.
+
+#### Handwritten page 42 - Write-response completion and read start
+
+![Handwritten AXI notes: Write-response completion and read start](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/42-axil-manager-write-response-and-read-start.jpg)
+
+**Explanation:** The upper notes finish the `B` channel, while the lower notes
+open the read branch. Each state advances on its exact channel handshake; a mere
+assertion of `VALID` or `READY` is not completion.
+
+#### Handwritten page 43 - Read-address acceptance and data counting
+
+![Handwritten AXI notes: Read-address acceptance and data counting](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/43-axil-manager-read-address-and-data-count.jpg)
+
+**Explanation:** The Manager sends `AR`, waits for the response, and records
+accepted data. In full AXI, completion must agree with an accepted `RLAST`; in
+this Lite teaching path there is only one read-data beat.
 
 ### Video 91 - Verifying the combined Manager
 

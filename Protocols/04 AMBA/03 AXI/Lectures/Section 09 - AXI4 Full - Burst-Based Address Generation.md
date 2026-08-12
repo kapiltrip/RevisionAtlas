@@ -8,14 +8,39 @@ The final section replaces the hardcoded next-address shortcut with logic based
 on `AxBURST`, `AxSIZE`, and `AxLEN`. It then rebuilds the Manager and
 Subordinate around that generator and verifies the connected pair.
 
+## Formal standard explanation
+
 For all modes, define:
 
 $$
 bytes\_per\_beat=2^{AxSIZE}
 $$
 
+and:
+
+$$
+beats=AxLEN+1
+$$
+
 `AxSIZE` must describe no more bytes than the data bus can carry. The complete
 transaction must also remain within one 4-KiB address region.
+
+For FIXED, every beat uses the starting address. For INCR, the first transfer
+uses the commanded address; subsequent transfers advance from the aligned
+address in steps of `bytes_per_beat`. For WRAP, define:
+
+$$
+wrap\_bytes=bytes\_per\_beat \times beats
+$$
+
+and align the wrap boundary downward to that many bytes. Address increments
+that reach the upper boundary return to the lower boundary. A WRAP burst must
+contain 2, 4, 8, or 16 beats and its starting address must be aligned to the
+transfer size. AXI4 permits up to 256 beats for INCR and up to 16 for the other
+burst types. Bursts cannot cross a 4-KiB boundary and cannot terminate early;
+even unwanted remaining beats must complete according to the original command.
+
+**Standard basis:** [Arm IHI 0022H, §§A3.4.1-A3.4.2](https://developer.arm.com/-/media/Arm%20Developer%20Community/PDF/IHI0022H_amba_axi_protocol_spec.pdf).
 
 ## Lessons 113-128
 

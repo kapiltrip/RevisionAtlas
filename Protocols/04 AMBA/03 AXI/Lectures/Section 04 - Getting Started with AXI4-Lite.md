@@ -9,7 +9,7 @@ language. It then walks all five memory-mapped channels, the four response
 encodings, and the final AXI4-Lite signal set. The page continually removes
 AXI3/full-AXI fields that do not belong on an AXI4-Lite interface.
 
-## Read this section with the correct protocol lens
+## Formal standard explanation
 
 The course section is named AXI Lite, but several frames in lessons 46-49 show
 **full AXI burst fields** and one **AXI3-only** field while building the general
@@ -18,6 +18,21 @@ set. The official
 [AMBA AXI and ACE Protocol Specification](https://developer.arm.com/-/media/Arm%20Developer%20Community/PDF/IHI0022H_amba_axi_protocol_spec.pdf)
 defines AXI4-Lite as single-beat, fixed-width operation without burst, ID, or
 last-beat signals.
+
+The five channels remain independent even in AXI4-Lite. In a write, the AW
+address and W data may be accepted in either order or on different cycles; a
+Subordinate therefore records the two handshakes separately and asserts
+`BVALID` only after both have occurred. In a read, the AR handshake establishes
+the request before the Subordinate returns `RVALID`, `RDATA`, and `RRESP`.
+Neither response source may wait for the corresponding `READY` before asserting
+its `VALID`.
+
+All AXI4-Lite transactions have burst length one and a fixed interface width of
+32 or 64 bits. `WSTRB` can still select which byte lanes are updated. Limiting a
+teaching design to one outstanding request is valid, but it is an implementation
+choice rather than the definition of AXI4-Lite.
+
+**Standard basis:** [Arm IHI 0022H, §§A3.2-A3.3 and B1.1](https://developer.arm.com/-/media/Arm%20Developer%20Community/PDF/IHI0022H_amba_axi_protocol_spec.pdf).
 
 | Signal or feature | AXI4 | AXI4-Lite |
 |---|---|---|

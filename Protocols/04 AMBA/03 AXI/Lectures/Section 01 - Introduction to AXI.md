@@ -9,6 +9,28 @@ the channels and their owners, define the accepted-transfer edge, turn that
 rule into source and destination RTL, and finally prove it in a waveform.
 Lesson 10 is the matching code resource rather than a separate video.
 
+## Formal standard explanation
+
+AXI moves information through independent, unidirectional channels. Each
+channel has one source that asserts `VALID`, one destination that asserts
+`READY`, and its own payload. A channel transfer occurs only on a rising
+`ACLK` edge where both signals are HIGH. Once the source raises `VALID`, it
+must keep `VALID` and the associated payload stable until that transfer occurs;
+it is not permitted to wait for `READY` before first asserting `VALID`. These
+rules prevent a legal destination that waits for `VALID` from deadlocking with
+the source.
+
+The AXI families reuse that contract for different information models.
+AXI4-Stream carries an ordered stream without an address channel. AXI4-Lite
+retains the five memory-mapped channels but restricts every transaction to one
+full-bus-width beat and removes burst and ID signals. Full AXI4 adds burst
+description, last-beat signaling, IDs, and richer ordering behavior. Therefore
+AXI4 is not merely “faster AXI4-Lite”; it represents a more expressive
+transaction model.
+
+**Standard basis:** [Arm IHI 0051B, §§2.1-2.2](../../../../_internal/Protocols/04%20AMBA/03%20AXI/sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf)
+and [Arm IHI 0022H, §§A3.2 and B1.1](https://developer.arm.com/-/media/Arm%20Developer%20Community/PDF/IHI0022H_amba_axi_protocol_spec.pdf).
+
 ## Lessons 1-10
 
 ### Video 1 - Agenda

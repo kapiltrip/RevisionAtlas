@@ -10,6 +10,24 @@ the control state explicit. The same AXI4-Lite handshakes still govern every
 transition; the FSM is an organization method, not a substitute for channel
 rules.
 
+## Formal standard explanation
+
+The AXI specification does not prescribe an FSM or require AW to precede W.
+Those are internal design decisions. Whatever state encoding is chosen, a
+transition that launches `AWVALID`, `WVALID`, or `ARVALID` must retain that
+signal and its payload until the corresponding handshake. Likewise, response
+states must retain `BVALID` or `RVALID` until accepted. State transitions must
+therefore be driven by channel `fire` events, not by elapsed cycles or by
+`READY` alone.
+
+A serialized Manager that issues AW and then W is legal, but a reusable
+Subordinate cannot depend on that order because another legal Manager may send
+W first or present both together. The no-pipeline FSM's single outstanding
+operation is also a local resource choice. It simplifies storage and ordering,
+but it must not be mistaken for a protocol limit.
+
+**Standard basis:** [Arm IHI 0022H, §§A3.2-A3.3 and B1.1](https://developer.arm.com/-/media/Arm%20Developer%20Community/PDF/IHI0022H_amba_axi_protocol_spec.pdf).
+
 ## Lessons 85-93
 
 ### Video 85 - Section 6 agenda

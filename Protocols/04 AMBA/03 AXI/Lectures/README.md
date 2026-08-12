@@ -13,6 +13,11 @@ lesson, the order is the original lecture screenshot, the detailed lecture
 explanation, the handwritten page, and then a page-specific explanation. No
 separate combined chapter file is required.
 
+Each section also begins with a short **Formal standard explanation**. Read it
+as the protocol contract behind the lesson: what an AXI-compliant interface
+must guarantee, what the RTL may choose freely, and which classroom shortcuts
+are not general AXI rules.
+
 ## Section order
 
 1. [Section 1 - Introduction to AXI](Section%2001%20-%20Introduction%20to%20AXI.md),

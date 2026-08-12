@@ -14,7 +14,7 @@ and module naming when studying the matching files under [Code](../Code/README.m
 The notes below identify the assumptions and ignored signals beside the lesson
 that introduces them; they do not replace the instructor's architecture.
 
-## The invariant behind every waveform
+## Formal standard explanation
 
 Each channel has its own acceptance event:
 
@@ -31,6 +31,20 @@ $$
 The waveform-based approach may use delays or counters to make a classroom
 trace, but a payload belongs to its channel's `VALID`. If `VALID=1` and
 `READY=0`, that payload remains stable until its own `fire` edge.
+
+For a Lite write, `AWADDR` and `WDATA` belong to separate channel transfers, so
+a Subordinate must not commit the operation merely because one arrived. After
+both AW and W are accepted, it may assert `BVALID` with `BRESP`; both remain
+stable until `b_fire`. For a read, the accepted AR request causes one R beat,
+and `RVALID`, `RDATA`, and `RRESP` remain stable until `r_fire`. A response
+cannot be treated as a one-cycle pulse whose loss is tolerated.
+
+“Without pipeline” means this implementation refuses a new operation until the
+current response completes. AXI4-Lite does not require that restriction. The
+standard constrains what crosses each channel; counters, flags, and the chosen
+number of outstanding operations are local microarchitecture.
+
+**Standard basis:** [Arm IHI 0022H, §§A3.2-A3.3 and B1.1](https://developer.arm.com/-/media/Arm%20Developer%20Community/PDF/IHI0022H_amba_axi_protocol_spec.pdf).
 
 ### Video 55 - Section 5 agenda
 

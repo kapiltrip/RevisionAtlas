@@ -9,7 +9,7 @@ markers, and transaction IDs return. To isolate channel control from address
 mathematics, the first implementation uses a fixed next-address assumption;
 Section 9 replaces that shortcut with burst-type-driven generation.
 
-## Full-AXI state that must travel with a transaction
+## Formal standard explanation
 
 A burst command contains more than an address. At minimum, the teaching logic
 must preserve the accepted ID, length, size, and burst type until the data and
@@ -21,6 +21,23 @@ $$
 
 The beat counter advances on an accepted W or R beat. `WLAST`/`RLAST` identify
 the final offered beat and are held with that beat during back-pressure.
+
+One accepted AW command describes the complete write burst. The Manager then
+sends exactly `AWLEN+1` accepted W beats and asserts `WLAST` with the final one;
+the Subordinate returns one B response only after the address and final data
+beat have been accepted. One accepted AR command similarly causes exactly
+`ARLEN+1` accepted R beats, with the Subordinate asserting `RLAST` on the final
+beat. The transaction ID labels the transaction and must be returned on its
+response path: `BID` matches the write ID, while `RID` accompanies every read
+beat for the corresponding read ID. An ID is not a per-beat counter.
+
+Hardcoding the next address is compliant only for the explicitly supported
+combination of `AxBURST`, `AxSIZE`, alignment, and length. A general AXI4
+component must interpret the accepted command fields, preserve them for the
+life of the burst, and keep every offered data beat stable during
+back-pressure.
+
+**Standard basis:** [Arm IHI 0022H, §§A3.3-A3.4](https://developer.arm.com/-/media/Arm%20Developer%20Community/PDF/IHI0022H_amba_axi_protocol_spec.pdf).
 
 ### Video 101 - Section 8 agenda
 

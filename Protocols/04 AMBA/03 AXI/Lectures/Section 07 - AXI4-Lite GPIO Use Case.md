@@ -10,6 +10,25 @@ reads return GPIO or status information. The address channel chooses a
 register, `WSTRB` chooses bytes inside that register, and the peripheral logic
 connects those stored bits to pins.
 
+## Formal standard explanation
+
+AXI4-Lite transports a register request but does not define the register's
+application behavior. The Subordinate must capture AW and W independently,
+associate one accepted address with one accepted data beat, apply the update
+once, and then return one B response. For byte lane $i$, `WSTRB[i]=1` marks
+`WDATA[8i+7:8i]` as valid write information; `WSTRB[i]=0` means that lane must
+not be modified by that transfer.
+
+An accepted AR request similarly produces exactly one R response. A mapped and
+successful access normally returns `OKAY`; an addressed peripheral can use
+`SLVERR` when it cannot complete the requested operation, while an interconnect
+commonly uses `DECERR` when no Subordinate is mapped. `EXOKAY` is not supported
+by AXI4-Lite. Debouncing and synchronizing a physical GPIO input remain local
+peripheral functions: they must produce stable register data, but they are not
+AXI handshake states.
+
+**Standard basis:** [Arm IHI 0022H, §§A3.3, A3.4.4, and B1.1](https://developer.arm.com/-/media/Arm%20Developer%20Community/PDF/IHI0022H_amba_axi_protocol_spec.pdf).
+
 ## Lessons 94-100
 
 ### Video 94 - Section 7 agenda

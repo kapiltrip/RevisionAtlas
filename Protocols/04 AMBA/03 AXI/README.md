@@ -12,7 +12,8 @@ Managers and Subordinates. The Namaste FPGA course is complete through
 - The [section-organized lecture notes](Lectures/README.md) are complete
   through lesson 128. Each of the nine section files places the matching
   handwritten page directly after the lesson's original screenshots and
-  explanation.
+  explanation, and begins with a concise formal-standard interpretation of
+  the protocol rules used in that section.
 - The [course-linked Code index](Code/README.md)
   preserves the teaching modules and testbenches with explicit signal and
   assumption comments.

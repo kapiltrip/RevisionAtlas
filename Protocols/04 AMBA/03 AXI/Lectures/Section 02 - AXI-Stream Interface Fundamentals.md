@@ -8,6 +8,30 @@ This section keeps the complete AXI-Stream signal, waveform, master, slave,
 integration, and standards-audit material together. Code-resource lessons 22,
 26, and 28 remain inline with the videos that explain them.
 
+## Formal standard explanation
+
+For AXI-Stream, the complete transfer condition is:
+
+$$
+axis\_fire = TVALID \land TREADY
+$$
+
+Only a rising `ACLK` edge satisfying this expression transfers one beat. When
+`TVALID=1` and `TREADY=0`, the Transmitter must retain `TVALID` and every
+implemented part of that offered beat, including `TDATA`, `TKEEP`, `TSTRB`,
+`TLAST`, `TID`, `TDEST`, and `TUSER`. The Receiver may wait to see `TVALID`
+before asserting `TREADY`; the Transmitter may not wait to see `TREADY` before
+asserting `TVALID`.
+
+The sidebands qualify the same accepted beat. `TKEEP[x]` says whether byte lane
+$x$ belongs to the stream, while `TSTRB[x]` distinguishes a data byte from a
+position byte when that lane is retained. `TLAST` marks a packet boundary only
+when its beat is accepted; it is not a separate completion pulse. During reset,
+`TVALID` must be LOW, and it may first rise on a clock edge after `ARESETn` has
+been observed HIGH.
+
+**Standard basis:** [Arm IHI 0051B, §§2.2, 2.5, 2.6, and 2.8](../../../../_internal/Protocols/04%20AMBA/03%20AXI/sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf).
+
 ## Lessons 11-28
 
 ### Video 11 - AXI-Stream agenda

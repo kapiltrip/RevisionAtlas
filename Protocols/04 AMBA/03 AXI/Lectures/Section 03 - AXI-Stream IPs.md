@@ -9,6 +9,28 @@ AXI-Stream arbiter and then to a FIFO that decouples producer and consumer
 timing. Lessons 33, 38, 42, and 44 are code resources kept beside the videos
 that establish their behavior.
 
+## Formal standard explanation
+
+An AXI-Stream arbiter or FIFO is protocol-correct only if the stream observed
+at its output is a lossless sequence of accepted input transfers. If an
+arbiter has asserted output `TVALID` and the downstream Receiver deasserts
+`TREADY`, the selected source and the entire output beat must remain unchanged;
+changing the grant during that stall would splice two sources into one offered
+transfer. A packet-locking arbiter normally retains its grant through the
+accepted beat carrying `TLAST`, although packet locking is an implementation
+policy rather than a universal AXI-Stream requirement. The standard permits
+transfer-level interleaving of distinct streams when their `TID`/`TDEST`
+identity and ordering are preserved.
+
+For a FIFO, enqueue occurs only on the upstream handshake and dequeue occurs
+only on the downstream handshake. Simultaneous enqueue and dequeue are two
+accepted transfers and can leave occupancy unchanged. The FIFO entry must store
+the complete implemented beat bundle, not only `TDATA`; otherwise a stall can
+separate `TLAST`, byte qualifiers, or user metadata from the payload they
+describe.
+
+**Standard basis:** [Arm IHI 0051B, §§2.2, 2.4.3, 2.6-2.7, and 4.1](../../../../_internal/Protocols/04%20AMBA/03%20AXI/sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf).
+
 ## Lessons 29-44
 
 ### Video 29 - Section 3 agenda

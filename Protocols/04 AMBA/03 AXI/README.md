@@ -9,14 +9,20 @@ Managers and Subordinates. The Namaste FPGA course is complete through
 
 ## Learning layers
 
+- **Integrated reading file:** [AXI Chapters](Chapters.md) combines all nine
+  lecture sections, every previously captured course screenshot, 60 newly
+  scanned handwritten pages, and the earlier round-robin question in one
+  lesson-by-lesson sequence.
 - **Course layer:** the [section-organized lecture index](Lectures/README.md)
   and [cross-layer course atlas](Course%20Atlas.md) are complete through lesson
   128.
 - **Instructor-code layer:** the [course-linked Code index](Code/README.md)
   preserves the teaching modules and testbenches with explicit signal and
   assumption comments.
-- **Handwritten layer:** [Kapil's AXI notes](Handwritten%20Notes.md) currently
-  contain one fully solved round-robin fairness page.
+- **Handwritten layer:** [Kapil's earlier AXI note](Handwritten%20Notes.md)
+  preserves the fully solved round-robin fairness page; the complete 60-page
+  scan intake is embedded beside its matching lessons in
+  [AXI Chapters](Chapters.md).
 - **Authority layer:** the local
   [Arm IHI 0051B AXI-Stream specification](../../../_internal/Protocols/04%20AMBA/03%20AXI/sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf)
   governs streaming claims; the official Arm IHI 0022H source governs
@@ -25,7 +31,8 @@ Managers and Subordinates. The Namaste FPGA course is complete through
 Layer 1 is split into the instructor's nine top-level course sections and
 contains meaningful real frames for all 105 video lessons. The other 23 lessons
 are code resources. Lessons 50-128 add 123 untouched, original-source 1080p
-frames; no frame is cropped or resized. Layer 2 contains Kapil's first
+frames; no frame is cropped or resized. The integrated reading file adds all 60
+new handwritten pages in course order while preserving Kapil's first
 handwritten page and its verified fairness solution.
 
 The course layer contains verified frames for the handshake path,

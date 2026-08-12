@@ -2,13 +2,16 @@
 
 [Back to AXI](README.md) | [Course atlas](Course%20Atlas.md) | [Back to AMBA](../README.md)
 
-This is Layer 2 of the AXI chapter. It preserves Kapil's handwritten AXI notes,
-maps each page to the exact course lesson, and places the verified solution
-beside the original question.
+This page preserves Kapil's earlier handwritten AXI question and its verified
+solution. The complete, current handwritten layer now lives in
+[AXI Chapters](Chapters.md), where all 60 newly scanned pages appear directly
+below their matching lecture screenshots and explanations.
 
 ## Intake status
 
-- One handwritten page is present; its original image is preserved below.
+- This earlier handwritten page is preserved below.
+- The three later scan sets contain 60 pages and are fully integrated in
+  [AXI Chapters](Chapters.md).
 - The page maps directly to
   [Video 31 — Round-robin arbiter part 2](Lectures/Section%2003%20-%20AXI-Stream%20IPs.md#video-31---round-robin-arbiter-part-2).
 - Any later AXI-Stream claim will be checked against
@@ -168,7 +171,8 @@ priority for the next grant.
 ## Current boundary
 
 The course layer is complete through **128. TB Code**, and all nine lecture
-sections live under [Lectures](Lectures). This handwritten layer currently has
-one page mapped to Video 31. Future handwritten arbiter, FIFO, AXI4-Lite, GPIO,
-or burst pages should link to the exact matching lesson without changing the
-completed course sequence.
+sections live under [Lectures](Lectures). This legacy page remains mapped to
+Video 31; the current integrated sequence in [AXI Chapters](Chapters.md) adds
+60 pages spanning interface selection, handshaking, AXI-Stream, AXI4-Lite,
+GPIO, full AXI4, and burst addressing without changing the completed course
+order.

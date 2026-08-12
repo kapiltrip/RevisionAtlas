@@ -63,8 +63,6 @@ PDF pages and 35 unique instructional pages.
 |   `-- handwritten/
 `-- 03 AXI/
     |-- README.md
-    |-- Course Atlas.md
-    |-- Handwritten Notes.md
     |-- Lectures/
     |   |-- Section 01 - Introduction to AXI.md
     |   |-- ...

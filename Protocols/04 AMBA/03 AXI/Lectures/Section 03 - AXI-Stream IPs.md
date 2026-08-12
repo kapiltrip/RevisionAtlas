@@ -1,6 +1,6 @@
 # Section 3 - Using AXI-Stream to Build IP
 
-[Previous: Section 2](Section%2002%20-%20AXI-Stream%20Interface%20Fundamentals.md) | [Course hub](../Course%20Atlas.md) | [Next: Section 4](Section%2004%20-%20Getting%20Started%20with%20AXI4-Lite.md)
+[Previous: Section 2](Section%2002%20-%20AXI-Stream%20Interface%20Fundamentals.md) | [Section index](README.md) | [Next: Section 4](Section%2004%20-%20Getting%20Started%20with%20AXI4-Lite.md)
 
 **Course status:** 16/16 lessons complete (lessons 29-44).
 
@@ -106,7 +106,8 @@ has just received service. The order of an `if`/`else if` chain is therefore
 hardware priority, not cosmetic source-code ordering.
 
 This is the direct solution to the question on the
-[handwritten fairness page](../Handwritten%20Notes.md#page-1---why-does-s1-check-req2-first).
+[handwritten fairness page](#earlier-handwritten-question---round-robin-fairness)
+below.
 
 #### Reset and decoder details
 

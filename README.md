@@ -33,7 +33,7 @@ usable hardware reasoning.
   pointers, flags, simultaneous operations, verification, and the path from a
   synchronous FIFO to an asynchronous CDC-safe design.
 
-## Complete AXI course atlas
+## Complete AXI course notes
 
 The [AXI chapter](Protocols/04%20AMBA/03%20AXI/README.md) is organized by the
 course's actual sections and is complete through lesson **128, TB Code**:

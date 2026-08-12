@@ -39,7 +39,7 @@ The framing and receiver terms are verified against the  and .
 
 ## Page 09 - UART as asynchronous framed serial communication
 
-
+![Handwritten UART page 09: protocol overview and asynchronous serial links](../../_internal/Protocols/03%20UART/images/page-09.jpeg)
 
 ### Technical discussion
 
@@ -68,7 +68,7 @@ If UART has no shared clock, what event gives the receiver a timing reference, a
 
 ## Page 10 - Bit time and the divider from a 50 MHz clock
 
-
+![Handwritten UART page 10: baud period and clock-divider calculations](../../_internal/Protocols/03%20UART/images/page-10.jpeg)
 
 ### Technical discussion
 
@@ -121,7 +121,7 @@ From a 50 MHz clock, calculate the ideal cycles per bit at 115200 baud and expla
 
 ## Page 11 - Why the receiver uses 16x oversampling
 
-
+![Handwritten UART page 11: transmitter timing and receiver oversampling](../../_internal/Protocols/03%20UART/images/page-11.jpeg)
 
 ### Technical discussion
 
@@ -160,7 +160,7 @@ Why is a sample enable at 16 times the baud rate useful if the design ultimately
 
 ## Page 12 - Reading the UART frame from idle through STOP
 
-
+![Handwritten UART page 12: UART frame fields and serial conversion](../../_internal/Protocols/03%20UART/images/page-12.jpeg)
 
 ### Technical discussion
 
@@ -191,7 +191,7 @@ Write the exact wire-level sequence for transmitting `0xA6` as 8-N-1, including 
 
 ## Page 13 - Baud-rate generator pulses and counter widths
 
-
+![Handwritten UART page 13: baud-rate generator counters and enables](../../_internal/Protocols/03%20UART/images/page-13.jpeg)
 
 ### Technical discussion
 
@@ -226,7 +226,7 @@ Why does a divide-by-5208 counter compare against 5207, and how many bits must t
 
 ## Page 14 - Building the transmitter as a timed FSM
 
-
+![Handwritten UART page 14: transmitter interface and finite-state machine](../../_internal/Protocols/03%20UART/images/page-14.jpeg)
 
 ### Technical discussion
 
@@ -259,7 +259,7 @@ If `start_tx` arrives halfway between baud ticks, when should the transmitter la
 
 ## Page 15 - Receiver timing and why sampling moves to bit centers
 
-
+![Handwritten UART page 15: receiver timing and center sampling](../../_internal/Protocols/03%20UART/images/page-15.jpeg)
 
 ### Technical discussion
 
@@ -288,7 +288,7 @@ Starting from the first detected LOW sample in 16x mode, describe when the recei
 
 ## Page 16 - Receiver pseudocode and nonblocking-assignment timing
 
-
+![Handwritten UART page 16: receiver pseudocode and RTL timing](../../_internal/Protocols/03%20UART/images/page-16.jpeg)
 
 ### Technical discussion
 

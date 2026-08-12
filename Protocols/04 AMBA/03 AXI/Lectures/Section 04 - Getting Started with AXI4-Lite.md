@@ -1,6 +1,6 @@
 # Section 4 - Getting Started with AXI4-Lite
 
-[Previous: Section 3](Section%2003%20-%20AXI-Stream%20IPs.md) | [Course hub](../Course%20Atlas.md) | [AXI chapter](../README.md) | [Next: Section 5](Section%2005%20-%20AXI4-Lite%20Single%20Beat%20without%20Pipeline%20-%20Waveform%20Approach.md)
+[Previous: Section 3](Section%2003%20-%20AXI-Stream%20IPs.md) | [Section index](README.md) | [AXI chapter](../README.md) | [Next: Section 5](Section%2005%20-%20AXI4-Lite%20Single%20Beat%20without%20Pipeline%20-%20Waveform%20Approach.md)
 
 **Course status:** 10/10 lessons complete, covering lessons 45-54.
 

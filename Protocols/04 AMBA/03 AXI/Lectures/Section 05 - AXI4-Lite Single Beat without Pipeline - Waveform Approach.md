@@ -1,6 +1,6 @@
 # Section 5 - AXI4-Lite Single Beat without Pipeline: Waveform Approach
 
-[Previous: Section 4](Section%2004%20-%20Getting%20Started%20with%20AXI4-Lite.md) | [Course hub](../Course%20Atlas.md) | [AXI chapter](../README.md) | [Next: Section 6](Section%2006%20-%20AXI4-Lite%20Single%20Beat%20without%20Pipeline%20-%20FSM%20Approach.md)
+[Previous: Section 4](Section%2004%20-%20Getting%20Started%20with%20AXI4-Lite.md) | [Section index](README.md) | [AXI chapter](../README.md) | [Next: Section 6](Section%2006%20-%20AXI4-Lite%20Single%20Beat%20without%20Pipeline%20-%20FSM%20Approach.md)
 
 **Course status:** 30/30 lessons complete, covering lessons 55-84.
 

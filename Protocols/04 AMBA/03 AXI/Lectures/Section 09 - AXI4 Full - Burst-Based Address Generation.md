@@ -1,6 +1,6 @@
 # Section 9 - AXI4 Full with Burst-Based Address Generation
 
-[Previous: Section 8](Section%2008%20-%20AXI4%20Full%20-%20Hardcoded%20Next%20Address.md) | [Course hub](../Course%20Atlas.md) | [AXI chapter](../README.md)
+[Previous: Section 8](Section%2008%20-%20AXI4%20Full%20-%20Hardcoded%20Next%20Address.md) | [Section index](README.md) | [AXI chapter](../README.md)
 
 **Course status:** 16/16 lessons complete, covering lessons 113-128.
 
@@ -337,4 +337,4 @@ These rules are checked against the official
 8. What extra structure would multiple outstanding IDs require?
 9. What must a final scoreboard derive before it can check data?
 
-[Return to the course hub](../Course%20Atlas.md).
+[Return to the section index](README.md).

@@ -1,6 +1,6 @@
 # Section 6 - AXI4-Lite Single Beat without Pipeline: FSM Approach
 
-[Previous: Section 5](Section%2005%20-%20AXI4-Lite%20Single%20Beat%20without%20Pipeline%20-%20Waveform%20Approach.md) | [Course hub](../Course%20Atlas.md) | [AXI chapter](../README.md) | [Next: Section 7](Section%2007%20-%20AXI4-Lite%20GPIO%20Use%20Case.md)
+[Previous: Section 5](Section%2005%20-%20AXI4-Lite%20Single%20Beat%20without%20Pipeline%20-%20Waveform%20Approach.md) | [Section index](README.md) | [AXI chapter](../README.md) | [Next: Section 7](Section%2007%20-%20AXI4-Lite%20GPIO%20Use%20Case.md)
 
 **Course status:** 9/9 lessons complete, covering lessons 85-93.
 

@@ -1,6 +1,6 @@
 # Section 8 - AXI4 Full with Hardcoded Next-Address Logic
 
-[Previous: Section 7](Section%2007%20-%20AXI4-Lite%20GPIO%20Use%20Case.md) | [Course hub](../Course%20Atlas.md) | [AXI chapter](../README.md) | [Next: Section 9](Section%2009%20-%20AXI4%20Full%20-%20Burst-Based%20Address%20Generation.md)
+[Previous: Section 7](Section%2007%20-%20AXI4-Lite%20GPIO%20Use%20Case.md) | [Section index](README.md) | [AXI chapter](../README.md) | [Next: Section 9](Section%2009%20-%20AXI4%20Full%20-%20Burst-Based%20Address%20Generation.md)
 
 **Course status:** 12/12 lessons complete, covering lessons 101-112.
 

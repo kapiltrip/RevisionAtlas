@@ -1,6 +1,6 @@
 # AXI lecture notes
 
-[Back to AXI](../README.md) | [Course atlas](../Course%20Atlas.md) | [Instructor code](../Code/README.md) | [Handwritten notes](../Handwritten%20Notes.md)
+[Back to AXI](../README.md) | [Instructor code](../Code/README.md)
 
 These nine files mirror the instructor's nine top-level sections. Every lesson
 number appears once, in course order. All 105 video lessons keep meaningful

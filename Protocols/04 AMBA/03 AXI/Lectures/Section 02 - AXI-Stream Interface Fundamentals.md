@@ -1,6 +1,6 @@
 # Section 2 - AXI-Stream Interface Fundamentals
 
-[Previous: Section 1](Section%2001%20-%20Introduction%20to%20AXI.md) | [Course hub](../Course%20Atlas.md) | [Next: Section 3](Section%2003%20-%20AXI-Stream%20IPs.md)
+[Previous: Section 1](Section%2001%20-%20Introduction%20to%20AXI.md) | [Section index](README.md) | [Next: Section 3](Section%2003%20-%20AXI-Stream%20IPs.md)
 
 **Course status:** 18/18 lessons complete (lessons 11-28).
 

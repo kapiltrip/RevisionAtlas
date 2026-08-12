@@ -7,25 +7,21 @@ specializes it for AXI-Stream and AXI4-Lite, then finishes with full AXI4 burst
 Managers and Subordinates. The Namaste FPGA course is complete through
 **128. TB Code**, with all nine sections verified at 100%.
 
-## Learning layers
+## What is here
 
-- **Course layer:** the [section-organized lecture index](Lectures/README.md)
-  and [cross-layer course atlas](Course%20Atlas.md) are complete through lesson
-  128. Each of the nine section files now places the matching handwritten page
-  directly after the lesson's original screenshots and explanation.
-- **Instructor-code layer:** the [course-linked Code index](Code/README.md)
+- The [section-organized lecture notes](Lectures/README.md) are complete
+  through lesson 128. Each of the nine section files places the matching
+  handwritten page directly after the lesson's original screenshots and
+  explanation.
+- The [course-linked Code index](Code/README.md)
   preserves the teaching modules and testbenches with explicit signal and
   assumption comments.
-- **Handwritten layer:** [Kapil's earlier AXI note](Handwritten%20Notes.md)
-  preserves the fully solved round-robin fairness page. The complete 60-page
-  scan intake is embedded beside its matching lessons in the existing
-  [lecture sections](Lectures/README.md).
-- **Authority layer:** the local
+- The local
   [Arm IHI 0051B AXI-Stream specification](../../../_internal/Protocols/04%20AMBA/03%20AXI/sources/ARM-IHI-0051B-AMBA-AXI-Stream-Protocol-Specification.pdf)
   governs streaming claims; the official Arm IHI 0022H source governs
   memory-mapped AXI4 and AXI4-Lite distinctions.
 
-Layer 1 is split into the instructor's nine top-level course sections and
+The revision notes are split into the instructor's nine top-level sections and
 contains meaningful real frames for all 105 video lessons. The other 23 lessons
 are code resources. Lessons 50-128 add 123 untouched, original-source 1080p
 frames; no frame is cropped or resized. Those same section files now add all 60
@@ -150,8 +146,8 @@ zero-byte packet-ending event that must not be discarded.
   distinctions.
 - The [Namaste FPGA course page](https://namaste-fpga.com/student/learn/53)
   supplies lesson order, drawings, waveform examples, and teaching RTL through
-  lesson 128. The local [course atlas](Course%20Atlas.md) preserves the selected
-  frames and their verified explanations.
+  lesson 128. The local [section notes](Lectures/README.md) preserve the
+  selected frames and their verified explanations.
 - The [AMD AXI Protocol Checker overview](https://docs.amd.com/r/en-US/pg101-axi-protocol-checker/Overview)
   supports the checker integration and violation-reporting explanations in
   Section 5.
@@ -172,8 +168,8 @@ zero-byte packet-ending event that must not be discarded.
    one-cycle pulse independent of acceptance.
 5. In RTL, gate every beat counter, FIFO pointer, packet counter, and input-data
    advance with the same `fire` event.
-6. Revisit the [video atlas](Course%20Atlas.md), then explain each correction
-   in the table above without looking.
+6. Revisit the [section notes](Lectures/README.md), then explain each
+   correction in the table above without looking.
 
 ## Completion checkpoint
 

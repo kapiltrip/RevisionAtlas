@@ -1,6 +1,6 @@
 # Section 1 - Introduction to AXI
 
-[Course hub](../Course%20Atlas.md) | [AXI chapter](../README.md) | [Next: Section 2](Section%2002%20-%20AXI-Stream%20Interface%20Fundamentals.md)
+[Section index](README.md) | [AXI chapter](../README.md) | [Next: Section 2](Section%2002%20-%20AXI-Stream%20Interface%20Fundamentals.md)
 
 **Course status:** 10/10 lessons complete. Videos 1-9 are explained below; lesson 10 is the matching code resource.
 
@@ -389,4 +389,4 @@ screenshots:
    update of a destination register?
 10. Why do `SLVERR` and `DECERR` not mean “empty memory” or automatic retry?
 
-[Return to the course hub](../Course%20Atlas.md).
+[Return to the section index](README.md).

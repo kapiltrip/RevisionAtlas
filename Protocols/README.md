@@ -4,7 +4,7 @@ This subject covers hardware communication protocols. The existing 16-page handw
 
 <a id="core-terms"></a>
 
-[Term dictionary](../dictionary/protocols.md#core-terms)
+[Term dictionary](../dictionary/README.md#protocols-core-terms)
 
 ## Ordered path
 

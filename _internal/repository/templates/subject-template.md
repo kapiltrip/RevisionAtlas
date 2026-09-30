@@ -17,9 +17,9 @@ State what the subject explains, verifies, predicts, or implements. State what i
 
 ## Term reference
 
-Link to `dictionary/<subject-slug>.md`, adjusting the relative path for this
-README. Keep the definitions and inline citations in that dictionary file,
-with a return link here and an entry in `dictionary/README.md`. Use the
+Link to `dictionary/README.md#<subject-anchor>`, adjusting the relative path
+for this README. Add definitions and inline citations to that subject section
+in the single dictionary, and update its subject and term indexes. Use the
 [content standard](../guides/CONTENT_STANDARD.md) for definition depth.
 
 ## Important “why” questions

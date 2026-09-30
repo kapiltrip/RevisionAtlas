@@ -4,7 +4,7 @@ These five pages build I2C from the purpose of a protocol, through its open-drai
 
 <a id="core-term-key"></a>
 
-[Term dictionary](../../dictionary/i2c.md#core-terms)
+[Term dictionary](../../dictionary/README.md#i2c-core-terms)
 
 ## Page map
 

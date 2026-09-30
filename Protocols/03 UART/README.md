@@ -4,7 +4,7 @@ These eight pages progress from asynchronous serial communication into an RTL-or
 
 <a id="core-term-key"></a>
 
-[Term dictionary](../../dictionary/uart.md#core-terms)
+[Term dictionary](../../dictionary/README.md#uart-core-terms)
 
 ## Page map
 

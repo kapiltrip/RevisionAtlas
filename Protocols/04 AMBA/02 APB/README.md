@@ -17,7 +17,7 @@ GPIO, and control/status blocks.
 
 <a id="core-terms-in-transaction-order"></a>
 
-[Term dictionary](../../../dictionary/apb.md#core-terms)
+[Term dictionary](../../../dictionary/README.md#apb-core-terms)
 
 ## The central timing rule
 

@@ -6,7 +6,7 @@ This module closes the first notebook sequence by connecting transistor-strength
 
 <a id="local-term-key"></a>
 
-[Term dictionary](../../dictionary/mosfet-and-cmos.md#cmos-sizing-and-nand-timing)
+[Term dictionary](../../dictionary/README.md#mosfet-and-cmos-cmos-sizing-and-nand-timing)
 
 ## Page map
 

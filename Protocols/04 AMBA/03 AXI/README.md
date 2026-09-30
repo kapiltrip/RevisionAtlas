@@ -53,7 +53,7 @@ preserving the stream rules, as stated by the
 
 <a id="core-term-key"></a>
 
-[Term dictionary](../../../dictionary/axi.md#core-terms)
+[Term dictionary](../../../dictionary/README.md#axi-core-terms)
 
 ## The one equation that controls the RTL
 

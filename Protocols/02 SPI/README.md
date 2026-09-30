@@ -4,7 +4,7 @@ These three pages move from the SPI wiring model to simultaneous shift-register 
 
 <a id="core-term-key"></a>
 
-[Term dictionary](../../dictionary/spi.md#core-terms)
+[Term dictionary](../../dictionary/README.md#spi-core-terms)
 
 ## Page map
 

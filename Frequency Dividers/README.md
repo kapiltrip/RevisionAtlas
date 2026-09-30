@@ -11,7 +11,7 @@ This chapter follows the handwritten notebook page by page. Every source page is
 
 | Revision area | Jump directly |
 |---|---|
-| Fundamentals | [Term dictionary](../dictionary/frequency-dividers.md) · [What is actually divided?](#what-is-divided) · [Minimum flip-flops](#minimum-flip-flops) · [Revision method](#revision-method) |
+| Fundamentals | [Term dictionary](../dictionary/README.md#frequency-dividers) · [What is actually divided?](#what-is-divided) · [Minimum flip-flops](#minimum-flip-flops) · [Revision method](#revision-method) |
 | Basic integer division | [Page 01: divider meaning](#page-01) · [Page 02: toggle divide-by-2 and divide-by-4](#page-02) · [75/98 counter example](#counter-75-98) · [Page 03: duty cycle](#page-03) |
 | Modulo and duty-cycle designs | [Page 04: modulo-3](#page-04) · [Complete f/3 duty-cycle grid](#divide-by-3-duty-grid) · [Page 05: divide-by-3 and modulo-5](#page-05) · [Page 06: modulo-5](#page-06) · [Page 07: divide-by-2 duty cycles](#page-07) · [Page 08: pulse cutting and divide-by-3](#page-08) · [Page 09: divide-by-3 and divide-by-4](#page-09) |
 | Fractional division | [Page 10: divide-by-1.5 meaning](#page-10) · [Page 11: divide-by-1.5 edge detection](#page-11) · [Page 12: divide-by-2.5](#page-12) · [Page 13: both-edge state machine](#page-13) |
@@ -43,7 +43,7 @@ For an interview, the default architecture should be synchronous: all state flip
 
 <a id="core-term-dictionary"></a>
 
-[Term dictionary](../dictionary/frequency-dividers.md#core-terms)
+[Term dictionary](../dictionary/README.md#frequency-dividers-core-terms)
 
 <a id="what-is-divided"></a>
 

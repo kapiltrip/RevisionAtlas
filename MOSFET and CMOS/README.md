@@ -12,7 +12,7 @@ The ellipses preserve the intent of the voice-typed brief while removing filler 
 
 <a id="core-term-map"></a>
 
-[Term dictionary](../dictionary/mosfet-and-cmos.md#core-terms)
+[Term dictionary](../dictionary/README.md#mosfet-and-cmos-core-terms)
 
 ## Ordered path
 

@@ -6,7 +6,7 @@ FIFO is the second major VLSI design topic in this repository. The aim is not to
 
 <a id="core-term-dictionary"></a>
 
-[Term dictionary](../dictionary/fifo.md#core-terms)
+[Term dictionary](../dictionary/README.md#fifo-core-terms)
 
 ## How to revise FIFO
 

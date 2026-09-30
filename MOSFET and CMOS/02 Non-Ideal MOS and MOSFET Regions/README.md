@@ -6,7 +6,7 @@ This module turns ideal electrostatics into practical device equations. It expla
 
 <a id="local-term-key"></a>
 
-[Term dictionary](../../dictionary/mosfet-and-cmos.md#non-ideal-mos-and-mosfet-regions)
+[Term dictionary](../../dictionary/README.md#mosfet-and-cmos-non-ideal-mos-and-mosfet-regions)
 
 ## Page map
 

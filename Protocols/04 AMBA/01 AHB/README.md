@@ -21,7 +21,7 @@ states.
 
 <a id="core-terms"></a>
 
-[Term dictionary](../../../dictionary/ahb.md#core-terms)
+[Term dictionary](../../../dictionary/README.md#ahb-core-terms)
 
 ## The central timing idea
 

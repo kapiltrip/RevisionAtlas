@@ -6,7 +6,7 @@ This module turns the CMOS inverter from a DC transfer curve into a real logic g
 
 <a id="local-term-key"></a>
 
-[Term dictionary](../../dictionary/mosfet-and-cmos.md#cmos-switching-delay-power-and-noise)
+[Term dictionary](../../dictionary/README.md#mosfet-and-cmos-cmos-switching-delay-power-and-noise)
 
 ## Page map
 

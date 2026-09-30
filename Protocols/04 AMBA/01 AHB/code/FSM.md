@@ -91,7 +91,7 @@ accepted.
 
 <a id="rtl-variable-dictionary"></a>
 
-[RTL variable dictionary](../../../../dictionary/ahb.md#rtl-variables)
+[RTL variable dictionary](../../../../dictionary/README.md#ahb-rtl-variables)
 
 ## Recall test
 

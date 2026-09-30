@@ -6,7 +6,7 @@ This module builds the electrostatic picture beneath every MOSFET: choose energy
 
 <a id="local-term-key"></a>
 
-[Term dictionary](../../dictionary/mosfet-and-cmos.md#mos-capacitor-fundamentals)
+[Term dictionary](../../dictionary/README.md#mosfet-and-cmos-mos-capacitor-fundamentals)
 
 ## Page map
 

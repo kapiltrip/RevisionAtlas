@@ -1,6 +1,6 @@
 # Static Timing Analysis (STA)
 
-[Back to Subjects](../README.md) | [STA dictionary](../dictionary/static-timing-analysis.md) | [Original 24-page scan](../_internal/Static%20Timing%20Analysis/sources/sta-handwritten-notes-pages-01-24.pdf) | [Original extra page](../_internal/Static%20Timing%20Analysis/sources/sta-handwritten-notes-page-25.jpeg)
+[Back to Subjects](../README.md) | [STA dictionary](../dictionary/README.md#static-timing-analysis) | [Original 24-page scan](../_internal/Static%20Timing%20Analysis/sources/sta-handwritten-notes-pages-01-24.pdf) | [Original extra page](../_internal/Static%20Timing%20Analysis/sources/sta-handwritten-notes-page-25.jpeg)
 
 This subject pillar turns 25 handwritten pages into one source-linked revision room. The notes begin with transmission gates, latches, and flip-flops, then build the setup/hold equations, arrival and required time, slack, clock skew, maximum frequency, negative timing parameters, and worked register-to-register examples.
 

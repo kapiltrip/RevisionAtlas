@@ -6,7 +6,7 @@ This module refines the ideal MOSFET into a usable circuit model: transfer curve
 
 <a id="local-term-key"></a>
 
-[Term dictionary](../../dictionary/mosfet-and-cmos.md#mosfet-models-and-cmos-inverter)
+[Term dictionary](../../dictionary/README.md#mosfet-and-cmos-mosfet-models-and-cmos-inverter)
 
 ## Page map
 

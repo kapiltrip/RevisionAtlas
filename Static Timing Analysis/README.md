@@ -56,21 +56,21 @@ For every problem, draw the launch edge, capture edge, full clock paths, and ful
 
 | Page | Revision focus | Page | Revision focus |
 |---:|---|---:|---|
-| [1](#page-01) | Why STA; transmission-gate operation | [14](#page-14) | Correct hold inequality; setup versus hold criticality |
-| [2](#page-02) | 4:1 multiplexer using transmission gates | [15](#page-15) | Positive and negative clock skew |
-| [3](#page-03) | Transmission-gate D latch and feedback | [16](#page-16) | Maximum frequency from flip-flop parameters |
-| [4](#page-04) | Negative-edge master-slave flip-flop | [17](#page-17) | Testing candidate clock periods |
-| [5](#page-05) | Active-low latch and internal setup path | [18](#page-18) | Frequency and hold-violation examples |
-| [6](#page-06) | Physical meaning of hold time | [19](#page-19) | Clock latency equations; negative hold time |
-| [7](#page-07) | Register-to-register setup derivation | [20](#page-20) | Effective and negative setup/hold times |
-| [8](#page-08) | Full adder built from half adders | [21](#page-21) | Why data delay improves hold margin |
-| [9](#page-09) | Required time, arrival time, and setup slack | [22](#page-22) | General setup/hold equations with clock delays |
-| [10](#page-10) | Inequality equivalence; sticky-note correction | [23](#page-23) | Worked skew example and missing data-path delay |
-| [11](#page-11) | Min/max delay tuples and path bookkeeping | [24](#page-24) | Three-register pipeline and symbolic $f_{max}$ |
-| [12](#page-12) | Worst-case setup pairing and clock corners | [25](#page-25) | Final numerical problem, including red correction |
-| [13](#page-13) | Hold analysis, min delays, and hold slack |  |  |
+| <a id="index-page-01"></a>[1](#page-01) | Why STA; transmission-gate operation | <a id="index-page-14"></a>[14](#page-14) | Correct hold inequality; setup versus hold criticality |
+| <a id="index-page-02"></a>[2](#page-02) | 4:1 multiplexer using transmission gates | <a id="index-page-15"></a>[15](#page-15) | Positive and negative clock skew |
+| <a id="index-page-03"></a>[3](#page-03) | Transmission-gate D latch and feedback | <a id="index-page-16"></a>[16](#page-16) | Maximum frequency from flip-flop parameters |
+| <a id="index-page-04"></a>[4](#page-04) | Negative-edge master-slave flip-flop | <a id="index-page-17"></a>[17](#page-17) | Testing candidate clock periods |
+| <a id="index-page-05"></a>[5](#page-05) | Active-low latch and internal setup path | <a id="index-page-18"></a>[18](#page-18) | Frequency and hold-violation examples |
+| <a id="index-page-06"></a>[6](#page-06) | Physical meaning of hold time | <a id="index-page-19"></a>[19](#page-19) | Clock latency equations; negative hold time |
+| <a id="index-page-07"></a>[7](#page-07) | Register-to-register setup derivation | <a id="index-page-20"></a>[20](#page-20) | Effective and negative setup/hold times |
+| <a id="index-page-08"></a>[8](#page-08) | Full adder built from half adders | <a id="index-page-21"></a>[21](#page-21) | Why data delay improves hold margin |
+| <a id="index-page-09"></a>[9](#page-09) | Required time, arrival time, and setup slack | <a id="index-page-22"></a>[22](#page-22) | General setup/hold equations with clock delays |
+| <a id="index-page-10"></a>[10](#page-10) | Inequality equivalence; sticky-note correction | <a id="index-page-23"></a>[23](#page-23) | Worked skew example and missing data-path delay |
+| <a id="index-page-11"></a>[11](#page-11) | Min/max delay tuples and path bookkeeping | <a id="index-page-24"></a>[24](#page-24) | Three-register pipeline and symbolic $f_{max}$ |
+| <a id="index-page-12"></a>[12](#page-12) | Worst-case setup pairing and clock corners | <a id="index-page-25"></a>[25](#page-25) | Final numerical problem, including red correction |
+| <a id="index-page-13"></a>[13](#page-13) | Hold analysis, min delays, and hold slack |  |  |
 
-## The timing spine used throughout these pages
+## Setup and hold reference equations
 
 For one register-to-register path, define:
 
@@ -127,11 +127,13 @@ These two equations are the reference frame for the rest of this file. A real si
 
 ## Page 01 - Why STA exists, and how a transmission gate passes data
 
+[Back to index — page 1](#index-page-01)
+
 ![STA handwritten notes page 1](../_internal/Static%20Timing%20Analysis/images/page-01.jpeg)
 
-### What this page is doing
+### STA coverage and transmission-gate operation
 
-The opening page asks two definition-level questions: **what STA proves** and **why it is called static**. It then introduces the transmission gate that later forms the data and feedback paths inside the latches.
+STA establishes timing compliance without simulating input sequences. A CMOS transmission gate provides the controlled data and feedback connections used in latches.
 
 The handwritten phrase “frequency requirement” belongs primarily to the **setup** side of timing. Increasing frequency reduces the available clock period,
 
@@ -228,7 +230,7 @@ The note “1 pMOS, 1 nMOS, so tri-state buffer” captures only the rough obser
 | Logic inversion | None | Buffer is non-inverting; tri-state inverter is also possible |
 | Typical use here | Data selection and latch feedback | Driving a shared bus from one directional source |
 
-So the accurate description for the page is:
+A precise definition is:
 
 > **A transmission gate is a complementary, bidirectional CMOS pass switch. It has an enabled conducting state and a disabled high-impedance state, but it is not a conventional directional tri-state buffer.**
 
@@ -236,13 +238,17 @@ So the accurate description for the page is:
 
 Why can STA analyze a path that a simulation testbench never activates, why does lowering frequency not normally fix hold, and which transistor prevents a degraded HIGH when the transmission gate is enabled?
 
+[Back to index — page 1](#index-page-01)
+
 <a id="page-02"></a>
 
 ## Page 02 - A 4:1 multiplexer made from transmission gates
 
+[Back to index — page 2](#index-page-02)
+
 ![STA handwritten notes page 2](../_internal/Static%20Timing%20Analysis/images/page-02.jpeg)
 
-### What this page is doing
+### One-hot selection and complementary gate controls
 
 For select bits $A$ and $B$, a 4:1 multiplexer implements
 
@@ -264,15 +270,19 @@ The small equation beside a single transmission gate should not be read as $Y=A\
 
 For $AB=10$, which input is selected, and what complementary control pair must its transmission gate receive?
 
+[Back to index — page 2](#index-page-02)
+
 <a id="page-03"></a>
 
 ## Page 03 - D latch: transparent path, closed feedback, and memory
 
+[Back to index — page 3](#index-page-03)
+
 ![STA handwritten notes page 3](../_internal/Static%20Timing%20Analysis/images/page-03.jpeg)
 
-### What this page is doing
+### Transparent operation and regenerative feedback
 
-A single transmission gate can make $Q$ follow $D$ while enabled, but it cannot retain a logic value after isolation. Leakage would eventually discharge the floating capacitance. The second half of the page fixes that by adding a complementary feedback gate and two inverters.
+A single transmission gate can make $Q$ follow $D$ while enabled, but it cannot retain a logic value after isolation. Leakage would eventually discharge the floating capacitance. A complementary feedback gate and two inverters provide regenerative storage.
 
 For a conventional active-high latch,
 
@@ -282,7 +292,7 @@ $$
 
 When $EN=1$, input transmission gate $T_1$ is on and feedback gate $T_2$ is off; the latch is transparent, so after propagation delay $Q$ follows $D$. When $EN=0$, $T_1$ turns off and $T_2$ turns on. The two cascaded inverters have overall non-inverting polarity, so the feedback loop reinforces the stored bit instead of toggling it.
 
-The page's labels appear to use the opposite external enable polarity in places. That is not a different memory mechanism; it only means the truth equation becomes
+The handwritten enable labels appear to use the opposite polarity in places. For an active-low enable, the same memory mechanism has the truth equation
 
 $$
 Q^{+}=\overline{EN}\cdot D+EN\cdot Q
@@ -298,13 +308,17 @@ The red “memory data” marking is the key event: at the closing transition, t
 
 Why are two inverters used in the feedback loop instead of one?
 
+[Back to index — page 3](#index-page-03)
+
 <a id="page-04"></a>
 
 ## Page 04 - Building a negative-edge flip-flop from two latches
 
+[Back to index — page 4](#index-page-04)
+
 ![STA handwritten notes page 4](../_internal/Static%20Timing%20Analysis/images/page-04.jpeg)
 
-### What this page is doing
+### Master-slave operation at the falling edge
 
 Two level-sensitive latches driven by complementary clock phases form a master-slave flip-flop. In the drawn negative-edge arrangement, latch 1 is transparent while $CLK=1$ and latch 2 is closed. Latch 1 tracks the input but the output stage remains isolated.
 
@@ -320,15 +334,19 @@ The clock inverter shown at the top creates complementary latch enables. In a ph
 
 Immediately after the falling edge, which latch is closed, which is open, and why can a later change on $D$ not reach $Q$?
 
+[Back to index — page 4](#index-page-04)
+
 <a id="page-05"></a>
 
 ## Page 05 - Active-low D latch and the internal origin of setup time
 
+[Back to index — page 5](#index-page-05)
+
 ![STA handwritten notes page 5](../_internal/Static%20Timing%20Analysis/images/page-05.jpeg)
 
-### What this page is doing
+### Data propagation before latch closure
 
-The highlighted path follows new data from $D$ through the input transmission gate toward $Q$ and through the inverter chain that prepares the feedback value. For the polarity drawn on this page, $EN=0$ makes the latch transparent and $EN=1$ makes it hold:
+New data propagates from $D$ through the input transmission gate toward $Q$ and through the inverter chain that prepares the feedback value. With an active-low enable, $EN=0$ makes the latch transparent and $EN=1$ makes it hold:
 
 $$
 EN=0:\ Q^{+}=D,
@@ -344,19 +362,23 @@ Before the latch closes, the intended data must propagate far enough into the in
 
 The statement “setup time is the delay of $T_1+N_1+N_2$” must not be used as a universal cell formula. Setup time is a characterized relationship between the external D and clock pins, usually determined by sweeping D-to-clock separation until clock-to-Q degradation or metastability reaches a specified criterion. Internal parallel paths, clock-gate delay, transistor sizing, slope, load, voltage, and process can make the characterized value different from one simple path sum.
 
-The bottom edge sketch should be interpreted using the active-low polarity: the relevant closing edge is the edge that changes the latch from transparent to hold. For this page that is the rising edge of $EN$.
+The bottom edge sketch should be interpreted using the active-low polarity: the relevant closing edge is the edge that changes the latch from transparent to hold. For an active-low latch, this is the rising edge of $EN$.
 
 ### Active recall
 
 Why can a path-delay sum explain the origin of setup time without being equal to the library's characterized $t_{su}$?
 
+[Back to index — page 5](#index-page-05)
+
 <a id="page-06"></a>
 
 ## Page 06 - Hold time is an endpoint stability requirement
 
+[Back to index — page 6](#index-page-06)
+
 ![STA handwritten notes page 6](../_internal/Static%20Timing%20Analysis/images/page-06.jpeg)
 
-### What this page is doing
+### Data stability at the capture input
 
 Hold time is the interval after the capture edge during which the receiving flip-flop's D pin must remain stable. Its internal clock-controlled devices take finite time to isolate the old input and establish the regenerative state. A change too soon after the edge can compete with the value being captured and cause the wrong value or metastability.
 
@@ -382,13 +404,17 @@ It is imprecise to say “FF1 should hold the data.” FF1 is not commanded to e
 
 Why do we use $t_{cq,min}$ and $t_{comb,min}$ for hold rather than their maximum values?
 
+[Back to index — page 6](#index-page-06)
+
 <a id="page-07"></a>
 
 ## Page 07 - Deriving the setup constraint
 
+[Back to index — page 7](#index-page-07)
+
 ![STA handwritten notes page 7](../_internal/Static%20Timing%20Analysis/images/page-07.jpeg)
 
-### What this page is doing
+### Launch-to-capture timing budget
 
 At the launch edge, FF1 begins producing new data. With ideal zero-skew clocks, the latest arrival at FF2 is
 
@@ -414,7 +440,7 @@ $$
 T_{clk}\ge t_{cq1,max}+t_{comb,max}+t_{su2}.
 $$
 
-The derivation on the page rearranges this as an upper bound on allowed setup time. That algebra is valid, but in design work $t_{su2}$ is normally fixed by the chosen cell, while $T_{clk}$ or the data path is what the designer changes.
+Rearranging gives an upper bound on allowed setup time. That algebra is valid, but in design work $t_{su2}$ is normally fixed by the chosen cell, while $T_{clk}$ or the data path is what the designer changes.
 
 ### Correction
 
@@ -424,13 +450,17 @@ The phrase “before this setup time data should come” is best stated as: the 
 
 If $t_{cq,max}=0.8\,ns$, $t_{comb,max}=3.7\,ns$, and $t_{su}=0.5\,ns$, what is the minimum zero-skew clock period?
 
+[Back to index — page 7](#index-page-07)
+
 <a id="page-08"></a>
 
 ## Page 08 - Full adder from two half adders
 
+[Back to index — page 8](#index-page-08)
+
 ![STA handwritten notes page 8](../_internal/Static%20Timing%20Analysis/images/page-08.jpeg)
 
-### What this page is doing
+### Sum and carry derivation
 
 The first half adder receives $A,B$:
 
@@ -454,7 +484,7 @@ $$
 C_{out}=C_1+C_2=AB+(A\oplus B)C_{in}.
 $$
 
-The page notes that $C_1$ and $C_2$ cannot both be 1. That is correct: $C_1=1$ requires $A=B=1$, which makes $A\oplus B=0$ and therefore $C_2=0$. Because the terms are mutually exclusive, OR and XOR produce the same value for these two signals:
+The carry terms $C_1$ and $C_2$ cannot both be 1: $C_1=1$ requires $A=B=1$, which makes $A\oplus B=0$ and therefore $C_2=0$. Because the terms are mutually exclusive, OR and XOR produce the same value for these two signals:
 
 $$
 C_1+C_2=C_1\oplus C_2.
@@ -472,15 +502,19 @@ The carry path and sum path have different logic depths. In a ripple-carry adder
 
 Prove in one line that $C_1C_2=0$ for every $A,B,C_{in}$.
 
+[Back to index — page 8](#index-page-08)
+
 <a id="page-09"></a>
 
 ## Page 09 - Arrival time, required time, and setup slack
 
+[Back to index — page 9](#index-page-09)
+
 ![STA handwritten notes page 9](../_internal/Static%20Timing%20Analysis/images/page-09.jpeg)
 
-### What this page is doing
+### Setup arrival, deadline, and slack
 
-The page gives the two quantities used in a setup report:
+A setup report compares arrival time with required time:
 
 $$
 A_{setup}=t_{cq,max}+t_{comb,max},
@@ -501,7 +535,7 @@ $$
 A_{setup}\le R_{setup}.
 $$
 
-The page's example uses $t_{cq}=3\,ns$, $t_{comb}=10\,ns$, $T_{clk}=20\,ns$, and $t_{su}=4\,ns$:
+Use $t_{cq}=3\,ns$, $t_{comb}=10\,ns$, $T_{clk}=20\,ns$, and $t_{su}=4\,ns$:
 
 $$
 A=3+10=13\,ns,
@@ -525,11 +559,15 @@ The line “nothing should come after required time” refers only to the data t
 
 ### Active recall
 
-For the page's example, how much could the combinational maximum delay increase before setup first fails?
+For this example, how much could the combinational maximum delay increase before setup first fails?
+
+[Back to index — page 9](#index-page-09)
 
 <a id="page-10"></a>
 
 ## Page 10 - Equivalent inequalities, but different timing meanings
+
+[Back to index — page 10](#index-page-10)
 
 ![STA handwritten notes page 10](../_internal/Static%20Timing%20Analysis/images/page-10.jpeg)
 
@@ -567,13 +605,17 @@ An external data-path delay does not alter the library cell's intrinsic $t_h$. I
 
 Why is setup slack $R-A$, while hold slack later becomes $A-R$?
 
+[Back to index — page 10](#index-page-10)
+
 <a id="page-11"></a>
 
 ## Page 11 - Keeping min/max ranges and path components coherent
 
+[Back to index — page 11](#index-page-11)
+
 ![STA handwritten notes page 11](../_internal/Static%20Timing%20Analysis/images/page-11.jpeg)
 
-### What this page is doing
+### Consistent minimum and maximum delay paths
 
 The diagram annotates path elements with pairs such as $(2,3)$ and $(5,9)$, meaning minimum and maximum delay. The clock path shown at the bottom contains three elements:
 
@@ -626,13 +668,17 @@ $$
 
 Why is $(2+9+2)\,ns$ not a valid minimum or maximum for the three-element clock path whose ranges are $(2,3)$, $(5,9)$, and $(2,3)$?
 
+[Back to index — page 11](#index-page-11)
+
 <a id="page-12"></a>
 
 ## Page 12 - Worst-case setup uses late data and an early capture boundary
 
+[Back to index — page 12](#index-page-12)
+
 ![STA handwritten notes page 12](../_internal/Static%20Timing%20Analysis/images/page-12.jpeg)
 
-### What this page is doing
+### Worst-case setup pairing
 
 The waveform shows that clock edges and data delays are not single ideal numbers. For setup, failure occurs when new data arrives as late as possible while the capture boundary is as early as allowed. In the simple skew notation,
 
@@ -664,13 +710,17 @@ Also, never add a complete clock-path latency into the data delay and then separ
 
 With $L_L=3\,ns$, $L_C=1\,ns$, $t_{cq,max}=2\,ns$, $t_{comb,max}=8\,ns$, and $t_{su}=1\,ns$, what minimum period meets setup?
 
+[Back to index — page 12](#index-page-12)
+
 <a id="page-13"></a>
 
 ## Page 13 - Hold analysis uses the earliest new data
 
+[Back to index — page 13](#index-page-13)
+
 ![STA handwritten notes page 13](../_internal/Static%20Timing%20Analysis/images/page-13.jpeg)
 
-### What this page is doing
+### Earliest-arrival hold check
 
 Unlike setup, hold is a same-edge minimum-delay check. With ideal equal clock arrival,
 
@@ -716,15 +766,19 @@ Therefore the path passes hold with only $50\,ps$ margin.
 
 If the minimum combinational delay shrinks from $0.2\,ns$ to $0.1\,ns$, what is the new hold slack?
 
+[Back to index — page 13](#index-page-13)
+
 <a id="page-14"></a>
 
 ## Page 14 - Why the hold equation needs min delays and clock skew
+
+[Back to index — page 14](#index-page-14)
 
 ![STA handwritten notes page 14](../_internal/Static%20Timing%20Analysis/images/page-14.jpeg)
 
 ### Red-marker answer: why is the first equation wrong?
 
-The page begins with an unqualified expression such as $t_h\le t_{cq}+t_{comb}$. It is incomplete because:
+The unqualified hold expression $t_h\le t_{cq}+t_{comb}$ is incomplete because:
 
 1. Hold must use $t_{cq,min}$ and $t_{comb,min}$, not unspecified or maximum delay.
 2. If launch and capture clocks arrive at different times, clock skew must be included.
@@ -746,19 +800,23 @@ That makes hold more unforgiving as a silicon-correctness issue, while setup rem
 
 ### Skew preview
 
-With $S>0$, capture is later. Setup gets an extra $S$ of time, but the capture hold boundary also moves later by $S$, reducing hold margin. The next page draws this trade-off.
+With $S>0$, capture is later. Setup gets an extra $S$ of time, but the capture hold boundary also moves later by $S$, reducing hold margin.
 
 ### Active recall
 
 Why can lowering clock frequency fix setup but not a same-cycle hold failure?
 
+[Back to index — page 14](#index-page-14)
+
 <a id="page-15"></a>
 
 ## Page 15 - Positive skew helps setup and hurts hold
 
+[Back to index — page 15](#index-page-15)
+
 ![STA handwritten notes page 15](../_internal/Static%20Timing%20Analysis/images/page-15.jpeg)
 
-### What this page is doing
+### Setup and hold effects of clock skew
 
 Let
 
@@ -786,19 +844,23 @@ Thus positive skew makes hold harder because FF2 remains sensitive later, while 
 
 “FF1 should hold for more time” is a physical intuition, not the equation. Positive skew does not change FF1's clock-to-Q delay or FF2's intrinsic hold time. It increases the amount of **path minimum delay required** to prevent the new value reaching FF2 during the shifted hold window.
 
-The page also lists rise time, fall time, and duty cycle. These matter because sequential cells have separate rising/falling timing arcs, minimum pulse-width requirements, and slew-dependent delays. Duty-cycle distortion is especially important for latches and opposite-edge paths, even when a same-edge flip-flop equation appears to use only the period.
+Rise time, fall time, and duty cycle also affect timing because sequential cells have separate rising/falling timing arcs, minimum pulse-width requirements, and slew-dependent delays. Duty-cycle distortion is especially important for latches and opposite-edge paths, even when a same-edge flip-flop equation appears to use only the period.
 
 ### Active recall
 
 If $S=+0.4\,ns$, by how much does ideal setup margin change, and by how much does ideal hold margin change?
 
+[Back to index — page 15](#index-page-15)
+
 <a id="page-16"></a>
 
 ## Page 16 - Maximum frequency cannot be assigned to one flip-flop in isolation
 
+[Back to index — page 16](#index-page-16)
+
 ![STA handwritten notes page 16](../_internal/Static%20Timing%20Analysis/images/page-16.jpeg)
 
-### What this page is asking
+### Path-dependent maximum frequency
 
 The table lists, in nanoseconds:
 
@@ -846,7 +908,7 @@ The system period is the maximum, $11\,ns$, so $f_{max}\approx90.91\,MHz$.
 
 ### Correction
 
-The bottom equation on the page has a plus sign where rearrangement requires subtraction. The correct zero-skew form is
+The handwritten lower equation has a plus sign where rearrangement requires subtraction. The correct zero-skew form is
 
 $$
 t_{su}\le T_{clk}-(t_{cq}+t_{comb}).
@@ -858,13 +920,17 @@ Hold time does not directly determine $f_{max}$, but every selected path must se
 
 Why is the fastest individual self path not necessarily the path that determines the whole design's clock frequency?
 
+[Back to index — page 16](#index-page-16)
+
 <a id="page-17"></a>
 
 ## Page 17 - Testing candidate clock periods
 
+[Back to index — page 17](#index-page-17)
+
 ![STA handwritten notes page 17](../_internal/Static%20Timing%20Analysis/images/page-17.jpeg)
 
-### What this page is doing
+### Setup margins at candidate clock periods
 
 With $t_{comb}=0$ and zero skew, each path must satisfy
 
@@ -872,7 +938,7 @@ $$
 T_{clk}\ge t_{cq,launch}+t_{su,capture}.
 $$
 
-The page tests candidate periods $5\,ns$, $8\,ns$, and $15\,ns$ against the values introduced on page 16.
+Compare the candidate periods $5\,ns$, $8\,ns$, and $15\,ns$ against the values introduced on page 16.
 
 - $5\,ns$ is too short even for FF1's $8\,ns$ self-path requirement.
 - $8\,ns$ exactly meets FF1 $\rightarrow$ FF1, giving zero setup slack, but it does not meet the $10\,ns$ FF2 or FF3 self paths.
@@ -908,9 +974,13 @@ Making the period $15\,ns$ instead of $8\,ns$ does not repair a failing hold pat
 
 At $T_{clk}=8\,ns$, what is the setup slack of each self path in the page-16 table?
 
+[Back to index — page 17](#index-page-17)
+
 <a id="page-18"></a>
 
 ## Page 18 - Solving frequency and hold examples completely
+
+[Back to index — page 18](#index-page-18)
 
 ![STA handwritten notes page 18](../_internal/Static%20Timing%20Analysis/images/page-18.jpeg)
 
@@ -966,13 +1036,17 @@ A clock buffer common to both the launch and capture paths shifts both edges by 
 
 After adding exactly $0.3\,ns$ minimum/maximum data delay to the self-loop, what are the new hold slack and zero-skew minimum period?
 
+[Back to index — page 18](#index-page-18)
+
 <a id="page-19"></a>
 
 ## Page 19 - General clock-latency equations and negative hold time
 
+[Back to index — page 19](#index-page-19)
+
 ![STA handwritten notes page 19](../_internal/Static%20Timing%20Analysis/images/page-19.jpeg)
 
-### What this page is doing
+### Clock-latency terms and the hold boundary
 
 The common clock reaches FF1 through $dly3$ and FF2 through $dly2$. The data path from FF1 to FF2 has $dly1$. Thus
 
@@ -1014,7 +1088,7 @@ $$
 dly3+t_{cq1,min}+dly1_{min}\ge dly2+t_{h2}.
 $$
 
-Rearranging gives the page's result:
+Rearranging gives:
 
 $$
 t_{h2}\le dly3+t_{cq1,min}+dly1_{min}-dly2.
@@ -1032,15 +1106,19 @@ Yes. A standard-cell library can characterize a negative external hold time when
 
 If $dly3=0.4\,ns$ and $dly2=0.9\,ns$, what skew does the path have, and does that skew help setup or hold?
 
+[Back to index — page 19](#index-page-19)
+
 <a id="page-20"></a>
 
 ## Page 20 - Internal data/clock delays create effective timing parameters
 
+[Back to index — page 20](#index-page-20)
+
 ![STA handwritten notes page 20](../_internal/Static%20Timing%20Analysis/images/page-20.jpeg)
 
-### What this page is doing
+### Timing requirements at external wrapper pins
 
-The page explores how logic or delay inside a wrapper changes the setup/hold requirement observed at the wrapper's external pins. Suppose an internal flip-flop has intrinsic $t_{su,int}$ and $t_{h,int}$. Let $d_D$ be delay from external D to the internal D pin and $d_C$ be delay from external clock to the internal clock pin.
+Logic or delay inside a wrapper changes the setup/hold requirement observed at its external pins. Suppose an internal flip-flop has intrinsic $t_{su,int}$ and $t_{h,int}$. Let $d_D$ be delay from external D to the internal D pin and $d_C$ be delay from external clock to the internal clock pin.
 
 The external setup requirement is
 
@@ -1070,21 +1148,25 @@ These are properties of the cell/wrapper reference pins. Adding an arbitrary del
 
 ### Correction
 
-The page's boxed statement should read “increasing internal clock delay relative to internal data delay can reduce the **externally observed** setup time.” The intrinsic flip-flop setup requirement has not physically disappeared.
+The boxed statement should read “increasing internal clock delay relative to internal data delay can reduce the **externally observed** setup time.” The intrinsic flip-flop setup requirement has not physically disappeared.
 
 ### Active recall
 
 For $t_{su,int}=0.8\,ns$, $t_{h,int}=0.2\,ns$, $d_D=0.3\,ns$, and $d_C=1.2\,ns$, compute $t_{su,ext}$ and $t_{h,ext}$.
 
+[Back to index — page 20](#index-page-20)
+
 <a id="page-21"></a>
 
 ## Page 21 - Data delay improves hold slack; it does not change intrinsic hold time
 
+[Back to index — page 21](#index-page-21)
+
 ![STA handwritten notes page 21](../_internal/Static%20Timing%20Analysis/images/page-21.jpeg)
 
-### What this page is doing
+### Input isolation and hold margin
 
-The page returns to the physical latch intuition: after the active edge, an internal transmission device needs finite time to isolate the input and secure the old value. At system level, however, the requirement is written at the destination D pin.
+After the active edge, during latch closure, an internal transmission device needs finite time to isolate the input and secure the old value. At system level, however, the requirement is written at the destination D pin.
 
 With no skew,
 
@@ -1124,15 +1206,19 @@ Hold-fixing buffers must therefore be added carefully so that a minimum-delay re
 
 If a path has $-0.12\,ns$ hold slack and $+0.40\,ns$ setup slack, what happens ideally after adding a buffer with $0.15\,ns$ minimum and $0.22\,ns$ maximum delay?
 
+[Back to index — page 21](#index-page-21)
+
 <a id="page-22"></a>
 
 ## Page 22 - Clean setup and hold equations with launch/capture delays
 
+[Back to index — page 22](#index-page-22)
+
 ![STA handwritten notes page 22](../_internal/Static%20Timing%20Analysis/images/page-22.jpeg)
 
-### What this page is doing
+### Arrival and required times with unequal clock latencies
 
-This page redraws the page-19 circuit more cleanly. Let launch clock latency be $dly3$, capture clock latency be $dly2$, and data-combinational delay be $dly1$.
+Use the same launch-to-capture circuit and clock-latency convention as in [page 19](#page-19). Let launch clock latency be $dly3$, capture clock latency be $dly2$, and data-combinational delay be $dly1$.
 
 Setup:
 
@@ -1164,7 +1250,7 @@ $$
 t_{h2}\le dly3+t_{cq1,min}+dly1_{min}-dly2.
 $$
 
-The page's middle line $t_h\le t_{cq1}+dly1$ is valid only after assuming $dly3=dly2$ and using minimum delays.
+The handwritten middle line $t_h\le t_{cq1}+dly1$ is valid only after assuming $dly3=dly2$ and using minimum delays.
 
 ### One compact skew form
 
@@ -1184,9 +1270,13 @@ This pair makes the setup/hold skew trade-off immediately visible.
 
 If launch latency and capture latency both increase by the same $0.7\,ns$, why do these ideal register-to-register checks not change?
 
+[Back to index — page 22](#index-page-22)
+
 <a id="page-23"></a>
 
 ## Page 23 - Worked skew example: include the entire data path
+
+[Back to index — page 23](#index-page-23)
 
 ![STA handwritten notes page 23](../_internal/Static%20Timing%20Analysis/images/page-23.jpeg)
 
@@ -1220,7 +1310,7 @@ $$
 f_{max}=\frac{1}{8\,ns}=125\,MHz.
 $$
 
-The page's $8\,ns$ setup result is correct because the $2\,ns$ positive skew cancels $2\,ns$ of the $10\,ns$ zero-skew requirement.
+The $8\,ns$ setup result follows because the $2\,ns$ positive skew cancels $2\,ns$ of the $10\,ns$ zero-skew requirement.
 
 ### Red-marker answer: why not use only the NAND's $2\,ns$ for hold?
 
@@ -1248,13 +1338,17 @@ The path has a $1\,ns$ hold violation. The handwritten check $6\le2+2$ omits bot
 
 What happens to the setup and hold slacks if the two capture-clock inverters are removed?
 
+[Back to index — page 23](#index-page-23)
+
 <a id="page-24"></a>
 
 ## Page 24 - Three-register pipeline: $f_{max}$ is set by the worst stage
 
+[Back to index — page 24](#index-page-24)
+
 ![STA handwritten notes page 24](../_internal/Static%20Timing%20Analysis/images/page-24.jpeg)
 
-### What this page is doing
+### Per-stage timing constraints
 
 The pipeline has two data paths, FF1 $\rightarrow$ FF2 through $d_1$ and FF2 $\rightarrow$ FF3 through $d_2$. The maximum clock frequency is found by deriving one minimum-period constraint per stage and taking the largest.
 
@@ -1312,15 +1406,19 @@ $$
 
 Why does the maximum of the stage periods, rather than their sum, determine the pipeline clock period?
 
+[Back to index — page 24](#index-page-24)
+
 <a id="page-25"></a>
 
 ## Page 25 - Final numerical clock-skew problem
+
+[Back to index — page 25](#index-page-25)
 
 ![STA handwritten notes page 25](../_internal/Static%20Timing%20Analysis/images/page-25.jpeg)
 
 ### Interpreting the readable values
 
-The page uses picoseconds. The visible values are:
+All delays in this problem are in picoseconds:
 
 - FF1: $t_{su1}=50\,ps$, $t_{h1}=50\,ps$, $t_{cq1}=100\,ps$.
 - FF2: $t_{su2}=100\,ps$, $t_{h2}=50\,ps$, $t_{cq2}=100\,ps$.
@@ -1423,6 +1521,9 @@ The extra $100\,ps$ cannot be dropped or placed on the required side with a help
 ### Active recall
 
 If the $100\,ps$ delay were moved from FF1's clock branch to FF2's clock branch, what would the minimum period become, and what new hold trade-off would appear?
+
+[Back to index — page 25](#index-page-25)
+
 
 ## Points to remember
 

@@ -40,6 +40,19 @@ Not every term needs six bullets. A compact comparative table is useful when it
 exposes an exact mapping or a nearby distinction; otherwise use direct prose. A
 difficult or disputed term should use the full card.
 
+## Direct technical prose
+
+Use headings that name the concept, operation, or derivation, such as “Data
+propagation before latch closure.” Explain the circuit or mechanism directly:
+“New data propagates through the input transmission gate,” rather than “The
+page shows the data path.” Avoid headings such as “What this page is doing”
+and commentary about what a page introduces or establishes.
+
+Retain source references when they identify a specific handwritten question,
+annotation, incorrect equation, or missing information. Labels such as
+“Red-marker explanation and correction” are useful when they connect an
+explanation to a visible marking.
+
 ## “Why” questions are mandatory
 
 Definitions must not stop at expansion of an acronym. For example:

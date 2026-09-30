@@ -77,8 +77,7 @@ Beat counters and last markers still advance only on data-channel handshakes.
 
 ![Handwritten AXI notes: Burst types and a FIXED-address example](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/52-axi4-burst-types-and-fixed-address-example.jpg)
 
-**Explanation:** The page motivates bursts by amortizing memory-access latency
-and lists FIXED, INCR, and WRAP. In FIXED mode every beat uses the same transfer
+**Explanation:** Bursts amortize memory-access latency across multiple beats and use FIXED, INCR, or WRAP addressing. In FIXED mode every beat uses the same transfer
 address even though the data sequence contains multiple beats.
 
 #### Handwritten page 53 - `AxSIZE` and bytes per beat
@@ -250,8 +249,7 @@ to the clock or `RVALID` alone would skip memory locations under back-pressure.
 
 ![Handwritten AXI notes: AXI course summary and next steps](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/60-axi-course-summary-and-next-steps.jpg)
 
-**Explanation:** The final page summarizes the three interface families and the
-five channels of memory-mapped AXI. AXI-Stream itself has one forward payload
+**Explanation:** AXI has three interface families with different channel structures. AXI-Stream itself has one forward payload
 handshake, while AXI4-Lite and AXI4 use the five-channel read/write structure.
 
 ### Video 121 - Implementing the full Manager

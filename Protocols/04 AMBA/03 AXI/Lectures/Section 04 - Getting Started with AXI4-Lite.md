@@ -6,8 +6,7 @@
 
 The section first separates transaction, burst, beat, and channel-transfer
 language. It then walks all five memory-mapped channels, the four response
-encodings, and the final AXI4-Lite signal set. The page continually removes
-AXI3/full-AXI fields that do not belong on an AXI4-Lite interface.
+encodings, and the final AXI4-Lite signal set. AXI3/full-AXI fields that are absent from AXI4-Lite are excluded from its signal set.
 
 ## Formal standard explanation
 
@@ -151,8 +150,7 @@ bursts and transaction IDs.
 
 ![Handwritten AXI notes: Single-beat pipelining and read addressing](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/27-single-beat-pipelining-and-read-address.jpg)
 
-**Explanation:** The page contrasts waiting for a complete transaction with
-accepting a following address early. Pipelining changes throughput and required
+**Explanation:** A non-pipelined implementation waits for transaction completion; a pipelined implementation can accept a following address earlier. Pipelining changes throughput and required
 buffering, not the channel handshake rules, which remain independent in both
 implementation styles.
 
@@ -352,8 +350,7 @@ handshake.
 
 ![Handwritten AXI notes: Write responses and channel directions](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/29-write-response-codes-and-channel-directions.jpg)
 
-**Explanation:** The page records the two-bit response encodings and the five
-channel directions. The Subordinate owns `BVALID` and `BRESP`; the Manager owns
+**Explanation:** The two-bit response encoding reports transaction status; each of the five channels has a defined direction and signal owner. The Subordinate owns `BVALID` and `BRESP`; the Manager owns
 `BREADY`, and their handshake retires the write response.
 
 ### Video 52 - Read address and read data channels, part 1

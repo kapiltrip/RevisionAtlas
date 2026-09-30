@@ -240,8 +240,7 @@ far enough that the slot can safely be reused.
 
 ![Handwritten AXI notes: Subordinate write-address control](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/36-axil-subordinate-write-address-control.jpg)
 
-**Explanation:** The page begins the `AWREADY` logic and then contrasts write
-and read channels. A correct Subordinate must not discard an accepted address
+**Explanation:** `AWREADY` indicates readiness to accept a write address; write data uses a separate handshake. A correct Subordinate must not discard an accepted address
 merely because the matching data has not arrived in the same cycle.
 
 ### Video 64 - Write-only Subordinate implementation, part 2
@@ -410,8 +409,7 @@ buffer.
 
 ![Handwritten AXI notes: Read-response readiness](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/39-axil-read-response-ready-control.jpg)
 
-**Explanation:** This page finishes the registered `RREADY` behavior and
-response storage. The architectural event is the `RVALID && RREADY` edge; a
+**Explanation:** Registered `RREADY` controls response acceptance, while response storage retains the accepted data. The architectural event is the `RVALID && RREADY` edge; a
 pulse policy is acceptable only if it cannot miss a response and meets the
 intended throughput.
 

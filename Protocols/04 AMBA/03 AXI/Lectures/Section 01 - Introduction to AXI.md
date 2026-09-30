@@ -98,10 +98,7 @@ set.
 
 ![Handwritten AXI notes: AXI family selection and use cases](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/01-axi-family-selection-and-use-cases.jpg)
 
-**Explanation:** This page contrasts unaddressed AXI-Stream flow, AXI4-Lite
-register access, and AXI4 burst traffic. Read its application sketches with the
-lecture decision table: the interface is chosen from the communication pattern,
-not merely from data width.
+**Explanation:** AXI-Stream carries unaddressed data flow, AXI4-Lite serves register accesses, and AXI4 supports burst traffic. Choose the interface according to the communication pattern and required throughput.
 
 ### Video 3 - Interface pins
 
@@ -234,7 +231,7 @@ effect of the transfer, not a second transfer.
 
 ![Handwritten AXI notes: `VALID`/`READY` ownership and acceptance](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/05-valid-ready-handshake-rules.jpg)
 
-**Explanation:** The page captures the central rule: a transfer is accepted only
+**Explanation:** A transfer is accepted only
 at a rising edge where both signals are HIGH. `VALID` must not wait for `READY`;
 `READY` may be asserted early whenever the destination has capacity.
 
@@ -341,8 +338,7 @@ registered FSM may lower `READY` for the following cycle.
 
 ![Handwritten AXI notes: Destination readiness and data capture](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/08-destination-ready-and-data-capture-rtl.jpg)
 
-**Explanation:** The destination page reinforces that `READY` and `VALID` are
-independently generated. Data capture belongs on the accepted-transfer edge;
+**Explanation:** The destination generates `READY` independently of the source-generated `VALID`. Data capture belongs on the accepted-transfer edge;
 avoid a combinational path that lets `READY` and `VALID` depend on each other in
 a loop.
 

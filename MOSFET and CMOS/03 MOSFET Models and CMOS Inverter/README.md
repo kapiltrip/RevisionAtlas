@@ -46,7 +46,7 @@ The small-signal definitions follow [MIT 6.012’s MOSFET equivalent-circuit lec
 
 ![Handwritten MOS notes page 1](../../_internal/MOSFET%20and%20CMOS/03%20MOSFET%20Models%20and%20CMOS%20Inverter/images/page-01.jpeg)
 
-### What this page is doing
+### pMOS gate bias and transfer curve
 
 The transfer plot places enhancement- and depletion-mode pMOS behavior on a signed $I_D-V_{GS}$ axis. An enhancement pMOS is normally off at $V_{GS}=0$ and turns on when the gate becomes sufficiently negative relative to the source. A depletion pMOS has a pre-existing channel and can conduct at zero gate bias.
 
@@ -68,9 +68,9 @@ How do the zero-gate-current states of enhancement and depletion pMOS differ?
 
 ![Handwritten MOS notes page 2](../../_internal/MOSFET%20and%20CMOS/03%20MOSFET%20Models%20and%20CMOS%20Inverter/images/page-02.jpeg)
 
-### What this page is doing
+### Channel type and symbol conventions
 
-The page collects n-channel and p-channel symbols in enhancement and depletion forms. A broken/absent channel line conventionally indicates enhancement mode; a solid channel line indicates depletion mode. A gate bubble often marks pMOS in digital schematics because it turns on with a low gate relative to its source.
+MOSFET symbols distinguish channel type and enhancement or depletion operation. A broken/absent channel line conventionally indicates enhancement mode; a solid channel line indicates depletion mode. A gate bubble often marks pMOS in digital schematics because it turns on with a low gate relative to its source.
 
 Body-arrow conventions vary between textbooks and integrated-circuit symbols. The invariant physical fact is the body/source junction type: p-body for nMOS, n-body for pMOS. The arrow identifies the p-to-n junction direction, not normal channel-current direction.
 
@@ -90,7 +90,7 @@ What symbol feature distinguishes enhancement from depletion mode, and what feat
 
 ![Handwritten MOS notes page 3](../../_internal/MOSFET%20and%20CMOS/03%20MOSFET%20Models%20and%20CMOS%20Inverter/images/page-03.jpeg)
 
-### What this page is doing
+### Channel formation and drain-current curves
 
 The cross-section shows an nMOS enhancement device: n+ source/drain in p-type body, insulated gate, and no channel until $V_{GS}>V_T$. The output family then shows drain current versus drain voltage for increasing gate voltage. Higher gate overdrive creates more inversion charge and therefore more current.
 
@@ -112,17 +112,17 @@ Why do both the linear-region slope and the saturation current increase with $V_
 
 ![Handwritten MOS notes page 4](../../_internal/MOSFET%20and%20CMOS/03%20MOSFET%20Models%20and%20CMOS%20Inverter/images/page-04.jpeg)
 
-### What this page is doing
+### Current equations and region boundaries
 
-The page writes the large-signal current law by region. In cutoff, $V_{GS}<V_T$ and ideal current is zero. In linear region, $V_{GS}>V_T$ and $0\le V_{DS}<V_{OV}$, giving $I_D=\beta_n(V_{OV}V_{DS}-V_{DS}^2/2)$. In saturation, $V_{DS}\ge V_{OV}$, giving $I_D=(\beta_n/2)V_{OV}^2$ before channel-length modulation.
+The large-signal drain-current law depends on the operating region. In cutoff, $V_{GS}<V_T$ and ideal current is zero. In linear region, $V_{GS}>V_T$ and $0\le V_{DS}<V_{OV}$, giving $I_D=\beta_n(V_{OV}V_{DS}-V_{DS}^2/2)$. In saturation, $V_{DS}\ge V_{OV}$, giving $I_D=(\beta_n/2)V_{OV}^2$ before channel-length modulation.
 
 The transfer curve is obtained by holding the device in saturation and sweeping $V_{GS}$. Its square-law shape is why transconductance depends on bias rather than remaining constant.
 
-The piecewise equations meet at the boundaries drawn on the page. Setting $V_{DS}=V_{OV}$ in the linear expression produces the saturation current, so there is no current jump at pinch-off. Setting $V_{OV}=0$ makes the ideal strong-inversion current vanish at threshold. These substitutions connect the algebra to the smooth output and transfer curves rather than treating the three formulas as independent rules.
+The piecewise equations meet at the region boundaries. Setting $V_{DS}=V_{OV}$ in the linear expression produces the saturation current, so there is no current jump at pinch-off. Setting $V_{OV}=0$ makes the ideal strong-inversion current vanish at threshold. These substitutions connect the algebra to the smooth output and transfer curves rather than treating the three formulas as independent rules.
 
 ### Clarity / correction / improvement
 
-Real subthreshold current is not exactly zero below $V_T$. The page uses the strong-inversion square-law approximation; label it as such when applying it to modern or low-power devices.
+Real subthreshold current is not exactly zero below $V_T$. The strong-inversion square-law approximation neglects this current; label it as such when applying it to modern or low-power devices.
 
 ### Active recall
 
@@ -134,7 +134,7 @@ Which inequality selects the region: a comparison between $V_{DS}$ and what gate
 
 ![Handwritten MOS notes page 5](../../_internal/MOSFET%20and%20CMOS/03%20MOSFET%20Models%20and%20CMOS%20Inverter/images/page-05.jpeg)
 
-### What this page is doing
+### On-resistance in deep triode
 
 For $V_{DS}\ll V_{OV}$, the quadratic $V_{DS}^2/2$ term is small, so $I_D\approx\beta_nV_{OV}V_{DS}$. The MOSFET then behaves approximately as a resistor with
 
@@ -143,11 +143,11 @@ R_{on}\approx\frac{1}{\beta_n(V_{GS}-V_T)}.
 $$
 This is a voltage-controlled resistance: increasing gate overdrive or $W/L$, mobility, or oxide capacitance reduces $R_{on}$. The approximation is local because channel charge still changes slightly along the device as $V_{DS}$ grows.
 
-The page obtains the resistor form from the slope near the origin of an output curve. In that small-$V_{DS}$ interval, $I_D$ is approximately proportional to $V_{DS}$, so the reciprocal slope is $R_{on}$. The gate voltage changes that slope by changing inversion charge, which is why this is an electrically controlled resistor rather than a fixed material resistance.
+The slope near the origin of an output curve gives the equivalent channel resistance. In that small-$V_{DS}$ interval, $I_D$ is approximately proportional to $V_{DS}$, so the reciprocal slope is $R_{on}$. The gate voltage changes that slope by changing inversion charge, which is why this is an electrically controlled resistor rather than a fixed material resistance.
 
 ### Clarity / correction / improvement
 
-The page calls the region “deep triode,” which is appropriate only when $V_{DS}$ is much smaller than overdrive. Near the triode-saturation boundary, use the full quadratic equation rather than a constant resistor.
+The deep-triode approximation applies only when $V_{DS}$ is much smaller than overdrive. Near the triode-saturation boundary, use the full quadratic equation rather than a constant resistor.
 
 ### Active recall
 
@@ -159,9 +159,9 @@ Which four device/bias quantities can be changed to lower the ideal long-channel
 
 ![Handwritten MOS notes page 6](../../_internal/MOSFET%20and%20CMOS/03%20MOSFET%20Models%20and%20CMOS%20Inverter/images/page-06.jpeg)
 
-### What this page is doing
+### Transconductance derivation
 
-The page defines forward transconductance $g_m=\partial I_D/\partial V_{GS}$ at fixed $V_{DS}$. In ideal saturation,
+Forward transconductance is $g_m=\partial I_D/\partial V_{GS}$ at fixed $V_{DS}$. In ideal saturation,
 
 $$
 g_m=\beta_n(V_{GS}-V_T)=\frac{2I_D}{V_{OV}}=\sqrt{2\beta_nI_D}.
@@ -184,9 +184,9 @@ At fixed drain current, what happens to $g_m$ if $W/L$ is increased?
 
 ![Handwritten MOS notes page 7](../../_internal/MOSFET%20and%20CMOS/03%20MOSFET%20Models%20and%20CMOS%20Inverter/images/page-07.jpeg)
 
-### What this page is doing
+### Channel shortening after pinch-off
 
-The page begins channel-length modulation. Once pinch-off occurs, raising $V_{DS}$ widens the drain depletion/pinch-off region into the channel. The effective inversion-channel length becomes $L_{eff}=L-\Delta L$. Since current strength is proportional to $W/L_{eff}$, drain current rises slightly with drain voltage instead of remaining perfectly flat.
+Channel-length modulation gives the saturation curve a finite slope. Once pinch-off occurs, raising $V_{DS}$ widens the drain depletion/pinch-off region into the channel. The effective inversion-channel length becomes $L_{eff}=L-\Delta L$. Since current strength is proportional to $W/L_{eff}$, drain current rises slightly with drain voltage instead of remaining perfectly flat.
 
 This is the MOSFET analogue of finite output resistance: a saturated transistor is a good current source, but not an ideal one.
 
@@ -198,7 +198,7 @@ The sketch asks whether the extra drain voltage “reflects” or returns throug
 
 ### Clarity / correction / improvement
 
-Channel-length modulation and velocity saturation are distinct. This page models geometric shortening after pinch-off, not a limit on carrier drift velocity.
+Channel-length modulation and velocity saturation are distinct. The channel-length-modulation model describes geometric shortening after pinch-off; velocity saturation limits carrier drift velocity.
 
 ### Active recall
 
@@ -210,7 +210,7 @@ How can $I_D$ rise in saturation if the inversion charge at the drain-end pinch-
 
 ![Handwritten MOS notes page 8](../../_internal/MOSFET%20and%20CMOS/03%20MOSFET%20Models%20and%20CMOS%20Inverter/images/page-08.jpeg)
 
-### What this page is doing
+### First-order approximation for effective channel length
 
 The derivation replaces $L$ by $L-\Delta L$:
 
@@ -219,7 +219,7 @@ I_D=\frac12\mu_nC'_{ox}\frac{W}{L-\Delta L}V_{OV}^2.
 $$
 For $\Delta L/L\ll1$, $1/(1-\Delta L/L)\approx1+\Delta L/L$. If channel shortening grows approximately with excess drain voltage, the result becomes the compact correction $1+\lambda V_{DS}$ or, more precisely in some conventions, $1+\lambda(V_{DS}-V_{DS,sat})$.
 
-The algebra isolates the small parameter before approximating it. Factoring $L$ from $L-\Delta L$ produces $1/[1-(\Delta L/L)]$, so the Taylor expansion is valid only when the lost length is a small fraction of the drawn channel. The final $\lambda$ term compresses the page's geometric change into a voltage-dependent factor; it does not mean the channel literally shortens linearly at every bias.
+The algebra isolates the small parameter before approximating it. Factoring $L$ from $L-\Delta L$ produces $1/[1-(\Delta L/L)]$, so the Taylor expansion is valid only when the lost length is a small fraction of the drawn channel. The final $\lambda$ term compresses the effective-length change into a voltage-dependent factor; it does not mean the channel literally shortens linearly at every bias.
 
 ### Clarity / correction / improvement
 
@@ -235,9 +235,9 @@ Which small-quantity approximation converts a shortened channel into the linear 
 
 ![Handwritten MOS notes page 9](../../_internal/MOSFET%20and%20CMOS/03%20MOSFET%20Models%20and%20CMOS%20Inverter/images/page-09.jpeg)
 
-### What this page is doing
+### Saturation current with channel-length modulation
 
-The page writes the non-ideal saturation model
+The saturation model with channel-length modulation is
 
 $$
 I_D\approx\frac{\beta_n}{2}V_{OV}^2(1+\lambda V_{DS}).
@@ -260,9 +260,9 @@ Why is channel-length modulation usually more severe in a shorter device?
 
 ![Handwritten MOS notes page 10](../../_internal/MOSFET%20and%20CMOS/03%20MOSFET%20Models%20and%20CMOS%20Inverter/images/page-10.jpeg)
 
-### What this page is doing
+### Early voltage and output-curve slope
 
-The page introduces the Early-voltage form $\lambda\approx1/V_A$ in magnitude. Extrapolating the nearly straight saturation portions backward makes them meet the voltage axis near $-V_A$ for nMOS. A large $V_A$ means shallow slope, small λ, and high output resistance.
+The Early-voltage form is $\lambda\approx1/V_A$ in magnitude. Extrapolating the nearly straight saturation portions backward makes them meet the voltage axis near $-V_A$ for nMOS. A large $V_A$ means shallow slope, small λ, and high output resistance.
 
 The equation $I_D=I_{D0}(1+V_{DS}/V_A)$ separates the ideal gate-controlled current $I_{D0}$ from drain-voltage modulation. This is especially useful for analog gain estimates.
 
@@ -282,13 +282,13 @@ Which device makes the better current source: $V_A=10$ V or $V_A=100$ V, and why
 
 ![Handwritten MOS notes page 11](../../_internal/MOSFET%20and%20CMOS/03%20MOSFET%20Models%20and%20CMOS%20Inverter/images/page-11.jpeg)
 
-### What this page is doing
+### Fractional current change from channel shortening
 
-The algebra explicitly compares current before and after a small length reduction. Because $I_D\propto1/L$, the fractional current change is approximately $\Delta I_D/I_D\approx\Delta L/L$. The notes then connect $\Delta L$ to drain voltage through a proportionality constant.
+The algebra explicitly compares current before and after a small length reduction. Because $I_D\propto1/L$, the fractional current change is approximately $\Delta I_D/I_D\approx\Delta L/L$. A proportionality constant relates $\Delta L$ to drain voltage.
 
-This page provides the physical meaning hidden inside λ: it summarizes how much fractional channel shortening and therefore fractional current increase occur per volt of drain bias.
+The parameter λ summarizes how much fractional channel shortening and therefore fractional current increase occur per volt of drain bias.
 
-The ratio form makes the approximation transparent. If $L$ changes to $L-\Delta L$, then $I_{new}/I_{old}=L/(L-\Delta L)$. For a small $\Delta L/L$, subtracting one from this ratio gives approximately $\Delta L/L$. The page then associates that fractional change with a drain-voltage increment, which is exactly why $\lambda$ describes fractional current change per volt.
+The ratio form makes the approximation transparent. If $L$ changes to $L-\Delta L$, then $I_{new}/I_{old}=L/(L-\Delta L)$. For a small $\Delta L/L$, subtracting one from this ratio gives approximately $\Delta L/L$. Relating that fractional change to a drain-voltage increment explains why $\lambda$ describes fractional current change per volt.
 
 ### Clarity / correction / improvement
 
@@ -304,13 +304,13 @@ If the effective channel shortens by 1% at fixed overdrive, approximately how mu
 
 ![Handwritten MOS notes page 12](../../_internal/MOSFET%20and%20CMOS/03%20MOSFET%20Models%20and%20CMOS%20Inverter/images/page-12.jpeg)
 
-### What this page is doing
+### Output-conductance derivation
 
-The page combines $\Delta L$ and $\lambda\Delta V_{DS}$, then sketches the nonzero saturation slope. Differentiating the CLM model at fixed $V_{GS}$ gives output conductance $g_o=\partial I_D/\partial V_{DS}\approx\lambda I_D$.
+Relating $\Delta L$ to $\lambda\Delta V_{DS}$ accounts for the nonzero saturation slope. Differentiating the CLM model at fixed $V_{GS}$ gives output conductance $g_o=\partial I_D/\partial V_{DS}\approx\lambda I_D$.
 
 Its inverse is output resistance $r_o\approx1/(\lambda I_D)$. These are small-signal quantities around a chosen operating point, not the large-signal ratio $V_{DS}/I_D$.
 
-The slanted saturation line supplies both quantities. Its tangent slope at the bias point is $g_o=\Delta I_D/\Delta V_{DS}$ for a small movement along the same $V_{GS}$ curve. Turning that slope over gives the local resistance seen looking into the drain. Drawing a line from the origin to the operating point would instead calculate a different large-signal ratio and would not represent the page's small-signal model.
+The slanted saturation line supplies both quantities. Its tangent slope at the bias point is $g_o=\Delta I_D/\Delta V_{DS}$ for a small movement along the same $V_{GS}$ curve. Turning that slope over gives the local resistance seen looking into the drain. Drawing a line from the origin to the operating point would instead calculate a different large-signal ratio and would not represent the small-signal model.
 
 ### Clarity / correction / improvement
 
@@ -326,9 +326,9 @@ At fixed λ, what happens to $r_o$ when bias current doubles?
 
 ![Handwritten MOS notes page 13](../../_internal/MOSFET%20and%20CMOS/03%20MOSFET%20Models%20and%20CMOS%20Inverter/images/page-13.jpeg)
 
-### What this page is doing
+### Output resistance of a practical current source
 
-The page writes $\lambda I_D=I_D/V_A$ and arrives at $r_o=V_A/I_D=1/(\lambda I_D)$. It then interprets the saturated MOSFET as a current source whose finite output resistance causes current to change with output voltage.
+Using $\lambda I_D=I_D/V_A$ gives $r_o=V_A/I_D=1/(\lambda I_D)$. A saturated MOSFET therefore acts as a current source with finite output resistance, so its current changes with output voltage.
 
 For analog circuits, intrinsic voltage gain is roughly $g_mr_o$. Thus high $g_m$, low λ, and moderate current improve gain, though other speed, area, and noise trade-offs remain.
 
@@ -348,16 +348,16 @@ Why can increasing drain current raise $g_m$ but reduce $r_o$ at the same time?
 
 ![Handwritten MOS notes page 14](../../_internal/MOSFET%20and%20CMOS/03%20MOSFET%20Models%20and%20CMOS%20Inverter/images/page-14.jpeg)
 
-### What this page is doing
+### Linearization around the bias point
 
-The page interprets the device as a controlled current source. A small gate change produces $g_mv_{gs}$, while a small drain change produces $g_ov_{ds}=v_{ds}/r_o$. Around a DC bias point,
+The small-signal MOSFET model is a controlled current source with finite output resistance. A small gate change produces $g_mv_{gs}$, while a small drain change produces $g_ov_{ds}=v_{ds}/r_o$. Around a DC bias point,
 
 $$
 i_d=g_mv_{gs}+g_ov_{ds}.
 $$
 The transfer slope relates gate voltage to current; the output slope relates drain voltage to current. Keeping those derivatives separate is the foundation of the low-frequency small-signal model.
 
-The page is performing a two-variable linearization about one DC operating point. A small horizontal move on the transfer curve produces the $g_mv_{gs}$ contribution, while a small horizontal move on the output curve produces the $g_ov_{ds}$ contribution. Superposition adds them because higher-order products are neglected. The DC current itself is not part of $i_d$; lowercase variables denote only the incremental change.
+Linearizing about a DC operating point separates gate and drain contributions. A small horizontal move on the transfer curve produces the $g_mv_{gs}$ contribution, while a small horizontal move on the output curve produces the $g_ov_{ds}$ contribution. Superposition adds them because higher-order products are neglected. The DC current itself is not part of $i_d$; lowercase variables denote only the incremental change.
 
 ### Clarity / correction / improvement
 
@@ -373,9 +373,9 @@ Write the two-source small-signal expression for drain current and identify whic
 
 ![Handwritten MOS notes page 15](../../_internal/MOSFET%20and%20CMOS/03%20MOSFET%20Models%20and%20CMOS%20Inverter/images/page-15.jpeg)
 
-### What this page is doing
+### Overlap and intrinsic gate capacitance
 
-The page separates parasitic overlap capacitance from intrinsic gate-channel capacitance. Fabrication requires the gate to overlap source and drain slightly, creating nearly bias-independent $C_{gso}$ and $C_{gdo}$. The gate also couples through oxide to the channel/body over area $WL$; how this intrinsic capacitance partitions depends on operating region.
+Parasitic overlap capacitance and intrinsic gate-channel capacitance have different physical origins. Fabrication requires the gate to overlap source and drain slightly, creating nearly bias-independent $C_{gso}$ and $C_{gdo}$. The gate also couples through oxide to the channel/body over area $WL$; how this intrinsic capacitance partitions depends on operating region.
 
 In cutoff, much of the intrinsic gate capacitance couples to body. In triode, a channel exists from source to drain and gate capacitance is shared roughly between them. In saturation, pinch-off reduces drain-end channel coupling, so the intrinsic part is mainly $C_{gs}\approx(2/3)C'_{ox}WL$, while $C_{gd}$ is largely overlap.
 
@@ -395,7 +395,7 @@ Why does intrinsic $C_{gd}$ fall when a long-channel MOSFET moves from triode in
 
 ![Handwritten MOS notes page 16](../../_internal/MOSFET%20and%20CMOS/03%20MOSFET%20Models%20and%20CMOS%20Inverter/images/page-16.jpeg)
 
-### What this page is doing
+### Reverse-biased junction capacitance
 
 The n+ source/body and drain/body interfaces are reverse-biased p-n junctions. Each contributes bottom-plate area capacitance plus sidewall capacitance. The depletion width grows with reverse bias, so junction capacitance falls nonlinearly with voltage.
 
@@ -405,7 +405,7 @@ The bottom and sidewall labels split the junction geometry into two measurable c
 
 ### Clarity / correction / improvement
 
-The page's `open bias voltage` should read reverse-bias voltage. Body junction capacitance is not a fixed geometric oxide capacitance; it is depletion capacitance and must be evaluated at the operating voltage.
+The handwritten label `open bias voltage` should read reverse-bias voltage. Body junction capacitance is not a fixed geometric oxide capacitance; it is depletion capacitance and must be evaluated at the operating voltage.
 
 ### Active recall
 
@@ -417,11 +417,11 @@ Why does raising drain voltage usually reduce $C_{db}$ in an nMOS whose body is 
 
 ![Handwritten MOS notes page 17](../../_internal/MOSFET%20and%20CMOS/03%20MOSFET%20Models%20and%20CMOS%20Inverter/images/page-17.jpeg)
 
-### What this page is doing
+### pMOS overdrive and nMOS symmetry
 
 The output and transfer plots mirror nMOS using negative signed voltages/current or positive magnitudes. With source at the highest potential, pMOS turns on when $V_{SG}>|V_{Tp}|$. It is linear for $V_{SD}<V_{SG}-|V_{Tp}|$ and saturated beyond that boundary.
 
-The transfer characteristic is quadratic in overdrive under the same long-channel assumptions. The page's main purpose is symmetry: all physical reasoning carries over after swapping carrier type, substrate/well type, and voltage polarity.
+The transfer characteristic is quadratic in overdrive under the same long-channel assumptions. The nMOS reasoning carries over to pMOS after swapping carrier type, substrate/well type, and voltage polarity.
 
 Read the pMOS curves in positive magnitudes before mapping them back to signed axes. Increasing $V_{SG}$ strengthens the hole inversion channel, and increasing $V_{SD}$ takes it from a continuous-channel linear region to drain-end pinch-off. The knee distance is still the overdrive, now $V_{SG}-|V_{Tp}|$, so the curve shapes are not new equations—only the terminal references and carrier polarity have changed.
 
@@ -439,13 +439,13 @@ State the pMOS saturation condition using positive voltage magnitudes.
 
 ![Handwritten MOS notes page 18](../../_internal/MOSFET%20and%20CMOS/03%20MOSFET%20Models%20and%20CMOS%20Inverter/images/page-18.jpeg)
 
-### What this page is doing
+### Carrier motion and conventional current
 
-The page revisits enhancement/depletion symbols and current arrows, then records that enhancement pMOS has a negative signed threshold while depletion pMOS may have the opposite zero-bias behavior. Hole motion is from source toward drain; conventional current follows holes, unlike electron motion in nMOS.
+Enhancement/depletion symbols and current arrows identify the device type and polarity. Enhancement pMOS has a negative signed threshold, while depletion pMOS may have the opposite zero-bias behavior. Hole motion is from source toward drain; conventional current follows holes, unlike electron motion in nMOS.
 
 The sign table is preparing for CMOS, where source of pMOS is usually tied to $V_{DD}$ and source of nMOS to ground. Their gate voltages are shared, but their useful controlling magnitudes are $V_{SG,p}=V_{DD}-V_{in}$ and $V_{GS,n}=V_{in}$.
 
-The arrows on the page distinguish carrier motion from conventional current. Holes and conventional pMOS current move in the same direction, while nMOS electrons move opposite conventional current. In the inverter connection, identifying the pMOS source at $V_{DD}$ makes its control voltage automatically decrease as $V_{in}$ rises; identifying the nMOS source at ground makes its control voltage increase at the same time.
+Carrier motion and conventional current have different directional conventions. Holes and conventional pMOS current move in the same direction, while nMOS electrons move opposite conventional current. In the inverter connection, identifying the pMOS source at $V_{DD}$ makes its control voltage automatically decrease as $V_{in}$ rises; identifying the nMOS source at ground makes its control voltage increase at the same time.
 
 ### Clarity / correction / improvement
 
@@ -461,13 +461,13 @@ For a CMOS inverter, express both transistor gate-source control voltages using 
 
 ![Handwritten MOS notes page 19](../../_internal/MOSFET%20and%20CMOS/03%20MOSFET%20Models%20and%20CMOS%20Inverter/images/page-19.jpeg)
 
-### What this page is doing
+### Gate-controlled current and voltage gain
 
 The region summary is followed by an amplifier question. In saturation, drain current is strongly controlled by gate voltage but only weakly controlled by drain voltage: $i_d\approx g_mv_{gs}+v_{ds}/r_o$. If that current flows through a load, a small input-voltage change produces a larger output-voltage change, with gain set by approximately $-g_mR_{load,eff}$.
 
 Saturation is valuable because the device behaves like a transconductor/current source. The output must still remain within the saturation compliance range; otherwise the current law and gain change.
 
-The load converts the page's current variation into voltage variation. A positive change in gate voltage increases nMOS drain current by approximately $g_mv_{gs}$; that increased current creates a larger voltage drop across the drain load, so the output voltage falls. This explains both amplification and inversion of sign. Finite $r_o$ reduces the effective load resistance and therefore reduces the obtainable gain.
+The load converts drain-current variation into output-voltage variation. A positive change in gate voltage increases nMOS drain current by approximately $g_mv_{gs}$; that increased current creates a larger voltage drop across the drain load, so the output voltage falls. This explains both amplification and inversion of sign. Finite $r_o$ reduces the effective load resistance and therefore reduces the obtainable gain.
 
 ### Question / TODO acknowledged
 
@@ -487,9 +487,9 @@ Why does high $r_o$ increase the voltage gain of a common-source stage?
 
 ![Handwritten MOS notes page 20](../../_internal/MOSFET%20and%20CMOS/03%20MOSFET%20Models%20and%20CMOS%20Inverter/images/page-20.jpeg)
 
-### What this page is doing
+### pMOS region conditions
 
-The page translates cutoff, linear, and saturation conditions to pMOS. In magnitudes: cutoff for $V_{SG}\le|V_{Tp}|$; linear for $V_{SG}>|V_{Tp}|$ and $V_{SD}<V_{SG}-|V_{Tp}|$; saturation for $V_{SD}\ge V_{SG}-|V_{Tp}|$.
+The pMOS region conditions use the complementary voltage polarities. In magnitudes: cutoff for $V_{SG}\le|V_{Tp}|$; linear for $V_{SG}>|V_{Tp}|$ and $V_{SD}<V_{SG}-|V_{Tp}|$; saturation for $V_{SD}\ge V_{SG}-|V_{Tp}|$.
 
 The magnitude equations match nMOS after replacing n parameters with p parameters. This symmetry is what lets CMOS analysis equate nMOS pull-down current and pMOS pull-up current at the same output node.
 
@@ -509,7 +509,7 @@ Why is a pMOS with $V_{SG}=0$ off even though its absolute gate voltage may be l
 
 ![Handwritten MOS notes page 21](../../_internal/MOSFET%20and%20CMOS/03%20MOSFET%20Models%20and%20CMOS%20Inverter/images/page-21.jpeg)
 
-### What this page is doing
+### Current balance at the switching point
 
 The circuit joins pMOS and nMOS drains at $V_{out}$ and gates at $V_{in}$. Near the switching threshold $V_M$, both devices conduct. With no DC output load, Kirchhoff's current law requires equal current magnitudes: $I_{Dn}=|I_{Dp}|$.
 
@@ -519,7 +519,7 @@ The circuit drawing shows why current magnitudes must match. The output node has
 
 ### Question / TODO acknowledged
 
-The page's “what does $V_{in}$ mean?” issue is resolved by distinguishing a swept independent input from the special switching-point equality. $V_{out}=V_{in}$ is not true for the whole inverter curve; it defines the intersection used to calculate $V_M$.
+The input $V_{in}$ is an independent swept voltage; the switching-point equality applies at one point on the transfer curve. $V_{out}=V_{in}$ is not true for the whole inverter curve; it defines the intersection used to calculate $V_M$.
 
 ### Clarity / correction / improvement
 
@@ -535,7 +535,7 @@ Why is inverter switching threshold $V_M$ conceptually different from $V_{Tn}$ a
 
 ![Handwritten MOS notes page 22](../../_internal/MOSFET%20and%20CMOS/03%20MOSFET%20Models%20and%20CMOS%20Inverter/images/page-22.jpeg)
 
-### What this page is doing
+### Switching-threshold derivation
 
 Equating the two square-law saturation currents gives
 
@@ -566,14 +566,14 @@ If pMOS becomes stronger while nMOS is unchanged, does $V_M$ move up or down? Ex
 
 ![Handwritten MOS notes page 23](../../_internal/MOSFET%20and%20CMOS/03%20MOSFET%20Models%20and%20CMOS%20Inverter/images/page-23.jpeg)
 
-### What this page is doing
+### Strength-ratio and symmetric-inverter formulas
 
 Defining $r=\sqrt{\beta_n/\beta_p}$, the general result is
 
 $$
 V_M=\frac{V_{DD}-|V_{Tp}|+rV_{Tn}}{1+r}.
 $$
-For a symmetric inverter with $\beta_n=\beta_p$ and $V_{Tn}=|V_{Tp}|$, this reduces to $V_M=V_{DD}/2$. The page then inserts example values to show how the transfer crossing shifts when strengths or thresholds differ.
+For a symmetric inverter with $\beta_n=\beta_p$ and $V_{Tn}=|V_{Tp}|$, this reduces to $V_M=V_{DD}/2$. Unequal device strengths or thresholds shift the transfer crossing away from the symmetric value.
 
 The ratio $r$ makes limiting cases visible. If $r$ grows, nMOS is relatively stronger and the denominator and weighted threshold term pull $V_M$ toward the lower rail; if $r$ shrinks, pMOS dominates and $V_M$ moves upward. Setting $r=1$ removes strength weighting, but half-supply switching still also requires the threshold magnitudes to match.
 
@@ -593,13 +593,13 @@ What two matching conditions make the inverter switch at exactly half the supply
 
 ![Handwritten MOS notes page 24](../../_internal/MOSFET%20and%20CMOS/03%20MOSFET%20Models%20and%20CMOS%20Inverter/images/page-24.jpeg)
 
-### What this page is doing
+### Operating-region checks across the transfer curve
 
 The numerical work evaluates transistor overdrives at a chosen $V_{in}$, decides whether nMOS and pMOS are off, linear, or saturated, and then solves current balance for $V_{out}$. The transfer sketch records the resulting high-output, transition, and low-output portions.
 
 This is the correct order for every inverter DC problem: determine which devices are on; assume regions; write equal current magnitudes; solve $V_{out}$; verify the assumed inequalities. An algebraic solution that violates a region inequality must be discarded and recalculated with the correct model.
 
-The transfer sketch is assembled from verified operating intervals. Near low input, nMOS is off and pMOS holds the output high. Near high input, pMOS is off and nMOS holds it low. Between those limits both conduct, but their linear/saturation roles change as $V_{out}$ moves. The numerical region check on the page is one point on that larger piecewise curve, not a standalone current calculation.
+The transfer sketch is assembled from verified operating intervals. Near low input, nMOS is off and pMOS holds the output high. Near high input, pMOS is off and nMOS holds it low. Between those limits both conduct, but their linear/saturation roles change as $V_{out}$ moves. A numerical region check establishes one point on this piecewise transfer curve.
 
 ### Question / TODO acknowledged
 

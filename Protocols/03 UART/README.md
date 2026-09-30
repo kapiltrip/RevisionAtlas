@@ -292,7 +292,7 @@ Starting from the first detected LOW sample in 16x mode, describe when the recei
 
 ### Technical discussion
 
-The final page expresses the receiver diagram as sequential-logic conditions using a 4-bit sample counter, a data index, and an 8-bit temporary register. Correct state transitions require the sampling events to align precisely with the counter definition.
+The receiver implements its state transitions using a 4-bit sample counter, a data index, and an 8-bit temporary register. Correct state transitions require the sampling events to align precisely with the counter definition.
 
 One consistent convention is: on each `sample_tick`, inspect the **old** phase counter, perform any midpoint action, then explicitly wrap or increment it. In `START`, when the chosen midpoint count is reached, confirm `rx == 0`; otherwise abort to `IDLE` as a false start. Reset the phase to zero before entering `DATA`. In `DATA`, every time the full-bit terminal count is reached, capture `rx` into `temp[bit_index]`, reset phase, and either increment the index or move to `STOP` after index 7. In `STOP`, wait another full-bit interval, require `rx == 1`, publish `temp`, and assert `data_valid`.
 

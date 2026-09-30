@@ -78,8 +78,7 @@ buffer. For a read it additionally captures `PRDATA`; for an error it maps
 
 ![Original handwritten APB overview and bridge page](../../../../_internal/Protocols/04%20AMBA/02%20APB/handwritten/images/01-apb-overview-and-bridge.jpg)
 
-The page correctly describes APB as low-bandwidth, low-complexity peripheral
-communication and draws an AHB/APB bridge. The term “low power” is best
+APB provides low-bandwidth, low-complexity peripheral communication. An AHB/APB bridge connects this peripheral bus to AHB. The term “low power” is best
 understood as an architectural goal enabled by a small, non-pipelined
 interface—not as a promise that every APB implementation automatically
 consumes little power.
@@ -88,7 +87,7 @@ The UART example is appropriate. A processor may read a UART status register
 through the bridge; APB transports the register access, while the UART's serial
 behavior remains internal to the peripheral.
 
-The page's “simple interface” statement has a precise protocol meaning. APB
+APB simplicity follows from its regular transfer structure. APB
 does not pipeline addresses, encode bursts, arbitrate between transfer types,
 or provide separate handshakes for read and write data. Every access follows
 one SETUP and one-or-more ACCESS cycles. That regularity reduces the state and
@@ -125,9 +124,9 @@ valid through ACCESS completion. `PENABLE` identifies that the transfer has
 moved from SETUP into ACCESS
 ([Arm IHI 0024E, Chapter 3](../../../../_internal/Protocols/04%20AMBA/02%20APB/sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf)).
 
-The page's signal names become clearer when grouped by ownership and purpose:
+Signal ownership and purpose determine the interface groups:
 
-| Owner | Signal group | Meaning for this page |
+| Owner | Signal group | Protocol meaning |
 |---|---|---|
 | Requester/bridge | `PADDR`, `PWRITE`, `PSELx`, `PENABLE` | Which register, read or write, which peripheral, and current phase |
 | Requester/bridge | `PWDATA`, optional `PSTRB` | Write payload and valid byte lanes |
@@ -182,7 +181,7 @@ sequence
 
 ![Original handwritten APB transfer phases](../../../../_internal/Protocols/04%20AMBA/02%20APB/handwritten/images/03-apb-transfer-phases.jpg)
 
-The page's phase split is correct. `PSEL=1, PENABLE=0` identifies SETUP, and
+`PSEL=1, PENABLE=0` identifies SETUP, and
 `PSEL=1, PENABLE=1` identifies ACCESS. The write data is not newly introduced
 only in ACCESS; it must be valid from SETUP and remain stable until the write
 completes.
@@ -240,8 +239,7 @@ of selected ACCESS plus ready has protocol meaning
 
 ![Original handwritten APB wait-state page](../../../../_internal/Protocols/04%20AMBA/02%20APB/handwritten/images/04-apb-wait-states-and-stability.jpg)
 
-The page correctly states that a LOW `PREADY` extends the data/access phase.
-Make the stability rule precise: during all extended ACCESS cycles, the
+A LOW `PREADY` extends ACCESS. During all extended ACCESS cycles, the
 requester holds `PADDR`, `PWRITE`, `PSEL`, `PENABLE`, `PWDATA`, and the other
 request controls stable. This lets a slow peripheral take as many cycles as it
 needs without seeing a changing request.
@@ -250,8 +248,7 @@ The completer is allowed to take zero or more wait cycles. “Zero wait” means
 `PREADY` is HIGH in the first ACCESS cycle, not that the two-phase protocol has
 been reduced to one cycle.
 
-For the write shown on this page, the exact retained request is broader than
-just address and data. Arm requires these requester outputs to remain unchanged
+During a waited write, the retained request includes control fields as well as address and data. Arm requires these requester outputs to remain unchanged
 through an extended ACCESS: `PADDR`, `PWRITE`, `PSELx`, `PENABLE`, `PWDATA`,
 and, when implemented, `PSTRB`, `PPROT`, `PAUSER`, and `PWUSER`. The peripheral
 can therefore decode once and finish later without defending itself against a
@@ -267,8 +264,7 @@ ready handshake on the local side to prevent that overwrite.
 The number of wait cycles can be zero or greater. Functionally, the controller
 does not need to predict the count: it remains in ACCESS while `PREADY=0` and
 exits on the first rising edge with `PREADY=1`. A timeout, if a system chooses
-to add one, is an external design policy and not part of this page's APB
-handshake.
+to add one, is an external design policy and not part of the APB handshake.
 
 ### iPad page: annotated waited write
 
@@ -344,16 +340,15 @@ request fields during waits and sample response fields only at completion.
 
 ![Original handwritten APB read, wait, and error page](../../../../_internal/Protocols/04%20AMBA/02%20APB/handwritten/images/05-apb-read-wait-and-errors.jpg)
 
-The page correctly separates read data from readiness. `PRDATA` provides the
+Read data and readiness serve separate roles. `PRDATA` provides the
 value, while `PREADY` says when that value can be accepted. If the read is
 extended, address and request controls are stable through every wait cycle.
 
-The notes also introduce `PSLVERR`. It is not a general level that should be
-sampled continuously. It is valid only in the final ACCESS cycle, alongside
+`PSLVERR` reports the completion status of an access and must be sampled at completion. It is valid only in the final ACCESS cycle, alongside
 `PSEL=1`, `PENABLE=1`, and `PREADY=1`. Outside that cycle the specification
 recommends driving it LOW.
 
-The read event on this page can be expressed as
+The read-completion event is
 `PSEL && PENABLE && PREADY && !PWRITE`. On that edge the requester captures
 both `PRDATA` and the status of `PSLVERR`. If there were two preceding wait
 cycles, they are still part of this one read; they do not produce two earlier
@@ -446,7 +441,7 @@ style ([Arm IHI 0024E, §4.1](../../../../_internal/Protocols/04%20AMBA/02%20APB
 
 ![Original handwritten APB write wait-state and FSM page](../../../../_internal/Protocols/04%20AMBA/02%20APB/handwritten/images/06-apb-write-wait-and-fsm.jpg)
 
-The upper timing notes correctly hold `PENABLE` HIGH while `PREADY` is LOW.
+`PENABLE` remains HIGH while `PREADY` is LOW during ACCESS.
 The lower circles are the beginning of the three-state controller. The clean
 transition conditions are:
 
@@ -484,8 +479,7 @@ capture_read    = complete && !PWRITE
 capture_error   = complete && PSLVERR
 ```
 
-These enables connect the page's circles to observable protocol events and
-prevent counters or result registers from updating repeatedly during waits
+These enables qualify updates with accepted protocol events and prevent counters or result registers from updating repeatedly during waits
 ([Arm IHI 0024E, §4.1](../../../../_internal/Protocols/04%20AMBA/02%20APB/sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf)).
 
 ## AHB versus APB after reading both notebooks

@@ -412,8 +412,7 @@ in several internal protocols.
 
 ![Handwritten AXI notes: AXI implementation options and source ports](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/11-axis-implementation-options-and-master-ports.jpg)
 
-**Explanation:** The page moves from implementation choices to a custom
-AXI-Stream source interface. The `m_axis_` payload and `TVALID` are outputs of
+**Explanation:** A custom AXI-Stream source drives payload and valid signals and receives readiness from the destination. The `m_axis_` payload and `TVALID` are outputs of
 the source, while `TREADY` returns from the destination and gates progress.
 
 ### Video 17 - Waveforms part 1

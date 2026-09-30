@@ -48,13 +48,13 @@ The device definitions are cross-checked against [MIT 6.012 MOS-capacitor materi
 4. [CMOS Switching Delay, Power, and Noise](04%20CMOS%20Switching%20Delay%20Power%20and%20Noise/README.md) - circuit performance and valid logic levels.
 5. [CMOS Sizing and NAND Timing](05%20CMOS%20Sizing%20and%20NAND%20Timing/README.md) - ratio choices and multi-transistor delay.
 
-## What every page discussion contains
+## Explanation structure
 
 - The complete source-page image, inline and readable.
-- **What this page is doing:** a conceptual explanation in the page's own order, including why each diagram or equation is used.
+- **Topic explanation:** a direct explanation of the device, circuit, or derivation, including why each diagram or equation is used.
 - **Question or TODO acknowledged:** included whenever the handwriting asks, doubts, or leaves an action unfinished; the answer is placed beside it.
 - **Clarity / correction / improvement:** distinguishes a genuine correction from a notation clarification or a useful addition.
-- **Active recall:** a closed-book question that tests the page's causal logic.
+- **Active recall:** a closed-book question that tests the underlying mechanism or derivation.
 
 ## Question and TODO register
 
@@ -74,7 +74,7 @@ This table is an index of clearly visible questions, doubts, or unfinished promp
 | [MOS 4, pages 14-16](04%20CMOS%20Switching%20Delay%20Power%20and%20Noise/README.md#page-14) | Which transistor passes which logic level strongly, and how is the threshold loss removed? | nMOS passes strong 0/weak 1, pMOS passes strong 1/weak 0; a transmission gate combines them. |
 | [MOS 4, page 18](04%20CMOS%20Switching%20Delay%20Power%20and%20Noise/README.md#page-18) | How much supply energy is used to charge $C_L$? | The supply delivers $C_LV_{DD}^2$; half is stored and half dissipated during charging. |
 | [MOS 4, page 22](04%20CMOS%20Switching%20Delay%20Power%20and%20Noise/README.md#page-22) | Why define $V_{IL}$ and $V_{IH}$ at gain $-1$? | They separate noise-attenuating regions from the high-gain transition region. |
-| [MOS 5, page 13](05%20CMOS%20Sizing%20and%20NAND%20Timing/README.md#page-13) | “Select the correct statement,” but options are absent from the photo. | The page records the correct noise-margin and delay relations needed to identify the option when supplied. |
+| [MOS 5, page 13](05%20CMOS%20Sizing%20and%20NAND%20Timing/README.md#page-13) | “Select the correct statement,” but options are absent from the photo. | The noise-margin and delay relations provide the criteria for selecting an option when the choices are supplied. |
 
 ## Verification stance
 

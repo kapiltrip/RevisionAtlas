@@ -559,8 +559,7 @@ readiness follows available capacity and output validity follows occupancy.
 ![Full-screen FIFO arrays, pointers, count, full detection, and empty detection](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/40-axis-fifo-p2-20.png)
 
 The design uses 16-entry arrays and five-bit write/read pointers plus a five-bit
-occupancy counter. `empty` is derived from `count==0`. The screenshot derives
-`full` from `count==15`, which intentionally or accidentally leaves one of the
+occupancy counter. `empty` is derived from `count==0`. The displayed RTL derives `full` from `count==15`, which intentionally or accidentally leaves one of the
 16 declared entries unused. A reusable parameterized FIFO should state its
 capacity explicitly and use consistent bounds:
 
@@ -621,8 +620,7 @@ pointer widths and full detection must match the actual depth.
 
 ![Handwritten AXI notes: FIFO read/write control](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/24-axis-fifo-read-write-control.jpg)
 
-**Explanation:** The page traces the write and read branches and the registered
-output. A compact invariant is `next_count = count + push - pop`, where `push`
+**Explanation:** The write and read branches update storage, pointers, occupancy, and the registered output on accepted operations. A compact invariant is `next_count = count + push - pop`, where `push`
 and `pop` are handshake events, including the simultaneous case.
 
 ### Video 41 - FIFO RTL continuation and verification

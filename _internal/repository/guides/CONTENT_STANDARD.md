@@ -21,7 +21,7 @@ Define a term when it is:
 - a tool or implementation word whose hardware meaning is not obvious, such as **inference**, **netlist**, or **generated clock**;
 - easy to confuse with a nearby term, such as **baud rate versus bit rate**, **setup time versus hold time**, or **clock enable versus divided clock**.
 
-Common English does not need a dictionary definition. A term already defined in the nearest parent README may be linked instead of copied, but a page must not rely on an unexplained acronym.
+Common English does not need a dictionary definition. A term already defined in the subject dictionary or nearest parent README may be linked instead of copied, but a page must not rely on an unexplained acronym.
 
 ## Required explanation pattern
 
@@ -107,7 +107,7 @@ Every subject folder must have a `README.md` containing:
 
 - subject purpose and boundary;
 - topic map and prerequisite order;
-- core-term dictionary with inline citations;
+- core-term dictionary with inline citations, or a link to its file in `dictionary/`;
 - source register;
 - subject-specific revision method;
 - completion criteria;

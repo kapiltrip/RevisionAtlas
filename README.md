@@ -14,6 +14,9 @@ usable hardware reasoning.
 
 ## Start revising
 
+The [term dictionary](dictionary/README.md) keeps STA definitions separate from
+the page explanations.
+
 - [MOSFET and CMOS](MOSFET%20and%20CMOS/README.md) contains five linked
   notebooks and 110 page discussions covering MOS electrostatics, MOSFET
   operation, CMOS switching, delay, power, noise, and sizing.
@@ -59,6 +62,7 @@ testbench material is indexed separately under `Code/`.
 ```text
 RevisionSolved/
 |-- README.md
+|-- dictionary/                          # subject term definitions
 |-- _internal/
 |   |-- repository/                      # guides, tracking, and templates
 |   `-- <Subject>/                       # centralized images and source documents

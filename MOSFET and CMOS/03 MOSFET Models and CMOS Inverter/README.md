@@ -141,6 +141,7 @@ For $V_{DS}\ll V_{OV}$, the quadratic $V_{DS}^2/2$ term is small, so $I_D\approx
 $$
 R_{on}\approx\frac{1}{\beta_n(V_{GS}-V_T)}.
 $$
+
 This is a voltage-controlled resistance: increasing gate overdrive or $W/L$, mobility, or oxide capacitance reduces $R_{on}$. The approximation is local because channel charge still changes slightly along the device as $V_{DS}$ grows.
 
 The slope near the origin of an output curve gives the equivalent channel resistance. In that small-$V_{DS}$ interval, $I_D$ is approximately proportional to $V_{DS}$, so the reciprocal slope is $R_{on}$. The gate voltage changes that slope by changing inversion charge, which is why this is an electrically controlled resistor rather than a fixed material resistance.
@@ -166,6 +167,7 @@ Forward transconductance is $g_m=\partial I_D/\partial V_{GS}$ at fixed $V_{DS}$
 $$
 g_m=\beta_n(V_{GS}-V_T)=\frac{2I_D}{V_{OV}}=\sqrt{2\beta_nI_D}.
 $$
+
 These equivalent forms answer different design questions: the first emphasizes gate overdrive, the second relates gain efficiency to current, and the third shows how device strength and bias current set $g_m$.
 
 Graphically, $g_m$ is the tangent slope of the saturation transfer curve at the chosen bias point. Because the curve is quadratic, two devices on the same curve can have different $g_m$. The derivative is a small-signal statement: it predicts the incremental current change $\Delta I_D\approx g_m\Delta V_{GS}$ only for a sufficiently small movement around that operating point.
@@ -217,6 +219,7 @@ The derivation replaces $L$ by $L-\Delta L$:
 $$
 I_D=\frac12\mu_nC'_{ox}\frac{W}{L-\Delta L}V_{OV}^2.
 $$
+
 For $\Delta L/L\ll1$, $1/(1-\Delta L/L)\approx1+\Delta L/L$. If channel shortening grows approximately with excess drain voltage, the result becomes the compact correction $1+\lambda V_{DS}$ or, more precisely in some conventions, $1+\lambda(V_{DS}-V_{DS,sat})$.
 
 The algebra isolates the small parameter before approximating it. Factoring $L$ from $L-\Delta L$ produces $1/[1-(\Delta L/L)]$, so the Taylor expansion is valid only when the lost length is a small fraction of the drawn channel. The final $\lambda$ term compresses the effective-length change into a voltage-dependent factor; it does not mean the channel literally shortens linearly at every bias.
@@ -242,6 +245,7 @@ The saturation model with channel-length modulation is
 $$
 I_D\approx\frac{\beta_n}{2}V_{OV}^2(1+\lambda V_{DS}).
 $$
+
 The output curves now have a finite positive slope in saturation. Larger $\lambda$ means stronger drain-voltage dependence and a poorer current source. Longer channels generally have smaller $\lambda$ because a given depletion-region extension is a smaller fraction of total length.
 
 On the plotted family, $\lambda$ is read through fractional slope rather than absolute slope alone. Since $\partial I_D/\partial V_{DS}\approx\lambda I_D$, a higher-current curve can have a steeper line even with the same $\lambda$. The parameter therefore measures output-current sensitivity per volt relative to the operating current, and its unit V$^{-1}$ follows directly from making $1+\lambda V_{DS}$ dimensionless.
@@ -355,6 +359,7 @@ The small-signal MOSFET model is a controlled current source with finite output 
 $$
 i_d=g_mv_{gs}+g_ov_{ds}.
 $$
+
 The transfer slope relates gate voltage to current; the output slope relates drain voltage to current. Keeping those derivatives separate is the foundation of the low-frequency small-signal model.
 
 Linearizing about a DC operating point separates gate and drain contributions. A small horizontal move on the transfer curve produces the $g_mv_{gs}$ contribution, while a small horizontal move on the output curve produces the $g_ov_{ds}$ contribution. Superposition adds them because higher-order products are neglected. The DC current itself is not part of $i_d$; lowercase variables denote only the incremental change.
@@ -542,6 +547,7 @@ Equating the two square-law saturation currents gives
 $$
 \beta_n(V_M-V_{Tn})^2=\beta_p(V_{DD}-V_M-|V_{Tp}|)^2.
 $$
+
 Taking the physically positive square root and solving yields a weighted balance between nMOS and pMOS strengths. This equation shows that the switching point is set by supply, thresholds, mobility, and device geometry through $\beta=\mu C'_{ox}W/L$.
 
 The positive square root is selected because both overdrive magnitudes are positive at the assumed switching point. After the root, $\sqrt{\beta_n}$ and $\sqrt{\beta_p}$ weight the voltage headroom required by each device. A stronger device needs less overdrive to carry the balancing current, so strengthening nMOS lowers the input crossing and strengthening pMOS raises it.
@@ -573,6 +579,7 @@ Defining $r=\sqrt{\beta_n/\beta_p}$, the general result is
 $$
 V_M=\frac{V_{DD}-|V_{Tp}|+rV_{Tn}}{1+r}.
 $$
+
 For a symmetric inverter with $\beta_n=\beta_p$ and $V_{Tn}=|V_{Tp}|$, this reduces to $V_M=V_{DD}/2$. Unequal device strengths or thresholds shift the transfer crossing away from the symmetric value.
 
 The ratio $r$ makes limiting cases visible. If $r$ grows, nMOS is relatively stronger and the denominator and weighted threshold term pull $V_M$ toward the lower rail; if $r$ shrinks, pMOS dominates and $V_M$ moves upward. Setting $r=1$ removes strength weighting, but half-supply switching still also requires the threshold magnitudes to match.

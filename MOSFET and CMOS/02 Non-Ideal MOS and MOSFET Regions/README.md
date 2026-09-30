@@ -123,6 +123,7 @@ Oxide charge contributes an additional term to flat-band voltage. For the conven
 $$
 V_{FB}=\Phi_{ms}-\frac{Q_{ox}}{C_{ox}}.
 $$
+
 A positive $Q_{ox}$ therefore shifts $V_{FB}$ negative; a negative $Q_{ox}$ shifts it positive. Physically, the external gate must supply a voltage that cancels both the work-function-induced field and the field caused by trapped/fixed charge.
 
 The sign can be read directly from the capacitor drawing. Positive oxide charge already attracts negative compensating charge toward the silicon side and acts partly like a positive gate bias. To recover flat band, the external gate must be driven in the negative direction. The factor $1/C_{ox}$ converts the charge sheet into the corresponding oxide-voltage offset, so a thinner, higher-capacitance oxide produces a smaller voltage shift for the same charge density.
@@ -194,6 +195,7 @@ The important structural relation is not the particular number but the decomposi
 $$
 V_T=V_{FB}+2\phi_F+\frac{|Q_{d,max}|}{C'_{ox}}
 $$
+
 for an nMOS built on p-type silicon with the usual positive-magnitude convention. It says the gate must first cancel non-ideal offsets, then bend the surface to strong inversion, then support the maximum depletion charge through the oxide.
 
 The order of the handwritten arithmetic mirrors the physical voltage path from gate to bulk. $V_{FB}$ establishes the corrected zero of surface bending. The $2\phi_F$ term is the potential reached inside the silicon, and $|Q_{d,max}|/C'_{ox}$ is the oxide voltage needed to support the uncovered acceptor charge at that condition. Identify each voltage contribution before adding the terms.

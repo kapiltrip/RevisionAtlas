@@ -92,6 +92,7 @@ Equal effective gain, $\beta_n=\beta_p$, centers the switching point and approxi
 $$
 \frac{W_p}{W_n}\approx\frac{\mu_n}{\mu_p}.
 $$
+
 Electron mobility is typically about two to three times hole mobility in a given process, so pMOS is made roughly two to three times wider in a first-order symmetric design.
 
 The pMOS-to-nMOS width ratio compensates for mobility, not for a different logic function. With equal $L$ and the same $C'_{ox}$, the narrower nMOS can equal the wider pMOS because electrons provide more current per unit width. Once the two $\beta$ values match, equal threshold magnitudes place the current-balance point near $V_{DD}/2$.
@@ -205,6 +206,7 @@ Charge balance provides a delay estimate without assuming constant transistor re
 $$
 t\approx\frac{C_L\Delta V}{I_{avg}}.
 $$
+
 For 50% propagation delay, $|\Delta V|$ is usually $V_{DD}/2$. Averaging the initial and midpoint currents captures some nonlinear MOS behavior without performing the full differential-equation integral.
 
 The two current samples shown are tied to two output voltages along the same transition. Their difference reflects the change in $V_{DS}$ and, possibly, a change of operating region while $V_{GS}$ stays fixed after the input step. Dividing the required half-swing charge by that representative current converts the transistor-current calculation into a time estimate with units of seconds.
@@ -274,6 +276,7 @@ The switching point is found by equating nMOS and pMOS current magnitudes at $V_
 $$
 \frac{\beta_n}{2}(V_M-V_{Tn})^2=\frac{\beta_p}{2}(V_{DD}-V_M-|V_{Tp}|)^2.
 $$
+
 The result connects $V_M$ to strength ratio and thresholds. This is also the center around which the noise-margin boundaries are later found, though $V_{IL}$ and $V_{IH}$ require a slope condition rather than only current equality.
 
 The diagonal condition $V_{in}=V_{out}$ shown at the crossing fixes all four terminal voltages from the single unknown $V_M$. It also makes both devices satisfy their saturation inequalities around the ideal switching point, allowing the two square-law expressions to be equated. Taking the positive square roots then exposes the strength ratio as $\sqrt{\beta_p/\beta_n}$ rather than as a direct linear multiplier.
@@ -347,6 +350,7 @@ Rearranging the RC exponential gives the time at which the output reaches a spec
 $$
 t=-RC\ln\left(\frac{V_{out}}{V_0}\right).
 $$
+
 For charging, $V_{out}=V_{DD}[1-e^{-t/RC}]$, so $t=-RC\ln[1-V_{out}/V_{DD}]$. At 50%, both reduce to $RC\ln2$.
 
 The normalized exponential terms represent different voltage fractions. During discharge, $V_{out}/V_0$ is the fraction **remaining**; during charge, $1-V_{out}/V_{DD}$ is the fraction of the original voltage error remaining. Setting either remaining-error fraction to $e^{-1}$ gives $t=RC$: the discharge has fallen to about $36.8\%$, while the charge has reached about $63.2\%$ of its final value.

@@ -465,6 +465,7 @@ Integrating supply power during capacitor charging gives the energy per charging
 $$
 P_{dyn}=\alpha C_LV_{DD}^2f,
 $$
+
 where $\alpha$ is the average number/probability of 0-to-1 charging events per clock opportunity under the chosen frequency convention. This square dependence makes supply reduction a powerful energy-saving lever.
 
 The derivation counts energy drawn from the supply, so only charging events enter directly. Multiplying $C_LV_{DD}^2$ by the average event rate $\alpha f$ converts joules per event into joules per second. The activity factor belongs to the particular node: a clock may charge every cycle, while a data node may remain unchanged for many cycles even at the same system frequency.

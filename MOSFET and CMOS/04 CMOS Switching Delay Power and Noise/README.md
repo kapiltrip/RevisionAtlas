@@ -1,5 +1,7 @@
 # 04 - CMOS Switching Delay, Power, and Noise
 
+[Quick revision](#quick-revision) | [Related topics](#related-topics)
+
 [Back to MOSFET and CMOS](../README.md) | [Previous module](../03%20MOSFET%20Models%20and%20CMOS%20Inverter/README.md) | [Untouched source PDF](../../_internal/MOSFET%20and%20CMOS/sources/mos4.pdf)
 
 This module turns the CMOS inverter from a DC transfer curve into a real logic gate. It tracks the transistor regions through the transition, models the output capacitance, explains pass-transistor level loss, derives switching energy, and defines noise margins.
@@ -12,22 +14,24 @@ This module turns the CMOS inverter from a DC transfer curve into a real logic g
 
 | Page | Revision focus | Page | Revision focus |
 |---:|---|---:|---|
-| [1](#page-01) | Inverter region calculation | [13](#page-13) | Propagation-delay waveforms |
-| [2](#page-02) | Near-rail resistance picture | [14](#page-14) | pMOS pass behavior |
-| [3](#page-03) | On-resistance and rail limits | [15](#page-15) | nMOS/pMOS level limits |
-| [4](#page-04) | Pull-down to logic 0 | [16](#page-16) | Transmission gate |
-| [5](#page-05) | Symmetric inverter conditions | [17](#page-17) | Static and dynamic power |
-| [6](#page-06) | Five VTC regions | [18](#page-18) | Capacitor charging energy |
-| [7](#page-07) | Region-based current example | [19](#page-19) | Dynamic-power derivation |
-| [8](#page-08) | Both devices saturated | [20](#page-20) | Power numerical example |
-| [9](#page-09) | VTC mapping and gate load | [21](#page-21) | Switching-threshold calculation |
-| [10](#page-10) | Equivalent resistance | [22](#page-22) | VIL, VIH, VOL, VOH |
-| [11](#page-11) | Output-capacitor transient | [23](#page-23) | Noise-margin geometry |
-| [12](#page-12) | RC rise and fall | [24](#page-24) | Strength and delay ratios |
+| <a id="index-page-01"></a>[1](#page-01) | Inverter region calculation | <a id="index-page-13"></a>[13](#page-13) | Propagation-delay waveforms |
+| <a id="index-page-02"></a>[2](#page-02) | Near-rail resistance picture | <a id="index-page-14"></a>[14](#page-14) | pMOS pass behavior |
+| <a id="index-page-03"></a>[3](#page-03) | On-resistance and rail limits | <a id="index-page-15"></a>[15](#page-15) | nMOS/pMOS level limits |
+| <a id="index-page-04"></a>[4](#page-04) | Pull-down to logic 0 | <a id="index-page-16"></a>[16](#page-16) | Transmission gate |
+| <a id="index-page-05"></a>[5](#page-05) | Symmetric inverter conditions | <a id="index-page-17"></a>[17](#page-17) | Static and dynamic power |
+| <a id="index-page-06"></a>[6](#page-06) | Five VTC regions | <a id="index-page-18"></a>[18](#page-18) | Capacitor charging energy |
+| <a id="index-page-07"></a>[7](#page-07) | Region-based current example | <a id="index-page-19"></a>[19](#page-19) | Dynamic-power derivation |
+| <a id="index-page-08"></a>[8](#page-08) | Both devices saturated | <a id="index-page-20"></a>[20](#page-20) | Power numerical example |
+| <a id="index-page-09"></a>[9](#page-09) | VTC mapping and gate load | <a id="index-page-21"></a>[21](#page-21) | Switching-threshold calculation |
+| <a id="index-page-10"></a>[10](#page-10) | Equivalent resistance | <a id="index-page-22"></a>[22](#page-22) | VIL, VIH, VOL, VOH |
+| <a id="index-page-11"></a>[11](#page-11) | Output-capacitor transient | <a id="index-page-23"></a>[23](#page-23) | Noise-margin geometry |
+| <a id="index-page-12"></a>[12](#page-12) | RC rise and fall | <a id="index-page-24"></a>[24](#page-24) | Strength and delay ratios |
 
 <a id="page-01"></a>
 
 ## Page 01 - Solving an inverter point by transistor regions
+
+[Back to index — page 1](#index-page-01)
 
 ![Handwritten MOS notes page 1](../../_internal/MOSFET%20and%20CMOS/04%20CMOS%20Switching%20Delay%20Power%20and%20Noise/images/page-01.jpeg)
 
@@ -47,9 +51,13 @@ Use pMOS magnitudes $`V_{SG}=V_{DD}-V_{in}`$ and $`V_{SD}=V_{DD}-V_{out}`$. This
 
 What KCL equation applies at a CMOS inverter output with no DC load current?
 
+[Back to index — page 1](#index-page-01)
+
 <a id="page-02"></a>
 
 ## Page 02 - Near-rail behavior as pull-up and pull-down resistances
+
+[Back to index — page 2](#index-page-02)
 
 ![Handwritten MOS notes page 2](../../_internal/MOSFET%20and%20CMOS/04%20CMOS%20Switching%20Delay%20Power%20and%20Noise/images/page-02.jpeg)
 
@@ -69,9 +77,13 @@ In ideal static CMOS with one transistor exactly off and no load, current is zer
 
 Why is a logic-high CMOS output ideally $`V_{DD}`$ even though the conducting pMOS has finite on-resistance?
 
+[Back to index — page 2](#index-page-02)
+
 <a id="page-03"></a>
 
 ## Page 03 - On-resistance and the high-input state
+
+[Back to index — page 3](#index-page-03)
 
 ![Handwritten MOS notes page 3](../../_internal/MOSFET%20and%20CMOS/04%20CMOS%20Switching%20Delay%20Power%20and%20Noise/images/page-03.jpeg)
 
@@ -91,9 +103,13 @@ The on-resistance formula is bias-dependent. Using one constant $`R_n`$ over the
 
 When a CMOS output is already settled low, why is nMOS current ideally zero even though nMOS remains on?
 
+[Back to index — page 3](#index-page-03)
+
 <a id="page-04"></a>
 
 ## Page 04 - Pull-down action after an input step
+
+[Back to index — page 4](#index-page-04)
 
 ![Handwritten MOS notes page 4](../../_internal/MOSFET%20and%20CMOS/04%20CMOS%20Switching%20Delay%20Power%20and%20Noise/images/page-04.jpeg)
 
@@ -113,9 +129,13 @@ The note's “suddenly on from cutoff” should be split into $t=0^+$ and $t\to\
 
 During a high-to-low output transition, in which region does nMOS typically start and in which region does it finish?
 
+[Back to index — page 4](#index-page-04)
+
 <a id="page-05"></a>
 
 ## Page 05 - Conditions for a symmetric CMOS inverter
+
+[Back to index — page 5](#index-page-05)
 
 ![Handwritten MOS notes page 5](../../_internal/MOSFET%20and%20CMOS/04%20CMOS%20Switching%20Delay%20Power%20and%20Noise/images/page-05.jpeg)
 
@@ -135,9 +155,13 @@ The handwritten `m1, m2 equally size` condition is not generally sufficient. Equ
 
 Why is the pMOS commonly made wider than the nMOS in a symmetric inverter?
 
+[Back to index — page 5](#index-page-05)
+
 <a id="page-06"></a>
 
 ## Page 06 - Tracking the five inverter VTC regions
+
+[Back to index — page 6](#index-page-06)
 
 ![Handwritten MOS notes page 6](../../_internal/MOSFET%20and%20CMOS/04%20CMOS%20Switching%20Delay%20Power%20and%20Noise/images/page-06.jpeg)
 
@@ -157,9 +181,13 @@ In the ideal model, the both-saturation region collapses to a very steep transit
 
 List the five nMOS/pMOS region pairs encountered as input rises from 0 to $`V_{DD}`$.
 
+[Back to index — page 6](#index-page-06)
+
 <a id="page-07"></a>
 
 ## Page 07 - Numerical current at the switching region
+
+[Back to index — page 7](#index-page-07)
 
 ![Handwritten MOS notes page 7](../../_internal/MOSFET%20and%20CMOS/04%20CMOS%20Switching%20Delay%20Power%20and%20Noise/images/page-07.jpeg)
 
@@ -179,9 +207,13 @@ Carry units through $`\mu C'_{ox}(W/L)V_{OV}^2/2`$. Device strength has units A/
 
 If $`I_{Dn}>|I_{Dp}|`$ at a candidate output voltage, which direction must the output move to restore KCL?
 
+[Back to index — page 7](#index-page-07)
+
 <a id="page-08"></a>
 
 ## Page 08 - Why both devices can be saturated
+
+[Back to index — page 8](#index-page-08)
 
 ![Handwritten MOS notes page 8](../../_internal/MOSFET%20and%20CMOS/04%20CMOS%20Switching%20Delay%20Power%20and%20Noise/images/page-08.jpeg)
 
@@ -201,9 +233,13 @@ The two inequalities place an upper and lower bound on the same $`V_{out}`$. nMO
 
 Write the two inequalities that bound $`V_{out}`$ when both inverter transistors are saturated.
 
+[Back to index — page 8](#index-page-08)
+
 <a id="page-09"></a>
 
 ## Page 09 - Mapping input ranges and recognizing capacitive loading
+
+[Back to index — page 9](#index-page-09)
 
 ![Handwritten MOS notes page 9](../../_internal/MOSFET%20and%20CMOS/04%20CMOS%20Switching%20Delay%20Power%20and%20Noise/images/page-09.jpeg)
 
@@ -223,9 +259,13 @@ The load sketch groups several physical capacitances at one node: gate oxide cap
 
 Why can adding more CMOS gate inputs slow an inverter even though each added input has nearly infinite DC resistance?
 
+[Back to index — page 9](#index-page-09)
+
 <a id="page-10"></a>
 
 ## Page 10 - Equivalent pull-up and pull-down resistance
+
+[Back to index — page 10](#index-page-10)
 
 ![Handwritten MOS notes page 10](../../_internal/MOSFET%20and%20CMOS/04%20CMOS%20Switching%20Delay%20Power%20and%20Noise/images/page-10.jpeg)
 
@@ -245,9 +285,13 @@ The equivalent resistance is an average over a nonlinear voltage trajectory. It 
 
 Which transistor and which equivalent resistance control $`t_{PLH}`$ and $`t_{PHL}`$?
 
+[Back to index — page 10](#index-page-10)
+
 <a id="page-11"></a>
 
 ## Page 11 - Capacitor voltage cannot change instantly
+
+[Back to index — page 11](#index-page-11)
 
 ![Handwritten MOS notes page 11](../../_internal/MOSFET%20and%20CMOS/04%20CMOS%20Switching%20Delay%20Power%20and%20Noise/images/page-11.jpeg)
 
@@ -267,9 +311,13 @@ State both continuity laws: capacitor voltage is continuous, while capacitor cur
 
 Immediately after a low-to-high input step, what are the output voltage and nMOS operating region if the output was previously high?
 
+[Back to index — page 11](#index-page-11)
+
 <a id="page-12"></a>
 
 ## Page 12 - RC charging, discharging, and delay definitions
+
+[Back to index — page 12](#index-page-12)
 
 ![Handwritten MOS notes page 12](../../_internal/MOSFET%20and%20CMOS/04%20CMOS%20Switching%20Delay%20Power%20and%20Noise/images/page-12.jpeg)
 
@@ -289,9 +337,13 @@ Use $`t_{PLH}`$ for output low-to-high and $`t_{PHL}`$ for output high-to-low. T
 
 Why is a 50% propagation delay approximately $0.69RC$, while a 10%-90% transition takes about $2.2RC$?
 
+[Back to index — page 12](#index-page-12)
+
 <a id="page-13"></a>
 
 ## Page 13 - Timing waveforms and propagation delay
+
+[Back to index — page 13](#index-page-13)
 
 ![Handwritten MOS notes page 13](../../_internal/MOSFET%20and%20CMOS/04%20CMOS%20Switching%20Delay%20Power%20and%20Noise/images/page-13.jpeg)
 
@@ -311,9 +363,13 @@ Do not measure delay from the start of the input edge unless a problem explicitl
 
 If $`R_p>R_n`$ for the same load, which propagation delay is larger?
 
+[Back to index — page 13](#index-page-13)
+
 <a id="page-14"></a>
 
 ## Page 14 - pMOS pass transistor and the “strong 1”
+
+[Back to index — page 14](#index-page-14)
 
 ![Handwritten MOS notes page 14](../../_internal/MOSFET%20and%20CMOS/04%20CMOS%20Switching%20Delay%20Power%20and%20Noise/images/page-14.jpeg)
 
@@ -337,9 +393,13 @@ The exact weak-low limit includes body effect if the pMOS body is fixed rather t
 
 Why does a pMOS pass a high level without the same threshold loss that an nMOS suffers?
 
+[Back to index — page 14](#index-page-14)
+
 <a id="page-15"></a>
 
 ## Page 15 - nMOS passes strong 0, pMOS passes strong 1
+
+[Back to index — page 15](#index-page-15)
 
 ![Handwritten MOS notes page 15](../../_internal/MOSFET%20and%20CMOS/04%20CMOS%20Switching%20Delay%20Power%20and%20Noise/images/page-15.jpeg)
 
@@ -363,9 +423,13 @@ Always identify which terminal becomes the source as the pass-node voltage moves
 
 Derive the nMOS weak-high limit by writing its turn-off condition.
 
+[Back to index — page 15](#index-page-15)
+
 <a id="page-16"></a>
 
 ## Page 16 - Transmission gate restores full logic swing
+
+[Back to index — page 16](#index-page-16)
 
 ![Handwritten MOS notes page 16](../../_internal/MOSFET%20and%20CMOS/04%20CMOS%20Switching%20Delay%20Power%20and%20Noise/images/page-16.jpeg)
 
@@ -389,9 +453,13 @@ A transmission gate is bidirectional for signal flow but still has finite on-res
 
 Which complementary gate voltages enable a transmission gate made of parallel nMOS and pMOS?
 
+[Back to index — page 16](#index-page-16)
+
 <a id="page-17"></a>
 
 ## Page 17 - Static, short-circuit, and dynamic power
+
+[Back to index — page 17](#index-page-17)
 
 ![Handwritten MOS notes page 17](../../_internal/MOSFET%20and%20CMOS/04%20CMOS%20Switching%20Delay%20Power%20and%20Noise/images/page-17.jpeg)
 
@@ -411,9 +479,13 @@ The phrase “static power only during transition” is contradictory: transitio
 
 Name the three power components in a real CMOS gate and state when each occurs.
 
+[Back to index — page 17](#index-page-17)
+
 <a id="page-18"></a>
 
 ## Page 18 - Charging a load capacitor from the supply
+
+[Back to index — page 18](#index-page-18)
 
 ![Handwritten MOS notes page 18](../../_internal/MOSFET%20and%20CMOS/04%20CMOS%20Switching%20Delay%20Power%20and%20Noise/images/page-18.jpeg)
 
@@ -437,9 +509,13 @@ When the capacitor later discharges, its stored half-energy is dissipated in nMO
 
 Why does making the pull-up resistance smaller reduce delay but not the ideal RC charging energy?
 
+[Back to index — page 18](#index-page-18)
+
 <a id="page-19"></a>
 
 ## Page 19 - Deriving dynamic power
+
+[Back to index — page 19](#index-page-19)
 
 ![Handwritten MOS notes page 19](../../_internal/MOSFET%20and%20CMOS/04%20CMOS%20Switching%20Delay%20Power%20and%20Noise/images/page-19.jpeg)
 
@@ -463,9 +539,13 @@ Define α and $f$ together. Some conventions count full cycles, others transitio
 
 If supply voltage falls by 20% while capacitance, activity, and frequency stay fixed, by what factor does dynamic power change?
 
+[Back to index — page 19](#index-page-19)
+
 <a id="page-20"></a>
 
 ## Page 20 - Dynamic-power numerical example
+
+[Back to index — page 20](#index-page-20)
 
 ![Handwritten MOS notes page 20](../../_internal/MOSFET%20and%20CMOS/04%20CMOS%20Switching%20Delay%20Power%20and%20Noise/images/page-20.jpeg)
 
@@ -485,9 +565,13 @@ If the waveform has one 0-to-1 transition per period, use α = 1 with the period
 
 Which three independent unit conversions should be checked in a dynamic-power calculation?
 
+[Back to index — page 20](#index-page-20)
+
 <a id="page-21"></a>
 
 ## Page 21 - Switching-threshold strength ratio
+
+[Back to index — page 21](#index-page-21)
 
 ![Handwritten MOS notes page 21](../../_internal/MOSFET%20and%20CMOS/04%20CMOS%20Switching%20Delay%20Power%20and%20Noise/images/page-21.jpeg)
 
@@ -507,9 +591,13 @@ Check whether the strength definition uses $`k=\mu C'_{ox}W/L`$ or uses a conven
 
 If $`\beta_n/\beta_p=4`$, what weighting factor appears after taking the square root, and which way does $`V_M`$ shift?
 
+[Back to index — page 21](#index-page-21)
+
 <a id="page-22"></a>
 
 ## Page 22 - Defining valid input and output logic levels
+
+[Back to index — page 22](#index-page-22)
 
 ![Handwritten MOS notes page 22](../../_internal/MOSFET%20and%20CMOS/04%20CMOS%20Switching%20Delay%20Power%20and%20Noise/images/page-22.jpeg)
 
@@ -533,9 +621,13 @@ Noise margin is a DC voltage allowance, not noise power. It assumes the next gat
 
 Why are $`V_{IL}`$ and $`V_{IH}`$ input specifications while $`V_{OL}`$ and $`V_{OH}`$ are output specifications?
 
+[Back to index — page 22](#index-page-22)
+
 <a id="page-23"></a>
 
 ## Page 23 - Reading noise margins geometrically
+
+[Back to index — page 23](#index-page-23)
 
 ![Handwritten MOS notes page 23](../../_internal/MOSFET%20and%20CMOS/04%20CMOS%20Switching%20Delay%20Power%20and%20Noise/images/page-23.jpeg)
 
@@ -555,9 +647,13 @@ Use worst-case bounds: $`V_{OH,min}`$, $`V_{OL,max}`$, $`V_{IH,min}`$, and $`V_{
 
 Given $`V_{OH}=4.8`$ V and $`V_{IH}=3.2`$ V, what is $`NM_H`$, and what physical disturbance does it tolerate?
 
+[Back to index — page 23](#index-page-23)
+
 <a id="page-24"></a>
 
 ## Page 24 - Strength ratio, resistance ratio, and delay matching
+
+[Back to index — page 24](#index-page-24)
 
 ![Handwritten MOS notes page 24](../../_internal/MOSFET%20and%20CMOS/04%20CMOS%20Switching%20Delay%20Power%20and%20Noise/images/page-24.jpeg)
 
@@ -577,8 +673,33 @@ Equal β is a first-order sizing target, not a guarantee of identical delay over
 
 Why can endlessly widening both inverter transistors eventually stop improving system-level delay?
 
+[Back to index — page 24](#index-page-24)
+
 ## Module checkpoint
 
 You are ready for Module 5 when you can explain the full switching event:
 
 `input edge -> transistor-region trajectory -> load charge flow -> output delay -> energy loss -> restored logic level and noise margin`
+
+## Quick revision
+
+**Key relations.** $`t_{pHL}\approx0.69R_nC_L`$ · $`t_{pLH}\approx0.69R_pC_L`$ · $`P_{dyn}=\alpha C_LV_{DD}^2f`$ · $`NM_L=V_{IL}-V_{OL},\quad NM_H=V_{OH}-V_{IH}`$.
+
+**Common mistakes.** The RC delays assume a first-order equivalent resistance. Dynamic-power activity counts output charging events. Distinguish supply energy from stored capacitor energy, and distinguish propagation delay from rise/fall time.
+
+**Closed-book questions**
+
+1. Why can capacitor voltage not jump instantaneously?
+2. Why does nMOS pass a weak high level?
+3. How does a transmission gate restore both logic levels?
+4. Where does the supply energy go during charging and discharging?
+5. How are valid logic levels and noise margins read from the VTC?
+
+**Full explanations:** [RC delay](#page-12) · [Transmission gates](#page-16) · [Energy and power](#page-18) · [Noise margins](#page-23).
+
+## Related topics
+
+- [Latch data and feedback paths](../../Static%20Timing%20Analysis/README.md#page-03)
+- [Sizing and delay matching](../05%20CMOS%20Sizing%20and%20NAND%20Timing/README.md#page-04)
+
+[Back to quick revision](#quick-revision)

@@ -10,6 +10,19 @@ the control state explicit. The same AXI4-Lite handshakes still govern every
 transition; the FSM is an organization method, not a substitute for channel
 rules.
 
+## Lesson index
+
+| Lesson | Topic | Notebook pages |
+|---:|---|---|
+| <a id="index-lesson-085"></a>[85](#lesson-085) | Section 6 agenda | — |
+| <a id="index-lesson-086"></a>[86](#lesson-086) | Building the Manager FSM | — |
+| <a id="index-lesson-087"></a>[87](#lesson-087) | Combined Manager I/O ports | <a id="index-page-40"></a>[40](#page-40) |
+| <a id="index-lesson-088"></a>[88](#lesson-088) | Manager implementation part 1: write | <a id="index-page-41"></a>[41](#page-41) |
+| <a id="index-lesson-089"></a>[89](#lesson-089) | Manager implementation part 2: write | — |
+| <a id="index-lesson-090"></a>[90](#lesson-090) | Manager implementation part 3: read | <a id="index-page-42"></a>[42](#page-42), <a id="index-page-43"></a>[43](#page-43) |
+| <a id="index-lesson-091"></a>[91](#lesson-091) | Verifying the combined Manager | — |
+| <a id="index-lesson-092"></a>[92](#lesson-092), <a id="index-lesson-093"></a>[93](#lesson-093) | Design and testbench code resources | — |
+
 ## Formal standard explanation
 
 The AXI specification does not prescribe an FSM or require AW to precede W.
@@ -30,7 +43,11 @@ but it must not be mistaken for a protocol limit.
 
 ## Lessons 85-93
 
+<a id="lesson-085"></a>
+
 ### Video 85 - Section 6 agenda
+
+[Back to index — lesson 85](#index-lesson-085)
 
 ![Original full-frame Section 6 agenda](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/085-agenda-50.png)
 
@@ -39,7 +56,13 @@ it to a Subordinate while retaining protocol checking. “Combined” means the
 block can initiate either a read or a write. It does not mean AW/W/B and AR/R
 become one channel.
 
+[Back to index — lesson 85](#index-lesson-085)
+
+<a id="lesson-086"></a>
+
 ### Video 86 - Building the Manager FSM
+
+[Back to index — lesson 86](#index-lesson-086)
 
 ![Original full-frame combined Manager FSM beside write and read waveforms](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/086-buidling-fsm-for-master-25.png)
 
@@ -63,7 +86,13 @@ policy. The external AXI4-Lite protocol still defines AW and W as independent,
 so the paired Subordinate and any reusable endpoint must not assume universal
 same-cycle arrival.
 
+[Back to index — lesson 86](#index-lesson-086)
+
+<a id="lesson-087"></a>
+
 ### Video 87 - Combined Manager I/O ports
+
+[Back to index — lesson 87](#index-lesson-087)
 
 ![Original full-frame FSM and first half of the combined Manager port list](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/087-master-i-o-ports-25.png)
 
@@ -83,7 +112,11 @@ The course interface omits optional protection fields and supports one command
 at a time. Those are declared teaching constraints in the matching
 [Code](../Code/README.md), not alternate AXI meanings.
 
+<a id="page-40"></a>
+
 #### Handwritten page 40 - Combined AXI4-Lite Manager ports
+
+[Back to index — notebook page 40](#index-page-40)
 
 ![Handwritten AXI notes: Combined AXI4-Lite Manager ports](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/40-axil-combined-manager-ports-and-channels.jpg)
 
@@ -91,7 +124,15 @@ at a time. Those are declared teaching constraints in the matching
 channels. With one outstanding operation, the control FSM must arbitrate local
 read/write requests and remember which response completes the selected command.
 
+[Back to index — lesson 87](#index-lesson-087)
+
+[Back to index — notebook page 40](#index-page-40)
+
+<a id="lesson-088"></a>
+
 ### Video 88 - Manager implementation part 1: write
+
+[Back to index — lesson 88](#index-lesson-088)
 
 ![Original full-frame write FSM branch beside the first write-control RTL](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/088-master-implementation-p1-write-25.png)
 
@@ -107,7 +148,11 @@ handshake condition consumes the currently offered item. If a flag is both set
 for a new item and cleared for an old handshake in one clocked block, branch
 priority must preserve the instructor's intended single-item lifetime.
 
+<a id="page-41"></a>
+
 #### Handwritten page 41 - Combined Manager write FSM
+
+[Back to index — notebook page 41](#index-page-41)
 
 ![Handwritten AXI notes: Combined Manager write FSM](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/41-axil-manager-write-fsm.jpg)
 
@@ -116,7 +161,15 @@ write response. Command inputs should be captured before they can change, and
 any timeout behavior is a teaching-design policy rather than part of the AXI
 protocol.
 
+[Back to index — lesson 88](#index-lesson-088)
+
+[Back to index — notebook page 41](#index-page-41)
+
+<a id="lesson-089"></a>
+
 ### Video 89 - Manager implementation part 2: write
+
+[Back to index — lesson 89](#index-lesson-089)
 
 ![Original full-frame completed write-side state flow and address/data logic](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/089-master-implementation-p2-write-25.png)
 
@@ -133,7 +186,13 @@ new command acceptance disabled until the B handshake returns it to idle. This
 single outstanding restriction is what makes one response unambiguous without
 an internal queue.
 
+[Back to index — lesson 89](#index-lesson-089)
+
+<a id="lesson-090"></a>
+
 ### Video 90 - Manager implementation part 3: read
+
+[Back to index — lesson 90](#index-lesson-090)
 
 ![Original full-frame read branch of the combined FSM and AR/R RTL](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/090-master-implementation-p3-read-25.png)
 
@@ -148,7 +207,11 @@ During `RVALID && !RREADY`, the Subordinate holds data/response and the FSM must
 remain in its receive state. Returning to idle from a level of `RVALID` without
 requiring `RREADY` would lose a stalled response.
 
+<a id="page-42"></a>
+
 #### Handwritten page 42 - Write-response completion and read start
+
+[Back to index — notebook page 42](#index-page-42)
 
 ![Handwritten AXI notes: Write-response completion and read start](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/42-axil-manager-write-response-and-read-start.jpg)
 
@@ -156,7 +219,13 @@ requiring `RREADY` would lose a stalled response.
 open the read branch. Each state advances on its exact channel handshake; a mere
 assertion of `VALID` or `READY` is not completion.
 
+[Back to index — notebook page 42](#index-page-42)
+
+<a id="page-43"></a>
+
 #### Handwritten page 43 - Read-address acceptance and data counting
+
+[Back to index — notebook page 43](#index-page-43)
 
 ![Handwritten AXI notes: Read-address acceptance and data counting](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/43-axil-manager-read-address-and-data-count.jpg)
 
@@ -164,7 +233,15 @@ assertion of `VALID` or `READY` is not completion.
 accepted data. In full AXI, completion must agree with an accepted `RLAST`; in
 this Lite teaching path there is only one read-data beat.
 
+[Back to index — lesson 90](#index-lesson-090)
+
+[Back to index — notebook page 43](#index-page-43)
+
+<a id="lesson-091"></a>
+
 ### Video 91 - Verifying the combined Manager
+
+[Back to index — lesson 91](#index-lesson-091)
 
 ![Original full-frame combined-Manager testbench stimulus](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/091-verifying-operation-of-master-25.png)
 
@@ -180,7 +257,15 @@ the bus itself. Every `VALID` must persist through stalls, each response must
 follow its request, and the FSM must not accept overlapping local operations.
 Randomized ready delays are the decisive test for those properties.
 
+[Back to index — lesson 91](#index-lesson-091)
+
+<a id="lesson-092"></a>
+
+<a id="lesson-093"></a>
+
 ### Lessons 92-93 - Design and testbench code resources
+
+[Back to index — lesson 92](#index-lesson-092) | [Back to index — lesson 93](#index-lesson-093)
 
 Lesson 92 supplies the combined Manager design and lesson 93 supplies its
 testbench. The repository keeps the instructor's module names, state names,
@@ -191,6 +276,8 @@ and control structure under [Code](../Code/README.md). Inline comments document:
 - how `BRESP` and `RRESP` are handled;
 - which event completes each command;
 - why caller address/data inputs must not change after command acceptance.
+
+[Back to index — lesson 92](#index-lesson-092) | [Back to index — lesson 93](#index-lesson-093)
 
 ## FSM audit checklist
 

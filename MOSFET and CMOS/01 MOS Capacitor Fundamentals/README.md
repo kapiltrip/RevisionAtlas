@@ -1,5 +1,7 @@
 # 01 - MOS Capacitor Fundamentals
 
+[Quick revision](#quick-revision) | [Related topics](#related-topics)
+
 [Back to MOSFET and CMOS](../README.md) | [Untouched source PDF](../../_internal/MOSFET%20and%20CMOS/sources/mos1.pdf)
 
 This module builds the electrostatic picture beneath every MOSFET: choose energy references, align work functions, bend semiconductor bands with gate voltage, and convert the bending into depletion charge and width.
@@ -12,22 +14,24 @@ This module builds the electrostatic picture beneath every MOSFET: choose energy
 
 | Page | Revision focus | Page | Revision focus |
 |---:|---|---:|---|
-| [1](#page-01) | MOS structure and work function | [13](#page-13) | Strong inversion |
-| [2](#page-02) | Vacuum and Fermi references | [14](#page-14) | Surface potential classification |
-| [3](#page-03) | Electron affinity and work-function difference | [15](#page-15) | Five surface conditions |
-| [4](#page-04) | Ideal MOS assumptions | [16](#page-16) | Complementary n-type picture |
-| [5](#page-05) | Flat-band condition | [17](#page-17) | p-substrate depletion width |
-| [6](#page-06) | Blank source page | [18](#page-18) | n-substrate depletion width |
-| [7](#page-07) | Accumulation | [19](#page-19) | Charge, field, and potential profiles |
-| [8](#page-08) | From flat band to depletion | [20](#page-20) | Electric-field boundary condition |
-| [9](#page-09) | Depletion charge and bands | [21](#page-21) | Potential distribution |
-| [10](#page-10) | Band and carrier profiles | [22](#page-22) | Field-area method |
-| [11](#page-11) | Deeper depletion | [23](#page-23) | Electrostatics numerical example |
-| [12](#page-12) | Inversion begins | [24](#page-24) | Non-ideal work-function effect |
+| <a id="index-page-01"></a>[1](#page-01) | MOS structure and work function | <a id="index-page-13"></a>[13](#page-13) | Strong inversion |
+| <a id="index-page-02"></a>[2](#page-02) | Vacuum and Fermi references | <a id="index-page-14"></a>[14](#page-14) | Surface potential classification |
+| <a id="index-page-03"></a>[3](#page-03) | Electron affinity and work-function difference | <a id="index-page-15"></a>[15](#page-15) | Five surface conditions |
+| <a id="index-page-04"></a>[4](#page-04) | Ideal MOS assumptions | <a id="index-page-16"></a>[16](#page-16) | Complementary n-type picture |
+| <a id="index-page-05"></a>[5](#page-05) | Flat-band condition | <a id="index-page-17"></a>[17](#page-17) | p-substrate depletion width |
+| <a id="index-page-06"></a>[6](#page-06) | Blank source page | <a id="index-page-18"></a>[18](#page-18) | n-substrate depletion width |
+| <a id="index-page-07"></a>[7](#page-07) | Accumulation | <a id="index-page-19"></a>[19](#page-19) | Charge, field, and potential profiles |
+| <a id="index-page-08"></a>[8](#page-08) | From flat band to depletion | <a id="index-page-20"></a>[20](#page-20) | Electric-field boundary condition |
+| <a id="index-page-09"></a>[9](#page-09) | Depletion charge and bands | <a id="index-page-21"></a>[21](#page-21) | Potential distribution |
+| <a id="index-page-10"></a>[10](#page-10) | Band and carrier profiles | <a id="index-page-22"></a>[22](#page-22) | Field-area method |
+| <a id="index-page-11"></a>[11](#page-11) | Deeper depletion | <a id="index-page-23"></a>[23](#page-23) | Electrostatics numerical example |
+| <a id="index-page-12"></a>[12](#page-12) | Inversion begins | <a id="index-page-24"></a>[24](#page-24) | Non-ideal work-function effect |
 
 <a id="page-01"></a>
 
 ## Page 01 - MOS structure and the meaning of work function
+
+[Back to index — page 1](#index-page-01)
 
 ![Handwritten MOS notes page 1](../../_internal/MOSFET%20and%20CMOS/01%20MOS%20Capacitor%20Fundamentals/images/page-01.jpeg)
 
@@ -47,9 +51,13 @@ The note `Si/SiO2 = metal/oxide/semiconductor` should be read as a stack descrip
 
 Why can the gate change the surface charge even though ideal SiO2 blocks steady DC current?
 
+[Back to index — page 1](#index-page-01)
+
 <a id="page-02"></a>
 
 ## Page 02 - Absolute energy references and equilibrium
+
+[Back to index — page 2](#index-page-02)
 
 ![Handwritten MOS notes page 2](../../_internal/MOSFET%20and%20CMOS/01%20MOS%20Capacitor%20Fundamentals/images/page-02.jpeg)
 
@@ -69,9 +77,13 @@ The statement about electrons being filled “till” the Fermi level is exactly
 
 What common reference permits a metal work function and a semiconductor work function to be compared?
 
+[Back to index — page 2](#index-page-02)
+
 <a id="page-03"></a>
 
 ## Page 03 - Electron affinity, band gap, and work-function difference
+
+[Back to index — page 3](#index-page-03)
 
 ![Handwritten MOS notes page 3](../../_internal/MOSFET%20and%20CMOS/01%20MOS%20Capacitor%20Fundamentals/images/page-03.jpeg)
 
@@ -91,9 +103,13 @@ Always write the chosen sign convention beside $`\Phi_{ms}`$. Some notes use $`\
 
 If p-type doping is increased, which part of $`\Phi_s=\chi+(E_C-E_F)/q`$ changes?
 
+[Back to index — page 3](#index-page-03)
+
 <a id="page-04"></a>
 
 ## Page 04 - Ideal MOS capacitor assumptions
+
+[Back to index — page 4](#index-page-04)
 
 ![Handwritten MOS notes page 4](../../_internal/MOSFET%20and%20CMOS/01%20MOS%20Capacitor%20Fundamentals/images/page-04.jpeg)
 
@@ -113,9 +129,13 @@ Each ideal assumption removes one possible source of electric field. Setting $`\
 
 Which two non-ideal effects must be set to zero before $`V_G=0`$ automatically means flat band?
 
+[Back to index — page 4](#index-page-04)
+
 <a id="page-05"></a>
 
 ## Page 05 - Flat band as the electrostatic reference state
+
+[Back to index — page 5](#index-page-05)
 
 ![Handwritten MOS notes page 5](../../_internal/MOSFET%20and%20CMOS/01%20MOS%20Capacitor%20Fundamentals/images/page-05.jpeg)
 
@@ -135,9 +155,13 @@ Flat **bands** and flat **Fermi level** are different statements. At thermal equ
 
 Can an equilibrium MOS capacitor have a flat Fermi level but bent conduction and valence bands? Explain.
 
+[Back to index — page 5](#index-page-05)
+
 <a id="page-06"></a>
 
 ## Page 06 - Blank source page
+
+[Back to index — page 6](#index-page-06)
 
 ![Blank handwritten source page 6](../../_internal/MOSFET%20and%20CMOS/01%20MOS%20Capacitor%20Fundamentals/images/page-06.jpeg)
 
@@ -153,9 +177,13 @@ Use the blank as a recall divider: redraw the ideal MOS stack and write the mean
 
 What changes at the semiconductor surface first when the gate moves away from flat band: carrier concentration, oxide current, or material band gap?
 
+[Back to index — page 6](#index-page-06)
+
 <a id="page-07"></a>
 
 ## Page 07 - Accumulation on a p-type substrate
+
+[Back to index — page 7](#index-page-07)
 
 ![Handwritten MOS notes page 7](../../_internal/MOSFET%20and%20CMOS/01%20MOS%20Capacitor%20Fundamentals/images/page-07.jpeg)
 
@@ -179,9 +207,13 @@ The note “no electric field” belongs to flat band, not accumulation. Accumul
 
 For p-type silicon, state the sign of gate charge, semiconductor charge, and mobile carrier that dominates in accumulation.
 
+[Back to index — page 7](#index-page-07)
+
 <a id="page-08"></a>
 
 ## Page 08 - Moving from flat band into depletion
+
+[Back to index — page 8](#index-page-08)
 
 ![Handwritten MOS notes page 8](../../_internal/MOSFET%20and%20CMOS/01%20MOS%20Capacitor%20Fundamentals/images/page-08.jpeg)
 
@@ -201,9 +233,13 @@ Band edges do not bend because the band gap changes. They bend because electron 
 
 Why does positive gate bias leave **negative** depletion charge in a p-type substrate?
 
+[Back to index — page 8](#index-page-08)
+
 <a id="page-09"></a>
 
 ## Page 09 - Depletion charge, width, and the band picture
+
+[Back to index — page 9](#index-page-09)
 
 ![Handwritten MOS notes page 9](../../_internal/MOSFET%20and%20CMOS/01%20MOS%20Capacitor%20Fundamentals/images/page-09.jpeg)
 
@@ -223,9 +259,13 @@ Depletion does not mean “no charge.” It means mobile majority carriers have 
 
 Under the depletion approximation, why is $\rho(x)$ rectangular while $E(x)$ is linear and $\psi(x)$ is quadratic?
 
+[Back to index — page 9](#index-page-09)
+
 <a id="page-10"></a>
 
 ## Page 10 - Energy-band and carrier-concentration profiles
+
+[Back to index — page 10](#index-page-10)
 
 ![Handwritten MOS notes page 10](../../_internal/MOSFET%20and%20CMOS/01%20MOS%20Capacitor%20Fundamentals/images/page-10.jpeg)
 
@@ -249,9 +289,13 @@ The gate and semiconductor can have different electrochemical potentials when an
 
 If $`E_i-E_F`$ decreases by several $kT$ near the surface, what happens to $n$ and $p$?
 
+[Back to index — page 10](#index-page-10)
+
 <a id="page-11"></a>
 
 ## Page 11 - Deeper depletion under increasing positive gate bias
+
+[Back to index — page 11](#index-page-11)
 
 ![Handwritten MOS notes page 11](../../_internal/MOSFET%20and%20CMOS/01%20MOS%20Capacitor%20Fundamentals/images/page-11.jpeg)
 
@@ -271,9 +315,13 @@ Say explicitly whether the vertical axis is electron energy or electrostatic pot
 
 Why does inversion eventually dominate additional gate charge even though the depletion region forms first?
 
+[Back to index — page 11](#index-page-11)
+
 <a id="page-12"></a>
 
 ## Page 12 - The onset of inversion
+
+[Back to index — page 12](#index-page-12)
 
 ![Handwritten MOS notes page 12](../../_internal/MOSFET%20and%20CMOS/01%20MOS%20Capacitor%20Fundamentals/images/page-12.jpeg)
 
@@ -305,9 +353,13 @@ The fixed depletion charge remains underneath the mobile surface electrons in th
 
 For a large positive gate bias, explain (1) why electrons move toward $x=0$ even though the electric-field arrow points into the silicon, (2) what happens to $`p_s`$ and $`n_s`$, and (3) what the equality $`p_s=n_s=n_i`$ means physically.
 
+[Back to index — page 12](#index-page-12)
+
 <a id="page-13"></a>
 
 ## Page 13 - Strong inversion and the $`2\phi_F`$ criterion
+
+[Back to index — page 13](#index-page-13)
 
 ![Handwritten MOS notes page 13](../../_internal/MOSFET%20and%20CMOS/01%20MOS%20Capacitor%20Fundamentals/images/page-13.jpeg)
 
@@ -327,9 +379,13 @@ Symmetry about the Fermi level provides a check on the strong-inversion conditio
 
 Show from the Boltzmann relations why $`\psi_s=2\phi_F`$ gives $`n_s\approx N_A`$.
 
+[Back to index — page 13](#index-page-13)
+
 <a id="page-14"></a>
 
 ## Page 14 - Surface potential as the mode classifier
+
+[Back to index — page 14](#index-page-14)
 
 ![Handwritten MOS notes page 14](../../_internal/MOSFET%20and%20CMOS/01%20MOS%20Capacitor%20Fundamentals/images/page-14.jpeg)
 
@@ -349,9 +405,13 @@ The exact labels at $`\phi_F`$ vary by text; the robust anchors are flat band at
 
 Why is $`V_G`$ not generally equal to $`\psi_s`$? Name the other voltage contributions.
 
+[Back to index — page 14](#index-page-14)
+
 <a id="page-15"></a>
 
 ## Page 15 - Five surface conditions on one potential axis
+
+[Back to index — page 15](#index-page-15)
 
 ![Handwritten MOS notes page 15](../../_internal/MOSFET%20and%20CMOS/01%20MOS%20Capacitor%20Fundamentals/images/page-15.jpeg)
 
@@ -371,9 +431,13 @@ Add a charge label under each sketch during revision: $`Q_s>0`$ for hole accumul
 
 Without drawing bands, list the dominant surface charge for all five conditions in order.
 
+[Back to index — page 15](#index-page-15)
+
 <a id="page-16"></a>
 
 ## Page 16 - Complementary operation on n-type silicon
+
+[Back to index — page 16](#index-page-16)
 
 ![Handwritten MOS notes page 16](../../_internal/MOSFET%20and%20CMOS/01%20MOS%20Capacitor%20Fundamentals/images/page-16.jpeg)
 
@@ -393,9 +457,13 @@ Do not memorize “positive means inversion” without attaching the substrate t
 
 What gate polarity creates strong inversion on n-type silicon, and which carrier forms the surface channel?
 
+[Back to index — page 16](#index-page-16)
+
 <a id="page-17"></a>
 
 ## Page 17 - Depletion charge and width for a p-type substrate
+
+[Back to index — page 17](#index-page-17)
 
 ![Handwritten MOS notes page 17](../../_internal/MOSFET%20and%20CMOS/01%20MOS%20Capacitor%20Fundamentals/images/page-17.jpeg)
 
@@ -419,9 +487,13 @@ The sign of $`Q_d`$ comes from the ionized dopant: acceptors are negative after 
 
 How does doubling $`N_A`$ affect $`W_d`$ and $`|Q_d|`$ at a fixed surface potential?
 
+[Back to index — page 17](#index-page-17)
+
 <a id="page-18"></a>
 
 ## Page 18 - Depletion charge and width for an n-type substrate
+
+[Back to index — page 18](#index-page-18)
 
 ![Handwritten MOS notes page 18](../../_internal/MOSFET%20and%20CMOS/01%20MOS%20Capacitor%20Fundamentals/images/page-18.jpeg)
 
@@ -441,9 +513,13 @@ The note's square-root expression should include the full potential magnitude in
 
 Why is n-substrate depletion charge positive even though the depleted mobile carrier is an electron?
 
+[Back to index — page 18](#index-page-18)
+
 <a id="page-19"></a>
 
 ## Page 19 - From charge density to field and potential
+
+[Back to index — page 19](#index-page-19)
 
 ![Handwritten MOS notes page 19](../../_internal/MOSFET%20and%20CMOS/01%20MOS%20Capacitor%20Fundamentals/images/page-19.jpeg)
 
@@ -463,9 +539,13 @@ At strong inversion, add a very thin mobile-electron sheet at the interface in a
 
 Sketch the expected shapes of $\rho(x)$, $E(x)$, and $\psi(x)$ in oxide and depleted silicon from memory.
 
+[Back to index — page 19](#index-page-19)
+
 <a id="page-20"></a>
 
 ## Page 20 - Electric field and dielectric boundary condition
+
+[Back to index — page 20](#index-page-20)
 
 ![Handwritten MOS notes page 20](../../_internal/MOSFET%20and%20CMOS/01%20MOS%20Capacitor%20Fundamentals/images/page-20.jpeg)
 
@@ -485,9 +565,13 @@ Electric field itself need not be continuous across two dielectrics; electric di
 
 If $`\varepsilon_{si}>\varepsilon_{ox}`$, which material has the larger field magnitude at an ideal interface carrying no sheet charge?
 
+[Back to index — page 20](#index-page-20)
+
 <a id="page-21"></a>
 
 ## Page 21 - Potential distribution across the MOS stack
+
+[Back to index — page 21](#index-page-21)
 
 ![Handwritten MOS notes page 21](../../_internal/MOSFET%20and%20CMOS/01%20MOS%20Capacitor%20Fundamentals/images/page-21.jpeg)
 
@@ -507,9 +591,13 @@ The potential graph is continuous across an ideal interface, while its slope cha
 
 Which part of the potential is linear and which part is parabolic, and what charge assumption causes each shape?
 
+[Back to index — page 21](#index-page-21)
+
 <a id="page-22"></a>
 
 ## Page 22 - Field-area method for voltage
+
+[Back to index — page 22](#index-page-22)
 
 ![Handwritten MOS notes page 22](../../_internal/MOSFET%20and%20CMOS/01%20MOS%20Capacitor%20Fundamentals/images/page-22.jpeg)
 
@@ -529,9 +617,13 @@ Use signed integrals when deriving directions, but use clearly labeled magnitude
 
 Derive $`W_d(\psi_s)`$ using only the triangle area and Gauss's-law expression for the peak field.
 
+[Back to index — page 22](#index-page-22)
+
 <a id="page-23"></a>
 
 ## Page 23 - Numerical electrostatics example
+
+[Back to index — page 23](#index-page-23)
 
 ![Handwritten MOS notes page 23](../../_internal/MOSFET%20and%20CMOS/01%20MOS%20Capacitor%20Fundamentals/images/page-23.jpeg)
 
@@ -551,9 +643,13 @@ The drawn formula $`\psi_s=\tfrac12W_dE_s`$ is correct for a linearly falling de
 
 Why must the oxide field be found through displacement continuity rather than assumed equal to the peak silicon field?
 
+[Back to index — page 23](#index-page-23)
+
 <a id="page-24"></a>
 
 ## Page 24 - Beginning the non-ideal MOS capacitor
+
+[Back to index — page 24](#index-page-24)
 
 ![Handwritten MOS notes page 24](../../_internal/MOSFET%20and%20CMOS/01%20MOS%20Capacitor%20Fundamentals/images/page-24.jpeg)
 
@@ -573,8 +669,32 @@ The note's qualitative direction is correct, but the sign of $`V_{FB}`$ depends 
 
 Why can a MOS capacitor have band bending at zero applied gate voltage without violating equilibrium?
 
+[Back to index — page 24](#index-page-24)
+
 ## Module checkpoint
 
 You are ready for Module 2 when you can derive this chain without notes:
 
 `work-function/charge offset -> flat-band voltage -> surface potential -> depletion width -> depletion charge -> oxide drop -> threshold voltage`
+
+## Quick revision
+
+**Key relations.** $`C_{ox}=\epsilon_{ox}/t_{ox}`$ · $`V_G=V_{FB}+\psi_s-Q_s/C_{ox}`$.
+
+**Common mistakes.** Use capacitance and charge per unit area together. For a p-type substrate, strong inversion is conventionally identified by surface potential reaching twice the positive Fermi-potential magnitude; check the substrate and sign convention before applying it.
+
+**Closed-book questions**
+
+1. What distinguishes work function from electron affinity?
+2. How do accumulation, depletion, and inversion change the surface charge?
+3. Why is the equilibrium Fermi level flat?
+4. How does Gauss’s law connect oxide field to semiconductor charge?
+5. How would you obtain gate voltage from the field and potential diagrams?
+
+**Full explanations:** [Surface charge and modes](#page-07) · [Depletion derivation](#page-17) · [MOS numerical example](#page-23).
+
+## Related topics
+
+- [Practical flat-band and threshold shifts](../02%20Non-Ideal%20MOS%20and%20MOSFET%20Regions/README.md#page-01)
+
+[Back to quick revision](#quick-revision)

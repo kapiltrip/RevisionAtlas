@@ -1,5 +1,7 @@
 # FIFO
 
+[Quick revision](#quick-revision) | [Related topics](#related-topics)
+
 FIFO is the second major VLSI design topic in this repository. The aim is not to begin by copying a finished Verilog module. The aim is to learn how a FIFO is constructed, what hardware each part becomes after synthesis, how boundary cases are verified, and why an asynchronous FIFO needs a clock-domain-crossing architecture rather than a small modification to a synchronous FIFO.
 
 > **Current scope:** this README is the design and learning guide. Minimal `fifo` and `fifo_tb` module shells and a Vivado starter project exist, but no completed FIFO behavior or passing verification result is claimed.
@@ -7,6 +9,19 @@ FIFO is the second major VLSI design topic in this repository. The aim is not to
 <a id="core-term-dictionary"></a>
 
 [Term dictionary](../dictionary/README.md#fifo-core-terms)
+
+## Topic index
+
+| Topic | Focus |
+|---:|---|
+| <a id="index-topic-01"></a>[1](#topic-01) | Begin with the contract, not the RTL |
+| <a id="index-topic-02"></a>[2](#topic-02) | Understand what the FIFO should synthesize into |
+| <a id="index-topic-03"></a>[3](#topic-03) | Stage 1 — learn the RAM first |
+| <a id="index-topic-04"></a>[4](#topic-04) | Stage 2 — build the synchronous FIFO |
+| <a id="index-topic-05"></a>[5](#topic-05) | Stage 3 — verify before optimizing |
+| <a id="index-topic-06"></a>[6](#topic-06) | Synthesis and timing review |
+| <a id="index-topic-07"></a>[7](#topic-07) | Stage 4 — advance to the asynchronous FIFO |
+| <a id="index-topic-08"></a>[8](#topic-08) | Stage 5 — verify the asynchronous FIFO |
 
 ## How to revise FIFO
 
@@ -33,7 +48,11 @@ This is the handwritten plan converted into an implementation order:
 
 The order matters. If RAM behavior, FIFO boundary rules, verification, and CDC are learned simultaneously, a failure is difficult to localize. Here, every stage introduces only one new class of problem.
 
+<a id="topic-01"></a>
+
 ## 1. Begin with the contract, not the RTL
+
+[Back to index — topic 1](#index-topic-01)
 
 Before designing anything, write a one-page specification that answers every item below.
 
@@ -75,7 +94,13 @@ There is more than one valid interface contract, but there must be only one cont
 - State whether output data is invalid, cleared, or simply ignored until a valid read completes.
 - For an asynchronous FIFO, define whether both clock domains must be reset together and how traffic is held off while synchronized state settles.
 
+[Back to index — topic 1](#index-topic-01)
+
+<a id="topic-02"></a>
+
 ## 2. Understand what the FIFO should synthesize into
+
+[Back to index — topic 2](#index-topic-02)
 
 A FIFO is not normally a long row of words shifting on every write. Think of it as a stationary memory plus control state.
 
@@ -90,7 +115,13 @@ A FIFO is not normally a long row of words shifting on every write. Think of it 
 
 After each implementation, inspect the elaborated schematic first and the synthesized schematic/utilization report second. The first reveals the logical structure; the second reveals what the tool actually mapped into device resources. AMD Vivado can infer several RAM organizations and map the description into one or more RAM primitives, so the coding style and selected port behavior are part of the hardware architecture, not mere syntax ([UG901: Memory Inference Capabilities](https://docs.amd.com/r/en-US/ug901-vivado-synthesis/Memory-Inference-Capabilities)).
 
+[Back to index — topic 2](#index-topic-02)
+
+<a id="topic-03"></a>
+
 ## 3. Stage 1 — learn the RAM first
+
+[Back to index — topic 3](#index-topic-03)
 
 Start with the smallest memory organization the FIFO needs: one write path and one read path. For the first synchronous FIFO, both operations use the same clock. Keep the RAM conceptually separate from the FIFO control so a memory problem cannot be confused with a pointer problem.
 
@@ -105,7 +136,13 @@ Determine and record:
 
 Do not continue merely because behavioral simulation can store and retrieve data. Continue when simulation behavior and inferred hardware agree with the written contract.
 
+[Back to index — topic 3](#index-topic-03)
+
+<a id="topic-04"></a>
+
 ## 4. Stage 2 — build the synchronous FIFO
+
+[Back to index — topic 4](#index-topic-04)
 
 Use one clock for the RAM, write pointer, read pointer, flags, and all acceptance decisions.
 
@@ -139,7 +176,13 @@ Then apply the boundary contract. A request that is rejected at `full` or `empty
 - Which status values describe the state before the active edge, and which describe the state after accepted operations?
 - How does RAM read latency affect `data_valid` and the scoreboard?
 
+[Back to index — topic 4](#index-topic-04)
+
+<a id="topic-05"></a>
+
 ## 5. Stage 3 — verify before optimizing
+
+[Back to index — topic 5](#index-topic-05)
 
 The testbench should contain a reference queue that stores every accepted input word. On each accepted read, compare the FIFO output against the oldest expected word at the latency required by the interface contract. Never update the reference queue from a request that the DUT rejected.
 
@@ -172,7 +215,13 @@ Check these invariants throughout the run:
 
 Repeat with small awkward configurations such as depth 1, depth 2, and the smallest supported data width. If arbitrary depth is supported, include non-power-of-two depths and force frequent wrap-around.
 
+[Back to index — topic 5](#index-topic-05)
+
+<a id="topic-06"></a>
+
 ## 6. Synthesis and timing review
+
+[Back to index — topic 6](#index-topic-06)
 
 Functional correctness is only one checkpoint. For the synthesized design:
 
@@ -186,7 +235,13 @@ Functional correctness is only one checkpoint. For the synthesized design:
 
 If the status comparison becomes the critical path, first examine whether the flag can be computed from registered next-state information. Do not pipeline a flag casually: changing flag latency changes the FIFO's externally visible acceptance contract.
 
+[Back to index — topic 6](#index-topic-06)
+
+<a id="topic-07"></a>
+
 ## 7. Stage 4 — advance to the asynchronous FIFO
+
+[Back to index — topic 7](#index-topic-07)
 
 An asynchronous FIFO has unrelated `wr_clk` and `rd_clk` domains. It is not a synchronous FIFO with a second clock connected to the read process.
 
@@ -215,7 +270,13 @@ AMD's independent-clock FIFO architecture similarly uses memory, local counters,
 
 Even a Gray-coded bus needs suitable timing or skew control so the receiving domain cannot observe changes from multiple source states together. AMD explicitly calls for latency or bus-skew constraints on Gray-coded CDC buses ([UG1387: Constraints on Individual CDC Paths](https://docs.amd.com/r/en-US/ug1387-acap-hardware-ip-platform-dev-methodology/Constraints-on-Individual-CDC-Paths)); the CDC report should also be inspected for unexpected paths and missing synchronizer properties ([UG906: CDC Detailed Report](https://docs.amd.com/r/en-US/ug906-vivado-design-analysis/Detailed-Report)).
 
+[Back to index — topic 7](#index-topic-07)
+
+<a id="topic-08"></a>
+
 ## 8. Stage 5 — verify the asynchronous FIFO
+
+[Back to index — topic 8](#index-topic-08)
 
 Use one reference queue, but drive write-side decisions on `wr_clk` and read-side decisions on `rd_clk`. The scoreboard must understand the specified read latency and the fact that pointer information crosses domains with delay.
 
@@ -231,6 +292,8 @@ Vary all of these deliberately:
 - Reset before traffic, during partial occupancy, and near coincident clock edges, following the documented reset policy.
 
 Check data integrity from accepted operations, not from instantaneous cross-domain flag intuition. Synchronization delay makes conservative status latency normal; data loss, duplication, reordering, unsafe CDC topology, or capacity violation is not normal.
+
+[Back to index — topic 8](#index-topic-08)
 
 ## Definition of done
 
@@ -262,3 +325,26 @@ Only this approach README is needed now. When implementation begins, grow this t
   and reset experiments.
 
 The guiding rule is: **make the FIFO contract correct in one clock, prove the inferred hardware, and only then introduce clock-domain crossing.**
+
+## Quick revision
+
+**Key relations.** $`occ^+=occ+write_{accepted}-read_{accepted}`$ · $`0\le occ\le DEPTH`$.
+
+**Common mistakes.** Use accepted operations rather than raw requests. Define the simultaneous read/write policy at full and empty boundaries before coding. Synchronizing a multi-bit binary pointer bit by bit does not provide a coherent asynchronous FIFO pointer; Gray coding still requires synchronization and timing constraints.
+
+**Closed-book questions**
+
+1. What is the RAM read-latency contract?
+2. What happens when read and write are requested together at empty?
+3. How do wraparound and full detection differ?
+4. Which assertions would detect loss, duplication, or reordering?
+5. Why does an asynchronous FIFO synchronize Gray-coded pointers?
+
+**Full explanations:** [Synchronous contract](#topic-04) · [Verification sequence](#topic-05) · [CDC design](#topic-07).
+
+## Related topics
+
+- [AXI-Stream FIFO lessons](../Protocols/04%20AMBA/03%20AXI/Lectures/Section%2003%20-%20AXI-Stream%20IPs.md#lesson-039)
+- [Timing assumptions](../Static%20Timing%20Analysis/README.md#setup-and-hold-reference-equations)
+
+[Back to quick revision](#quick-revision)

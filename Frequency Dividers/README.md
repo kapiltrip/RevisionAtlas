@@ -1,9 +1,10 @@
 # Frequency Dividers
 
+[Quick revision](#quick-revision) | [Related topics](#related-topics)
+
 [Back to RevisionSolved](../README.md) | [Original 13-page notebook](../_internal/Frequency%20Dividers/sources/frequency-divider-handwritten-notes.pdf)
 
 This chapter follows the handwritten notebook page by page. Every source page is shown before its explanation, and every visible question, highlighted statement, duty-cycle claim, and circuit is resolved beside the page where it appears.
-
 
 <a id="quick-index"></a>
 
@@ -12,9 +13,9 @@ This chapter follows the handwritten notebook page by page. Every source page is
 | Revision area | Jump directly |
 |---|---|
 | Fundamentals | [Term dictionary](../dictionary/README.md#frequency-dividers) · [What is actually divided?](#what-is-divided) · [Minimum flip-flops](#minimum-flip-flops) · [Revision method](#revision-method) |
-| Basic integer division | [Page 01: divider meaning](#page-01) · [Page 02: toggle divide-by-2 and divide-by-4](#page-02) · [75/98 counter example](#counter-75-98) · [Page 03: duty cycle](#page-03) |
-| Modulo and duty-cycle designs | [Page 04: modulo-3](#page-04) · [Complete f/3 duty-cycle grid](#divide-by-3-duty-grid) · [Page 05: divide-by-3 and modulo-5](#page-05) · [Page 06: modulo-5](#page-06) · [Page 07: divide-by-2 duty cycles](#page-07) · [Page 08: pulse cutting and divide-by-3](#page-08) · [Page 09: divide-by-3 and divide-by-4](#page-09) |
-| Fractional division | [Page 10: divide-by-1.5 meaning](#page-10) · [Page 11: divide-by-1.5 edge detection](#page-11) · [Page 12: divide-by-2.5](#page-12) · [Page 13: both-edge state machine](#page-13) |
+| Basic integer division | <a id="index-page-01"></a>[Page 01: divider meaning](#page-01) · <a id="index-page-02"></a>[Page 02: toggle divide-by-2 and divide-by-4](#page-02) · [75/98 counter example](#counter-75-98) · <a id="index-page-03"></a>[Page 03: duty cycle](#page-03) |
+| Modulo and duty-cycle designs | <a id="index-page-04"></a>[Page 04: modulo-3](#page-04) · [Complete f/3 duty-cycle grid](#divide-by-3-duty-grid) · <a id="index-page-05"></a>[Page 05: divide-by-3 and modulo-5](#page-05) · <a id="index-page-06"></a>[Page 06: modulo-5](#page-06) · <a id="index-page-07"></a>[Page 07: divide-by-2 duty cycles](#page-07) · <a id="index-page-08"></a>[Page 08: pulse cutting and divide-by-3](#page-08) · <a id="index-page-09"></a>[Page 09: divide-by-3 and divide-by-4](#page-09) |
+| Fractional division | <a id="index-page-10"></a>[Page 10: divide-by-1.5 meaning](#page-10) · <a id="index-page-11"></a>[Page 11: divide-by-1.5 edge detection](#page-11) · <a id="index-page-12"></a>[Page 12: divide-by-2.5](#page-12) · <a id="index-page-13"></a>[Page 13: both-edge state machine](#page-13) |
 | Related coding subject | [Programmable Frequency Divider — subject plan](../Programmable%20Frequency%20Divider/README.md) |
 | Final review | [Points to remember](#points-to-remember) · [Reference checks](#reference-checks) |
 
@@ -54,7 +55,6 @@ The divider acts on the **reference clock or event repetition rate**. It does no
 A single frequency and division ratio require a repeating reference period. If an arbitrary data signal has irregular edges, a circuit can count, filter, or select those edges, but the result does not have a guaranteed $`f_{in}/N`$ because one stable $`f_{in}`$ does not exist. A periodic data pattern can be treated as a reference waveform, but then the divider is acting on its repetition/event timing—not on the meaning of its bits.
 
 **Interview form:** A frequency divider is a sequential circuit that counts or sequences periodic input-clock events and produces an output event or waveform whose repetition rate is a defined fraction of the input rate. It divides the clock/event rate, not the data value or voltage.
-
 
 <a id="minimum-flip-flops"></a>
 
@@ -138,6 +138,8 @@ For every circuit, write the state sequence, mark the exact output transitions, 
 
 ## Page 01 - Chapter cover: what frequency division means
 
+[Back to index — page 1](#index-page-01)
+
 ![Frequency-divider notebook page 1](../_internal/Frequency%20Dividers/images/page-01.png)
 
 ### Frequency-division ratio
@@ -173,9 +175,13 @@ The words **cycle or event rate** matter. A terminal-count pulse occurring once 
 
 If an output waveform repeats after five input-clock periods, what are $`T_{out}`$ and $`f_{out}`$, and what extra information is still needed to know its duty cycle?
 
+[Back to index — page 1](#index-page-01)
+
 <a id="page-02"></a>
 
 ## Page 02 - Toggle division by 2 and extension to divide by 4
+
+[Back to index — page 2](#index-page-02)
 
 ![Frequency-divider notebook page 2](../_internal/Frequency%20Dividers/images/page-02.png)
 
@@ -268,7 +274,6 @@ A flip-flop output can look like a clock, but using ordinary internally generate
 ### Active recall
 
 Why does $T=1$ not count as the signal being divided, and what clock connection distinguishes the synchronous divide-by-4 circuit from the ripple version?
-
 
 <a id="counter-75-98"></a>
 
@@ -412,10 +417,13 @@ The reset places the circuit in $`S_0`$, so **count** is 75. Each later rising e
 
 Why are seven output bits required but only one flip-flop is required, and which signal in this design has frequency $`f_{clk}/2`$?
 
+[Back to index — page 2](#index-page-02)
 
 <a id="page-03"></a>
 
 ## Page 03 - Divider definition, stored-state toggling, and duty cycle
+
+[Back to index — page 3](#index-page-03)
 
 ![Frequency-divider notebook page 3](../_internal/Frequency%20Dividers/images/page-03.png)
 
@@ -510,9 +518,13 @@ A rising-edge-only state machine changes only at integer multiples of $`T_{in}`$
 
 Can two $`f_{in}/3`$ waveforms have different duty cycles? Give the HIGH duration for 33.33%, 50%, and 66.67% duty.
 
+[Back to index — page 3](#index-page-03)
+
 <a id="page-04"></a>
 
 ## Page 04 - Designing a synchronous modulo-3 divider
+
+[Back to index — page 4](#index-page-04)
 
 ![Frequency-divider notebook page 4](../_internal/Frequency%20Dividers/images/page-04.png)
 
@@ -790,9 +802,13 @@ A precise quarter-period phase reference from a PLL or DLL can provide the same 
 
 Starting from $11$, where do the simplified equations send the counter, and which output polarity gives 66.67% duty?
 
+[Back to index — page 4](#index-page-04)
+
 <a id="page-05"></a>
 
 ## Page 05 - Making divide-by-3 50% and beginning the modulo-5 design
+
+[Back to index — page 5](#index-page-05)
 
 ![Frequency-divider notebook page 5](../_internal/Frequency%20Dividers/images/page-05.png)
 
@@ -888,9 +904,13 @@ The next-state function has XOR form: $`D_1`$ is 1 exactly when $`Q_1`$ and $`Q_
 
 Why does ORing the 33.33% signal with its falling-edge sample add exactly half an input period, and which modulo-5 next-state bit becomes an XOR?
 
+[Back to index — page 5](#index-page-05)
+
 <a id="page-06"></a>
 
 ## Page 06 - Completing modulo-5 and selecting the correct 50% precursor
+
+[Back to index — page 6](#index-page-06)
 
 ![Frequency-divider notebook page 6](../_internal/Frequency%20Dividers/images/page-06.png)
 
@@ -979,9 +999,13 @@ Texas Instruments' [CD74HC390 datasheet](https://www.ti.com/lit/ds/symlink/cd74h
 
 Which modulo-5 bit has the contiguous 40% pulse needed for half-cycle extension, and why does extending $`Q_2`$ fail to produce 50% duty?
 
+[Back to index — page 6](#index-page-06)
+
 <a id="page-07"></a>
 
 ## Page 07 - Solved Q10: divide by 2 with 50% and 25% duty
+
+[Back to index — page 7](#index-page-07)
 
 ![Frequency-divider notebook page 7](../_internal/Frequency%20Dividers/images/page-07.png)
 
@@ -1068,9 +1092,13 @@ These gate-level constructions are appropriate for waveform reasoning and extern
 
 Why must a 25%-duty divide-by-2 output be HIGH for only $`T_{in}/2`$, and why can directly ANDing a positive-edge-changing $Q$ with $CLK$ create a runt pulse?
 
+[Back to index — page 7](#index-page-07)
+
 <a id="page-08"></a>
 
 ## Page 08 - Solved Q11 and Q12(a): pulse cutting and divide by 3
+
+[Back to index — page 8](#index-page-08)
 
 ![Frequency-divider notebook page 8](../_internal/Frequency%20Dividers/images/page-08.png)
 
@@ -1159,9 +1187,13 @@ Changing output polarity gives 66.67% duty; achieving 50% duty requires the extr
 
 Why should the pulse-cutting enable change while $CLK$ is LOW, and why do $`Q_1`$ and $`\overline{Q_1}`$ have the same frequency but different duty cycles?
 
+[Back to index — page 8](#index-page-08)
+
 <a id="page-09"></a>
 
 ## Page 09 - Q12(b) 66.67% and 50%, then Q15 divide-by-4 recognition
+
+[Back to index — page 9](#index-page-09)
 
 ![Frequency-divider notebook page 9](../_internal/Frequency%20Dividers/images/page-09.png)
 
@@ -1265,9 +1297,13 @@ The unusual bit labels can hide the familiar circuit. Structurally, it is a sync
 
 Why can the complement change duty cycle without changing frequency, and which state bit in Q15 is actually the least-significant bit?
 
+[Back to index — page 9](#index-page-09)
+
 <a id="page-10"></a>
 
 ## Page 10 - What divide by 1.5 really means
+
+[Back to index — page 10](#index-page-10)
 
 ![Frequency-divider notebook page 10](../_internal/Frequency%20Dividers/images/page-10.png)
 
@@ -1340,9 +1376,13 @@ These methods naturally produce a pulse train. Whether that pulse train is allow
 
 Why must every alternate divide-by-1.5 event fall on the negative edge of the input, and why is exact 50% duty not available on a half-period timing grid?
 
+[Back to index — page 10](#index-page-10)
+
 <a id="page-11"></a>
 
 ## Page 11 - Divide by 1.5 using a 50% divide-by-3 precursor and edge detection
+
+[Back to index — page 11](#index-page-11)
 
 ![Frequency-divider notebook page 11](../_internal/Frequency%20Dividers/images/page-11.png)
 
@@ -1433,9 +1473,13 @@ The XOR result is best described as a periodic pulse train. If it is only an ena
 
 Why does the XOR produce a pulse after both transitions of $A$, and what goes wrong with uniform output spacing if $A$ is not 50% duty?
 
+[Back to index — page 11](#index-page-11)
+
 <a id="page-12"></a>
 
 ## Page 12 - General half-integer method and divide by 2.5
+
+[Back to index — page 12](#index-page-12)
 
 ![Frequency-divider notebook page 12](../_internal/Frequency%20Dividers/images/page-12.png)
 
@@ -1566,9 +1610,13 @@ Do not infer a portable FPGA design by writing one ordinary register that change
 
 Why does divide by 2.5 begin with divide by 5, and why does a half-input-period XOR delay produce 20% rather than 50% duty?
 
+[Back to index — page 12](#index-page-12)
+
 <a id="page-13"></a>
 
 ## Page 13 - Divide by 1.5 as a both-edge state machine, with RTL
+
+[Back to index — page 13](#index-page-13)
 
 ![Frequency-divider notebook page 13](../_internal/Frequency%20Dividers/images/page-13.png)
 
@@ -1706,6 +1754,8 @@ Neither the original full-cycle grid nor its half-cycle edge grid contains every
 
 Why does a modulo-3 machine clocked at $`2f_{in}`$ implement divide by 1.5, and what makes this implementation safer than combining two independent opposite-edge FSMs in ordinary logic?
 
+[Back to index — page 13](#index-page-13)
+
 <a id="points-to-remember"></a>
 
 ## Points to remember
@@ -1745,3 +1795,26 @@ The explanations and corrections were cross-checked against:
 - [AMD Clocking Wizard](https://docs.amd.com/r/en-US/pg065-clk-wiz/Configuring-Output-Clocks) for specifying and checking generated-clock frequency, phase, and duty-cycle requirements.
 - [MSOE Clock Dividers](https://faculty-web.msoe.edu/johnsontimoj/ELE3510/files3510/clock_dividers.pdf) for relating each divided-clock half-period to counted reference-clock cycles.
 - [Byun, Son, and Kim: Simple odd number frequency divider with 50% duty cycle](https://pure.dongguk.edu/en/publications/simple-odd-number-frequency-divider-with-50-duty-cycle/) for the need for explicit duty-cycle correction in odd-ratio dividers.
+
+## Quick revision
+
+**Key relations.** $`f_{out}=f_{in}/N`$ · $`D=t_H/T_{out}`$ · $`b=\lceil\log_2 M\rceil`$.
+
+**Common mistakes.** The state-width formula assumes a conventional binary encoding of M states. Division ratio alone does not determine duty cycle. A clock-enable pulse and a divided clock have different uses; fractional average spacing must be distinguished from a uniform periodic waveform.
+
+**Closed-book questions**
+
+1. What must repeat for an output frequency to be well defined?
+2. How do state count and divider ratio determine register width?
+3. Why does a rising-edge-only odd divider resist an exact 50% duty cycle?
+4. How would you trace a fractional divider across a complete repeating pattern?
+5. When should an FPGA design use a clock enable instead of a fabric-generated clock?
+
+**Full explanations:** [State width](#minimum-flip-flops) · [Duty cycle](#page-03) · [Fractional division](#page-10).
+
+## Related topics
+
+- [Divider RTL and testbenches](../Programmable%20Frequency%20Divider/README.md#quick-revision)
+- [UART baud and oversampling ticks](../Protocols/03%20UART/README.md#page-13)
+
+[Back to quick revision](#quick-revision)

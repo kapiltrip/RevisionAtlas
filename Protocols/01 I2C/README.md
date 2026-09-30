@@ -1,5 +1,7 @@
 # 01 - I2C
 
+[Quick revision](#quick-revision) | [Related topics](#related-topics)
+
 These five pages build I2C from the purpose of a protocol, through its open-drain electrical layer, to complete addressed byte transfers. The explanation keeps the notes' sequence while correcting places where a useful shortcut would become unsafe in a real implementation.
 
 <a id="core-term-key"></a>
@@ -10,15 +12,17 @@ These five pages build I2C from the purpose of a protocol, through its open-drai
 
 | Page | Revision focus |
 |---:|---|
-| [01](#page-01) | Protocol rules, synchronous transfer, roles, addressing, and rate terminology |
-| [02](#page-02) | Addressed bus topology, GPIO output styles, and the open-drain circuit |
-| [03](#page-03) | Wired-AND behavior, pull-ups, clock stretching, and official speed modes |
-| [04](#page-04) | START, address plus direction, ACK/NACK, and byte framing |
-| [05](#page-05) | Read ownership, final NACK, STOP, and complete transaction reasoning |
+| <a id="index-page-01"></a>[01](#page-01) | Protocol rules, synchronous transfer, roles, addressing, and rate terminology |
+| <a id="index-page-02"></a>[02](#page-02) | Addressed bus topology, GPIO output styles, and the open-drain circuit |
+| <a id="index-page-03"></a>[03](#page-03) | Wired-AND behavior, pull-ups, clock stretching, and official speed modes |
+| <a id="index-page-04"></a>[04](#page-04) | START, address plus direction, ACK/NACK, and byte framing |
+| <a id="index-page-05"></a>[05](#page-05) | Read ownership, final NACK, STOP, and complete transaction reasoning |
 
 <a id="page-01"></a>
 
 ## Page 01 - What a protocol defines and why I2C is synchronous
+
+[Back to index — page 1](#index-page-01)
 
 ![Handwritten page 1 - protocol definition and I2C basics](../../_internal/Protocols/01%20I2C/images/page-01.jpeg)
 
@@ -45,9 +49,13 @@ The [NXP I2C specification](https://www.nxp.com/docs/en/user-guide/UM10204.pdf) 
 
 State four independent agreements required beyond the physical connection, then explain why I2C is synchronous even though SDA carries serial data.
 
+[Back to index — page 1](#index-page-01)
+
 <a id="page-02"></a>
 
 ## Page 02 - Addressed topology and the reason for open-drain outputs
+
+[Back to index — page 2](#index-page-02)
 
 ![Handwritten page 2 - I2C topology and open-drain output](../../_internal/Protocols/01%20I2C/images/page-02.jpeg)
 
@@ -76,9 +84,13 @@ Open-drain behavior enables three later I2C mechanisms: ACK, where a receiver pu
 
 Suppose device A releases SDA while device B pulls it LOW. What voltage appears on the bus, and how does that single fact enable both ACK and arbitration?
 
+[Back to index — page 2](#index-page-02)
+
 <a id="page-03"></a>
 
 ## Page 03 - Wired-AND behavior, clock stretching, and I2C speed modes
+
+[Back to index — page 3](#index-page-03)
 
 ![Handwritten page 3 - pull-up behavior and clock stretching](../../_internal/Protocols/01%20I2C/images/page-03.jpeg)
 
@@ -105,9 +117,13 @@ The official limits and the special status of Ultra Fast-mode are specified in [
 
 Why must a controller read the physical SCL pin after releasing it, and why would a push-pull HIGH driver make that mechanism unsafe?
 
+[Back to index — page 3](#index-page-03)
+
 <a id="page-04"></a>
 
 ## Page 04 - START, address direction, and the ninth ACK clock
+
+[Back to index — page 4](#index-page-04)
 
 ![Handwritten page 4 - I2C data-frame structure](../../_internal/Protocols/01%20I2C/images/page-04.jpeg)
 
@@ -132,9 +148,13 @@ The lower waveform repeats the defined sequence `8 data bits + ACK/NACK`. I2C is
 
 For each field in `START → address+W → ACK → data → ACK`, state which participant drives SDA and which participant generates SCL.
 
+[Back to index — page 4](#index-page-04)
+
 <a id="page-05"></a>
 
 ## Page 05 - Read ownership, final NACK, and STOP
+
+[Back to index — page 5](#index-page-05)
 
 ![Handwritten page 5 - I2C read transaction and STOP](../../_internal/Protocols/01%20I2C/images/page-05.jpeg)
 
@@ -160,6 +180,31 @@ The repeated speed-mode list relates SCL rate to transaction throughput. Each da
 
 Trace a two-byte sensor read and identify SDA ownership for the address byte, address ACK, first data byte, first ACK, second data byte, final NACK, and STOP.
 
+[Back to index — page 5](#index-page-05)
+
 ## Module checkpoint
 
 Revision criterion: derive the complete transaction from the electrical rule that no normal participant actively drives HIGH, LOW is dominant, the byte transmitter releases SDA for the ninth clock, and the byte receiver determines ACK or NACK.
+
+## Quick revision
+
+**Key relations.** $`T_{bit}\approx1/f_{SCL}`$.
+
+**Common mistakes.** The approximation describes ordinary clocked data bits; START, STOP, stretching, and bus timing add overhead. SDA is normally stable while SCL is high. The receiver owns the ninth ACK/NACK bit; a controller receiving a read byte therefore sends its acknowledgment.
+
+**Closed-book questions**
+
+1. Why do shared SDA/SCL outputs use open-drain drive?
+2. What distinguishes START and STOP from data changes?
+3. Who sends ACK during a read?
+4. How can a target stretch the clock?
+5. Why is byte acknowledgment not a general checksum?
+
+**Full explanations:** [Open-drain and topology](#page-02) · [Stretching and speed modes](#page-03) · [Read ownership](#page-05).
+
+## Related topics
+
+- [SPI edge and ownership comparison](../02%20SPI/README.md#quick-revision)
+- [UART framing comparison](../03%20UART/README.md#quick-revision)
+
+[Back to quick revision](#quick-revision)

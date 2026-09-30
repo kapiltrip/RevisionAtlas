@@ -8,6 +8,29 @@ This section keeps the complete AXI-Stream signal, waveform, master, slave,
 integration, and standards-audit material together. Code-resource lessons 22,
 26, and 28 remain inline with the videos that explain them.
 
+## Lesson index
+
+| Lesson | Topic | Notebook pages |
+|---:|---|---|
+| <a id="index-lesson-011"></a>[11](#lesson-011) | AXI-Stream agenda | — |
+| <a id="index-lesson-012"></a>[12](#lesson-012) | Typical signals part 1 | <a id="index-page-09"></a>[9](#page-09) |
+| <a id="index-lesson-013"></a>[13](#lesson-013) | Typical signals part 2 | <a id="index-page-10"></a>[10](#page-10) |
+| <a id="index-lesson-014"></a>[14](#lesson-014) | AXI-Stream use cases | — |
+| <a id="index-lesson-015"></a>[15](#lesson-015) | AXI-Stream transactions | — |
+| <a id="index-lesson-016"></a>[16](#lesson-016) | Ways to implement AXI Interface | <a id="index-page-11"></a>[11](#page-11) |
+| <a id="index-lesson-017"></a>[17](#lesson-017) | Waveforms part 1 | — |
+| <a id="index-lesson-018"></a>[18](#lesson-018) | Waveforms part 2 | — |
+| <a id="index-lesson-019"></a>[19](#lesson-019) | Waveforms part 3 | — |
+| <a id="index-lesson-020"></a>[20](#lesson-020) | Building the AXI-Stream master | <a id="index-page-12"></a>[12](#page-12), <a id="index-page-13"></a>[13](#page-13) |
+| <a id="index-lesson-021"></a>[21](#lesson-021) | Verifying the master | — |
+| <a id="index-lesson-022"></a>[22](#lesson-022) | Master code resource | — |
+| <a id="index-lesson-023"></a>[23](#lesson-023) | Building the slave part 1 | <a id="index-page-14"></a>[14](#page-14) |
+| <a id="index-lesson-024"></a>[24](#lesson-024) | Building the slave part 2 | <a id="index-page-15"></a>[15](#page-15) |
+| <a id="index-lesson-025"></a>[25](#lesson-025) | Verifying the slave | — |
+| <a id="index-lesson-026"></a>[26](#lesson-026) | Slave code resource | — |
+| <a id="index-lesson-027"></a>[27](#lesson-027) | Connecting master and slave | <a id="index-page-16"></a>[16](#page-16) |
+| <a id="index-lesson-028"></a>[28](#lesson-028) | Integration code resource | — |
+
 ## Formal standard explanation
 
 For AXI-Stream, the complete transfer condition is:
@@ -34,7 +57,11 @@ been observed HIGH.
 
 ## Lessons 11-28
 
+<a id="lesson-011"></a>
+
 ### Video 11 - AXI-Stream agenda
+
+[Back to index — lesson 11](#index-lesson-011)
 
 ![Agenda for signals, AXI-Stream transactions, and master/slave RTL](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/11-agenda.png)
 
@@ -49,7 +76,13 @@ The course builds the Transmitter first and initially supplies `TREADY` from a
 testbench. That isolation is useful: it forces the Transmitter to remain correct
 for arbitrary Receiver back-pressure before another RTL block is connected.
 
+[Back to index — lesson 11](#index-lesson-011)
+
+<a id="lesson-012"></a>
+
 ### Video 12 - Typical signals part 1
+
+[Back to index — lesson 12](#index-lesson-012)
 
 ![AXI-Stream waveforms and the first half of the official signal table](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/12-typical-signals-p1-25.png)
 
@@ -86,7 +119,11 @@ raising `TREADY`, so a Transmitter that implements wake-up but never asserts it
 can deadlock the interface. These rules apply only when the AXI5-Stream
 `Wakeup_Signal` property is enabled.
 
+<a id="page-09"></a>
+
 #### Handwritten page 9 - AXI-Stream signal set
+
+[Back to index — notebook page 9](#index-page-09)
 
 ![Handwritten AXI notes: AXI-Stream signal set](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/09-axis-signal-set.jpg)
 
@@ -95,7 +132,15 @@ separated from packet qualifiers. `TKEEP`, `TLAST`, `TID`, `TDEST`, `TUSER`, and
 `TWAKEUP` are feature-dependent, so their presence and widths must match at
 integration time.
 
+[Back to index — lesson 12](#index-lesson-012)
+
+[Back to index — notebook page 9](#index-page-09)
+
+<a id="lesson-013"></a>
+
 ### Video 13 - Typical signals part 2
+
+[Back to index — lesson 13](#index-lesson-013)
 
 ![Eight byte lanes with TKEEP qualification and the Arm qualifier text](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/13-typical-signals-p2-30.png)
 
@@ -136,7 +181,11 @@ If an interface omits `TKEEP`, the protocol default is all ones. If it omits
 `TSTRB`, `TSTRB` defaults to `TKEEP`. These defaults explain why many simple
 FPGA streams expose `TKEEP` but not `TSTRB`.
 
+<a id="page-10"></a>
+
 #### Handwritten page 10 - `TKEEP`, `TSTRB`, and `TLAST`
+
+[Back to index — notebook page 10](#index-page-10)
 
 ![Handwritten AXI notes: `TKEEP`, `TSTRB`, and `TLAST`](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/10-tkeep-tstrb-and-tlast.jpg)
 
@@ -145,7 +194,15 @@ data bytes. `TSTRB` is meaningful only for a byte retained by `TKEEP`, and
 `TLAST` marks the packet boundary rather than simply the end of an arbitrary
 clock sequence.
 
+[Back to index — lesson 13](#index-lesson-013)
+
+[Back to index — notebook page 10](#index-page-10)
+
+<a id="lesson-014"></a>
+
 ### Video 14 - AXI-Stream use cases
+
+[Back to index — lesson 14](#index-lesson-014)
 
 ![Five-channel memory-mapped AXI compared with a one-way stream path](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/14-use-cases-45.png)
 
@@ -345,7 +402,13 @@ means**.
   example is valid for a video profile, but it is not a universal meaning for
   every stream.
 
+[Back to index — lesson 14](#index-lesson-014)
+
+<a id="lesson-015"></a>
+
 ### Video 15 - AXI-Stream transactions
+
+[Back to index — lesson 15](#index-lesson-015)
 
 ![DSP, camera, audio, and FIFO stream paths beside the minimal signal set](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/15-transactions-28.png)
 
@@ -371,7 +434,13 @@ the accepted beat sequence and packet boundary must remain identical.
 gaps are permitted unless a stricter application profile forbids them. When
 `TVALID` is HIGH and a beat is stalled, however, it cannot be withdrawn.
 
+[Back to index — lesson 15](#index-lesson-015)
+
+<a id="lesson-016"></a>
+
 ### Video 16 - Ways to implement AXI Interface
+
+[Back to index — lesson 16](#index-lesson-016)
 
 ![The instructor's complete three-path map for implementing a custom AXI interface](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/16-ways-to-implement-axi-interface-70.png)
 
@@ -408,14 +477,26 @@ is the standard interface exposed between the processing system and programmable
 logic; the processor core itself executes an instruction set and participates
 in several internal protocols.
 
+<a id="page-11"></a>
+
 #### Handwritten page 11 - AXI implementation options and source ports
+
+[Back to index — notebook page 11](#index-page-11)
 
 ![Handwritten AXI notes: AXI implementation options and source ports](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/11-axis-implementation-options-and-master-ports.jpg)
 
 **Explanation:** A custom AXI-Stream source drives payload and valid signals and receives readiness from the destination. The `m_axis_` payload and `TVALID` are outputs of
 the source, while `TREADY` returns from the destination and gates progress.
 
+[Back to index — lesson 16](#index-lesson-016)
+
+[Back to index — notebook page 11](#index-page-11)
+
+<a id="lesson-017"></a>
+
 ### Video 17 - Waveforms part 1
+
+[Back to index — lesson 17](#index-lesson-017)
 
 ![AXI-Stream master ports above three valid-ready timing scenarios](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/17-waveform-p1-30.png)
 
@@ -441,7 +522,13 @@ The third case is the best check for a broken master. A design that generates
 `TLAST` as an unconditional one-clock pulse loses the packet boundary when
 `TREADY=0` during that pulse.
 
+[Back to index — lesson 17](#index-lesson-017)
+
+<a id="lesson-018"></a>
+
 ### Video 18 - Waveforms part 2
+
+[Back to index — lesson 18](#index-lesson-018)
 
 ![Complete three-case waveform with the no-back-pressure packet first](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/18-waveform-p2-30.png)
 
@@ -470,7 +557,13 @@ full fire term makes the design intent and verification condition obvious.
 the packet end only when that transfer is accepted, not merely when it observes
 `TLAST` HIGH in a cycle with no handshake.
 
+[Back to index — lesson 18](#index-lesson-018)
+
+<a id="lesson-019"></a>
+
 ### Video 19 - Waveforms part 3
+
+[Back to index — lesson 19](#index-lesson-019)
 
 ![Middle-of-packet stall beginning on D2](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/19-waveform-p3-22.png)
 
@@ -501,7 +594,13 @@ would skip the stalled beat.
 reset, and the Receiver-owned `TREADY` are not held by the Transmitter. The held
 bundle includes any implemented `TKEEP`, `TSTRB`, `TID`, `TDEST`, and `TUSER`.
 
+[Back to index — lesson 19](#index-lesson-019)
+
+<a id="lesson-020"></a>
+
 ### Video 20 - Building the AXI-Stream master
+
+[Back to index — lesson 20](#index-lesson-020)
 
 ![Master ports and the ready/last flowchart](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/20-building-master-18.png)
 
@@ -569,7 +668,11 @@ beat. Its limitations—fixed length, generated rather than buffered payload,
 unlatched command input, and no `TKEEP`/`TUSER`—are deliberate boundaries, not
 general AXI-Stream limitations.
 
+<a id="page-12"></a>
+
 #### Handwritten page 12 - AXI-Stream source flowchart
+
+[Back to index — notebook page 12](#index-page-12)
 
 ![Handwritten AXI notes: AXI-Stream source flowchart](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/12-axis-master-flowchart.jpg)
 
@@ -577,7 +680,13 @@ general AXI-Stream limitations.
 `TVALID`, and advances only after `TREADY`. The final-beat decision must use the
 count of accepted beats, not elapsed cycles, so stalls cannot shorten a packet.
 
+[Back to index — notebook page 12](#index-page-12)
+
+<a id="page-13"></a>
+
 #### Handwritten page 13 - Source stall handling and destination interface
+
+[Back to index — notebook page 13](#index-page-13)
 
 ![Handwritten AXI notes: Source stall handling and destination interface](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/13-axis-master-stall-and-slave-interface.jpg)
 
@@ -586,7 +695,15 @@ while the lower diagram introduces the destination ports. A robust
 implementation holds `TDATA`, `TKEEP`, and `TLAST` together whenever `TVALID=1`
 and `TREADY=0`.
 
+[Back to index — lesson 20](#index-lesson-020)
+
+[Back to index — notebook page 13](#index-page-13)
+
+<a id="lesson-021"></a>
+
 ### Video 21 - Verifying the master
+
+[Back to index — lesson 21](#index-lesson-021)
 
 ![Fullscreen master testbench stimulus loop](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/21-verify-master-testbench-fullscreen.png)
 
@@ -646,7 +763,13 @@ assignments scheduled before the next sampling edge. It should also initialize
 `m_axis_tready`, `newd`, and `din` before the reset wait so no accidental `X`
 value enters checks.
 
+[Back to index — lesson 21](#index-lesson-021)
+
+<a id="lesson-022"></a>
+
 ### Lesson 22 - Master code resource
+
+[Back to index — lesson 22](#index-lesson-022)
 
 The course resource provides the complete teaching master and its happy-path
 testbench. The same listing is reproduced here with whitespace normalized so
@@ -760,7 +883,13 @@ explicitly lowered, so returning to `idle` can immediately request another
 packet. Also, the testbench has no assertion that the accepted sequence equals
 $\{0,din,2din,3din\}$ or that the held beat remains stable during a stall.
 
+[Back to index — lesson 22](#index-lesson-022)
+
+<a id="lesson-023"></a>
+
 ### Video 23 - Building the slave part 1
+
+[Back to index — lesson 23](#index-lesson-023)
 
 ![Fullscreen comparison of master/slave ports and the Receiver flowchart](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/23-building-slave-p1-18.png)
 
@@ -787,7 +916,11 @@ ready must describe storage/processing capacity—not merely the FSM state name.
 If the block cannot retain an input beat while processing an earlier one, it
 must lower `TREADY` before its storage becomes full.
 
+<a id="page-14"></a>
+
 #### Handwritten page 14 - AXI-Stream destination flowchart
+
+[Back to index — notebook page 14](#index-page-14)
 
 ![Handwritten AXI notes: AXI-Stream destination flowchart](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/14-axis-slave-flowchart.jpg)
 
@@ -796,7 +929,15 @@ handshake edge, and uses accepted `TLAST` to end the packet. A packet may
 contain bubbles, so a temporary drop in `TVALID` is not itself an end-of-packet
 event.
 
+[Back to index — lesson 23](#index-lesson-023)
+
+[Back to index — notebook page 14](#index-page-14)
+
+<a id="lesson-024"></a>
+
 ### Video 24 - Building the slave part 2
+
+[Back to index — lesson 24](#index-lesson-024)
 
 ![Fullscreen slave state register and next-state decoder](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/24-building-slave-p2-18.png)
 
@@ -852,7 +993,11 @@ end
 Registering creates real storage and prevents downstream logic from treating
 an unaccepted or invalid bus value as data.
 
+<a id="page-15"></a>
+
 #### Handwritten page 15 - AXI-Stream destination state machine
+
+[Back to index — notebook page 15](#index-page-15)
 
 ![Handwritten AXI notes: AXI-Stream destination state machine](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/15-axis-slave-state-machine.jpg)
 
@@ -861,7 +1006,15 @@ completion. `dout` represents the captured beat in this teaching design; deeper
 buffering requires explicit storage rather than assuming the output register is
 a FIFO.
 
+[Back to index — lesson 24](#index-lesson-024)
+
+[Back to index — notebook page 15](#index-page-15)
+
+<a id="lesson-025"></a>
+
 ### Video 25 - Verifying the slave
+
+[Back to index — lesson 25](#index-lesson-025)
 
 ![Fullscreen supplied slave-testbench stimulus](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/25-verify-slave-18.png)
 
@@ -914,7 +1067,13 @@ four-state variable data type that permits one driver; port direction controls
 data flow. It removes many old `reg`/`wire` declarations, but it does not make
 multiple-driver nets legal or replace reasoning about who drives a signal.
 
+[Back to index — lesson 25](#index-lesson-025)
+
+<a id="lesson-026"></a>
+
 ### Lesson 26 - Slave code resource
+
+[Back to index — lesson 26](#index-lesson-026)
 
 ```systemverilog
 module axis_s(
@@ -1022,7 +1181,13 @@ and **application usefulness**. Its ready/valid handshakes can accept beats,
 but it neither buffers them nor emits a downstream-valid signal. It is a
 teaching Receiver, not yet a reusable data-processing endpoint.
 
+[Back to index — lesson 26](#index-lesson-026)
+
+<a id="lesson-027"></a>
+
 ### Video 27 - Connecting master and slave
+
+[Back to index — lesson 27](#index-lesson-027)
 
 ![Fullscreen elaborated master-to-slave wiring beside the top-level RTL](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/27-connect-master-slave-18.png)
 
@@ -1070,7 +1235,11 @@ uses the opposite handshake input only to choose a later state. More complex
 blocks must still be reviewed for combinational `TREADY`/`TVALID` paths that
 could create long timing paths or loops across several components.
 
+<a id="page-16"></a>
+
 #### Handwritten page 16 - Master/slave wiring and round-robin preview
+
+[Back to index — notebook page 16](#index-page-16)
 
 ![Handwritten AXI notes: Master/slave wiring and round-robin preview](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/16-master-slave-wiring-and-round-robin-intro.jpg)
 
@@ -1079,7 +1248,15 @@ could create long timing paths or loops across several components.
 once an AXI-Stream arbiter selects a packet, it must retain that source until an
 accepted `TLAST`.
 
+[Back to index — lesson 27](#index-lesson-027)
+
+[Back to index — notebook page 16](#index-page-16)
+
+<a id="lesson-028"></a>
+
 ### Lesson 28 - Integration code resource
+
+[Back to index — lesson 28](#index-lesson-028)
 
 ```systemverilog
 module top (
@@ -1156,6 +1333,8 @@ axis_m m1 (
 
 The slave should be instantiated with the corresponding named `s_axis_*`
 ports. This adds no hardware; it prevents connection-order bugs.
+
+[Back to index — lesson 28](#index-lesson-028)
 
 ## Arm IHI 0051B standards audit
 

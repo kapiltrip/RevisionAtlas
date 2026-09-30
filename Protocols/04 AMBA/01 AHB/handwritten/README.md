@@ -57,24 +57,39 @@ groups may advance.
 
 | Notebook page | Main idea | Related iPad page |
 |---:|---|---:|
-| 1 | AMBA and AHB introduction | - |
-| 2 | SoC hierarchy and AHB-to-APB bridge | - |
-| 3 | Manager, subordinate, and interconnect | - |
-| 4 | Manager-side interface signals | - |
-| 5 | `HTRANS` encodings and a single transfer | 3 |
-| 6 | Address and data phases | 2 |
-| 7 | Read transfer without waits | - |
-| 8 | Write transfer, `HREADY`, and `HRESP` | 1 |
-| 9 | Transfer types and `HSIZE` | 3 |
-| 10 | Burst/size controls and packet addresses | 4-8 |
-| 11 | Burst addresses and boundaries | 4-6 |
-| 12 | `HBURST` encodings and readiness | 6 |
-| 13 | Waited transfers and BUSY | 1, 10 |
-| 14 | INCR, BUSY, and IDLE behavior | 7, 9, 10 |
-| 15 | First manager FSM sketch | - |
-| 16 | SINGLE-transfer implementation exercise | - |
-| 17 | Manager module ports | - |
-| 18 | Internal registers/data-phase draft | - |
+| <a id="index-page-01"></a>[1](#page-01) | AMBA and AHB introduction | - |
+| <a id="index-page-02"></a>[2](#page-02) | SoC hierarchy and AHB-to-APB bridge | - |
+| <a id="index-page-03"></a>[3](#page-03) | Manager, subordinate, and interconnect | - |
+| <a id="index-page-04"></a>[4](#page-04) | Manager-side interface signals | - |
+| <a id="index-page-05"></a>[5](#page-05) | `HTRANS` encodings and a single transfer | 3 |
+| <a id="index-page-06"></a>[6](#page-06) | Address and data phases | 2 |
+| <a id="index-page-07"></a>[7](#page-07) | Read transfer without waits | - |
+| <a id="index-page-08"></a>[8](#page-08) | Write transfer, `HREADY`, and `HRESP` | 1 |
+| <a id="index-page-09"></a>[9](#page-09) | Transfer types and `HSIZE` | 3 |
+| <a id="index-page-10"></a>[10](#page-10) | Burst/size controls and packet addresses | 4-8 |
+| <a id="index-page-11"></a>[11](#page-11) | Burst addresses and boundaries | 4-6 |
+| <a id="index-page-12"></a>[12](#page-12) | `HBURST` encodings and readiness | 6 |
+| <a id="index-page-13"></a>[13](#page-13) | Waited transfers and BUSY | 1, 10 |
+| <a id="index-page-14"></a>[14](#page-14) | INCR, BUSY, and IDLE behavior | 7, 9, 10 |
+| <a id="index-page-15"></a>[15](#page-15) | First manager FSM sketch | - |
+| <a id="index-page-16"></a>[16](#page-16) | SINGLE-transfer implementation exercise | - |
+| <a id="index-page-17"></a>[17](#page-17) | Manager module ports | - |
+| <a id="index-page-18"></a>[18](#page-18) | Internal registers/data-phase draft | - |
+
+## iPad page index
+
+| Page | Revision focus |
+|---:|---|
+| <a id="index-ipad-page-02"></a>[2](#ipad-page-02) | annotated multiple-transfer waveform |
+| <a id="index-ipad-page-03"></a>[3](#ipad-page-03) | SINGLE versus INCR4 |
+| <a id="index-ipad-page-04"></a>[4](#ipad-page-04) | WRAP4 word boundary |
+| <a id="index-ipad-page-05"></a>[5](#ipad-page-05) | wrapping from a non-base start address |
+| <a id="index-ipad-page-06"></a>[6](#ipad-page-06) | WRAP4 and WRAP8 use different regions |
+| <a id="index-ipad-page-07"></a>[7](#ipad-page-07) | undefined-length INCR |
+| <a id="index-ipad-page-08"></a>[8](#ipad-page-08) | transfer size is stable within a burst |
+| <a id="index-ipad-page-01"></a>[1](#ipad-page-01) | writing through a wait state |
+| <a id="index-ipad-page-09"></a>[9](#ipad-page-09) | response and IDLE are separate ideas |
+| <a id="index-ipad-page-10"></a>[10](#ipad-page-10) | BUSY during a wait |
 
 ## 1. Bus purpose, components, and ownership
 
@@ -104,7 +119,11 @@ transfer has commenced, the subordinate decides whether it finishes now,
 waits, or reports an error. That division of responsibility is why a correct
 manager advances on `HREADY`, not on an internally assumed one-cycle latency.
 
+<a id="page-01"></a>
+
 ### Original notebook page 1: AMBA and AHB introduction
+
+[Back to index — notebook page 1](#index-page-01)
 
 ![Original handwritten AHB introduction](../../../../_internal/Protocols/04%20AMBA/01%20AHB/handwritten/images/01-amba-ahb-introduction.jpg)
 
@@ -138,7 +157,13 @@ reduces custom glue logic, while choosing APB for simple register peripherals
 avoids forcing every low-bandwidth block to implement the higher-throughput AHB
 transfer machinery.
 
+[Back to index — notebook page 1](#index-page-01)
+
+<a id="page-02"></a>
+
 ### Original notebook page 2: SoC hierarchy and bridge
+
+[Back to index — notebook page 2](#index-page-02)
 
 ![Original handwritten SoC and bridge page](../../../../_internal/Protocols/04%20AMBA/01%20AHB/handwritten/images/02-soc-bridge-and-transactions.jpg)
 
@@ -177,7 +202,13 @@ their own specified timing; the bridge converts a longer APB operation into an
 extended AHB data phase. Latency is communicated by the ready signals rather
 than by guessing how long the peripheral will take.
 
+[Back to index — notebook page 2](#index-page-02)
+
+<a id="page-03"></a>
+
 ### Original notebook page 3: manager, subordinate, and interconnect
+
+[Back to index — notebook page 3](#index-page-03)
 
 ![Original handwritten manager and subordinate page](../../../../_internal/Protocols/04%20AMBA/01%20AHB/handwritten/images/03-manager-subordinate-and-interconnect.jpg)
 
@@ -212,7 +243,13 @@ In AHB-Lite there is one manager, so arbitration is removed, but decoding,
 response routing, pipelining, and wait-state behavior still remain. “Lite” does
 not mean the transfer timing rules are optional.
 
+[Back to index — notebook page 3](#index-page-03)
+
+<a id="page-04"></a>
+
 ### Original notebook page 4: interface direction in context
+
+[Back to index — notebook page 4](#index-page-04)
 
 ![Original handwritten manager interface signals](../../../../_internal/Protocols/04%20AMBA/01%20AHB/handwritten/images/04-manager-interface-signals.jpg)
 
@@ -259,6 +296,8 @@ direction tables are useful, but timing qualification is the part that turns a
 list of ports into a functioning protocol
 ([Arm IHI 0033C, §§2.4 and 4.2](../../../../_internal/Protocols/04%20AMBA/01%20AHB/sources/ARM-IHI-0033C-AMBA-AHB-Protocol-Specification.pdf)).
 
+[Back to index — notebook page 4](#index-page-04)
+
 ## 2. Basic transfer phases
 
 ### Lecture frame: read without wait states
@@ -285,7 +324,11 @@ the address and data phases into one cycle. This exact two-lane sequence is the
 official basic-transfer model
 ([Arm IHI 0033C, §3.1](../../../../_internal/Protocols/04%20AMBA/01%20AHB/sources/ARM-IHI-0033C-AMBA-AHB-Protocol-Specification.pdf)).
 
+<a id="page-05"></a>
+
 ### Original notebook page 5: `HTRANS` makes a transfer valid
+
+[Back to index — notebook page 5](#index-page-05)
 
 ![Original handwritten HTRANS and single-transfer page](../../../../_internal/Protocols/04%20AMBA/01%20AHB/handwritten/images/05-htrans-encodings-and-single-transfer.jpg)
 
@@ -320,7 +363,13 @@ A SINGLE transfer has one valid address phase, which must be NONSEQ. The followi
 NONSEQ if another unrelated command starts. It cannot be SEQ because a SINGLE
 has no continuation beat.
 
+[Back to index — notebook page 5](#index-page-05)
+
+<a id="page-06"></a>
+
 ### Original notebook page 6: one transfer, two phases
+
+[Back to index — notebook page 6](#index-page-06)
 
 ![Original handwritten address and data phases](../../../../_internal/Protocols/04%20AMBA/01%20AHB/handwritten/images/06-address-and-data-phases.jpg)
 
@@ -357,7 +406,13 @@ remains stable across the wait. For a read A, `HRDATA(A)` only has to be valid
 in the final cycle in which `HREADY=1`
 ([Arm IHI 0033C, §§3.1 and 6.1](../../../../_internal/Protocols/04%20AMBA/01%20AHB/sources/ARM-IHI-0033C-AMBA-AHB-Protocol-Specification.pdf)).
 
+[Back to index — notebook page 6](#index-page-06)
+
+<a id="page-07"></a>
+
 ### Original notebook page 7: read transfer without a wait
+
+[Back to index — notebook page 7](#index-page-07)
 
 ![Original handwritten read-transfer waveform](../../../../_internal/Protocols/04%20AMBA/01%20AHB/handwritten/images/07-read-transfer-no-wait.jpg)
 
@@ -385,6 +440,8 @@ This also explains why the next address B does not select B's data too early.
 The response multiplexer is controlled by the remembered data-phase selection
 for A. The decoder can simultaneously examine B for the next address phase.
 
+[Back to index — notebook page 7](#index-page-07)
+
 ### Lecture frame: write without wait states
 
 ![Lecture waveform for an AHB write without wait states](../../../../_internal/Protocols/04%20AMBA/01%20AHB/images/lecture/ahb-write-no-wait.png)
@@ -404,7 +461,11 @@ No-wait timing gives one accepted write per cycle after the pipeline is full,
 but the first write still has one address cycle followed by its data cycle.
 Throughput and single-transfer latency are different quantities.
 
+<a id="page-08"></a>
+
 ### Original notebook page 8: write completion and response
+
+[Back to index — notebook page 8](#index-page-08)
 
 ![Original handwritten HREADY and HRESP page](../../../../_internal/Protocols/04%20AMBA/01%20AHB/handwritten/images/08-write-transfer-hready-and-hresp.jpg)
 
@@ -437,6 +498,8 @@ For RTL, a useful write-completion enable is conceptually
 inspect `HRESP`, and advance its command bookkeeping. Before that edge, all
 state needed for the write remains live.
 
+[Back to index — notebook page 8](#index-page-08)
+
 ## 3. Pipelining and multiple transfers
 
 ### Lecture frame: address/data overlap
@@ -454,7 +517,11 @@ It does not duplicate the bus or let responses return out of order. If transfer
 B waits, the address phase of C is extended too, so the single pipeline remains
 ordered ([Arm IHI 0033C, §§3.1 and 3.7](../../../../_internal/Protocols/04%20AMBA/01%20AHB/sources/ARM-IHI-0033C-AMBA-AHB-Protocol-Specification.pdf)).
 
+<a id="ipad-page-02"></a>
+
 ### iPad page 2: annotated multiple-transfer waveform
+
+[Back to index — iPad page 2](#index-ipad-page-02)
 
 ![Annotated iPad page for multiple transfers](../../../../_internal/Protocols/04%20AMBA/01%20AHB/handwritten/images/ipad-02-multiple-transfer-annotations.jpg)
 
@@ -486,6 +553,8 @@ any local metadata until A completes. That is phase overlap, not a pool of
 independently reorderable transactions
 ([Arm IHI 0033C, §3.1](../../../../_internal/Protocols/04%20AMBA/01%20AHB/sources/ARM-IHI-0033C-AMBA-AHB-Protocol-Specification.pdf)).
 
+[Back to index — iPad page 2](#index-ipad-page-02)
+
 ### Lecture frame: all four transfer types in time
 
 ![Lecture waveform showing AHB transfer types](../../../../_internal/Protocols/04%20AMBA/01%20AHB/images/lecture/ahb-htrans-transfer-types.png)
@@ -502,7 +571,11 @@ returns the first beat's `HRDATA`. When the manager later changes BUSY to SEQ,
 that SEQ address phase creates the next data beat. The address and data rows
 must always be interpreted independently before combining them.
 
+<a id="page-09"></a>
+
 ### Original notebook page 9: transfer type and size belong to a beat
+
+[Back to index — notebook page 9](#index-page-09)
 
 ![Original handwritten HTRANS and HSIZE page](../../../../_internal/Protocols/04%20AMBA/01%20AHB/handwritten/images/09-htrans-types-and-address-sequence.jpg)
 
@@ -539,7 +612,13 @@ constant for every beat of one burst, because changing the step mid-burst would
 destroy the meaning of SEQ
 ([Arm IHI 0033C, §§3.2 and 3.4](../../../../_internal/Protocols/04%20AMBA/01%20AHB/sources/ARM-IHI-0033C-AMBA-AHB-Protocol-Specification.pdf)).
 
+[Back to index — notebook page 9](#index-page-09)
+
+<a id="ipad-page-03"></a>
+
 ### iPad page 3: SINGLE versus INCR4
+
+[Back to index — iPad page 3](#index-ipad-page-03)
 
 ![Annotated iPad page for HTRANS and INCR4](../../../../_internal/Protocols/04%20AMBA/01%20AHB/handwritten/images/ipad-03-htrans-and-incr4.jpg)
 
@@ -564,6 +643,8 @@ for this word example. This connects the annotations directly to the RTL
 counter rather than leaving them as waveform labels
 ([Arm IHI 0033C, §§3.2 and 3.6](../../../../_internal/Protocols/04%20AMBA/01%20AHB/sources/ARM-IHI-0033C-AMBA-AHB-Protocol-Specification.pdf)).
 
+[Back to index — iPad page 3](#index-ipad-page-03)
+
 ## 4. Burst length, size, and wrapping
 
 ### Lecture frame: an INCR4 word burst
@@ -587,7 +668,11 @@ remain consistent. `HTRANS` is the part that distinguishes the first beat from
 continuations: NONSEQ opens the sequence and SEQ says the new address is
 related to the previous beat.
 
+<a id="page-10"></a>
+
 ### Original notebook page 10: controls determine the packet addresses
+
+[Back to index — notebook page 10](#index-page-10)
 
 ![Original handwritten burst and size controls](../../../../_internal/Protocols/04%20AMBA/01%20AHB/handwritten/images/10-hsize-and-packet-addresses.jpg)
 
@@ -623,7 +708,13 @@ The manager normally computes the next address only after the current address
 phase is accepted. This prevents a LOW `HREADY` from causing repeated internal
 increments while the external bus still shows the same beat.
 
+[Back to index — notebook page 10](#index-page-10)
+
+<a id="page-11"></a>
+
 ### Original notebook page 11: boundary grows with size and beat count
+
+[Back to index — notebook page 11](#index-page-11)
 
 ![Original handwritten burst boundary examples](../../../../_internal/Protocols/04%20AMBA/01%20AHB/handwritten/images/11-burst-address-boundary.jpg)
 
@@ -662,7 +753,13 @@ not cross such a decode boundary. The 16-byte WRAP4-word region instead defines
 the order of addresses inside that burst
 ([Arm IHI 0033C, §§3.6 and 4.2](../../../../_internal/Protocols/04%20AMBA/01%20AHB/sources/ARM-IHI-0033C-AMBA-AHB-Protocol-Specification.pdf)).
 
+[Back to index — notebook page 11](#index-page-11)
+
+<a id="page-12"></a>
+
 ### Original notebook page 12: `HBURST` and the completion gate
+
+[Back to index — notebook page 12](#index-page-12)
 
 ![Original handwritten HBURST and HREADY page](../../../../_internal/Protocols/04%20AMBA/01%20AHB/handwritten/images/12-hburst-encodings-and-hready.jpg)
 
@@ -692,6 +789,8 @@ Those events can occur on the same clock for different beats. A single counter
 can be used in a deliberately small design, but only if its meaning is defined
 clearly. Counting raw clock edges will miscount every waited transfer.
 
+[Back to index — notebook page 12](#index-page-12)
+
 ### Lecture frame: mixed transfers in an undefined INCR sequence
 
 ![Lecture waveform for undefined INCR behavior](../../../../_internal/Protocols/04%20AMBA/01%20AHB/images/lecture/ahb-undefined-incr-mixed-transfers.png)
@@ -709,7 +808,11 @@ an unrelated sequence. Thus the transfer-type stream carries the burst's
 continuation information
 ([Arm IHI 0033C, §§3.2 and 3.6.3](../../../../_internal/Protocols/04%20AMBA/01%20AHB/sources/ARM-IHI-0033C-AMBA-AHB-Protocol-Specification.pdf)).
 
+<a id="ipad-page-04"></a>
+
 ### iPad page 4: WRAP4 word boundary
+
+[Back to index — iPad page 4](#index-ipad-page-04)
 
 ![Annotated iPad page for WRAP4 boundary](../../../../_internal/Protocols/04%20AMBA/01%20AHB/handwritten/images/ipad-04-wrap4-boundary.jpg)
 
@@ -737,7 +840,13 @@ legal first beat. Adding four produces `0x10`, which exits the aligned
 region
 ([Arm IHI 0033C, §3.6](../../../../_internal/Protocols/04%20AMBA/01%20AHB/sources/ARM-IHI-0033C-AMBA-AHB-Protocol-Specification.pdf)).
 
+[Back to index — iPad page 4](#index-ipad-page-04)
+
+<a id="ipad-page-05"></a>
+
 ### iPad page 5: wrapping from a non-base start address
+
+[Back to index — iPad page 5](#index-ipad-page-05)
 
 ![Annotated iPad page for wrap address examples](../../../../_internal/Protocols/04%20AMBA/01%20AHB/handwritten/images/ipad-05-wrap-address-examples.jpg)
 
@@ -768,7 +877,13 @@ must remain halfword-aligned, and every address must remain between the same
 region base and base plus seven
 ([Arm IHI 0033C, §§3.4 and 3.6](../../../../_internal/Protocols/04%20AMBA/01%20AHB/sources/ARM-IHI-0033C-AMBA-AHB-Protocol-Specification.pdf)).
 
+[Back to index — iPad page 5](#index-ipad-page-05)
+
+<a id="ipad-page-06"></a>
+
 ### iPad page 6: WRAP4 and WRAP8 use different regions
+
+[Back to index — iPad page 6](#index-ipad-page-06)
 
 ![Annotated iPad page comparing wrap boundaries](../../../../_internal/Protocols/04%20AMBA/01%20AHB/handwritten/images/ipad-06-wrap4-boundary-examples.jpg)
 
@@ -788,7 +903,13 @@ retain the upper region bits, and update the lower offset modulo the boundary.
 This implements wrapping for any legal starting address within the region
 ([Arm IHI 0033C, §3.6](../../../../_internal/Protocols/04%20AMBA/01%20AHB/sources/ARM-IHI-0033C-AMBA-AHB-Protocol-Specification.pdf)).
 
+[Back to index — iPad page 6](#index-ipad-page-06)
+
+<a id="ipad-page-07"></a>
+
 ### iPad page 7: undefined-length INCR
+
+[Back to index — iPad page 7](#index-ipad-page-07)
 
 ![Annotated iPad page for undefined INCR](../../../../_internal/Protocols/04%20AMBA/01%20AHB/handwritten/images/ipad-07-undefined-incr.jpg)
 
@@ -808,7 +929,13 @@ terminates it. Once a valid replacement such as NONSEQ is presented, it must
 remain stable until the bus advances
 ([Arm IHI 0033C, §§3.6.1 and 3.7.1](../../../../_internal/Protocols/04%20AMBA/01%20AHB/sources/ARM-IHI-0033C-AMBA-AHB-Protocol-Specification.pdf)).
 
+[Back to index — iPad page 7](#index-ipad-page-07)
+
+<a id="ipad-page-08"></a>
+
 ### iPad page 8: transfer size is stable within a burst
+
+[Back to index — iPad page 8](#index-ipad-page-08)
 
 ![Annotated iPad page for mixed transfer sizes](../../../../_internal/Protocols/04%20AMBA/01%20AHB/handwritten/images/ipad-08-mixed-size-transfer.jpg)
 
@@ -827,6 +954,8 @@ To perform a word access followed by a halfword access, end the first sequence
 and start a new NONSEQ transfer with the new `HSIZE`. The visible size change
 then has an unambiguous boundary: it belongs to a new transaction sequence, not
 to a continuation beat.
+
+[Back to index — iPad page 8](#index-ipad-page-08)
 
 ## 5. Wait states, IDLE, and BUSY
 
@@ -874,7 +1003,11 @@ data is accepted and B's address phase is accepted. Only after that edge may
 the manager drive the payload for B and a new address C
 ([Arm IHI 0033C, §§3.1 and 6.1.1](../../../../_internal/Protocols/04%20AMBA/01%20AHB/sources/ARM-IHI-0033C-AMBA-AHB-Protocol-Specification.pdf)).
 
+<a id="ipad-page-01"></a>
+
 ### iPad page 1: writing through a wait state
+
+[Back to index — iPad page 1](#index-ipad-page-01)
 
 ![Annotated iPad page for a write wait state](../../../../_internal/Protocols/04%20AMBA/01%20AHB/handwritten/images/ipad-01-write-wait-state-annotations.jpg)
 
@@ -900,7 +1033,13 @@ peripheral from seeing multiple writes when it intended to delay one write.
 Arm defines stability at sampled rising edges across an extended transfer
 ([Arm IHI 0033C, §§3.1 and 7.1.1](../../../../_internal/Protocols/04%20AMBA/01%20AHB/sources/ARM-IHI-0033C-AMBA-AHB-Protocol-Specification.pdf)).
 
+[Back to index — iPad page 1](#index-ipad-page-01)
+
+<a id="page-13"></a>
+
 ### Original notebook page 13: waits do not change burst length
+
+[Back to index — notebook page 13](#index-page-13)
 
 ![Original handwritten waited-transfer and BUSY page](../../../../_internal/Protocols/04%20AMBA/01%20AHB/handwritten/images/13-waited-transfer-and-busy.jpg)
 
@@ -941,6 +1080,8 @@ can be true for different beats. This is more precise than enabling every
 register with `HREADY` alone
 ([Arm IHI 0033C, §§3.1, 3.2, and 3.7](../../../../_internal/Protocols/04%20AMBA/01%20AHB/sources/ARM-IHI-0033C-AMBA-AHB-Protocol-Specification.pdf)).
 
+[Back to index — notebook page 13](#index-page-13)
+
 ### Lecture frame: IDLE during a waited transfer
 
 ![Lecture waveform for IDLE during an AHB wait](../../../../_internal/Protocols/04%20AMBA/01%20AHB/images/lecture/ahb-idle-during-wait.png)
@@ -963,7 +1104,11 @@ The visible address during IDLE is therefore a don't-use value for transfer
 purposes; the `HTRANS` encoding prevents it from becoming a request. The valid
 data phase underneath the IDLE lane remains real and is not relaxed.
 
+<a id="page-14"></a>
+
 ### Original notebook page 14: synchronization through transfer types
+
+[Back to index — notebook page 14](#index-page-14)
 
 ![Original handwritten INCR, BUSY, and IDLE page](../../../../_internal/Protocols/04%20AMBA/01%20AHB/handwritten/images/14-incr-busy-and-idle.jpg)
 
@@ -994,7 +1139,13 @@ This is not an arbitrary list. It protects every valid request from changing
 before acceptance while allowing a manager to prepare useful work in address
 phases that currently request no data transfer.
 
+[Back to index — notebook page 14](#index-page-14)
+
+<a id="ipad-page-09"></a>
+
 ### iPad page 9: response and IDLE are separate ideas
+
+[Back to index — iPad page 9](#index-ipad-page-09)
 
 ![Annotated iPad page for subordinate response and IDLE](../../../../_internal/Protocols/04%20AMBA/01%20AHB/handwritten/images/ipad-09-idle-during-wait.jpg)
 
@@ -1018,7 +1169,13 @@ If the current data phase receives ERROR, the first ERROR cycle has
 cancel the pipelined next request. This is why the response annotation belongs
 to the lower, older lane of the waveform.
 
+[Back to index — iPad page 9](#index-ipad-page-09)
+
+<a id="ipad-page-10"></a>
+
 ### iPad page 10: BUSY during a wait
+
+[Back to index — iPad page 10](#index-ipad-page-10)
 
 ![Annotated iPad page for BUSY during a wait](../../../../_internal/Protocols/04%20AMBA/01%20AHB/handwritten/images/ipad-10-busy-during-wait.jpg)
 
@@ -1039,9 +1196,15 @@ The wait-state nuance is that the change can be prepared before `HREADY` rises,
 but once a valid replacement transfer is presented, it is held. The manager is
 not repeatedly changing its decision on every LOW-ready edge.
 
+[Back to index — iPad page 10](#index-ipad-page-10)
+
 ## 6. From protocol timing to an RTL manager
 
+<a id="page-15"></a>
+
 ### Original notebook page 15: first FSM sketch
+
+[Back to index — notebook page 15](#index-page-15)
 
 ![Original handwritten manager FSM](../../../../_internal/Protocols/04%20AMBA/01%20AHB/handwritten/images/15-manager-fsm.jpg)
 
@@ -1072,7 +1235,13 @@ the simultaneous next address phase, and a state called ADDRESS must not make
 the design forget an older waited data phase
 ([Arm IHI 0033C, §§3.1 and 3.7](../../../../_internal/Protocols/04%20AMBA/01%20AHB/sources/ARM-IHI-0033C-AMBA-AHB-Protocol-Specification.pdf)).
 
+[Back to index — notebook page 15](#index-page-15)
+
+<a id="page-16"></a>
+
 ### Original notebook page 16: SINGLE-transfer exercise
+
+[Back to index — notebook page 16](#index-page-16)
 
 ![Original handwritten SINGLE-transfer exercise](../../../../_internal/Protocols/04%20AMBA/01%20AHB/handwritten/images/16-single-transfer-setup-exercise.jpg)
 
@@ -1101,7 +1270,13 @@ These control encodings describe only the address phase. The
 local command/result storage completes the full transaction
 ([Arm IHI 0033C, §§3.1-3.2](../../../../_internal/Protocols/04%20AMBA/01%20AHB/sources/ARM-IHI-0033C-AMBA-AHB-Protocol-Specification.pdf)).
 
+[Back to index — notebook page 16](#index-page-16)
+
+<a id="page-17"></a>
+
 ### Original notebook page 17: module ports
+
+[Back to index — notebook page 17](#index-page-17)
 
 ![Original handwritten AHB manager module ports](../../../../_internal/Protocols/04%20AMBA/01%20AHB/handwritten/images/17-manager-module-ports.jpg)
 
@@ -1138,7 +1313,13 @@ requires manager address/control outputs to be at valid logic levels during
 reset; using `X` conflicts with that observable contract
 ([Arm IHI 0033C, §§2.2 and 7.1.2](../../../../_internal/Protocols/04%20AMBA/01%20AHB/sources/ARM-IHI-0033C-AMBA-AHB-Protocol-Specification.pdf)).
 
+[Back to index — notebook page 17](#index-page-17)
+
+<a id="page-18"></a>
+
 ### Original notebook page 18: data-phase registers
+
+[Back to index — notebook page 18](#index-page-18)
 
 ![Original handwritten manager register draft](../../../../_internal/Protocols/04%20AMBA/01%20AHB/handwritten/images/18-manager-registers.jpg)
 
@@ -1173,6 +1354,8 @@ WRAP4 address increments modulo sixteen within the saved region. If broader
 `HSIZE` or `HBURST` support is later added, those constants must be derived
 from the controls rather than copied from one example. This keeps the register implementation consistent with the burst-address and transfer-size rules
 ([Arm IHI 0033C, §§2.2, 3.6, and 6.1](../../../../_internal/Protocols/04%20AMBA/01%20AHB/sources/ARM-IHI-0033C-AMBA-AHB-Protocol-Specification.pdf)).
+
+[Back to index — notebook page 18](#index-page-18)
 
 ## Corrections worth memorizing
 

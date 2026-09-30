@@ -1,5 +1,7 @@
 # 02 - SPI
 
+[Quick revision](#quick-revision) | [Related topics](#related-topics)
+
 These three pages move from the SPI wiring model to simultaneous shift-register transfer and finally to the four clock modes. SPI is simple at the wire level, but that simplicity means many details are device conventions rather than guarantees of one universal SPI standard.
 
 <a id="core-term-key"></a>
@@ -10,13 +12,15 @@ These three pages move from the SPI wiring model to simultaneous shift-register 
 
 | Page | Revision focus |
 |---:|---|
-| [06](#page-06) | Full-duplex wiring, chip select, and a careful I2C comparison |
-| [07](#page-07) | MOSI/MISO ownership and the two coupled shift registers |
-| [08](#page-08) | Bit order plus CPOL/CPHA timing modes |
+| <a id="index-page-06"></a>[06](#page-06) | Full-duplex wiring, chip select, and a careful I2C comparison |
+| <a id="index-page-07"></a>[07](#page-07) | MOSI/MISO ownership and the two coupled shift registers |
+| <a id="index-page-08"></a>[08](#page-08) | Bit order plus CPOL/CPHA timing modes |
 
 <a id="page-06"></a>
 
 ## Page 06 - SPI wiring and what “full duplex” means
+
+[Back to index — page 6](#index-page-06)
 
 ![Handwritten page 6 - SPI signals and I2C comparison](../../_internal/Protocols/02%20SPI/images/page-06.jpeg)
 
@@ -42,9 +46,13 @@ The comparison table captures the broad trade-off. I2C uses fewer signal pins an
 
 During an SPI register read, why must the controller continue transmitting bits even after it has already sent the read command?
 
+[Back to index — page 6](#index-page-06)
+
 <a id="page-07"></a>
 
 ## Page 07 - Two shift registers coupled into one transfer
+
+[Back to index — page 7](#index-page-07)
 
 ![Handwritten page 7 - SPI shift-register architecture](../../_internal/Protocols/02%20SPI/images/page-07.jpeg)
 
@@ -69,9 +77,13 @@ The LSB/MSB annotations describe one selected bit-order convention; SPI does not
 
 Start with controller byte `0xA5` and peripheral byte `0x3C`. After exactly eight agreed shift/sample cycles, what byte should each side's receive register contain, and why?
 
+[Back to index — page 7](#index-page-07)
+
 <a id="page-08"></a>
 
 ## Page 08 - CPOL, CPHA, and the four SPI modes
+
+[Back to index — page 8](#index-page-08)
 
 ![Handwritten page 8 - SPI CPOL and CPHA waveforms](../../_internal/Protocols/02%20SPI/images/page-08.jpeg)
 
@@ -107,6 +119,31 @@ The edge table matches [Microchip's SPI transfer-mode documentation](https://onl
 
 For mode 2, state the idle clock level, the first edge after chip-select assertion, which edge captures data, and which edge launches the next bit.
 
+[Back to index — page 8](#index-page-08)
+
 ## Module checkpoint
 
 Revision criterion: model each SCK cycle as a simultaneous exchange, derive the physical sampling and setup edges from CPOL/CPHA, and distinguish device-specific command formats from the common wire-level transfer mechanism.
+
+## Quick revision
+
+**Key relations.** $`T_{bit}=1/f_{SCLK}`$.
+
+**Common mistakes.** For the conventional single-bit-per-clock transfer described here, one SCLK cycle moves one bit in each direction. CPOL sets the idle clock level; CPHA chooses the sampling edge. Rate, chip-select timing, and bit order must agree with the selected device.
+
+**Closed-book questions**
+
+1. How do the two shift registers exchange data simultaneously?
+2. Which component owns MOSI, MISO, and SCLK?
+3. What are the sampling edges for all four modes?
+4. Why must chip-select timing be part of the transaction?
+5. Which SPI features are device-specific rather than universal?
+
+**Full explanations:** [Wiring and duplex](#page-06) · [Shift registers](#page-07) · [CPOL/CPHA](#page-08).
+
+## Related topics
+
+- [I2C shared-bus behavior](../01%20I2C/README.md#quick-revision)
+- [UART asynchronous timing](../03%20UART/README.md#quick-revision)
+
+[Back to quick revision](#quick-revision)

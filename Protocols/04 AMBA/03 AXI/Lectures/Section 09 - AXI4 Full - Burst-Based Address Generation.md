@@ -8,6 +8,26 @@ The final section replaces the hardcoded next-address shortcut with logic based
 on `AxBURST`, `AxSIZE`, and `AxLEN`. It then rebuilds the Manager and
 Subordinate around that generator and verifies the connected pair.
 
+## Lesson index
+
+| Lesson | Topic | Notebook pages |
+|---:|---|---|
+| <a id="index-lesson-113"></a>[113](#lesson-113) | Section 9 agenda | — |
+| <a id="index-lesson-114"></a>[114](#lesson-114) | Understanding FIXED mode | <a id="index-page-52"></a>[52](#page-52), <a id="index-page-53"></a>[53](#page-53), <a id="index-page-54"></a>[54](#page-54) |
+| <a id="index-lesson-115"></a>[115](#lesson-115) | Implementing FIXED writes | — |
+| <a id="index-lesson-116"></a>[116](#lesson-116) | Understanding INCR mode | <a id="index-page-55"></a>[55](#page-55) |
+| <a id="index-lesson-117"></a>[117](#lesson-117) | Implementing INCR writes | — |
+| <a id="index-lesson-118"></a>[118](#lesson-118) | Understanding WRAP mode | <a id="index-page-56"></a>[56](#page-56), <a id="index-page-57"></a>[57](#page-57), <a id="index-page-58"></a>[58](#page-58), <a id="index-page-59"></a>[59](#page-59) |
+| <a id="index-lesson-119"></a>[119](#lesson-119) | Implementing WRAP writes | — |
+| <a id="index-lesson-120"></a>[120](#lesson-120) | Burst modes during read operation | <a id="index-page-60"></a>[60](#page-60) |
+| <a id="index-lesson-121"></a>[121](#lesson-121) | Implementing the full Manager | — |
+| <a id="index-lesson-122"></a>[122](#lesson-122) | Manager code resource | — |
+| <a id="index-lesson-123"></a>[123](#lesson-123) | Implementing Subordinate write | — |
+| <a id="index-lesson-124"></a>[124](#lesson-124) | Implementing Subordinate read | — |
+| <a id="index-lesson-125"></a>[125](#lesson-125) | Subordinate code resource | — |
+| <a id="index-lesson-126"></a>[126](#lesson-126) | Connecting the final Manager and Subordinate | — |
+| <a id="index-lesson-127"></a>[127](#lesson-127), <a id="index-lesson-128"></a>[128](#lesson-128) | Final design and testbench resources | — |
+
 ## Formal standard explanation
 
 For all modes, define:
@@ -44,7 +64,11 @@ even unwanted remaining beats must complete according to the original command.
 
 ## Lessons 113-128
 
+<a id="lesson-113"></a>
+
 ### Video 113 - Section 9 agenda
+
+[Back to index — lesson 113](#index-lesson-113)
 
 ![Original full-frame Section 9 agenda](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/113-agenda-50.png)
 
@@ -53,7 +77,13 @@ Manager/Subordinate implementation, and protocol checking. Address generation
 is now part of the protocol payload interpretation rather than a fixed local
 constant.
 
+[Back to index — lesson 113](#index-lesson-113)
+
+<a id="lesson-114"></a>
+
 ### Video 114 - Understanding FIXED mode
+
+[Back to index — lesson 114](#index-lesson-114)
 
 ![Original full-frame handwritten FIXED-burst address example](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/114-understanding-fixed-mode-25.png)
 
@@ -73,14 +103,24 @@ The memory sketch shows why the address is not a normal array walk. Each
 accepted data beat is a separate transfer even though the address value repeats.
 Beat counters and last markers still advance only on data-channel handshakes.
 
+<a id="page-52"></a>
+
 #### Handwritten page 52 - Burst types and a FIXED-address example
+
+[Back to index — notebook page 52](#index-page-52)
 
 ![Handwritten AXI notes: Burst types and a FIXED-address example](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/52-axi4-burst-types-and-fixed-address-example.jpg)
 
 **Explanation:** Bursts amortize memory-access latency across multiple beats and use FIXED, INCR, or WRAP addressing. In FIXED mode every beat uses the same transfer
 address even though the data sequence contains multiple beats.
 
+[Back to index — notebook page 52](#index-page-52)
+
+<a id="page-53"></a>
+
 #### Handwritten page 53 - `AxSIZE` and bytes per beat
+
+[Back to index — notebook page 53](#index-page-53)
 
 ![Handwritten AXI notes: `AxSIZE` and bytes per beat](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/53-axsize-and-bytes-per-beat.jpg)
 
@@ -89,7 +129,13 @@ four-byte beat occupies four byte lanes; an unaligned starting address is
 possible only within the protocol's alignment and lane rules, with strobes
 identifying valid write lanes.
 
+[Back to index — notebook page 53](#index-page-53)
+
+<a id="page-54"></a>
+
 #### Handwritten page 54 - Beat, burst length, and FIXED addresses
+
+[Back to index — notebook page 54](#index-page-54)
 
 ![Handwritten AXI notes: Beat, burst length, and FIXED addresses](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/54-beat-burst-length-and-fixed-addresses.jpg)
 
@@ -97,7 +143,15 @@ identifying valid write lanes.
 transaction's ordered beat sequence. `AxLEN+1` is the beat count, and FIXED
 leaves the transfer address unchanged for every accepted beat.
 
+[Back to index — lesson 114](#index-lesson-114)
+
+[Back to index — notebook page 54](#index-page-54)
+
+<a id="lesson-115"></a>
+
 ### Video 115 - Implementing FIXED writes
+
+[Back to index — lesson 115](#index-lesson-115)
 
 ![Original full-frame Verilog FIXED-mode next-address selection](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/115-implementation-of-fixed-mode-during-write-25.png)
 
@@ -113,7 +167,13 @@ different strobes can update different bytes across successive transfers, or
 can represent repeated pushes into a side-effecting port depending on the
 mapped target.
 
+[Back to index — lesson 115](#index-lesson-115)
+
+<a id="lesson-116"></a>
+
 ### Video 116 - Understanding INCR mode
+
+[Back to index — lesson 116](#index-lesson-116)
 
 ![Original full-frame handwritten INCR burst with beat spacing](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/116-understanding-incr-mode-25.png)
 
@@ -133,7 +193,11 @@ address. A reusable generator also handles an unaligned first address according
 to the AXI rules. The course code's supported alignment and data-width profile
 is documented directly in the source.
 
+<a id="page-55"></a>
+
 #### Handwritten page 55 - FIXED and incrementing address examples
+
+[Back to index — notebook page 55](#index-page-55)
 
 ![Handwritten AXI notes: FIXED and incrementing address examples](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/55-fixed-and-incrementing-address-examples.jpg)
 
@@ -141,7 +205,15 @@ is documented directly in the source.
 begins INCR. For INCR, the next transfer address advances by `2^AxSIZE` after
 each beat, subject to the burst boundary rules.
 
+[Back to index — lesson 116](#index-lesson-116)
+
+[Back to index — notebook page 55](#index-page-55)
+
+<a id="lesson-117"></a>
+
 ### Video 117 - Implementing INCR writes
+
+[Back to index — lesson 117](#index-lesson-117)
 
 ![Original full-frame INCR branch in the write next-address RTL](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/117-implementation-of-incr-mode-during-write-25.png)
 
@@ -155,7 +227,13 @@ Before issuing the command, a Manager or interconnect must ensure the burst does
 not cross a 4-KiB boundary. This is a transaction-level condition: compare the
 start and final byte-address region, not just each local increment.
 
+[Back to index — lesson 117](#index-lesson-117)
+
+<a id="lesson-118"></a>
+
 ### Video 118 - Understanding WRAP mode
+
+[Back to index — lesson 118](#index-lesson-118)
 
 ![Original full-frame handwritten WRAP boundary formula and examples](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/118-understanding-wrap-mode-25.png)
 
@@ -179,7 +257,11 @@ to the transfer size. The start can be inside the wrap window rather than at
 its lower boundary, so the visible sequence can increment to the upper edge,
 wrap, and finish below the starting address.
 
+<a id="page-56"></a>
+
 #### Handwritten page 56 - WRAP boundary formula
+
+[Back to index — notebook page 56](#index-page-56)
 
 ![Handwritten AXI notes: WRAP boundary formula](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/56-wrap-boundary-formula.jpg)
 
@@ -188,7 +270,13 @@ lower boundary is `floor(start/window) * window`, and the upper boundary is one
 window above it; address generation wraps to the lower boundary on reaching the
 upper one.
 
+[Back to index — notebook page 56](#index-page-56)
+
+<a id="page-57"></a>
+
 #### Handwritten page 57 - Wrapping address sequence
+
+[Back to index — notebook page 57](#index-page-57)
 
 ![Handwritten AXI notes: Wrapping address sequence](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/57-wrapping-address-sequence.jpg)
 
@@ -196,7 +284,13 @@ upper one.
 address sequence advances by four bytes inside that window and returns to its
 lower boundary after the highest transfer address.
 
+[Back to index — notebook page 57](#index-page-57)
+
+<a id="page-58"></a>
+
 #### Handwritten page 58 - WRAP boundary examples
+
+[Back to index — notebook page 58](#index-page-58)
 
 ![Handwritten AXI notes: WRAP boundary examples](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/58-wrap-boundary-examples.jpg)
 
@@ -204,7 +298,13 @@ lower boundary after the highest transfer address.
 Legal AXI WRAP burst lengths are 2, 4, 8, or 16 beats - encoded by `AxLEN`
 values 1, 3, 7, or 15.
 
+[Back to index — notebook page 58](#index-page-58)
+
+<a id="page-59"></a>
+
 #### Handwritten page 59 - WRAP length validity and boundary alignment
+
+[Back to index — notebook page 59](#index-page-59)
 
 ![Handwritten AXI notes: WRAP length validity and boundary alignment](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/59-wrap-length-validity-and-boundary-alignment.jpg)
 
@@ -213,7 +313,15 @@ length must be a supported power-of-two beat count. The boundary calculation
 must use integer floor division so the lower boundary stays aligned to the
 complete wrap window.
 
+[Back to index — lesson 118](#index-lesson-118)
+
+[Back to index — notebook page 59](#index-page-59)
+
+<a id="lesson-119"></a>
+
 ### Video 119 - Implementing WRAP writes
+
+[Back to index — lesson 119](#index-lesson-119)
 
 ![Original full-frame handwritten wrap-boundary calculation used by the RTL](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/119-implementation-of-wrap-mode-during-write-25.png)
 
@@ -231,7 +339,13 @@ The source comments name the supported legal lengths and alignment assumption.
 An illegal WRAP length is not made legal by producing some modular sequence; it
 must be prevented or reported by the surrounding design/checker policy.
 
+[Back to index — lesson 119](#index-lesson-119)
+
+<a id="lesson-120"></a>
+
 ### Video 120 - Burst modes during read operation
+
+[Back to index — lesson 120](#index-lesson-120)
 
 ![Original full-frame read-side FIXED, INCR, and WRAP selection RTL](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/120-burst-modes-implementation-during-read-operation-25.png)
 
@@ -245,14 +359,26 @@ During `RVALID && !RREADY`, the current address, selected `RDATA`, `RRESP`,
 `RID`, and `RLAST` remain stable. The generator advances on `r_fire`; tying it
 to the clock or `RVALID` alone would skip memory locations under back-pressure.
 
+<a id="page-60"></a>
+
 #### Handwritten page 60 - AXI course summary and next steps
+
+[Back to index — notebook page 60](#index-page-60)
 
 ![Handwritten AXI notes: AXI course summary and next steps](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/60-axi-course-summary-and-next-steps.jpg)
 
 **Explanation:** AXI has three interface families with different channel structures. AXI-Stream itself has one forward payload
 handshake, while AXI4-Lite and AXI4 use the five-channel read/write structure.
 
+[Back to index — lesson 120](#index-lesson-120)
+
+[Back to index — notebook page 60](#index-page-60)
+
+<a id="lesson-121"></a>
+
 ### Video 121 - Implementing the full Manager
+
+[Back to index — lesson 121](#index-lesson-121)
 
 ![Original full-frame Manager write/read FSM and complete full-AXI port list](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/121-implementing-master-25.png)
 
@@ -268,14 +394,26 @@ selects FIXED/INCR/WRAP. Optional lock/cache/protection/QoS/region/user signals
 that the course does not implement are listed as omitted or tied assumptions in
 the exact source, not given invented behavior.
 
+[Back to index — lesson 121](#index-lesson-121)
+
+<a id="lesson-122"></a>
+
 ### Lesson 122 - Manager code resource
+
+[Back to index — lesson 122](#index-lesson-122)
 
 The Section 9 Manager source preserves the instructor's naming and FSM. Its
 comments identify legal burst modes and lengths, alignment/data-width profile,
 one-outstanding capacity, response handling, 4-KiB responsibility, and every
 full-AXI sideband that the teaching interface omits.
 
+[Back to index — lesson 122](#index-lesson-122)
+
+<a id="lesson-123"></a>
+
 ### Video 123 - Implementing Subordinate write
+
+[Back to index — lesson 123](#index-lesson-123)
 
 ![Original full-frame Subordinate write FSM and burst-address RTL](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/123-implementing-slave-write-25.png)
 
@@ -289,7 +427,13 @@ The final accepted beat must have `WLAST=1`. After it, the design returns one
 held B response with the stored ID. A protocol checker should flag early,
 late, or missing `WLAST`; the memory update must not conceal that violation.
 
+[Back to index — lesson 123](#index-lesson-123)
+
+<a id="lesson-124"></a>
+
 ### Video 124 - Implementing Subordinate read
+
+[Back to index — lesson 124](#index-lesson-124)
 
 ![Original full-frame Subordinate read FSM, address generator, and R-channel RTL](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/124-implementing-slave-read-25.png)
 
@@ -303,14 +447,26 @@ The final state transition requires `r_fire && RLAST`. If `RLAST` is HIGH while
 `RREADY` is LOW, the FSM, address, data, ID, and response all remain on that
 final item.
 
+[Back to index — lesson 124](#index-lesson-124)
+
+<a id="lesson-125"></a>
+
 ### Lesson 125 - Subordinate code resource
+
+[Back to index — lesson 125](#index-lesson-125)
 
 The source records memory geometry, read/write address calculation, allowed
 burst profile, byte-strobe semantics, unsupported-address behavior, response
 generation, and ignored optional sidebands. This makes the exact teaching code
 auditable without redesigning it.
 
+[Back to index — lesson 125](#index-lesson-125)
+
+<a id="lesson-126"></a>
+
 ### Video 126 - Connecting the final Manager and Subordinate
+
+[Back to index — lesson 126](#index-lesson-126)
 
 ![Original full-frame final top-level AXI4 connection source](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/126-connecting-master-and-slave-together-25.png)
 
@@ -325,12 +481,22 @@ expected address sequence from mode/size/length, circle accepted data beats,
 check the final marker, then verify ID and response. Repeat with ready stalls so
 the sequence proves hold behavior as well as the no-stall result.
 
+[Back to index — lesson 126](#index-lesson-126)
+
+<a id="lesson-127"></a>
+
+<a id="lesson-128"></a>
+
 ### Lessons 127-128 - Final design and testbench resources
+
+[Back to index — lesson 127](#index-lesson-127) | [Back to index — lesson 128](#index-lesson-128)
 
 Lesson 127 contains the connected design and lesson 128 contains the final
 testbench. The code comments map each stimulus to FIXED, INCR, or WRAP and state
 the expected address sequence, response, ID, beat count, and last-beat edge.
 The testbench preserves the instructor's scenario order and naming.
+
+[Back to index — lesson 127](#index-lesson-127) | [Back to index — lesson 128](#index-lesson-128)
 
 ## Burst-address reference
 

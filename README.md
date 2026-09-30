@@ -1,149 +1,44 @@
-# RevisionSolved
+# Revision Atlas
 
-RevisionSolved is Kapil's source-preserving revision repository. The **Revision
-Atlas** inside it connects every notebook page, course frame, technical
-explanation, correction, recall question, and implementation exercise so a
-subject can be revised without reconstructing the learning path each time.
+Source-linked study notes, technical corrections, recall questions, and RTL
+practice. Start with a subject, use its quick revision section, then open the
+full explanation for anything you could not retrieve.
 
-The repository is for concepts that have already been studied once. Its job is
-to turn that first exposure into accurate recall, causal understanding, and
-usable hardware reasoning.
+## Subjects
 
-> Read the evidence first, explain it aloud, repair the missing reasoning, and
-> then test recall without looking back.
+| Subject | Current scope | Start here |
+|---|---|---|
+| [MOSFET and CMOS](MOSFET%20and%20CMOS/README.md) | Five notebooks, 110 source pages | [Quick revision](MOSFET%20and%20CMOS/README.md#quick-revision) |
+| [Static Timing Analysis](Static%20Timing%20Analysis/README.md) | 25 source pages; setup, hold, skew, slack | [Quick revision](Static%20Timing%20Analysis/README.md#quick-revision) |
+| [Protocols](Protocols/README.md) | I2C, SPI, UART; AHB, APB, AXI | [Chapter path](Protocols/README.md#ordered-path) |
+| [Frequency Dividers](Frequency%20Dividers/README.md) | 13 notebook pages; integer and fractional division | [Quick revision](Frequency%20Dividers/README.md#quick-revision) |
+| [Divider RTL practice](Programmable%20Frequency%20Divider/README.md) | `/2` through `/5`, custom duty, fractional pulses | [Progress](Programmable%20Frequency%20Divider/README.md#progress) |
+| [FIFO](FIFO/README.md) | Architecture and verification guide; starter RTL | [Topic index](FIFO/README.md#topic-index) |
 
-## Start revising
+## Dictionary
 
-The [term dictionary](dictionary/README.md) keeps subject definitions separate
-from the page explanations.
+The single [term dictionary](dictionary/README.md) has a subject index, an
+alphabetical index, and a return link beside every definition. Use **Ctrl+F**
+to search the whole dictionary.
 
-- [MOSFET and CMOS](MOSFET%20and%20CMOS/README.md) contains five linked
-  notebooks and 110 page discussions covering MOS electrostatics, MOSFET
-  operation, CMOS switching, delay, power, noise, and sizing.
-- [Static Timing Analysis](Static%20Timing%20Analysis/README.md) contains 25
-  source-linked pages from storage elements through setup/hold equations,
-  clock skew, slack, maximum frequency, and worked paths.
-- [Protocols](Protocols/README.md) contains I2C, SPI, UART, and the AMBA branch.
-  AMBA is separated into AHB, APB, and AXI so their transfer rules cannot be
-  accidentally mixed.
-- [Frequency Dividers](Frequency%20Dividers/README.md) contains 13 handwritten
-  pages with state sequences, waveforms, duty-cycle reasoning, and integer or
-  fractional divider circuits.
-- [Frequency Divider RTL Practice](Programmable%20Frequency%20Divider/README.md)
-  keeps the `/2` through `/5` RTL and self-checking simulations separate from
-  the theory notebook.
-- [FIFO](FIFO/README.md) develops the interface contract, storage model,
-  pointers, flags, simultaneous operations, verification, and the path from a
-  synchronous FIFO to an asynchronous CDC-safe design.
+## Review queue
 
-## Complete AXI course notes
+Use the [coverage and review dashboard](_internal/repository/tracking/README.md)
+to distinguish completed notes from verified RTL and record your next review.
+The [revision method](_internal/repository/guides/REVISION_METHOD.md) explains
+the recall marks and spacing; the [six-week plan](REVISION_SCHEDULE.md) remains
+the original plan starting 28 August 2026.
 
-The [AXI chapter](Protocols/04%20AMBA/03%20AXI/README.md) is organized by the
-course's actual sections and is complete through lesson **128, TB Code**:
+## Repository guide
 
-- Section 1: 10/10 lessons;
-- Section 2: 18/18 lessons;
-- Section 3: 16/16 lessons;
-- Section 4: 10/10 lessons;
-- Section 5: 30/30 lessons;
-- Section 6: 9/9 lessons;
-- Section 7: 7/7 lessons;
-- Section 8: 12/12 lessons;
-- Section 9: 16/16 lessons.
+Subject folders hold the explanations and code. The mirrored `_internal/`
+subject folders preserve source documents and images. Code and simulation
+files stay beside the subject that uses them.
 
-Every saved course frame is followed by the relevant mechanism, protocol rule,
-implementation consequence, correction, or verification check. Lessons 50-128
-add 123 untouched original-source frames at 1080p; none are cropped or resized.
-Lecture notes live under `Lectures/`, and exact instructor-linked RTL and
-testbench material is indexed separately under `Code/`.
+Original sources remain unchanged. Quick revision sections supplement the
+full explanations. Page and lesson return links go to their matching index
+entry.
 
-## How the repository is organized
-
-```text
-RevisionSolved/
-|-- README.md
-|-- dictionary/                          # subject term definitions
-|-- _internal/
-|   |-- repository/                      # guides, tracking, and templates
-|   `-- <Subject>/                       # centralized images and source documents
-|-- FIFO/
-|-- Frequency Dividers/
-|-- Programmable Frequency Divider/
-|-- MOSFET and CMOS/
-|-- Protocols/
-`-- Static Timing Analysis/
-```
-
-Each mature learning branch follows the same local pattern:
-
-- `README.md` is the entry point and deep explanation layer;
-- `_internal/` keeps every non-chapter support tree in one place:
-  `repository/` contains guides, tracking, and templates, while the mirrored
-  subject trees preserve original source documents and readable image renders;
-- `src/` and `sim/` are used only when the topic has RTL and verification;
-- subfolders represent real chapters or course sections, not arbitrary batches
-  of files.
-
-Keeping support material in the single root-level `_internal/` tree prevents
-repository-management folders, `images/`, and `sources/` from competing with
-the actual chapters. The leading underscore also keeps this implementation
-detail visually separate while preserving a conventional root `README.md`.
-
-Subject folders stay at the root on purpose. Moving them under another wrapper
-would add navigation depth, break many local links, and risk absolute paths in
-the Vivado project without improving revision.
-
-## What a deep explanation must contain
-
-A note is not complete because it repeats a slide or expands an acronym. For
-the concept visible on a page or frame, the explanation should establish:
-
-1. the precise meaning and the plain meaning;
-2. the physical event, state change, sampled edge, path, or inferred hardware;
-3. why the mechanism is used and what fails if its rule is violated;
-4. assumptions, signal ownership, units, signs, and boundary conditions;
-5. the nearest confusing alternative and the exact distinction;
-6. an authoritative source when the claim is protocol- or tool-defined;
-7. one recall, waveform, derivation, or verification test that proves the idea
-   was understood.
-
-The full writing rule is in the [content standard](_internal/repository/guides/CONTENT_STANDARD.md).
-
-## One revision cycle
-
-1. **Recognize:** look only at the source page or screenshot and name the
-   problem it is solving.
-2. **Retrieve:** explain the diagram, assumptions, governing relation, and
-   conclusion without reading the notes.
-3. **Repair:** read the discussion and identify the missing causal link—not
-   merely a forgotten sentence.
-4. **Test:** answer the active-recall prompt, solve the numerical, or trace the
-   waveform closed-book.
-5. **Compress:** finish with `When _____ changes, _____ changes because _____.`
-
-Mark the result `R` for recalled, `H` for hesitant, or `M` for missed. The
-[revision method](_internal/repository/guides/REVISION_METHOD.md) defines the full 45–60 minute
-session and Day 1/3/7/14/30 review ladder.
-
-## Repository guides
-
-- [Guide index](_internal/repository/guides/README.md) explains which management document to use.
-- [Content standard](_internal/repository/guides/CONTENT_STANDARD.md) defines the depth, equation,
-  diagram, and citation requirements.
-- [Revision method](_internal/repository/guides/REVISION_METHOD.md) defines closed-book sessions and
-  spaced retrieval.
-- [Coverage and review queue](_internal/repository/tracking/README.md) records what is ready and what
-  should be reviewed next.
-- [Roadmap](_internal/repository/guides/ROADMAP.md) controls future subject growth.
-- [Workflow notes](_internal/repository/guides/WORKFLOW_NOTES.md) preserve solved setup problems and
-  reliable local workflows.
-- [Subject template](_internal/repository/templates/subject-template.md) is the starting point for a
-  new complete subject room.
-
-## Repository rule
-
-Original sources remain unchanged. Corrections and deep explanations stay next
-to their evidence. Quick-recall material may later compress those explanations,
-but it must never replace them. Navigation uses prose and short lists unless a
-table materially improves a signal mapping, timing trace, comparison, or exact
-state relationship.
+- [Writing and source standards](_internal/repository/guides/CONTENT_STANDARD.md)
+- [Workflow and repository checks](_internal/repository/guides/WORKFLOW_NOTES.md#repository-navigation-check)
+- [Future subjects](_internal/repository/guides/ROADMAP.md)

@@ -1,5 +1,7 @@
 # 02 - Non-Ideal MOS and MOSFET Regions
 
+[Quick revision](#quick-revision) | [Related topics](#related-topics)
+
 [Back to MOSFET and CMOS](../README.md) | [Previous module](../01%20MOS%20Capacitor%20Fundamentals/README.md) | [Untouched source PDF](../../_internal/MOSFET%20and%20CMOS/sources/mos2.pdf)
 
 This module turns ideal electrostatics into practical device equations. It explains why flat band and threshold shift, how MOS capacitance changes with bias, and how an inversion layer becomes a current-carrying MOSFET channel.
@@ -12,22 +14,24 @@ This module turns ideal electrostatics into practical device equations. It expla
 
 | Page | Revision focus | Page | Revision focus |
 |---:|---|---:|---|
-| [1](#page-01) | Work-function-induced field | [13](#page-13) | Oxide-capacitance example |
-| [2](#page-02) | Gate work-function engineering | [14](#page-14) | C-V and interface charge |
-| [3](#page-03) | Oxide and interface charges | [15](#page-15) | Minimum-capacitance algebra |
-| [4](#page-04) | Flat-band shift from charge | [16](#page-16) | Threshold numerical setup |
-| [5](#page-05) | Practical flat-band voltage | [17](#page-17) | Enhancement MOSFET anatomy |
-| [6](#page-06) | Device-data example | [18](#page-18) | Channel potential and body junctions |
-| [7](#page-07) | Numerical flat-band solution | [19](#page-19) | Applying drain voltage |
-| [8](#page-08) | Threshold-voltage components | [20](#page-20) | Output characteristics |
-| [9](#page-09) | Depletion capacitance | [21](#page-21) | Pinch-off and $`V_{DS,sat}`$ |
-| [10](#page-10) | MOS C-V curve | [22](#page-22) | Depletion-mode MOSFET |
-| [11](#page-11) | Doping effect on threshold | [23](#page-23) | Linear and saturation equations |
-| [12](#page-12) | Series dielectric model | [24](#page-24) | p-channel depletion device |
+| <a id="index-page-01"></a>[1](#page-01) | Work-function-induced field | <a id="index-page-13"></a>[13](#page-13) | Oxide-capacitance example |
+| <a id="index-page-02"></a>[2](#page-02) | Gate work-function engineering | <a id="index-page-14"></a>[14](#page-14) | C-V and interface charge |
+| <a id="index-page-03"></a>[3](#page-03) | Oxide and interface charges | <a id="index-page-15"></a>[15](#page-15) | Minimum-capacitance algebra |
+| <a id="index-page-04"></a>[4](#page-04) | Flat-band shift from charge | <a id="index-page-16"></a>[16](#page-16) | Threshold numerical setup |
+| <a id="index-page-05"></a>[5](#page-05) | Practical flat-band voltage | <a id="index-page-17"></a>[17](#page-17) | Enhancement MOSFET anatomy |
+| <a id="index-page-06"></a>[6](#page-06) | Device-data example | <a id="index-page-18"></a>[18](#page-18) | Channel potential and body junctions |
+| <a id="index-page-07"></a>[7](#page-07) | Numerical flat-band solution | <a id="index-page-19"></a>[19](#page-19) | Applying drain voltage |
+| <a id="index-page-08"></a>[8](#page-08) | Threshold-voltage components | <a id="index-page-20"></a>[20](#page-20) | Output characteristics |
+| <a id="index-page-09"></a>[9](#page-09) | Depletion capacitance | <a id="index-page-21"></a>[21](#page-21) | Pinch-off and $`V_{DS,sat}`$ |
+| <a id="index-page-10"></a>[10](#page-10) | MOS C-V curve | <a id="index-page-22"></a>[22](#page-22) | Depletion-mode MOSFET |
+| <a id="index-page-11"></a>[11](#page-11) | Doping effect on threshold | <a id="index-page-23"></a>[23](#page-23) | Linear and saturation equations |
+| <a id="index-page-12"></a>[12](#page-12) | Series dielectric model | <a id="index-page-24"></a>[24](#page-24) | p-channel depletion device |
 
 <a id="page-01"></a>
 
 ## Page 01 - Work-function mismatch creates a built-in field
+
+[Back to index — page 1](#index-page-01)
 
 ![Handwritten MOS notes page 1](../../_internal/MOSFET%20and%20CMOS/02%20Non-Ideal%20MOS%20and%20MOSFET%20Regions/images/page-01.jpeg)
 
@@ -47,9 +51,13 @@ Fermi-level alignment does not mean the conduction and valence bands must be fla
 
 What physical charge appears after dissimilar work functions equilibrate, and what externally measurable voltage does it shift?
 
+[Back to index — page 1](#index-page-01)
+
 <a id="page-02"></a>
 
 ## Page 02 - Engineering the gate work function
+
+[Back to index — page 2](#index-page-02)
 
 ![Handwritten MOS notes page 2](../../_internal/MOSFET%20and%20CMOS/02%20Non-Ideal%20MOS%20and%20MOSFET%20Regions/images/page-02.jpeg)
 
@@ -73,9 +81,13 @@ Modern processes may use metal gates rather than doped polysilicon, but the work
 
 How does moving the gate Fermi level toward $`E_C`$ affect its work function?
 
+[Back to index — page 2](#index-page-02)
+
 <a id="page-03"></a>
 
 ## Page 03 - Mobile, fixed, and interface charge
+
+[Back to index — page 3](#index-page-03)
 
 ![Handwritten MOS notes page 3](../../_internal/MOSFET%20and%20CMOS/02%20Non-Ideal%20MOS%20and%20MOSFET%20Regions/images/page-03.jpeg)
 
@@ -95,9 +107,13 @@ Do not merge all non-ideal charges into one physical mechanism. The compact $`Q_
 
 Which oxide imperfection can produce time-dependent threshold drift, and which can respond to surface Fermi-level position?
 
+[Back to index — page 3](#index-page-03)
+
 <a id="page-04"></a>
 
 ## Page 04 - Oxide charge shifts flat-band voltage
+
+[Back to index — page 4](#index-page-04)
 
 ![Handwritten MOS notes page 4](../../_internal/MOSFET%20and%20CMOS/02%20Non-Ideal%20MOS%20and%20MOSFET%20Regions/images/page-04.jpeg)
 
@@ -121,9 +137,13 @@ If charge is distributed through the oxide, its voltage effect depends on positi
 
 For matched work functions, what sign of gate voltage is required to cancel a positive fixed oxide charge?
 
+[Back to index — page 4](#index-page-04)
+
 <a id="page-05"></a>
 
 ## Page 05 - Practical meaning of flat-band voltage
+
+[Back to index — page 5](#index-page-05)
 
 ![Handwritten MOS notes page 5](../../_internal/MOSFET%20and%20CMOS/02%20Non-Ideal%20MOS%20and%20MOSFET%20Regions/images/page-05.jpeg)
 
@@ -143,9 +163,13 @@ Distinguish the **definition** of flat band from its voltage **value**: flat ban
 
 Can $`V_G=0`$ and $`\psi_s=0`$ be treated as equivalent in a non-ideal device? Why not?
 
+[Back to index — page 5](#index-page-05)
+
 <a id="page-06"></a>
 
 ## Page 06 - Converting process data into band offsets
+
+[Back to index — page 6](#index-page-06)
 
 ![Handwritten MOS notes page 6](../../_internal/MOSFET%20and%20CMOS/02%20Non-Ideal%20MOS%20and%20MOSFET%20Regions/images/page-06.jpeg)
 
@@ -165,9 +189,13 @@ Use either capacitance per unit area $`C'_{ox}=\varepsilon_{ox}/t_{ox}`$ with ch
 
 In what order should doping, work function, oxide capacitance, and oxide charge be used to calculate $`V_{FB}`$?
 
+[Back to index — page 6](#index-page-06)
+
 <a id="page-07"></a>
 
 ## Page 07 - Flat-band numerical solution and threshold ingredients
+
+[Back to index — page 7](#index-page-07)
 
 ![Handwritten MOS notes page 7](../../_internal/MOSFET%20and%20CMOS/02%20Non-Ideal%20MOS%20and%20MOSFET%20Regions/images/page-07.jpeg)
 
@@ -193,9 +221,13 @@ Keep the sign of $`Q_d`$ in electrostatic derivations, but use its magnitude onl
 
 Name the three physically distinct voltage contributions inside $`V_T`$.
 
+[Back to index — page 7](#index-page-07)
+
 <a id="page-08"></a>
 
 ## Page 08 - Threshold voltage for nMOS and pMOS
+
+[Back to index — page 8](#index-page-08)
 
 ![Handwritten MOS notes page 8](../../_internal/MOSFET%20and%20CMOS/02%20Non-Ideal%20MOS%20and%20MOSFET%20Regions/images/page-08.jpeg)
 
@@ -215,9 +247,13 @@ Threshold voltage is not simply the oxide drop and not simply $`2\phi_F`$. It is
 
 Why does increasing $`C'_{ox}`$ reduce the depletion-charge contribution to threshold voltage?
 
+[Back to index — page 8](#index-page-08)
+
 <a id="page-09"></a>
 
 ## Page 09 - Depletion capacitance and sign discipline
+
+[Back to index — page 9](#index-page-09)
 
 ![Handwritten MOS notes page 9](../../_internal/MOSFET%20and%20CMOS/02%20Non-Ideal%20MOS%20and%20MOSFET%20Regions/images/page-09.jpeg)
 
@@ -237,9 +273,13 @@ Capacitance is positive in this small-signal model even when the underlying shee
 
 What happens to measured MOS capacitance as $`W_d`$ increases, and why?
 
+[Back to index — page 9](#index-page-09)
+
 <a id="page-10"></a>
 
 ## Page 10 - MOS C-V behavior and minimum capacitance
+
+[Back to index — page 10](#index-page-10)
 
 ![Handwritten MOS notes page 10](../../_internal/MOSFET%20and%20CMOS/02%20Non-Ideal%20MOS%20and%20MOSFET%20Regions/images/page-10.jpeg)
 
@@ -259,9 +299,13 @@ Always label the C-V frequency regime. Without “high frequency” or “low fr
 
 Why does high-frequency inversion capacitance remain low even though a conducting inversion layer exists in DC?
 
+[Back to index — page 10](#index-page-10)
+
 <a id="page-11"></a>
 
 ## Page 11 - Threshold shift and substrate doping
+
+[Back to index — page 11](#index-page-11)
 
 ![Handwritten MOS notes page 11](../../_internal/MOSFET%20and%20CMOS/02%20Non-Ideal%20MOS%20and%20MOSFET%20Regions/images/page-11.jpeg)
 
@@ -281,9 +325,13 @@ The note about doping should include both mechanisms: $`\phi_F`$ rises logarithm
 
 Which parts of $`V_T`$ change when substrate doping increases, and which part is unaffected in an ideal process?
 
+[Back to index — page 11](#index-page-11)
+
 <a id="page-12"></a>
 
 ## Page 12 - Series dielectrics and equivalent capacitance
+
+[Back to index — page 12](#index-page-12)
 
 ![Handwritten MOS notes page 12](../../_internal/MOSFET%20and%20CMOS/02%20Non-Ideal%20MOS%20and%20MOSFET%20Regions/images/page-12.jpeg)
 
@@ -303,9 +351,13 @@ The depletion capacitance is not a literal deposited dielectric layer. It is an 
 
 Why is $`C_d`$ voltage-dependent while $`C_{ox}`$ is approximately constant?
 
+[Back to index — page 12](#index-page-12)
+
 <a id="page-13"></a>
 
 ## Page 13 - Calculating oxide capacitance from geometry
+
+[Back to index — page 13](#index-page-13)
 
 ![Handwritten MOS notes page 13](../../_internal/MOSFET%20and%20CMOS/02%20Non-Ideal%20MOS%20and%20MOSFET%20Regions/images/page-13.jpeg)
 
@@ -325,9 +377,13 @@ Keep area in m2 and thickness in m when using $\varepsilon$ in F/m. A nanometer-
 
 If oxide thickness is halved at fixed area, what happens to total oxide capacitance and to $`Q/C_{ox}`$?
 
+[Back to index — page 13](#index-page-13)
+
 <a id="page-14"></a>
 
 ## Page 14 - Minimum C-V capacitance and added oxide charge
+
+[Back to index — page 14](#index-page-14)
 
 ![Handwritten MOS notes page 14](../../_internal/MOSFET%20and%20CMOS/02%20Non-Ideal%20MOS%20and%20MOSFET%20Regions/images/page-14.jpeg)
 
@@ -347,9 +403,13 @@ The written `Qox = +1 nC` should be converted to charge density before using a p
 
 How can a measured C-V curve distinguish changed oxide thickness from a fixed-charge voltage shift?
 
+[Back to index — page 14](#index-page-14)
+
 <a id="page-15"></a>
 
 ## Page 15 - Solving the minimum-capacitance relation
+
+[Back to index — page 15](#index-page-15)
 
 ![Handwritten MOS notes page 15](../../_internal/MOSFET%20and%20CMOS/02%20Non-Ideal%20MOS%20and%20MOSFET%20Regions/images/page-15.jpeg)
 
@@ -369,9 +429,13 @@ When using total charge, use total capacitances; when using C/m2, use capacitanc
 
 Given $`C_{min}`$ and $`C_{ox}`$, how would you extract $`W_{d,max}`$ without directly measuring depth?
 
+[Back to index — page 15](#index-page-15)
+
 <a id="page-16"></a>
 
 ## Page 16 - Threshold-voltage numerical problem
+
+[Back to index — page 16](#index-page-16)
 
 ![Handwritten MOS notes page 16](../../_internal/MOSFET%20and%20CMOS/02%20Non-Ideal%20MOS%20and%20MOSFET%20Regions/images/page-16.jpeg)
 
@@ -391,9 +455,13 @@ The handwritten sign chain is difficult to audit. Rewrite each intermediate quan
 
 Which intermediate value would you inspect first if the calculated nMOS threshold came out strongly negative for an ordinary p-substrate device?
 
+[Back to index — page 16](#index-page-16)
+
 <a id="page-17"></a>
 
 ## Page 17 - Enhancement MOSFET anatomy
+
+[Back to index — page 17](#index-page-17)
 
 ![Handwritten MOS notes page 17](../../_internal/MOSFET%20and%20CMOS/02%20Non-Ideal%20MOS%20and%20MOSFET%20Regions/images/page-17.jpeg)
 
@@ -413,9 +481,13 @@ The heading line appears to mix “n-channel depletion” and “p-channel enhan
 
 Why are n+ source and drain not already shorted through the p-type body at $`V_{GS}=0`$?
 
+[Back to index — page 17](#index-page-17)
+
 <a id="page-18"></a>
 
 ## Page 18 - Channel potential and reverse-biased body junctions
+
+[Back to index — page 18](#index-page-18)
 
 ![Handwritten MOS notes page 18](../../_internal/MOSFET%20and%20CMOS/02%20Non-Ideal%20MOS%20and%20MOSFET%20Regions/images/page-18.jpeg)
 
@@ -439,9 +511,13 @@ Higher n+ doping lowers bulk resistivity, but the channel resistance is mainly c
 
 Why does inversion charge decrease along the channel even when the physical gate voltage is constant everywhere?
 
+[Back to index — page 18](#index-page-18)
+
 <a id="page-19"></a>
 
 ## Page 19 - Applying drain voltage to a formed channel
+
+[Back to index — page 19](#index-page-19)
 
 ![Handwritten MOS notes page 19](../../_internal/MOSFET%20and%20CMOS/02%20Non-Ideal%20MOS%20and%20MOSFET%20Regions/images/page-19.jpeg)
 
@@ -461,9 +537,13 @@ Keep electron motion and conventional current arrows distinct. Saying “current
 
 Write the local inversion overdrive at channel position $x$, then state where it is smallest.
 
+[Back to index — page 19](#index-page-19)
+
 <a id="page-20"></a>
 
 ## Page 20 - Output characteristics and operating regions
+
+[Back to index — page 20](#index-page-20)
 
 ![Handwritten MOS notes page 20](../../_internal/MOSFET%20and%20CMOS/02%20Non-Ideal%20MOS%20and%20MOSFET%20Regions/images/page-20.jpeg)
 
@@ -483,9 +563,13 @@ The note suggests current saturates because carrier velocity saturates. That is 
 
 What two different physical mechanisms can cause current saturation, and which one underlies the long-channel equations?
 
+[Back to index — page 20](#index-page-20)
+
 <a id="page-21"></a>
 
 ## Page 21 - Pinch-off and the saturation voltage
+
+[Back to index — page 21](#index-page-21)
 
 ![Handwritten MOS notes page 21](../../_internal/MOSFET%20and%20CMOS/02%20Non-Ideal%20MOS%20and%20MOSFET%20Regions/images/page-21.jpeg)
 
@@ -505,9 +589,13 @@ The channel is depleted only near the drain at pinch-off, not along its entire l
 
 Why can drain current continue after the inversion charge reaches zero exactly at the drain-end boundary?
 
+[Back to index — page 21](#index-page-21)
+
 <a id="page-22"></a>
 
 ## Page 22 - Depletion-mode nMOS operation
+
+[Back to index — page 22](#index-page-22)
 
 ![Handwritten MOS notes page 22](../../_internal/MOSFET%20and%20CMOS/02%20Non-Ideal%20MOS%20and%20MOSFET%20Regions/images/page-22.jpeg)
 
@@ -527,9 +615,13 @@ The transfer curve reveals the device type through its zero-gate intercept. At $
 
 How can the same nMOS current equation describe both enhancement and depletion devices?
 
+[Back to index — page 22](#index-page-22)
+
 <a id="page-23"></a>
 
 ## Page 23 - Long-channel current equations
+
+[Back to index — page 23](#index-page-23)
 
 ![Handwritten MOS notes page 23](../../_internal/MOSFET%20and%20CMOS/02%20Non-Ideal%20MOS%20and%20MOSFET%20Regions/images/page-23.jpeg)
 
@@ -553,9 +645,13 @@ Use one definition of the process/device parameter. Some notes absorb the factor
 
 Derive the saturation equation by substituting $`V_{DS}=V_{GS}-V_T`$ into the triode equation.
 
+[Back to index — page 23](#index-page-23)
+
 <a id="page-24"></a>
 
 ## Page 24 - p-channel depletion MOSFET and sign symmetry
+
+[Back to index — page 24](#index-page-24)
 
 ![Handwritten MOS notes page 24](../../_internal/MOSFET%20and%20CMOS/02%20Non-Ideal%20MOS%20and%20MOSFET%20Regions/images/page-24.jpeg)
 
@@ -575,8 +671,33 @@ The handwritten labels mix signed voltages and voltage magnitudes. Choose either
 
 Rewrite the nMOS triode/saturation inequalities for pMOS using only $`V_{SG}`$, $`V_{SD}`$, and $`|V_{Tp}|`$.
 
+[Back to index — page 24](#index-page-24)
+
 ## Module checkpoint
 
 You are ready for Module 3 when you can move in both directions through this chain:
 
 `process/work-function/oxide charge <-> VFB <-> VT <-> inversion charge <-> MOSFET region and current equation`
+
+## Quick revision
+
+**Key relations.** $`V_{FB}=\phi_{ms}-Q_{ox}/C_{ox}`$ · $`V_{DS,sat}=V_{GS}-V_T`$.
+
+**Common mistakes.** The flat-band relation uses an effective oxide-charge model. Keep the charge sign and capacitance units consistent. Pinch-off marks the long-channel saturation boundary; it does not stop drain current.
+
+**Closed-book questions**
+
+1. Why can an external voltage restore flat band?
+2. How does positive oxide charge shift an nMOS threshold?
+3. Why does high-frequency inversion capacitance differ from the quasi-static result?
+4. How does increasing drain voltage produce pinch-off?
+5. Which bias inequalities distinguish cutoff, triode, and saturation?
+
+**Full explanations:** [Flat-band shifts](#page-04) · [C-V behavior](#page-10) · [Long-channel current](#page-23).
+
+## Related topics
+
+- [Ideal MOS electrostatics](../01%20MOS%20Capacitor%20Fundamentals/README.md#page-19)
+- [Non-ideal current model](../03%20MOSFET%20Models%20and%20CMOS%20Inverter/README.md#page-07)
+
+[Back to quick revision](#quick-revision)

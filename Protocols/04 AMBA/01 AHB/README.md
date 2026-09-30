@@ -1,5 +1,7 @@
 # 01 - AMBA AHB
 
+[Quick revision](#quick-revision) | [Related topics](#related-topics)
+
 [Back to AMBA](../README.md) | [Back to Protocols](../../README.md)
 
 This chapter builds a trustworthy AHB foundation from the protocol itself,
@@ -118,3 +120,26 @@ lacks them.
 - Replace a lecture capture only if a clearer frame carries more timing
   information; preserve the handwritten source scans unchanged.
 - Extend the manager only when a new learning goal requires another burst or size.
+
+## Quick revision
+
+**Key relations.** $`bytes_{beat}=2^{HSIZE}`$ · $`wrap_{bytes}=beats\times bytes_{beat}`$.
+
+**Common mistakes.** Address/control describe a different transfer from the overlapping data phase. Trace HREADY at each rising edge. WRAP4 of 32-bit words wraps within 16 bytes; wait cycles do not count as extra accepted beats.
+
+**Closed-book questions**
+
+1. Which transfer owns the data phase while the next address is visible?
+2. What holds during a wait state?
+3. How do NONSEQ and SEQ identify a burst?
+4. How do you derive INCR4 and WRAP4 addresses?
+5. Why must the manager remember the active data phase?
+
+**Full explanations:** [Two-phase timing](#the-central-timing-idea) · [Notebook and iPad index](handwritten/README.md#source-page-map) · [FSM correction](code/FSM.md#the-important-correction).
+
+## Related topics
+
+- [APB bridge destination](../02%20APB/README.md#quick-revision)
+- [AXI independent-channel comparison](../03%20AXI/README.md#quick-revision)
+
+[Back to quick revision](#quick-revision)

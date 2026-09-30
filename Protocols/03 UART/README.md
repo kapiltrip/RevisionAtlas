@@ -1,5 +1,7 @@
 # 03 - UART
 
+[Quick revision](#quick-revision) | [Related topics](#related-topics)
+
 These eight pages progress from asynchronous serial communication into an RTL-oriented UART design. The central discipline is to keep four time scales separate: the FPGA/system clock, the baud-rate bit interval, the receiver's oversampling tick, and the frame-level transmitter/receiver state machines.
 
 <a id="core-term-key"></a>
@@ -10,18 +12,20 @@ These eight pages progress from asynchronous serial communication into an RTL-or
 
 | Page | Revision focus |
 |---:|---|
-|  | UART purpose, asynchronous links, electrical standards, baud and bit rate |
-|  | Bit time and the system-clock divider calculation |
-|  | 16x oversampling and UART frame length |
-|  | Idle, START, data, optional parity, STOP, and conversion direction |
-|  | Baud-rate generator pulses, counter ranges, and width calculation |
-|  | Transmitter interface and FSM |
-|  | Receiver interface, mid-bit sampling, and counters |
-|  | Receiver pseudocode, STOP validation, and nonblocking assignments |
+| <a id="index-page-09"></a>[9](#page-09) | UART purpose, asynchronous links, electrical standards, baud and bit rate |
+| <a id="index-page-10"></a>[10](#page-10) | Bit time and the system-clock divider calculation |
+| <a id="index-page-11"></a>[11](#page-11) | 16x oversampling and UART frame length |
+| <a id="index-page-12"></a>[12](#page-12) | Idle, START, data, optional parity, STOP, and conversion direction |
+| <a id="index-page-13"></a>[13](#page-13) | Baud-rate generator pulses, counter ranges, and width calculation |
+| <a id="index-page-14"></a>[14](#page-14) | Transmitter interface and FSM |
+| <a id="index-page-15"></a>[15](#page-15) | Receiver interface, mid-bit sampling, and counters |
+| <a id="index-page-16"></a>[16](#page-16) | Receiver pseudocode, STOP validation, and nonblocking assignments |
 
 <a id="page-09"></a>
 
 ## Page 09 - UART as asynchronous framed serial communication
+
+[Back to index — page 9](#index-page-09)
 
 ![Handwritten UART page 09: protocol overview and asynchronous serial links](../../_internal/Protocols/03%20UART/images/page-09.jpeg)
 
@@ -48,9 +52,13 @@ The lower annotations identify common rates such as 9600 and 115200. Baud is mea
 
 If UART has no shared clock, what event gives the receiver a timing reference, and why must the two endpoints still configure nearly equal baud rates?
 
+[Back to index — page 9](#index-page-09)
+
 <a id="page-10"></a>
 
 ## Page 10 - Bit time and the divider from a 50 MHz clock
+
+[Back to index — page 10](#index-page-10)
 
 ![Handwritten UART page 10: baud period and clock-divider calculations](../../_internal/Protocols/03%20UART/images/page-10.jpeg)
 
@@ -101,9 +109,13 @@ The lower waveform distinguishes the system-clock period from the UART bit perio
 
 From a 50 MHz clock, calculate the ideal cycles per bit at 115200 baud and explain what an RTL design must do because the answer is not an integer.
 
+[Back to index — page 10](#index-page-10)
+
 <a id="page-11"></a>
 
 ## Page 11 - Why the receiver uses 16x oversampling
+
+[Back to index — page 11](#index-page-11)
 
 ![Handwritten UART page 11: transmitter timing and receiver oversampling](../../_internal/Protocols/03%20UART/images/page-11.jpeg)
 
@@ -140,9 +152,13 @@ See  and .
 
 Why is a sample enable at 16 times the baud rate useful if the design ultimately stores only one value for each received bit?
 
+[Back to index — page 11](#index-page-11)
+
 <a id="page-12"></a>
 
 ## Page 12 - Reading the UART frame from idle through STOP
+
+[Back to index — page 12](#index-page-12)
 
 ![Handwritten UART page 12: UART frame fields and serial conversion](../../_internal/Protocols/03%20UART/images/page-12.jpeg)
 
@@ -171,9 +187,13 @@ The field order and levels match .
 
 Write the exact wire-level sequence for transmitting `0xA6` as 8-N-1, including idle, START, all eight data bits in transmission order, and STOP.
 
+[Back to index — page 12](#index-page-12)
+
 <a id="page-13"></a>
 
 ## Page 13 - Baud-rate generator pulses and counter widths
+
+[Back to index — page 13](#index-page-13)
 
 ![Handwritten UART page 13: baud-rate generator counters and enables](../../_internal/Protocols/03%20UART/images/page-13.jpeg)
 
@@ -206,9 +226,13 @@ AMD's  likewise separates a high-rate sample enable from the final TX/RX baud en
 
 Why does a divide-by-5208 counter compare against 5207, and how many bits must that counter contain?
 
+[Back to index — page 13](#index-page-13)
+
 <a id="page-14"></a>
 
 ## Page 14 - Building the transmitter as a timed FSM
+
+[Back to index — page 14](#index-page-14)
 
 ![Handwritten UART page 14: transmitter interface and finite-state machine](../../_internal/Protocols/03%20UART/images/page-14.jpeg)
 
@@ -239,9 +263,13 @@ Reset should put the transmitter into an electrically safe state: `tx = 1`, `bus
 
 If `start_tx` arrives halfway between baud ticks, when should the transmitter latch the byte, when should TX first go LOW, and when should `busy` clear?
 
+[Back to index — page 14](#index-page-14)
+
 <a id="page-15"></a>
 
 ## Page 15 - Receiver timing and why sampling moves to bit centers
+
+[Back to index — page 15](#index-page-15)
 
 ![Handwritten UART page 15: receiver timing and center sampling](../../_internal/Protocols/03%20UART/images/page-15.jpeg)
 
@@ -268,9 +296,13 @@ After the last data bit, the FSM waits another full bit interval and checks STOP
 
 Starting from the first detected LOW sample in 16x mode, describe when the receiver validates START and when it captures data bits 0 and 1.
 
+[Back to index — page 15](#index-page-15)
+
 <a id="page-16"></a>
 
 ## Page 16 - Receiver pseudocode and nonblocking-assignment timing
+
+[Back to index — page 16](#index-page-16)
 
 ![Handwritten UART page 16: receiver pseudocode and RTL timing](../../_internal/Protocols/03%20UART/images/page-16.jpeg)
 
@@ -306,6 +338,31 @@ The handwritten condition `sample == 15 && index == 7` identifies the eighth dat
 
 If old `sample` equals 15, what values do an `if (sample == 15)` condition and the expression `sample + 1'b1` use? Then explain which assignment wins if the block schedules both increment and reset.
 
+[Back to index — page 16](#index-page-16)
+
 ## Module checkpoint
 
 Revision criterion: derive every timing counter from $`f_{clk}`$ and baud, explain the alignment established by START, place each data sample near the bit center, and determine pre-edge and post-edge values in nonblocking sequential logic.
+
+## Quick revision
+
+**Key relations.** $`T_{bit}=1/baud`$ · $`N_{tick}=f_{clk}/(16\,baud)`$ · $`T_{frame}=(1+n_{data}+n_{parity}+n_{stop})/baud`$.
+
+**Common mistakes.** The tick equation assumes 16x oversampling. Integer rounding produces baud error; at 50 MHz and 9600 baud the ideal sample interval is about 325.5208 clock cycles. Sampling counters and nonblocking assignments must be interpreted using their pre-edge values.
+
+**Closed-book questions**
+
+1. How does START recover timing without a shared clock?
+2. Where should the receiver sample the first data bit?
+3. How do you compute bit time and 16x tick spacing?
+4. What checks distinguish a valid STOP from a framing error?
+5. Why does a nonblocking counter comparison see the old value?
+
+**Full explanations:** [Bit timing](#page-10) · [Oversampling](#page-11) · [Tick generation](#page-13) · [Receiver implementation](#page-16).
+
+## Related topics
+
+- [Clock enables and fractional spacing](../../Frequency%20Dividers/README.md#page-10)
+- [RTL pulse generation](../../Programmable%20Frequency%20Divider/README.md#quick-revision)
+
+[Back to quick revision](#quick-revision)

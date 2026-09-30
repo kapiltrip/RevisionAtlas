@@ -194,3 +194,24 @@ Only after these checks should actual RTL ports and behavior be added.
 ## Current verification boundary
 
 The starter project and file references were verified. Synthesis and simulation were intentionally not run because the modules contain no FIFO logic yet. A later result must not be called correct merely because the project opens; correctness begins only after a self-checking testbench passes and the synthesis/timing reports are reviewed.
+
+## Repository navigation check
+
+From the repository root, run:
+
+```powershell
+python _internal/repository/tools/check_repository.py
+python -m unittest discover -s _internal/repository/tools -p "test_*.py"
+```
+
+The checker uses Python's standard library and checks the Git-tracked inventory:
+local files and images, section targets, duplicate explicit anchors, matching
+page/lesson/topic index returns, and the dictionary's subject and term counts.
+It also rejects links to files that exist locally but are not tracked. Remote
+URLs are not fetched, and RTL correctness is a separate verification task.
+
+The same commands run in GitHub Actions on pushes and pull requests. A new
+page or lesson needs an explicit content anchor and a matching index anchor;
+for example, `page-03` and `index-page-03`. Its return link must target that
+index entry. Keep the dictionary in one file and update both indexes when
+adding a definition.

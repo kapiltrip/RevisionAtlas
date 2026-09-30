@@ -1,5 +1,7 @@
 # 03 - AMBA AXI
 
+[Quick revision](#quick-revision) | [Related topics](#related-topics)
+
 [Back to AMBA](../README.md) | [Back to Protocols](../../README.md)
 
 This chapter starts AXI from the common `VALID`/`READY` transfer rule,
@@ -205,3 +207,27 @@ zero-byte packet-ending event that must not be discarded.
   the course implementation remains recognizable and directly comparable.
 - Extend scoreboards to derive FIXED, INCR, and WRAP address sequences and
   check the 4-KiB boundary rule.
+
+## Quick revision
+
+**Key relations.** $`transfer=VALID\land READY`$ · $`beats=AxLEN+1`$ · $`bytes_{beat}=2^{AxSIZE}`$.
+
+**Common mistakes.** Sample each channel’s handshake on a rising ACLK edge. A source must keep VALID and payload stable until acceptance and must not wait for READY before asserting VALID. AW and W are independent. Burst length and size apply to full AXI, not AXI4-Lite.
+
+**Closed-book questions**
+
+1. How do Stream, Lite, and full AXI differ?
+2. Why can waiting for READY before VALID deadlock?
+3. How can AW and W arrive on different cycles?
+4. What holds when a channel is stalled?
+5. How do FIXED, INCR, and WRAP generate addresses?
+
+**Full explanations:** [Handshake rule](#the-one-equation-that-controls-the-rtl) · [All nine course sections](Lectures/README.md#section-order) · [Instructor code and known limitations](Code/README.md#compile-check).
+
+## Related topics
+
+- [FIFO and backpressure](../../../FIFO/README.md#quick-revision)
+- [AHB phase ownership](../01%20AHB/README.md#quick-revision)
+- [APB register access](../02%20APB/README.md#quick-revision)
+
+[Back to quick revision](#quick-revision)

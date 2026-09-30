@@ -14,6 +14,37 @@ and module naming when studying the matching files under [Code](../Code/README.m
 The notes below identify the assumptions and ignored signals beside the lesson
 that introduces them; they do not replace the instructor's architecture.
 
+## Lesson index
+
+| Lesson | Topic | Notebook pages |
+|---:|---|---|
+| <a id="index-lesson-055"></a>[55](#lesson-055) | Section 5 agenda | — |
+| <a id="index-lesson-056"></a>[56](#lesson-056) | Different AXI configurations | — |
+| <a id="index-lesson-057"></a>[57](#lesson-057) | Waveform-based versus FSM-based implementation | — |
+| <a id="index-lesson-058"></a>[58](#lesson-058) | Signals for single beat without pipeline, part 1 | <a id="index-page-32"></a>[32](#page-32) |
+| <a id="index-lesson-059"></a>[59](#lesson-059) | Signals for single beat without pipeline, part 2 | — |
+| <a id="index-lesson-060"></a>[60](#lesson-060) | I/O ports of the waveform-based design | — |
+| <a id="index-lesson-061"></a>[61](#lesson-061) | Write-only Manager implementation, part 1 | <a id="index-page-33"></a>[33](#page-33), <a id="index-page-34"></a>[34](#page-34) |
+| <a id="index-lesson-062"></a>[62](#lesson-062) | Write-only Manager implementation, part 2 | <a id="index-page-35"></a>[35](#page-35) |
+| <a id="index-lesson-063"></a>[63](#lesson-063) | Write-only Subordinate implementation, part 1 | <a id="index-page-36"></a>[36](#page-36) |
+| <a id="index-lesson-064"></a>[64](#lesson-064) | Write-only Subordinate implementation, part 2 | — |
+| <a id="index-lesson-065"></a>[65](#lesson-065) | Verifying the write-only Manager and Subordinate | — |
+| <a id="index-lesson-066"></a>[66](#lesson-066), <a id="index-lesson-067"></a>[67](#lesson-067) | Design and testbench code resources | — |
+| <a id="index-lesson-068"></a>[68](#lesson-068) | Adding the AXI Protocol Checker, part 1 | — |
+| <a id="index-lesson-069"></a>[69](#lesson-069) | Adding the AXI Protocol Checker, part 2 | — |
+| <a id="index-lesson-070"></a>[70](#lesson-070) | Adding the AXI Protocol Checker, part 3 | — |
+| <a id="index-lesson-071"></a>[71](#lesson-071), <a id="index-lesson-072"></a>[72](#lesson-072) | Checker design and testbench resources | — |
+| <a id="index-lesson-073"></a>[73](#lesson-073) | Read-only Manager implementation, part 1 | <a id="index-page-37"></a>[37](#page-37), <a id="index-page-38"></a>[38](#page-38) |
+| <a id="index-lesson-074"></a>[74](#lesson-074) | Read-only Manager implementation, part 2 | — |
+| <a id="index-lesson-075"></a>[75](#lesson-075) | Read-only Manager implementation, part 3 | <a id="index-page-39"></a>[39](#page-39) |
+| <a id="index-lesson-076"></a>[76](#lesson-076) | Read-only Subordinate implementation, part 1 | — |
+| <a id="index-lesson-077"></a>[77](#lesson-077) | Read-only Subordinate implementation, part 2 | — |
+| <a id="index-lesson-078"></a>[78](#lesson-078) | Connecting the read-only Manager and Subordinate | — |
+| <a id="index-lesson-079"></a>[79](#lesson-079) | Verifying read operation, part 1 | — |
+| <a id="index-lesson-080"></a>[80](#lesson-080) | Verifying read operation, part 2 | — |
+| <a id="index-lesson-081"></a>[81](#lesson-081) | Read-path code resource | — |
+| <a id="index-lesson-082"></a>[82](#lesson-082), <a id="index-lesson-083"></a>[83](#lesson-083), <a id="index-lesson-084"></a>[84](#lesson-084) | Protocol checker on the read path | — |
+
 ## Formal standard explanation
 
 Each channel has its own acceptance event:
@@ -46,7 +77,11 @@ number of outstanding operations are local microarchitecture.
 
 **Standard basis:** [Arm IHI 0022H, §§A3.2-A3.3 and B1.1](https://developer.arm.com/-/media/Arm%20Developer%20Community/PDF/IHI0022H_amba_axi_protocol_spec.pdf).
 
+<a id="lesson-055"></a>
+
 ### Video 55 - Section 5 agenda
+
+[Back to index — lesson 55](#index-lesson-055)
 
 ![Original full-frame Section 5 agenda](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/055-agenda-50.png)
 
@@ -56,7 +91,13 @@ matters. The RTL should be explainable as a direct implementation of a legal
 trace; the checker then tests the protocol contract rather than whether the
 waveform merely looks plausible.
 
+[Back to index — lesson 55](#index-lesson-055)
+
+<a id="lesson-056"></a>
+
 ### Video 56 - Different AXI configurations
+
+[Back to index — lesson 56](#index-lesson-056)
 
 ![Original full-frame AXI configuration map with single-beat, burst, pipelined, and implementation choices](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/056-different-axi-configurations-25.png)
 
@@ -76,7 +117,13 @@ This section chooses single beat, no pipeline, and waveform-derived control.
 That limits throughput but reduces bookkeeping: one operation owns all local
 flags until its B or R response handshake finishes.
 
+[Back to index — lesson 56](#index-lesson-056)
+
+<a id="lesson-057"></a>
+
 ### Video 57 - Waveform-based versus FSM-based implementation
+
+[Back to index — lesson 57](#index-lesson-057)
 
 ![Original full-frame waveform-based implementation and highlighted Verilog timing logic](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/057-implementation-approaches-waveform-vs-fsm-25.png)
 
@@ -97,7 +144,13 @@ but the safety requirements do not:
 - the no-pipeline policy must block a new command until the current terminal
   response handshakes.
 
+[Back to index — lesson 57](#index-lesson-057)
+
+<a id="lesson-058"></a>
+
 ### Video 58 - Signals for single beat without pipeline, part 1
+
+[Back to index — lesson 58](#index-lesson-058)
 
 ![Original full-frame no-pipeline write sequence and Manager/Subordinate port diagram](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/058-signals-in-single-beat-without-pipeline-p1-25.png)
 
@@ -112,7 +165,11 @@ input address, input data, and write strobes. Those are not AXI signals. They
 are the course's application-side request interface, translated into AW/W/B
 channel activity by the Manager.
 
+<a id="page-32"></a>
+
 #### Handwritten page 32 - Single beat without pipelining
+
+[Back to index — notebook page 32](#index-page-32)
 
 ![Handwritten AXI notes: Single beat without pipelining](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/32-single-beat-without-pipelining.jpg)
 
@@ -121,7 +178,15 @@ teaching profile completes all work for one request before starting another;
 waveform-oriented and FSM-oriented RTL are two organizations of that policy, not
 different AXI protocols.
 
+[Back to index — lesson 58](#index-lesson-058)
+
+[Back to index — notebook page 32](#index-page-32)
+
+<a id="lesson-059"></a>
+
 ### Video 59 - Signals for single beat without pipeline, part 2
+
+[Back to index — lesson 59](#index-lesson-059)
 
 ![Original full-frame completed single-beat read/write channel diagram and waveforms](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/059-signals-in-single-beat-without-pipeline-p2-25.png)
 
@@ -137,7 +202,13 @@ interface. On reset, all Manager-driven `VALID` outputs and all
 Subordinate-driven `VALID` outputs must become inactive so stale transactions
 cannot survive into the next run.
 
+[Back to index — lesson 59](#index-lesson-059)
+
+<a id="lesson-060"></a>
+
 ### Video 60 - I/O ports of the waveform-based design
+
+[Back to index — lesson 60](#index-lesson-060)
 
 ![Original full-frame Manager I/O declaration beside the five-channel waveform and block diagram](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/060-i-o-ports-in-single-beat-without-pipeline-75.png)
 
@@ -156,7 +227,13 @@ used only with this paired teaching Subordinate, that simplification is part of
 the local interface contract. It is not evidence that `AWPROT`/`ARPROT` never
 exist on AXI4-Lite interfaces.
 
+[Back to index — lesson 60](#index-lesson-060)
+
+<a id="lesson-061"></a>
+
 ### Video 61 - Write-only Manager implementation, part 1
+
+[Back to index — lesson 61](#index-lesson-061)
 
 ![Original full-frame write-only Manager waveform and address-channel RTL](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/061-axil-master-with-only-write-implementation-p1-25.png)
 
@@ -177,7 +254,11 @@ assignments update after the sampled edge. Conditions inside the same clocked
 block read the pre-edge values. When reasoning about “set valid” and “clear on
 ready,” explicitly identify which branch wins if both conditions are true.
 
+<a id="page-33"></a>
+
 #### Handwritten page 33 - AXI4-Lite write Manager ports and reset
+
+[Back to index — notebook page 33](#index-page-33)
 
 ![Handwritten AXI notes: AXI4-Lite write Manager ports and reset](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/33-axil-write-master-ports-and-reset.jpg)
 
@@ -186,7 +267,13 @@ channels. Reset clears the offered controls, while a new command must create
 separate `AWVALID` and `WVALID` obligations that remain until their respective
 handshakes.
 
+[Back to index — notebook page 33](#index-page-33)
+
+<a id="page-34"></a>
+
 #### Handwritten page 34 - Write address and response control
+
+[Back to index — notebook page 34](#index-page-34)
 
 ![Handwritten AXI notes: Write address and response control](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/34-axil-write-master-address-and-response-logic.jpg)
 
@@ -195,7 +282,15 @@ later acknowledges `BVALID`. Do not clear address and data validity from a
 single combined condition unless the design has separately recorded which
 handshake has completed.
 
+[Back to index — lesson 61](#index-lesson-061)
+
+[Back to index — notebook page 34](#index-page-34)
+
+<a id="lesson-062"></a>
+
 ### Video 62 - Write-only Manager implementation, part 2
+
+[Back to index — lesson 62](#index-lesson-062)
 
 ![Original full-frame write-data and write-response logic beside the reference waveform](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/062-axil-master-with-only-write-implementation-p2-25.png)
 
@@ -215,7 +310,11 @@ address offered/accepted, data offered/accepted, response awaited/accepted.
 Treating them as one universal “write done” pulse hides legal AW/W timing
 differences and is the first thing a protocol checker will expose.
 
+<a id="page-35"></a>
+
 #### Handwritten page 35 - Write data control and Subordinate ports
+
+[Back to index — notebook page 35](#index-page-35)
 
 ![Handwritten AXI notes: Write data control and Subordinate ports](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/35-axil-write-data-and-subordinate-ports.jpg)
 
@@ -223,7 +322,15 @@ differences and is the first thing a protocol checker will expose.
 Subordinate interface below must be prepared for `AW` and `W` to arrive in
 either order and retain the first item until its partner arrives.
 
+[Back to index — lesson 62](#index-lesson-062)
+
+[Back to index — notebook page 35](#index-page-35)
+
+<a id="lesson-063"></a>
+
 ### Video 63 - Write-only Subordinate implementation, part 1
+
+[Back to index — lesson 63](#index-lesson-063)
 
 ![Original full-frame write-only Subordinate address logic beside the transaction waveform](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/063-axil-slave-with-only-write-implementation-p1-25.png)
 
@@ -236,14 +343,26 @@ is sufficient. That is an implementation capacity limit, not an AXI rule. The
 flag representing a stored address is cleared only when the write has advanced
 far enough that the slot can safely be reused.
 
+<a id="page-36"></a>
+
 #### Handwritten page 36 - Subordinate write-address control
+
+[Back to index — notebook page 36](#index-page-36)
 
 ![Handwritten AXI notes: Subordinate write-address control](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/36-axil-subordinate-write-address-control.jpg)
 
 **Explanation:** `AWREADY` indicates readiness to accept a write address; write data uses a separate handshake. A correct Subordinate must not discard an accepted address
 merely because the matching data has not arrived in the same cycle.
 
+[Back to index — lesson 63](#index-lesson-063)
+
+[Back to index — notebook page 36](#index-page-36)
+
+<a id="lesson-064"></a>
+
 ### Video 64 - Write-only Subordinate implementation, part 2
+
+[Back to index — lesson 64](#index-lesson-064)
 
 ![Original full-frame Subordinate write-data capture and response logic](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/064-axil-slave-with-only-write-implementation-p2-25.png)
 
@@ -259,7 +378,13 @@ returns `OKAY` for the demonstrated address range. If address decode or the
 register operation can fail, the same held response mechanism must carry
 `SLVERR` or `DECERR` as appropriate.
 
+[Back to index — lesson 64](#index-lesson-064)
+
+<a id="lesson-065"></a>
+
 ### Video 65 - Verifying the write-only Manager and Subordinate
+
+[Back to index — lesson 65](#index-lesson-065)
 
 ![Original full-frame testbench stimulus for the write-only Manager/Subordinate pair](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/065-verifying-operation-of-master-and-slave-with-only-write-25.png)
 
@@ -276,7 +401,15 @@ stall, `BVALID` follows accepted write inputs, and the next command begins only
 after the response handshake. Seeing expected data is necessary but not
 sufficient; these channel-timing checks prove the interface behavior.
 
+[Back to index — lesson 65](#index-lesson-065)
+
+<a id="lesson-066"></a>
+
+<a id="lesson-067"></a>
+
 ### Lessons 66-67 - Design and testbench code resources
+
+[Back to index — lesson 66](#index-lesson-066) | [Back to index — lesson 67](#index-lesson-067)
 
 The instructor supplies the write-only design and testbench as separate code
 resources. The repository preserves them under the Section 5 area in
@@ -285,7 +418,13 @@ omitted optional AXI4-Lite signals, one-outstanding capacity, and the exact
 event that completes a write. The code remains the instructor's teaching
 architecture rather than a redesigned implementation.
 
+[Back to index — lesson 66](#index-lesson-066) | [Back to index — lesson 67](#index-lesson-067)
+
+<a id="lesson-068"></a>
+
 ### Video 68 - Adding the AXI Protocol Checker, part 1
+
+[Back to index — lesson 68](#index-lesson-068)
 
 ![Original full-frame AMD PG101 protocol-independent port descriptions used by the lesson](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/068-validating-transactions-with-axi-protocol-checker-p1-25.png)
 
@@ -301,7 +440,13 @@ must see the same clock/reset domain as the observed interface. Tying off an
 unused checker port must match the configured protocol; it must not fabricate
 a handshake that the DUT never drove.
 
+[Back to index — lesson 68](#index-lesson-068)
+
+<a id="lesson-069"></a>
+
 ### Video 69 - Adding the AXI Protocol Checker, part 2
+
+[Back to index — lesson 69](#index-lesson-069)
 
 ![Original full-frame Vivado block design containing Manager, Subordinate, and AXI checker](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/069-validating-transactions-with-axi-protocol-checker-p2-25.png)
 
@@ -317,7 +462,13 @@ payload stability while stalled, `VALID` persistence, response ordering, and
 reset behavior. A green connection diagram is not proof; the checker result
 and waveform are the proof surfaces.
 
+[Back to index — lesson 69](#index-lesson-069)
+
+<a id="lesson-070"></a>
+
 ### Video 70 - Adding the AXI Protocol Checker, part 3
+
+[Back to index — lesson 70](#index-lesson-070)
 
 ![Original full-frame checker-related testbench code and configured signals](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/070-validating-transactions-with-axi-protocol-checker-p3-25.png)
 
@@ -333,14 +484,28 @@ data, then confirm that no checker assertion/status bit reports a violation.
 The official [AMD AXI Protocol Checker overview](https://docs.amd.com/r/en-US/pg101-axi-protocol-checker/Overview)
 explains those reporting paths.
 
+[Back to index — lesson 70](#index-lesson-070)
+
+<a id="lesson-071"></a>
+
+<a id="lesson-072"></a>
+
 ### Lessons 71-72 - Checker design and testbench resources
+
+[Back to index — lesson 71](#index-lesson-071) | [Back to index — lesson 72](#index-lesson-072)
 
 These resources preserve the checker-connected design and its testbench. Their
 comments identify which read-side inputs are unused in the write-only lesson,
 how they are tied for the selected checker configuration, and which checker
 outputs are observation-only.
 
+[Back to index — lesson 71](#index-lesson-071) | [Back to index — lesson 72](#index-lesson-072)
+
+<a id="lesson-073"></a>
+
 ### Video 73 - Read-only Manager implementation, part 1
+
+[Back to index — lesson 73](#index-lesson-073)
 
 ![Original full-frame read-only Manager architecture, AR/R waveform, and port directions](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/073-axil-master-with-only-read-implementation-p1-25.png)
 
@@ -355,7 +520,11 @@ With no pipeline, the local side cannot issue a second address while the first
 read result is outstanding. The terminal event is `r_fire`; merely seeing
 `RVALID` is not completion if `RREADY` is LOW.
 
+<a id="page-37"></a>
+
 #### Handwritten page 37 - AXI4-Lite read Manager interface
+
+[Back to index — notebook page 37](#index-page-37)
 
 ![Handwritten AXI notes: AXI4-Lite read Manager interface](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/37-axil-read-master-interface.jpg)
 
@@ -363,7 +532,13 @@ read result is outstanding. The terminal event is `r_fire`; merely seeing
 Manager owns `ARVALID`, `ARADDR`, and `RREADY`; the Subordinate owns `ARREADY`,
 `RVALID`, `RDATA`, and `RRESP`.
 
+[Back to index — notebook page 37](#index-page-37)
+
+<a id="page-38"></a>
+
 #### Handwritten page 38 - Read-address and read-data control
+
+[Back to index — notebook page 38](#index-page-38)
 
 ![Handwritten AXI notes: Read-address and read-data control](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/38-axil-read-master-address-and-data-control.jpg)
 
@@ -372,7 +547,15 @@ asserts `RREADY` when it can accept the response. `RVALID` must be generated by
 the Subordinate independently of whether the Manager has already raised
 `RREADY`.
 
+[Back to index — lesson 73](#index-lesson-073)
+
+[Back to index — notebook page 38](#index-page-38)
+
+<a id="lesson-074"></a>
+
 ### Video 74 - Read-only Manager implementation, part 2
+
+[Back to index — lesson 74](#index-lesson-074)
 
 ![Original full-frame read-address register and ARVALID logic](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/074-axil-master-with-only-read-implementation-p2-25.png)
 
@@ -389,7 +572,13 @@ interface exposes only data, an error response can be silently lost; the file
 comments must state whether `RRESP` is consumed, ignored, or assumed `OKAY` in
 the paired demonstration.
 
+[Back to index — lesson 74](#index-lesson-074)
+
+<a id="lesson-075"></a>
+
 ### Video 75 - Read-only Manager implementation, part 3
+
+[Back to index — lesson 75](#index-lesson-075)
 
 ![Original full-frame completed Manager read-control RTL and waveform](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/075-axil-master-with-only-read-implementation-p3-25.png)
 
@@ -405,7 +594,11 @@ captured result needs its own valid flag. The exact course code documents the
 simpler assumed local behavior rather than silently claiming an unbounded
 buffer.
 
+<a id="page-39"></a>
+
 #### Handwritten page 39 - Read-response readiness
+
+[Back to index — notebook page 39](#index-page-39)
 
 ![Handwritten AXI notes: Read-response readiness](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/39-axil-read-response-ready-control.jpg)
 
@@ -413,7 +606,15 @@ buffer.
 pulse policy is acceptable only if it cannot miss a response and meets the
 intended throughput.
 
+[Back to index — lesson 75](#index-lesson-075)
+
+[Back to index — notebook page 39](#index-page-39)
+
+<a id="lesson-076"></a>
+
 ### Video 76 - Read-only Subordinate implementation, part 1
+
+[Back to index — lesson 76](#index-lesson-076)
 
 ![Original full-frame read-only Subordinate port list, decode path, and read waveform](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/076-axil-slave-with-only-read-implementation-p1-25.png)
 
@@ -428,7 +629,13 @@ address is unsupported, the response should describe the decode or slave
 error. The classroom design's chosen address range and default behavior are
 explicit assumptions in its source comments.
 
+[Back to index — lesson 76](#index-lesson-076)
+
+<a id="lesson-077"></a>
+
 ### Video 77 - Read-only Subordinate implementation, part 2
+
+[Back to index — lesson 77](#index-lesson-077)
 
 ![Original full-frame read-only Subordinate AR and R channel RTL](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/077-axil-slave-with-only-read-implementation-p2-25.png)
 
@@ -443,7 +650,13 @@ raised. The intended course timing must not clear a newly produced result using
 the pre-edge state incorrectly. Following nonblocking-assignment semantics is
 essential here.
 
+[Back to index — lesson 77](#index-lesson-077)
+
+<a id="lesson-078"></a>
+
 ### Video 78 - Connecting the read-only Manager and Subordinate
+
+[Back to index — lesson 78](#index-lesson-078)
 
 ![Original full-frame top-level Verilog wiring for the read-only pair](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/078-connecting-master-and-slave-25.png)
 
@@ -457,7 +670,13 @@ The elaborated view checks width and direction, but not protocol behavior.
 Common clock/reset connection and a clean elaboration are prerequisites for
 the waveform test, not its conclusion.
 
+[Back to index — lesson 78](#index-lesson-078)
+
+<a id="lesson-079"></a>
+
 ### Video 79 - Verifying read operation, part 1
+
+[Back to index — lesson 79](#index-lesson-079)
 
 ![Original full-frame read-only testbench stimulus and expected-data setup](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/079-verifying-operation-p1-25.png)
 
@@ -473,7 +692,13 @@ the same edge as reset release must obey the synchronous reset convention used
 by the DUT; otherwise the testbench may create a race that the protocol does
 not define.
 
+[Back to index — lesson 79](#index-lesson-079)
+
+<a id="lesson-080"></a>
+
 ### Video 80 - Verifying read operation, part 2
+
+[Back to index — lesson 80](#index-lesson-080)
 
 ![Original full-frame Vivado waveform of repeated AXI4-Lite reads](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/080-verifying-operation-p2-25.png)
 
@@ -487,14 +712,30 @@ Introduce an `RREADY` stall mentally while reading the second frame: the
 Subordinate's data and response must freeze, and the Manager must not declare
 completion until the eventual handshake.
 
+[Back to index — lesson 80](#index-lesson-080)
+
+<a id="lesson-081"></a>
+
 ### Lesson 81 - Read-path code resource
+
+[Back to index — lesson 81](#index-lesson-081)
 
 The resource contains the paired read-only Manager, Subordinate, connection,
 and testbench material. Inline comments identify the one-outstanding rule,
 local command assumptions, address-decode behavior, and the disposition of
 `RRESP`.
 
+[Back to index — lesson 81](#index-lesson-081)
+
+<a id="lesson-082"></a>
+
+<a id="lesson-083"></a>
+
+<a id="lesson-084"></a>
+
 ### Videos 82-84 - Protocol checker on the read path
+
+[Back to index — lesson 82](#index-lesson-082) | [Back to index — lesson 83](#index-lesson-083) | [Back to index — lesson 84](#index-lesson-084)
 
 ![Original full-frame checker-connected read-path source for lesson 82](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/082-adding-axi-protocol-checker-p1-25.png)
 
@@ -515,6 +756,8 @@ Lesson 84 is the proof surface. A passing run requires both correct returned
 data and no protocol violation. The most valuable directed tests delay
 `ARREADY` and `RREADY`, because those stalls expose request-payload and
 result-payload stability errors.
+
+[Back to index — lesson 82](#index-lesson-082) | [Back to index — lesson 83](#index-lesson-083) | [Back to index — lesson 84](#index-lesson-084)
 
 ## Section 5 assumptions and boundaries
 

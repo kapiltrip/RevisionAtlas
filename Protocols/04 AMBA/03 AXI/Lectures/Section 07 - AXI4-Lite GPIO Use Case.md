@@ -10,6 +10,18 @@ reads return GPIO or status information. The address channel chooses a
 register, `WSTRB` chooses bytes inside that register, and the peripheral logic
 connects those stored bits to pins.
 
+## Lesson index
+
+| Lesson | Topic | Notebook pages |
+|---:|---|---|
+| <a id="index-lesson-094"></a>[94](#lesson-094) | Section 7 agenda | — |
+| <a id="index-lesson-095"></a>[95](#lesson-095) | Generating register data from `WDATA` and `WSTRB` | <a id="index-page-44"></a>[44](#page-44) |
+| <a id="index-lesson-096"></a>[96](#lesson-096) | Debouncing the GPIO input | <a id="index-page-45"></a>[45](#page-45) |
+| <a id="index-lesson-097"></a>[97](#lesson-097) | GPIO write FSM | <a id="index-page-46"></a>[46](#page-46), <a id="index-page-47"></a>[47](#page-47) |
+| <a id="index-lesson-098"></a>[98](#lesson-098) | GPIO read FSM | — |
+| <a id="index-lesson-099"></a>[99](#lesson-099) | Testing GPIO operation | — |
+| <a id="index-lesson-100"></a>[100](#lesson-100) | GPIO code resource | — |
+
 ## Formal standard explanation
 
 AXI4-Lite transports a register request but does not define the register's
@@ -31,7 +43,11 @@ AXI handshake states.
 
 ## Lessons 94-100
 
+<a id="lesson-094"></a>
+
 ### Video 94 - Section 7 agenda
+
+[Back to index — lesson 94](#index-lesson-094)
 
 ![Original full-frame Section 7 agenda](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/094-agenda-50.png)
 
@@ -40,7 +56,13 @@ engineering problems: protocol termination, register-file semantics, and safe
 external-pin handling. Keeping those layers separate makes the design easier
 to verify.
 
+[Back to index — lesson 94](#index-lesson-094)
+
+<a id="lesson-095"></a>
+
 ### Video 95 - Generating register data from `WDATA` and `WSTRB`
+
+[Back to index — lesson 95](#index-lesson-095)
 
 ![Original full-frame GPIO register map, byte lanes, and AXI4-Lite write waveform](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/095-building-axi-lite-gpio-ip-p1-generating-data-from-wdata-and-wstrb-25.png)
 
@@ -63,7 +85,11 @@ accepted target address. A low strobe preserves the old byte; it does not write
 zero. Address decode and strobe merge therefore belong to the same committed
 write operation, even if AW and W arrived on different cycles.
 
+<a id="page-44"></a>
+
 #### Handwritten page 44 - GPIO registers and byte strobes
+
+[Back to index — notebook page 44](#index-page-44)
 
 ![Handwritten AXI notes: GPIO registers and byte strobes](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/44-axi-lite-gpio-registers-and-byte-strobes.jpg)
 
@@ -71,7 +97,15 @@ write operation, even if AW and W arrived on different cycles.
 update. Partial writes therefore require per-byte write enables rather than
 replacing all 32 bits whenever any strobe is asserted.
 
+[Back to index — lesson 95](#index-lesson-095)
+
+[Back to index — notebook page 44](#index-page-44)
+
+<a id="lesson-096"></a>
+
 ### Video 96 - Debouncing the GPIO input
+
+[Back to index — lesson 96](#index-lesson-096)
 
 ![Original full-frame debounce counter RTL and switch-bounce diagram](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/096-building-axi-lite-gpio-ip-p2-debouncing-25.png)
 
@@ -89,7 +123,11 @@ code demonstrates the debounce decision and its chosen count width. Its inline
 comments identify the assumed clock rate, debounce interval, initial level,
 and whether synchronization is outside the lesson block.
 
+<a id="page-45"></a>
+
 #### Handwritten page 45 - GPIO button debouncing
+
+[Back to index — notebook page 45](#index-page-45)
 
 ![Handwritten AXI notes: GPIO button debouncing](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/45-gpio-button-debouncing.jpg)
 
@@ -98,7 +136,15 @@ transitions. Because the external switch is asynchronous to `ACLK`,
 synchronization must precede the debounce filter so metastability is not treated
 as an ordinary bounce sample.
 
+[Back to index — lesson 96](#index-lesson-096)
+
+[Back to index — notebook page 45](#index-page-45)
+
+<a id="lesson-097"></a>
+
 ### Video 97 - GPIO write FSM
+
+[Back to index — lesson 97](#index-lesson-097)
 
 ![Original full-frame GPIO write FSM beside the first write-channel RTL](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/097-building-axi-lite-gpio-ip-p3-write-fsm-25.png)
 
@@ -117,7 +163,11 @@ the paired teaching code documents the response used for that case.
 make the register update visible while potentially losing the response—the
 software-visible operation would no longer have a reliable completion.
 
+<a id="page-46"></a>
+
 #### Handwritten page 46 - GPIO read/write flowchart
+
+[Back to index — notebook page 46](#index-page-46)
 
 ![Handwritten AXI notes: GPIO read/write flowchart](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/46-gpio-read-write-flowchart.jpg)
 
@@ -126,7 +176,13 @@ response or read data. It should accept `AW` and `W` independently rather than
 requiring both `VALID` signals in the same cycle, while still allowing only the
 intended number of outstanding commands.
 
+[Back to index — notebook page 46](#index-page-46)
+
+<a id="page-47"></a>
+
 #### Handwritten page 47 - GPIO Subordinate write FSM
+
+[Back to index — notebook page 47](#index-page-47)
 
 ![Handwritten AXI notes: GPIO Subordinate write FSM](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/47-gpio-subordinate-write-fsm.jpg)
 
@@ -135,7 +191,15 @@ data before updating the register. `AWREADY` and `WREADY` may be controlled
 separately, provided an accepted item is stored until the transaction can
 finish.
 
+[Back to index — lesson 97](#index-lesson-097)
+
+[Back to index — notebook page 47](#index-page-47)
+
+<a id="lesson-098"></a>
+
 ### Video 98 - GPIO read FSM
+
+[Back to index — lesson 98](#index-lesson-098)
 
 ![Original full-frame GPIO read FSM and address-decode RTL](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/098-building-axi-lite-gpio-ip-p4-read-fsm-25.png)
 
@@ -150,7 +214,13 @@ pin while stalled. The result must be captured or otherwise guaranteed stable
 until `r_fire`. This is the boundary between a live pin and an AXI response
 payload.
 
+[Back to index — lesson 98](#index-lesson-098)
+
+<a id="lesson-099"></a>
+
 ### Video 99 - Testing GPIO operation
+
+[Back to index — lesson 99](#index-lesson-099)
 
 ![Original full-frame GPIO testbench stimulus and expected register values](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/099-building-axi-lite-gpio-ip-p4-testing-operation-25.png)
 
@@ -172,7 +242,13 @@ The debounce test also needs a pulse shorter than the threshold and a stable
 level longer than the threshold. Otherwise the waveform only proves direct
 sampling, not debouncing.
 
+[Back to index — lesson 99](#index-lesson-099)
+
+<a id="lesson-100"></a>
+
 ### Lesson 100 - GPIO code resource
+
+[Back to index — lesson 100](#index-lesson-100)
 
 The Section 7 code folder preserves the instructor's AXI4-Lite GPIO module and
 testbench. Its comments state the address map, data width, byte-lane mapping,
@@ -180,6 +256,8 @@ clock/debounce assumptions, GPIO synchronization boundary, unsupported-address
 behavior, response handling, and one-outstanding capacity. These comments make
 the exact classroom implementation safe to revise without replacing it with a
 different architecture.
+
+[Back to index — lesson 100](#index-lesson-100)
 
 ## Peripheral-design checkpoints
 

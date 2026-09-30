@@ -34,15 +34,21 @@ protocol
 
 | Notebook page | Main idea | Related capture |
 |---:|---|---|
-| 19 | APB overview and AHB-to-APB bridge | Bridge role |
-| 20 | Core APB interface signals | Transfer phases |
-| 21 | SETUP/ACCESS and write transfer | Write, no wait |
-| 22 | Wait states and stability | Write, with waits |
-| 23 | Read timing and `PSLVERR` | Read wait/error |
-| 24 | Write wait states and controller FSM | State diagram |
+| <a id="index-page-19"></a>[19](#page-19) | APB overview and AHB-to-APB bridge | Bridge role |
+| <a id="index-page-20"></a>[20](#page-20) | Core APB interface signals | Transfer phases |
+| <a id="index-page-21"></a>[21](#page-21) | SETUP/ACCESS and write transfer | Write, no wait |
+| <a id="index-page-22"></a>[22](#page-22) | Wait states and stability | Write, with waits |
+| <a id="index-page-23"></a>[23](#page-23) | Read timing and `PSLVERR` | Read wait/error |
+| <a id="index-page-24"></a>[24](#page-24) | Write wait states and controller FSM | State diagram |
 
 The separate iPad APB page revisits the waited-write case after the notebook
 sequence.
+
+## iPad page index
+
+| Page | Revision focus |
+|---:|---|
+| <a id="index-ipad-page-01"></a>[1](#ipad-page-01) | annotated waited write |
 
 ## 1. Why APB exists
 
@@ -74,7 +80,11 @@ buffer. For a read it additionally captures `PRDATA`; for an error it maps
 `PSLVERR` into the upstream protocol's response
 ([Arm IHI 0024E, §§1.1 and 3.4.3](../../../../_internal/Protocols/04%20AMBA/02%20APB/sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf)).
 
+<a id="page-19"></a>
+
 ### Original notebook page 19: overview and bridge
+
+[Back to index — notebook page 19](#index-page-19)
 
 ![Original handwritten APB overview and bridge page](../../../../_internal/Protocols/04%20AMBA/02%20APB/handwritten/images/01-apb-overview-and-bridge.jpg)
 
@@ -106,9 +116,15 @@ extra SETUP cycle costs little compared with the area and verification savings
 of a predictable interface. The serial bit timing of the UART is unrelated to
 the APB transfer; APB only accesses the UART's memory-mapped registers.
 
+[Back to index — notebook page 19](#index-page-19)
+
 ## 2. The phase contract
 
+<a id="page-20"></a>
+
 ### Original notebook page 20: signals as one transaction
+
+[Back to index — notebook page 20](#index-page-20)
 
 ![Original handwritten APB interface signals](../../../../_internal/Protocols/04%20AMBA/02%20APB/handwritten/images/02-apb-interface-signals.jpg)
 
@@ -149,6 +165,8 @@ Read the phase values as a state table rather than independent enables:
 | SETUP | `1` | `0` | No; the mandatory first cycle is being presented |
 | ACCESS | `1` | `1` | Yes, if `PREADY=1` at the rising edge |
 
+[Back to index — notebook page 20](#index-page-20)
+
 ### Lecture frame: write with no wait state
 
 ![Lecture waveform for an APB write without wait states](../../../../_internal/Protocols/04%20AMBA/02%20APB/images/lecture/apb-write-no-wait.png)
@@ -177,7 +195,11 @@ peripheral can tie `PREADY` HIGH yet still takes the mandatory two-cycle
 sequence
 ([Arm IHI 0024E, §3.1.1](../../../../_internal/Protocols/04%20AMBA/02%20APB/sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf)).
 
+<a id="page-21"></a>
+
 ### Original notebook page 21: SETUP then ACCESS
+
+[Back to index — notebook page 21](#index-page-21)
 
 ![Original handwritten APB transfer phases](../../../../_internal/Protocols/04%20AMBA/02%20APB/handwritten/images/03-apb-transfer-phases.jpg)
 
@@ -208,6 +230,8 @@ A has completed. For a different peripheral, the requester also changes which
 `PSELx` is asserted during the new SETUP
 ([Arm IHI 0024E, §§3.1.1 and 4.1](../../../../_internal/Protocols/04%20AMBA/02%20APB/sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf)).
 
+[Back to index — notebook page 21](#index-page-21)
+
 ## 3. Wait states mean “hold ACCESS”
 
 ### Lecture frame: write with wait states
@@ -235,7 +259,11 @@ HIGH in IDLE or SETUP is not promising early completion. Only the combination
 of selected ACCESS plus ready has protocol meaning
 ([Arm IHI 0024E, §3.1.2](../../../../_internal/Protocols/04%20AMBA/02%20APB/sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf)).
 
+<a id="page-22"></a>
+
 ### Original notebook page 22: stability through waits
+
+[Back to index — notebook page 22](#index-page-22)
 
 ![Original handwritten APB wait-state page](../../../../_internal/Protocols/04%20AMBA/02%20APB/handwritten/images/04-apb-wait-states-and-stability.jpg)
 
@@ -266,7 +294,13 @@ does not need to predict the count: it remains in ACCESS while `PREADY=0` and
 exits on the first rising edge with `PREADY=1`. A timeout, if a system chooses
 to add one, is an external design policy and not part of the APB handshake.
 
+[Back to index — notebook page 22](#index-page-22)
+
+<a id="ipad-page-01"></a>
+
 ### iPad page: annotated waited write
+
+[Back to index — iPad page 1](#index-ipad-page-01)
 
 ![Annotated iPad page for an APB write wait state](../../../../_internal/Protocols/04%20AMBA/02%20APB/handwritten/images/ipad-01-apb-write-wait-state.jpg)
 
@@ -293,6 +327,8 @@ The word “sample” should be assigned to the right side. The completer accept
 `PSLVERR` on that edge. Both are observing the same completion event from
 opposite sides of the interface
 ([Arm IHI 0024E, §§3.1.2 and 3.4](../../../../_internal/Protocols/04%20AMBA/02%20APB/sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf)).
+
+[Back to index — iPad page 1](#index-ipad-page-01)
 
 ## 4. Read timing
 
@@ -336,7 +372,11 @@ The request must stay stable so its identity cannot change. The response may
 settle until the completer declares it ready. Verification should check stable
 request fields during waits and sample response fields only at completion.
 
+<a id="page-23"></a>
+
 ### Original notebook page 23: read completion and error context
+
+[Back to index — notebook page 23](#index-page-23)
 
 ![Original handwritten APB read, wait, and error page](../../../../_internal/Protocols/04%20AMBA/02%20APB/handwritten/images/05-apb-read-wait-and-errors.jpg)
 
@@ -364,6 +404,8 @@ unsafe data; robust system logic treats error status and data together
 This distinction is important: `PREADY=1` means the protocol operation is over,
 while `PSLVERR=1` says it ended unsuccessfully. Completion and success are two
 different properties of the same final edge.
+
+[Back to index — notebook page 23](#index-page-23)
 
 ## 5. Error timing
 
@@ -437,7 +479,11 @@ because only the peripheral knows how many wait cycles it needs. This state
 structure is the official behavior, not merely one possible lecture coding
 style ([Arm IHI 0024E, §4.1](../../../../_internal/Protocols/04%20AMBA/02%20APB/sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf)).
 
+<a id="page-24"></a>
+
 ### Original notebook page 24: waited write and FSM draft
+
+[Back to index — notebook page 24](#index-page-24)
 
 ![Original handwritten APB write wait-state and FSM page](../../../../_internal/Protocols/04%20AMBA/02%20APB/handwritten/images/06-apb-write-wait-and-fsm.jpg)
 
@@ -481,6 +527,8 @@ capture_error   = complete && PSLVERR
 
 These enables qualify updates with accepted protocol events and prevent counters or result registers from updating repeatedly during waits
 ([Arm IHI 0024E, §4.1](../../../../_internal/Protocols/04%20AMBA/02%20APB/sources/ARM-IHI-0024E-AMBA-APB-Protocol-Specification.pdf)).
+
+[Back to index — notebook page 24](#index-page-24)
 
 ## AHB versus APB after reading both notebooks
 

@@ -1,5 +1,7 @@
 # 02 - AMBA APB
 
+[Quick revision](#quick-revision) | [Related topics](#related-topics)
+
 [Back to AMBA](../README.md) | [Back to Protocols](../../README.md)
 
 APB, the Advanced Peripheral Bus, is the AMBA interface for simple,
@@ -73,3 +75,26 @@ extensions but are not required to understand the captured waveforms.
 4. What phase must occur between two back-to-back accesses?
 5. Why is `PENABLE` better understood as a phase indicator than as a
    data/address separator?
+
+## Quick revision
+
+**Key relations.** $`complete=PSEL\land PENABLE\land PREADY`$.
+
+**Common mistakes.** Completion is sampled on a rising PCLK edge in ACCESS. SETUP precedes ACCESS even when PREADY is high. During waits, keep the active request stable. Interpret PSLVERR at completion rather than treating it as a continuously meaningful error.
+
+**Closed-book questions**
+
+1. Why does every transfer need SETUP and ACCESS?
+2. Which signals hold during a waited ACCESS?
+3. At which edge does a read return data?
+4. When is PSLVERR meaningful?
+5. How do adjacent transfers differ from AHB pipelining?
+
+**Full explanations:** [Phase contract](#the-central-timing-rule) · [Completion timing](#read-and-write-at-the-completion-edge) · [Notebook index](handwritten/README.md#source-page-map).
+
+## Related topics
+
+- [AHB-to-APB hierarchy](../01%20AHB/handwritten/README.md#page-02)
+- [AXI4-Lite register access](../03%20AXI/Lectures/Section%2007%20-%20AXI4-Lite%20GPIO%20Use%20Case.md#lesson-095)
+
+[Back to quick revision](#quick-revision)

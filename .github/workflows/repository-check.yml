@@ -1,0 +1,25 @@
+name: Repository navigation
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - name: Test the checker
+        run: python -m unittest discover -s _internal/repository/tools -p "test_*.py"
+      - name: Check links, assets, navigation, and dictionary
+        run: python _internal/repository/tools/check_repository.py

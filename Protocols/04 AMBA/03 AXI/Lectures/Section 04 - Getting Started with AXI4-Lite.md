@@ -8,6 +8,21 @@ The section first separates transaction, burst, beat, and channel-transfer
 language. It then walks all five memory-mapped channels, the four response
 encodings, and the final AXI4-Lite signal set. AXI3/full-AXI fields that are absent from AXI4-Lite are excluded from its signal set.
 
+## Lesson index
+
+| Lesson | Topic | Notebook pages |
+|---:|---|---|
+| <a id="index-lesson-045"></a>[45](#lesson-045) | Section 4 agenda | — |
+| <a id="index-lesson-046"></a>[46](#lesson-046) | Transaction versus beat versus transfer | <a id="index-page-25"></a>[25](#page-25) |
+| <a id="index-lesson-047"></a>[47](#lesson-047) | Understanding the write address channel | <a id="index-page-26"></a>[26](#page-26), <a id="index-page-27"></a>[27](#page-27) |
+| <a id="index-lesson-048"></a>[48](#lesson-048) | Understanding channel IDs | — |
+| <a id="index-lesson-049"></a>[49](#lesson-049) | Understanding the write data channel | <a id="index-page-28"></a>[28](#page-28) |
+| <a id="index-lesson-050"></a>[50](#lesson-050) | Understanding the write response channel | — |
+| <a id="index-lesson-051"></a>[51](#lesson-051) | The four response encodings | <a id="index-page-29"></a>[29](#page-29) |
+| <a id="index-lesson-052"></a>[52](#lesson-052) | Read address and read data channels, part 1 | <a id="index-page-30"></a>[30](#page-30) |
+| <a id="index-lesson-053"></a>[53](#lesson-053) | Read address and read data channels, part 2 | — |
+| <a id="index-lesson-054"></a>[54](#lesson-054) | The complete AXI4-Lite signal set | <a id="index-page-31"></a>[31](#page-31) |
+
 ## Formal standard explanation
 
 The course section is named AXI Lite, but several frames in lessons 46-49 show
@@ -47,7 +62,11 @@ That distinction prevents a common exam and RTL error: do not add `AWLEN`,
 `AWBURST`, `AWID`, `WID`, or `WLAST` to a block merely because its interface is
 called AXI4-Lite.
 
+<a id="lesson-045"></a>
+
 ### Video 45 - Section 4 agenda
+
+[Back to index — lesson 45](#index-lesson-045)
 
 ![Full-screen Section 4 agenda for beat, transfer, transaction, channels, signals, and AXI-Lite](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/45-axi-lite-agenda-50.png)
 
@@ -57,7 +76,13 @@ on each channel; finally remove the full-AXI features that AXI4-Lite does not
 need. The section therefore begins with full-AXI examples as scaffolding before
 arriving at the Lite subset.
 
+[Back to index — lesson 45](#index-lesson-045)
+
+<a id="lesson-046"></a>
+
 ### Video 46 - Transaction versus beat versus transfer
+
+[Back to index — lesson 46](#index-lesson-046)
 
 ![Full-screen handwritten transaction and multi-beat transfer model above a read-burst waveform](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/46-transaction-beat-transfer-20.png)
 
@@ -92,7 +117,11 @@ beat and its `RRESP`/`RLAST` values must stay unchanged.
 AXI4-Lite removes `ARLEN`, `ARSIZE`, `ARBURST`, and `RLAST`. A Lite read has one
 address transfer and exactly one read-data transfer.
 
+<a id="page-25"></a>
+
 #### Handwritten page 25 - Transaction, beat, transfer, and write address
+
+[Back to index — notebook page 25](#index-page-25)
 
 ![Handwritten AXI notes: Transaction, beat, transfer, and write address](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/25-axi-transaction-beat-and-write-address.jpg)
 
@@ -101,7 +130,15 @@ response; a beat is one data-channel transfer. Bytes are lanes within a beat,
 not separate AXI transactions, and the write-address channel carries the control
 for the data sequence.
 
+[Back to index — lesson 46](#index-lesson-046)
+
+[Back to index — notebook page 25](#index-page-25)
+
+<a id="lesson-047"></a>
+
 ### Video 47 - Understanding the write address channel
+
+[Back to index — lesson 47](#index-lesson-047)
 
 ![Full-screen write-address waveform annotated with address, size, burst, length, ID, and encoding tables](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/47-write-address-channel-85.png)
 
@@ -138,7 +175,11 @@ For AXI4-Lite, retain `AWADDR`, `AWPROT`, `AWVALID`, and `AWREADY`. The burst an
 ID fields shown in the frame are absent because a Lite write has one fixed-width
 data beat and ordered responses.
 
+<a id="page-26"></a>
+
 #### Handwritten page 26 - Write-address burst attributes
+
+[Back to index — notebook page 26](#index-page-26)
 
 ![Handwritten AXI notes: Write-address burst attributes](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/26-axi-write-address-burst-attributes.jpg)
 
@@ -146,7 +187,13 @@ data beat and ordered responses.
 number of beats. Burst type, length, and ID are AXI4 features; AXI4-Lite removes
 bursts and transaction IDs.
 
+[Back to index — notebook page 26](#index-page-26)
+
+<a id="page-27"></a>
+
 #### Handwritten page 27 - Single-beat pipelining and read addressing
+
+[Back to index — notebook page 27](#index-page-27)
 
 ![Handwritten AXI notes: Single-beat pipelining and read addressing](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/27-single-beat-pipelining-and-read-address.jpg)
 
@@ -154,7 +201,15 @@ bursts and transaction IDs.
 buffering, not the channel handshake rules, which remain independent in both
 implementation styles.
 
+[Back to index — lesson 47](#index-lesson-047)
+
+[Back to index — notebook page 27](#index-page-27)
+
+<a id="lesson-048"></a>
+
 ### Video 48 - Understanding channel IDs
+
+[Back to index — lesson 48](#index-lesson-048)
 
 ![Full-screen comparison of non-pipelined and pipelined single-beat request/response timing](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/48-channel-ids-20.png)
 
@@ -181,7 +236,13 @@ Three boundaries matter:
 Pipelining is not the same as a burst. A burst sends multiple beats under one
 address request; pipelining keeps multiple distinct transactions outstanding.
 
+[Back to index — lesson 48](#index-lesson-048)
+
+<a id="lesson-049"></a>
+
 ### Video 49 - Understanding the write data channel
+
+[Back to index — lesson 49](#index-lesson-049)
 
 ![Full-screen write-data waveform with WVALID, WREADY, WDATA, WSTRB, WID, WLAST, byte lanes, and channel directions](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/49-write-data-channel-35.png)
 
@@ -284,7 +345,11 @@ W followed by AW, or both handshakes on the same edge. A design that commits
 only when `aw_fire && w_fire` is true in one cycle will lose or deadlock legal
 transactions whose two channels arrive separately.
 
+<a id="page-28"></a>
+
 #### Handwritten page 28 - Write data, byte strobes, IDs, and last
+
+[Back to index — notebook page 28](#index-page-28)
 
 ![Handwritten AXI notes: Write data, byte strobes, IDs, and last](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/28-write-data-byte-strobes-ids-and-last.jpg)
 
@@ -292,7 +357,15 @@ transactions whose two channels arrive separately.
 rather than AXI4, while `WLAST` belongs to burst-capable AXI4; AXI4-Lite has
 neither IDs nor a last marker because every transaction is single beat.
 
+[Back to index — lesson 49](#index-lesson-049)
+
+[Back to index — notebook page 28](#index-page-28)
+
+<a id="lesson-050"></a>
+
 ### Video 50 - Understanding the write response channel
+
+[Back to index — lesson 50](#index-lesson-050)
 
 ![Original full-frame write response waveform and master/slave channel directions](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/050-understanding-write-response-channel-25.png)
 
@@ -321,7 +394,13 @@ The B channel has no data payload. It reports the status of the completed write
 and, in full AXI, can return `BID`. AXI4-Lite has no IDs, so it contains only
 `BRESP`, `BVALID`, and `BREADY`.
 
+[Back to index — lesson 50](#index-lesson-050)
+
+<a id="lesson-051"></a>
+
 ### Video 51 - The four response encodings
+
+[Back to index — lesson 51](#index-lesson-051)
 
 ![Original full-frame AXI response-code table, special-operation notes, and interface diagram](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/051-different-types-of-response-25.png)
 
@@ -346,14 +425,26 @@ The response must describe the exact accepted operation. A slave cannot change
 scoreboard should sample the response only on the relevant response-channel
 handshake.
 
+<a id="page-29"></a>
+
 #### Handwritten page 29 - Write responses and channel directions
+
+[Back to index — notebook page 29](#index-page-29)
 
 ![Handwritten AXI notes: Write responses and channel directions](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/29-write-response-codes-and-channel-directions.jpg)
 
 **Explanation:** The two-bit response encoding reports transaction status; each of the five channels has a defined direction and signal owner. The Subordinate owns `BVALID` and `BRESP`; the Manager owns
 `BREADY`, and their handshake retires the write response.
 
+[Back to index — lesson 51](#index-lesson-051)
+
+[Back to index — notebook page 29](#index-page-29)
+
+<a id="lesson-052"></a>
+
 ### Video 52 - Read address and read data channels, part 1
+
+[Back to index — lesson 52](#index-lesson-052)
 
 ![Original full-frame read-address and read-data waveforms beside the AXI master/slave diagram](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/052-understanding-read-address-and-data-channel-p1-25.png)
 
@@ -379,7 +470,11 @@ decodes it. The read-data source must then assert `RVALID` when `RDATA` and
 `RVALID`. If the Manager stalls, `RDATA`, `RRESP`, and any associated ID/last
 information remain stable until `r_fire`.
 
+<a id="page-30"></a>
+
 #### Handwritten page 30 - Read channels and memory-mapped signals
+
+[Back to index — notebook page 30](#index-page-30)
 
 ![Handwritten AXI notes: Read channels and memory-mapped signals](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/30-read-channels-and-memory-mapped-signal-set.jpg)
 
@@ -387,7 +482,15 @@ information remain stable until `r_fire`.
 read data and response return on the `R` channel. IDs, burst length, size, type,
 and `RLAST` apply to full AXI; the Lite boundary removes them.
 
+[Back to index — lesson 52](#index-lesson-052)
+
+[Back to index — notebook page 30](#index-page-30)
+
+<a id="lesson-053"></a>
+
 ### Video 53 - Read address and read data channels, part 2
+
+[Back to index — lesson 53](#index-lesson-053)
 
 ![Original full-frame completed AXI read waveform with request, data, response, ID, and last-beat timing](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/053-understanding-read-address-and-data-channel-p2-75.png)
 
@@ -408,7 +511,13 @@ corresponds to one R handshake. Because Lite has no IDs, a one-outstanding
 master is the natural teaching model; a more capable implementation can queue
 requests, but responses still obey the ordered Lite model.
 
+[Back to index — lesson 53](#index-lesson-053)
+
+<a id="lesson-054"></a>
+
 ### Video 54 - The complete AXI4-Lite signal set
+
+[Back to index — lesson 54](#index-lesson-054)
 
 ![Original full-frame five-channel AXI4-Lite waveform and complete signal-direction reference](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/054-axi-lite-signals-75.png)
 
@@ -433,7 +542,11 @@ type, ID, or last-beat ports. If those names appear in a supposed Lite module,
 recheck whether the module is really full AXI or whether unnecessary signals
 were copied from a template.
 
+<a id="page-31"></a>
+
 #### Handwritten page 31 - AXI4-Lite signal set and implementation configurations
+
+[Back to index — notebook page 31](#index-page-31)
 
 ![Handwritten AXI notes: AXI4-Lite signal set and implementation configurations](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/31-axi-lite-signal-set-and-configurations.jpg)
 
@@ -441,6 +554,10 @@ were copied from a template.
 and lists common implementation profiles. A read-only or write-only endpoint may
 omit unused channels, but every retained channel still follows the same
 `VALID`/`READY` contract.
+
+[Back to index — lesson 54](#index-lesson-054)
+
+[Back to index — notebook page 31](#index-page-31)
 
 ## Section 4 points to remember
 

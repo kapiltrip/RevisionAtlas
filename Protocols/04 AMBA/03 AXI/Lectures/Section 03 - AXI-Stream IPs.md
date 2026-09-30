@@ -9,6 +9,27 @@ AXI-Stream arbiter and then to a FIFO that decouples producer and consumer
 timing. Lessons 33, 38, 42, and 44 are code resources kept beside the videos
 that establish their behavior.
 
+## Lesson index
+
+| Lesson | Topic | Notebook pages |
+|---:|---|---|
+| <a id="index-lesson-029"></a>[29](#lesson-029) | Section 3 agenda | — |
+| <a id="index-lesson-030"></a>[30](#lesson-030) | Round-robin arbiter part 1 | — |
+| <a id="index-lesson-031"></a>[31](#lesson-031) | Round-robin arbiter part 2 | <a id="index-page-17"></a>[17](#page-17) |
+| <a id="index-lesson-032"></a>[32](#lesson-032) | Round-robin arbiter part 3 | — |
+| <a id="index-lesson-033"></a>[33](#lesson-033) | Round-robin code resource | — |
+| <a id="index-lesson-034"></a>[34](#lesson-034) | Implementing AXIS arbiter part 1 | <a id="index-page-18"></a>[18](#page-18) |
+| <a id="index-lesson-035"></a>[35](#lesson-035) | Implementing AXIS arbiter part 2 | <a id="index-page-19"></a>[19](#page-19), <a id="index-page-20"></a>[20](#page-20) |
+| <a id="index-lesson-036"></a>[36](#lesson-036) | Implementing AXIS arbiter part 3 | — |
+| <a id="index-lesson-037"></a>[37](#lesson-037) | Verifying the AXI-Stream arbiter | — |
+| <a id="index-lesson-038"></a>[38](#lesson-038) | AXI-Stream arbiter code resource | — |
+| <a id="index-lesson-039"></a>[39](#lesson-039) | Implementing AXI-Stream FIFO part 1 | <a id="index-page-21"></a>[21](#page-21) |
+| <a id="index-lesson-040"></a>[40](#lesson-040) | Implementing AXI-Stream FIFO part 2 | <a id="index-page-22"></a>[22](#page-22), <a id="index-page-23"></a>[23](#page-23), <a id="index-page-24"></a>[24](#page-24) |
+| <a id="index-lesson-041"></a>[41](#lesson-041) | FIFO RTL continuation and verification | — |
+| <a id="index-lesson-042"></a>[42](#lesson-042) | FIFO code resource | — |
+| <a id="index-lesson-043"></a>[43](#lesson-043) | AXI-Stream FIFO alternate implementation | — |
+| <a id="index-lesson-044"></a>[44](#lesson-044) | Alternate FIFO code resource | — |
+
 ## Formal standard explanation
 
 An AXI-Stream arbiter or FIFO is protocol-correct only if the stream observed
@@ -33,7 +54,11 @@ describe.
 
 ## Lessons 29-44
 
+<a id="lesson-029"></a>
+
 ### Video 29 - Section 3 agenda
+
+[Back to index — lesson 29](#index-lesson-029)
 
 ![Fullscreen Section 3 agenda: round-robin arbiter, AXIS arbiter, and AXIS FIFO](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/29-section3-agenda-18.png)
 
@@ -51,7 +76,13 @@ arbitration among flows. At this agenda point the implementation is still only
 a roadmap; the later lesson entries derive the AXIS datapath and FIFO behavior
 from their actual frames.
 
+[Back to index — lesson 29](#index-lesson-029)
+
+<a id="lesson-030"></a>
+
 ### Video 30 - Round-robin arbiter part 1
+
+[Back to index — lesson 30](#index-lesson-030)
 
 ![Fullscreen two-request timing example and round-robin decision flow](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/30-round-robin-p1-concept-fullscreen.png)
 
@@ -91,7 +122,13 @@ claim assumes one grant cycle completes one unit of service. If an operation
 takes several cycles, the arbiter needs an explicit `done`, `accept`, or
 handshake event and must rotate only when service actually completes.
 
+[Back to index — lesson 30](#index-lesson-030)
+
+<a id="lesson-031"></a>
+
 ### Video 31 - Round-robin arbiter part 2
+
+[Back to index — lesson 31](#index-lesson-031)
 
 ![Fullscreen next-state RTL beside the round-robin flowchart](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/31-round-robin-p2-fullscreen.png)
 
@@ -144,13 +181,19 @@ both grants in every state, so the shown RTL does not infer latches. In `s1`,
 the output decoder sets `gnt1=1`; any spoken phrase suggesting grant 1 becomes
 zero in `s1` is simply a narration slip—the code and state meaning are clear.
 
+<a id="page-17"></a>
+
 #### Handwritten page 17 - Round-robin priority rotation
+
+[Back to index — notebook page 17](#index-page-17)
 
 ![Handwritten AXI notes: Round-robin priority rotation](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/17-round-robin-priority-rotation.jpg)
 
 **Explanation:** The highlighted branch order is functional hardware priority.
 After requester 1 is served in `s1`, checking `req2` first prevents a persistent
 requester 1 from starving requester 2; `s2` applies the symmetric rule.
+
+[Back to index — notebook page 17](#index-page-17)
 
 #### Earlier handwritten question - Round-robin fairness
 
@@ -161,7 +204,13 @@ State `s1` already grants requester 1, so requester 2 must receive the next
 tie-break. Reversing the branch order would let a persistent `req1` keep the FSM
 in `s1` and starve requester 2.
 
+[Back to index — lesson 31](#index-lesson-031)
+
+<a id="lesson-032"></a>
+
 ### Video 32 - Round-robin arbiter part 3
+
+[Back to index — lesson 32](#index-lesson-032)
 
 ![Fullscreen round-robin testbench stimulus sequence](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/32-round-robin-p3-testbench-fullscreen.png)
 
@@ -198,7 +247,13 @@ The second property is specific to persistent simultaneous requests: if
 requester 1 is granted while both remain asserted, requester 2 must be granted
 on the next cycle.
 
+[Back to index — lesson 32](#index-lesson-032)
+
+<a id="lesson-033"></a>
+
 ### Lesson 33 - Round-robin code resource
+
+[Back to index — lesson 33](#index-lesson-033)
 
 The course design listing, with whitespace normalized, is:
 
@@ -346,7 +401,13 @@ to the selected source, preserve a stalled selected beat, and define whether a
 grant is held for one beat or until accepted `TLAST`. Those implementation
 details are the subject of lessons 34-44 below.
 
+[Back to index — lesson 33](#index-lesson-033)
+
+<a id="lesson-034"></a>
+
 ### Video 34 - Implementing AXIS arbiter part 1
+
+[Back to index — lesson 34](#index-lesson-034)
 
 ![Full-screen AXI-Stream arbiter architecture, input packets, output packet, and interface ports](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/34-axis-arbiter-p1-overview-fullscreen.jpg)
 
@@ -382,7 +443,11 @@ $$
 Checking `TLAST` without the other two terms is insufficient because a final
 beat can remain stalled for many cycles.
 
+<a id="page-18"></a>
+
 #### Handwritten page 18 - AXI-Stream arbiter interfaces and states
+
+[Back to index — notebook page 18](#index-page-18)
 
 ![Handwritten AXI notes: AXI-Stream arbiter interfaces and states](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/18-axis-arbiter-interface-and-states.jpg)
 
@@ -390,7 +455,15 @@ beat can remain stalled for many cycles.
 state per selected source. State is packet ownership: the arbiter must route
 payload, `TVALID`, `TLAST`, and the corresponding return `TREADY` consistently.
 
+[Back to index — lesson 34](#index-lesson-034)
+
+[Back to index — notebook page 18](#index-page-18)
+
+<a id="lesson-035"></a>
+
 ### Video 35 - Implementing AXIS arbiter part 2
+
+[Back to index — lesson 35](#index-lesson-035)
 
 ![Full-screen request timing and three-state packet-arbiter flowchart](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/35-axis-arbiter-p2-25.png)
 
@@ -426,7 +499,11 @@ after the accepted final beat. Fairness is therefore measured in **packets**,
 not cycles. One source can legitimately occupy many cycles if its packet is
 long or the downstream Receiver is applying back-pressure.
 
+<a id="page-19"></a>
+
 #### Handwritten page 19 - Arbiter idle and source-1 logic
+
+[Back to index — notebook page 19](#index-page-19)
 
 ![Handwritten AXI notes: Arbiter idle and source-1 logic](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/19-axis-arbiter-idle-and-s1-logic.jpg)
 
@@ -434,7 +511,13 @@ long or the downstream Receiver is applying back-pressure.
 packet-safe transition condition is an accepted final beat, `TVALID && TREADY &&
 TLAST`; seeing `TLAST` without a handshake is not enough to switch sources.
 
+[Back to index — notebook page 19](#index-page-19)
+
+<a id="page-20"></a>
+
 #### Handwritten page 20 - Arbiter source-1 and source-2 logic
+
+[Back to index — notebook page 20](#index-page-20)
 
 ![Handwritten AXI notes: Arbiter source-1 and source-2 logic](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/20-axis-arbiter-s1-and-s2-logic.jpg)
 
@@ -443,7 +526,15 @@ sources. Back-pressure must freeze both the selection and its entire payload
 bundle, even if the competing source becomes valid while the current packet is
 stalled.
 
+[Back to index — lesson 35](#index-lesson-035)
+
+[Back to index — notebook page 20](#index-page-20)
+
+<a id="lesson-036"></a>
+
 ### Video 36 - Implementing AXIS arbiter part 3
+
+[Back to index — lesson 36](#index-lesson-036)
 
 ![Full-screen final arbiter state logic and output assignments](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/36-axis-arbiter-p3-25.png)
 
@@ -483,7 +574,13 @@ Only counters, pointers, and ownership transitions use the fire condition.
 This distinction is why a no-stall waveform can look correct while a design
 still fails as soon as `m_axis_tready` goes LOW.
 
+[Back to index — lesson 36](#index-lesson-036)
+
+<a id="lesson-037"></a>
+
 ### Video 37 - Verifying the AXI-Stream arbiter
+
+[Back to index — lesson 37](#index-lesson-037)
 
 ![Full-screen arbiter testbench with reset, randomized data, source valid, source last, and downstream ready](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/37-verify-axis-arbiter-25.png)
 
@@ -510,7 +607,13 @@ The minimum self-checking verification set is:
 - if both sources remain active, packet ownership alternates after accepted
   `TLAST` beats.
 
+[Back to index — lesson 37](#index-lesson-037)
+
+<a id="lesson-038"></a>
+
 ### Lesson 38 - AXI-Stream arbiter code resource
+
+[Back to index — lesson 38](#index-lesson-038)
 
 The code resource belongs with videos 34-37. Use the course listing as the
 implementation reference, but audit it with the rules above before reuse. In
@@ -518,7 +621,13 @@ particular, replace any `TVALID` expression gated by `TREADY`, gate packet
 completion with the full three-signal fire condition, and route every enabled
 sideband through the same selection as `TDATA`.
 
+[Back to index — lesson 38](#index-lesson-038)
+
+<a id="lesson-039"></a>
+
 ### Video 39 - Implementing AXI-Stream FIFO part 1
+
+[Back to index — lesson 39](#index-lesson-039)
 
 ![Full-screen FIFO module ports, payload memories, pointers, flags, and occupancy counter](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/39-axis-fifo-p1-20.png)
 
@@ -546,7 +655,11 @@ This is temporal decoupling: the FIFO absorbs a finite timing mismatch; it does
 not create infinite bandwidth. If the consumer remains slower long enough,
 occupancy reaches full and `s_axis_tready` must go LOW.
 
+<a id="page-21"></a>
+
 #### Handwritten page 21 - AXI-Stream FIFO interface and data flow
+
+[Back to index — notebook page 21](#index-page-21)
 
 ![Handwritten AXI notes: AXI-Stream FIFO interface and data flow](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/21-axis-fifo-interface-and-flow.jpg)
 
@@ -554,7 +667,15 @@ occupancy reaches full and `s_axis_tready` must go LOW.
 stored entry is a complete beat bundle - data, keep, and last - while input
 readiness follows available capacity and output validity follows occupancy.
 
+[Back to index — lesson 39](#index-lesson-039)
+
+[Back to index — notebook page 21](#index-page-21)
+
+<a id="lesson-040"></a>
+
 ### Video 40 - Implementing AXI-Stream FIFO part 2
+
+[Back to index — lesson 40](#index-lesson-040)
 
 ![Full-screen FIFO arrays, pointers, count, full detection, and empty detection](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/40-axis-fifo-p2-20.png)
 
@@ -599,7 +720,11 @@ That makes `m_axis_tvalid` wait for ready, repeating the dependency problem
 seen in the arbiter. A compliant FIFO must present a valid head item whenever
 it is nonempty and hold that item through a downstream stall.
 
+<a id="page-22"></a>
+
 #### Handwritten page 22 - FIFO storage and consumer handshake
+
+[Back to index — notebook page 22](#index-page-22)
 
 ![Handwritten AXI notes: FIFO storage and consumer handshake](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/22-axis-fifo-storage-and-consumer-handshake.jpg)
 
@@ -608,7 +733,13 @@ memories. Their indices must always move together, and simultaneous push/pop
 must preserve occupancy instead of allowing two independent assignments to
 overwrite the count update.
 
+[Back to index — notebook page 22](#index-page-22)
+
+<a id="page-23"></a>
+
 #### Handwritten page 23 - FIFO pointers, count, and reset
+
+[Back to index — notebook page 23](#index-page-23)
 
 ![Handwritten AXI notes: FIFO pointers, count, and reset](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/23-axis-fifo-pointers-count-and-reset.jpg)
 
@@ -616,14 +747,28 @@ overwrite the count update.
 from empty when pointer values coincide. Reset clears validity and occupancy;
 pointer widths and full detection must match the actual depth.
 
+[Back to index — notebook page 23](#index-page-23)
+
+<a id="page-24"></a>
+
 #### Handwritten page 24 - FIFO read/write control
+
+[Back to index — notebook page 24](#index-page-24)
 
 ![Handwritten AXI notes: FIFO read/write control](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/24-axis-fifo-read-write-control.jpg)
 
 **Explanation:** The write and read branches update storage, pointers, occupancy, and the registered output on accepted operations. A compact invariant is `next_count = count + push - pop`, where `push`
 and `pop` are handshake events, including the simultaneous case.
 
+[Back to index — lesson 40](#index-lesson-040)
+
+[Back to index — notebook page 24](#index-page-24)
+
+<a id="lesson-041"></a>
+
 ### Video 41 - FIFO RTL continuation and verification
+
+[Back to index — lesson 41](#index-lesson-041)
 
 ![Full-screen FIFO testbench signals and DUT instantiation](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/41-axis-fifo-p3-course-labeled-p2-20.png)
 
@@ -648,14 +793,26 @@ calling the FIFO verified:
 - a scoreboard comparing every accepted input bundle with the accepted output
   bundle.
 
+[Back to index — lesson 41](#index-lesson-041)
+
+<a id="lesson-042"></a>
+
 ### Lesson 42 - FIFO code resource
+
+[Back to index — lesson 42](#index-lesson-042)
 
 This resource belongs to the first FIFO implementation. Before reusing it,
 resolve the declared-depth/full-threshold mismatch, make pointer wrap explicit,
 support simultaneous enqueue/dequeue, and ensure downstream `TVALID` is
 independent of downstream `TREADY`.
 
+[Back to index — lesson 42](#index-lesson-042)
+
+<a id="lesson-043"></a>
+
 ### Video 43 - AXI-Stream FIFO alternate implementation
+
+[Back to index — lesson 43](#index-lesson-043)
 
 ![Full-screen alternate FIFO interface using wire outputs with the same beat memories and pointers](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/43-axis-fifo-alternate-20.png)
 
@@ -690,12 +847,20 @@ Its most useful signals are `count`, `full`, `empty`, `wr_ptr`, and `rd_ptr`:
 together they can reveal off-by-one capacity errors that may not appear in the
 first short packet. A long wraparound scoreboard remains the decisive test.
 
+[Back to index — lesson 43](#index-lesson-043)
+
+<a id="lesson-044"></a>
+
 ### Lesson 44 - Alternate FIFO code resource
+
+[Back to index — lesson 44](#index-lesson-044)
 
 Lesson 44 completes Section 3. Keep the alternate code beside Video 43 and
 judge it by externally visible invariants: accepted beats are neither lost nor
 duplicated, ordering and sidebands are preserved, and the interface stays
 stable under back-pressure.
+
+[Back to index — lesson 44](#index-lesson-044)
 
 ## Section 3 protocol-hardening checklist
 

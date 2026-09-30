@@ -1,14 +1,10 @@
 # MOSFET and CMOS
 
-This is the first subject iteration: a deep reading of Kapil's five handwritten MOS notebooks, arranged so every page can become an active-revision unit.
+[Quick revision](#quick-revision) | [Related topics](#related-topics)
 
-> "Each page should be ... read first of all in a deep manner."
->
-> "If I have ask some questions or if I am mention any two to do list then you need to acknowledge that as well for me."
->
-> "After the page explanation is there ... if it needs more clarity, if it needs more improvement, you can mention that."
-
-The ellipses preserve the intent of the voice-typed brief while removing filler between the quoted clauses.
+Five notebook modules connect MOS electrostatics to transistor operation,
+CMOS switching, delay, power, noise, and sizing. Follow the ordered path for
+prerequisites; open a module's page map for its source discussions.
 
 <a id="core-term-map"></a>
 
@@ -52,7 +48,7 @@ This table is an index of clearly visible questions, doubts, or unfinished promp
 
 ## Verification stance
 
-Handwritten notes are treated as the source to understand, not as automatically correct. Important physics and circuit claims are checked against the references in the root README. A note may be labeled:
+Handwritten notes are treated as the source to understand, not as automatically correct. Important physics and circuit claims are checked against the references beside the corresponding page discussions. A note may be labeled:
 
 - **Correct:** sound as written.
 - **Clarify:** essentially correct but easy to misread because a sign, region, or assumption is implicit.
@@ -67,3 +63,25 @@ Use one causal chain instead of memorizing isolated equations:
 `gate bias → electric field/band bending → surface charge → channel state → drain current → CMOS output current → load-capacitor charging → delay, power, and noise margin`
 
 For each page, first state the physical charge or conducting path, then the valid operating region and assumptions, and only then the equation. Check signs and limiting cases. End by explaining one circuit consequence: gain, logic level, delay, power, area, or noise. Use the global [revision method](../_internal/repository/guides/REVISION_METHOD.md) for session structure and spaced reviews.
+
+## Quick revision
+
+**Key relations.** $`I_D\approx\tfrac12\mu_nC_{ox}(W/L)(V_{GS}-V_T)^2`$ · $`P_{dyn}=\alpha C_LV_{DD}^2f`$.
+
+**Common mistakes.** The current equation is the ideal long-channel nMOS saturation model without channel-length modulation. Check the operating region before substituting values. Dynamic power counts switching activity; it does not include leakage or short-circuit power.
+
+**Closed-book questions**
+
+1. How does gate bias create the conducting channel?
+2. What changes at pinch-off?
+3. How does current charge or discharge the inverter load?
+4. Why does increasing device width affect both drive and capacitance?
+5. How do you derive noise margin from valid input/output levels?
+
+**Full explanations:** [Electrostatics](01%20MOS%20Capacitor%20Fundamentals/README.md#quick-revision) · [Device regions](02%20Non-Ideal%20MOS%20and%20MOSFET%20Regions/README.md#quick-revision) · [Models and inverter](03%20MOSFET%20Models%20and%20CMOS%20Inverter/README.md#quick-revision) · [Delay, power, noise](04%20CMOS%20Switching%20Delay%20Power%20and%20Noise/README.md#quick-revision) · [Sizing and NAND](05%20CMOS%20Sizing%20and%20NAND%20Timing/README.md#quick-revision).
+
+## Related topics
+
+- [Transmission gates and storage](../Static%20Timing%20Analysis/README.md#page-01)
+
+[Back to quick revision](#quick-revision)

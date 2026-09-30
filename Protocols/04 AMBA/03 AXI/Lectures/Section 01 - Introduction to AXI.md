@@ -9,6 +9,21 @@ the channels and their owners, define the accepted-transfer edge, turn that
 rule into source and destination RTL, and finally prove it in a waveform.
 Lesson 10 is the matching code resource rather than a separate video.
 
+## Lesson index
+
+| Lesson | Topic | Notebook pages |
+|---:|---|---|
+| <a id="index-lesson-001"></a>[1](#lesson-001) | Agenda | — |
+| <a id="index-lesson-002"></a>[2](#lesson-002) | Use cases of the AXI interfaces | <a id="index-page-01"></a>[1](#page-01) |
+| <a id="index-lesson-003"></a>[3](#lesson-003) | Interface pins | <a id="index-page-02"></a>[2](#page-02), <a id="index-page-03"></a>[3](#page-03), <a id="index-page-04"></a>[4](#page-04) |
+| <a id="index-lesson-004"></a>[4](#lesson-004) | Simple memory versus AXI memory | — |
+| <a id="index-lesson-005"></a>[5](#lesson-005) | Understanding `VALID`/`READY` | <a id="index-page-05"></a>[5](#page-05) |
+| <a id="index-lesson-006"></a>[6](#lesson-006) | `VALID`/`READY` rules | <a id="index-page-06"></a>[6](#page-06) |
+| <a id="index-lesson-007"></a>[7](#lesson-007) | Handshake RTL part 1 | <a id="index-page-07"></a>[7](#page-07) |
+| <a id="index-lesson-008"></a>[8](#lesson-008) | Handshake RTL part 2 | <a id="index-page-08"></a>[8](#page-08) |
+| <a id="index-lesson-009"></a>[9](#lesson-009) | Verifying the handshake | — |
+| <a id="index-lesson-010"></a>[10](#lesson-010) | Code resource | — |
+
 ## Formal standard explanation
 
 AXI moves information through independent, unidirectional channels. Each
@@ -33,7 +48,11 @@ and [Arm IHI 0022H, §§A3.2 and B1.1](https://developer.arm.com/-/media/Arm%20D
 
 ## Lessons 1-10
 
+<a id="lesson-001"></a>
+
 ### Video 1 - Agenda
+
+[Back to index — lesson 1](#index-lesson-001)
 
 ![Agenda listing AXI interface types and the valid-ready implementation](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/01-agenda-50.png)
 
@@ -61,7 +80,13 @@ stream transfer itself.
 **Recall:** Why is “AXI memory” an interface description rather than a memory
 technology?
 
+[Back to index — lesson 1](#index-lesson-001)
+
+<a id="lesson-002"></a>
+
 ### Video 2 - Use cases of the AXI interfaces
+
+[Back to index — lesson 2](#index-lesson-002)
 
 ![AXI family comparison and ADC-to-FIR signal-processing path](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/02-axi-family-use-cases-30.png)
 
@@ -94,13 +119,25 @@ to one Receiver.
 are 32 or 64 bits; “Lite” means no bursts and a simpler memory-mapped feature
 set.
 
+<a id="page-01"></a>
+
 #### Handwritten page 1 - AXI family selection and use cases
+
+[Back to index — notebook page 1](#index-page-01)
 
 ![Handwritten AXI notes: AXI family selection and use cases](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/01-axi-family-selection-and-use-cases.jpg)
 
 **Explanation:** AXI-Stream carries unaddressed data flow, AXI4-Lite serves register accesses, and AXI4 supports burst traffic. Choose the interface according to the communication pattern and required throughput.
 
+[Back to index — lesson 2](#index-lesson-002)
+
+[Back to index — notebook page 1](#index-page-01)
+
+<a id="lesson-003"></a>
+
 ### Video 3 - Interface pins
+
+[Back to index — lesson 3](#index-lesson-003)
 
 ![Lecture comparison of the AXI-Stream, AXI4-Lite, and AXI4 signal groups](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/03-interface-pins-28.png)
 
@@ -128,7 +165,11 @@ properties and signal widths.
 
 **Recall:** Which two kinds of width make a fixed AXI pin count impossible?
 
+<a id="page-02"></a>
+
 #### Handwritten page 2 - AXI variants and the gaps in a simple memory port
+
+[Back to index — notebook page 2](#index-page-02)
 
 ![Handwritten AXI notes: AXI variants and the gaps in a simple memory port](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/02-axi-variants-and-simple-memory-gaps.jpg)
 
@@ -136,7 +177,13 @@ properties and signal widths.
 the four questions beside the simple memory are fundamental: address validity,
 data validity, acceptance, and completion all need an explicit timing contract.
 
+[Back to index — notebook page 2](#index-page-02)
+
+<a id="page-03"></a>
+
 #### Handwritten page 3 - Five memory-mapped channels
+
+[Back to index — notebook page 3](#index-page-03)
 
 ![Handwritten AXI notes: Five memory-mapped channels](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/03-axi-five-channel-overview.jpg)
 
@@ -145,7 +192,13 @@ write response, read address, and read data. The key implementation consequence
 is that the `AW` and `W` handshakes are independent even though both belong to
 one write transaction.
 
+[Back to index — notebook page 3](#index-page-03)
+
+<a id="page-04"></a>
+
 #### Handwritten page 4 - Write response and read-channel directions
+
+[Back to index — notebook page 4](#index-page-04)
 
 ![Handwritten AXI notes: Write response and read-channel directions](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/04-memory-mapped-response-and-read-channels.jpg)
 
@@ -153,7 +206,15 @@ one write transaction.
 their directions. A Manager drives `BREADY` and `RREADY`; a Subordinate drives
 `BVALID`, `BRESP`, `RVALID`, `RDATA`, and the read response.
 
+[Back to index — lesson 3](#index-lesson-003)
+
+[Back to index — notebook page 4](#index-page-04)
+
+<a id="lesson-004"></a>
+
 ### Video 4 - Simple memory versus AXI memory
+
+[Back to index — lesson 4](#index-lesson-004)
 
 ![Simple memory drawing and the four missing-control questions](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/04-simple-vs-axi-memory-30.png)
 
@@ -200,7 +261,13 @@ by an interconnect when it cannot decode a valid route to a Subordinate.
 a normal AXI4-Lite response. None of these response encodings empties memory or
 automatically reissues the transaction.
 
+[Back to index — lesson 4](#index-lesson-004)
+
+<a id="lesson-005"></a>
+
 ### Video 5 - Understanding `VALID`/`READY`
+
+[Back to index — lesson 5](#index-lesson-005)
 
 ![Source-to-destination valid-ready waveform beside the Arm rule excerpt](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/05-handshake-fundamentals-30.png)
 
@@ -227,7 +294,11 @@ The destination register normally changes just after $`E_3`$ because sequential
 logic sampled the inputs at that edge. That visible post-edge change is the
 effect of the transfer, not a second transfer.
 
+<a id="page-05"></a>
+
 #### Handwritten page 5 - `VALID`/`READY` ownership and acceptance
+
+[Back to index — notebook page 5](#index-page-05)
 
 ![Handwritten AXI notes: `VALID`/`READY` ownership and acceptance](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/05-valid-ready-handshake-rules.jpg)
 
@@ -235,7 +306,15 @@ effect of the transfer, not a second transfer.
 at a rising edge where both signals are HIGH. `VALID` must not wait for `READY`;
 `READY` may be asserted early whenever the destination has capacity.
 
+[Back to index — lesson 5](#index-lesson-005)
+
+[Back to index — notebook page 5](#index-page-05)
+
+<a id="lesson-006"></a>
+
 ### Video 6 - `VALID`/`READY` rules
+
+[Back to index — lesson 6](#index-lesson-006)
 
 ![Handshake rule slide with the source and destination waveform](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/06-handshake-rules-28.png)
 
@@ -267,7 +346,11 @@ Use this implementation checklist:
   through the component to an interface output and creates a long or cyclic
   path at integration.
 
+<a id="page-06"></a>
+
 #### Handwritten page 6 - Source handshake flowchart
+
+[Back to index — notebook page 6](#index-page-06)
 
 ![Handwritten AXI notes: Source handshake flowchart](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/06-source-handshake-flowchart.jpg)
 
@@ -276,7 +359,15 @@ Completion is not caused by `READY` alone: the offered payload transfers only on
 an edge satisfying `VALID && READY`, and every payload field must remain stable
 during a stall.
 
+[Back to index — lesson 6](#index-lesson-006)
+
+[Back to index — notebook page 6](#index-page-06)
+
+<a id="lesson-007"></a>
+
 ### Video 7 - Handshake RTL part 1
+
+[Back to index — lesson 7](#index-lesson-007)
 
 ![Two-state source flowchart beside the initial Verilog](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/07-handshake-rtl-p1-20.png)
 
@@ -302,7 +393,11 @@ stimulus in verification code; production RTL receives or computes real data.
 **State invariant:** in the wait state, if `S_ready=0`, the next edge must not
 change `M_data` or deassert `M_valid`.
 
+<a id="page-07"></a>
+
 #### Handwritten page 7 - Source and destination handshake RTL
+
+[Back to index — notebook page 7](#index-page-07)
 
 ![Handwritten AXI notes: Source and destination handshake RTL](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/07-source-and-destination-handshake-rtl.jpg)
 
@@ -310,7 +405,15 @@ change `M_data` or deassert `M_valid`.
 destination progress. In the source logic, both data and `VALID` must remain
 unchanged while the destination keeps `READY` LOW.
 
+[Back to index — lesson 7](#index-lesson-007)
+
+[Back to index — notebook page 7](#index-page-07)
+
+<a id="lesson-008"></a>
+
 ### Video 8 - Handshake RTL part 2
+
+[Back to index — lesson 8](#index-lesson-008)
 
 ![Receiver flowchart: ready, wait for valid, and receive](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/08-handshake-rtl-p2-20.png)
 
@@ -334,7 +437,11 @@ Do not lower `READY` merely because `VALID` became HIGH before the acceptance
 edge. The transfer event is the edge where both are HIGH. After that edge, the
 registered FSM may lower `READY` for the following cycle.
 
+<a id="page-08"></a>
+
 #### Handwritten page 8 - Destination readiness and data capture
+
+[Back to index — notebook page 8](#index-page-08)
 
 ![Handwritten AXI notes: Destination readiness and data capture](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/08-destination-ready-and-data-capture-rtl.jpg)
 
@@ -342,7 +449,15 @@ registered FSM may lower `READY` for the following cycle.
 avoid a combinational path that lets `READY` and `VALID` depend on each other in
 a loop.
 
+[Back to index — lesson 8](#index-lesson-008)
+
+[Back to index — notebook page 8](#index-page-08)
+
+<a id="lesson-009"></a>
+
 ### Video 9 - Verifying the handshake
+
+[Back to index — lesson 9](#index-lesson-009)
 
 ![Simulation during reset and the first ready state](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/09-verify-handshake-18.png)
 
@@ -373,7 +488,13 @@ accepted_count == count_rising_edges(valid && ready);
 The first property expresses stall stability. A complete AXI-Stream property
 would include every sideband signal, not only `data`.
 
+[Back to index — lesson 9](#index-lesson-009)
+
+<a id="lesson-010"></a>
+
 ### Lesson 10 - Code resource
+
+[Back to index — lesson 10](#index-lesson-010)
 
 The course's first code resource belongs to this section. Its reusable rule is
 that all state, counter, and payload updates must be enabled by the same
@@ -382,6 +503,8 @@ accepted-transfer event used throughout these notes:
 $$
 \text{fire}=\text{VALID}\land\text{READY}
 $$
+
+[Back to index — lesson 10](#index-lesson-010)
 
 ## Section 1 completion checkpoint
 

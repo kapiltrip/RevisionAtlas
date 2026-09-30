@@ -1,5 +1,7 @@
 # Protocols
 
+[Quick revision](#quick-revision) | [Related topics](#related-topics)
+
 This subject covers hardware communication protocols. The existing 16-page handwritten scan is preserved once and separated into I2C, SPI, and UART rooms. The AMBA branch adds AHB, APB, and AXI as separate on-chip interconnect chapters so their bus phases, channels, and handshake rules are not mixed into the serial-protocol notes or into one another.
 
 <a id="core-terms"></a>
@@ -70,3 +72,26 @@ The page discussions were checked against primary manufacturer documentation:
 - [Microchip USART clock recovery](https://onlinedocs.microchip.com/oxy/GUID-84570A8E-125A-4027-9491-9B22A292E347-en-US-5/GUID-34FF3967-6C5B-4AF9-94C0-97078652CF5C.html)
 - [AMD Zynq UART baud-rate generator](https://docs.amd.com/r/en-US/ug585-zynq-7000-SoC-TRM/Baud-Rate-Generator)
 - [TI MSPM0 UART oversampling and majority voting](https://software-dl.ti.com/msp430/esd/MSPM0-SDK/latest/docs/english/driverlib/mspm0l11xx_l13xx_api_guide/html/group___u_a_r_t.html)
+
+## Quick revision
+
+**Key relations.** $`T_{bit}=1/R_{bit}`$ · $`transfer_{AXI}=VALID\land READY`$.
+
+**Common mistakes.** The AXI transfer expression is sampled on a rising clock edge. A serial bus’s electrical drive, framing, and acceptance rules are separate contracts. ACK, parity, and response signals provide different guarantees; none should be treated as universal error detection.
+
+**Closed-book questions**
+
+1. How does each protocol identify its peer or target?
+2. Who drives data and clock during each field?
+3. Which edge or condition accepts information?
+4. Which signals must hold when the receiver delays?
+5. How do framing errors differ from transaction responses?
+
+**Full explanations:** [I2C](01%20I2C/README.md#quick-revision) · [SPI](02%20SPI/README.md#quick-revision) · [UART](03%20UART/README.md#quick-revision) · [AHB](04%20AMBA/01%20AHB/README.md#quick-revision) · [APB](04%20AMBA/02%20APB/README.md#quick-revision) · [AXI](04%20AMBA/03%20AXI/README.md#quick-revision).
+
+## Related topics
+
+- [Clock generation](../Frequency%20Dividers/README.md#quick-revision)
+- [Buffering and backpressure](../FIFO/README.md#quick-revision)
+
+[Back to quick revision](#quick-revision)

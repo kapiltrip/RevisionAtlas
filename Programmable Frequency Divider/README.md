@@ -1,5 +1,7 @@
 # Frequency Divider RTL Practice — `/2` Through `/5`
 
+[Quick revision](#quick-revision) | [Related topics](#related-topics)
+
 [Back to RevisionSolved](../README.md) | [Frequency-divider theory](../Frequency%20Dividers/README.md)
 
 > **Status:** The standalone `/2`, `/3`, `/4`, and `/5` dividers are complete. The agreed custom-duty and fractional-pulse cases are also implemented with simple parameterized RTL and self-checking testbenches. Vivado synthesis is next.
@@ -207,3 +209,27 @@ only after the constraints are correct.
 ## Next task
 
 Synthesize the four normal divider modules and the two miscellaneous parameterized modules in Vivado, one top module at a time.
+
+## Quick revision
+
+**Key relations.** $`N_{ideal}=f_{clk}/f_{tick}`$ · $`D=N_H/(N_H+N_L)`$.
+
+**Common mistakes.** Count a full repeating period and measure both high and low intervals. A custom-duty waveform may need both clock edges. Fractional pulse spacing can alternate, so test the average rate and individual gaps. Behavioral test success does not establish synthesis or timing closure.
+
+**Closed-book questions**
+
+1. Which outputs are pulses and which are continuous waveforms?
+2. What terminal-count convention avoids an off-by-one period?
+3. How do you test duty cycle separately from frequency?
+4. What must a fractional-spacing test allow and reject?
+5. What remains to be checked after simulation passes?
+
+**Full explanations:** [Implemented outputs](#normal-divider-outputs) · [Verification obligations](#checks-for-every-configuration) · [Current progress](#progress).
+
+## Related topics
+
+- [Notebook derivations](../Frequency%20Dividers/README.md#quick-revision)
+- [Baud-rate clock enable](../Protocols/03%20UART/README.md#page-13)
+- [Timing constraints](../Static%20Timing%20Analysis/README.md#setup-and-hold-reference-equations)
+
+[Back to quick revision](#quick-revision)

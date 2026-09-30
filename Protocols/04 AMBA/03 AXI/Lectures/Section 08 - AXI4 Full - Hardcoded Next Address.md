@@ -9,6 +9,23 @@ markers, and transaction IDs return. To isolate channel control from address
 mathematics, the first implementation uses a fixed next-address assumption;
 Section 9 replaces that shortcut with burst-type-driven generation.
 
+## Lesson index
+
+| Lesson | Topic | Notebook pages |
+|---:|---|---|
+| <a id="index-lesson-101"></a>[101](#lesson-101) | Section 8 agenda | — |
+| <a id="index-lesson-102"></a>[102](#lesson-102) | Typical full-AXI transactions | <a id="index-page-48"></a>[48](#page-48) |
+| <a id="index-lesson-103"></a>[103](#lesson-103) | Write FSM | <a id="index-page-49"></a>[49](#page-49), <a id="index-page-50"></a>[50](#page-50) |
+| <a id="index-lesson-104"></a>[104](#lesson-104) | Read FSM | <a id="index-page-51"></a>[51](#page-51) |
+| <a id="index-lesson-105"></a>[105](#lesson-105) | Implementing the write channel | — |
+| <a id="index-lesson-106"></a>[106](#lesson-106) | Implementing the read channel | — |
+| <a id="index-lesson-107"></a>[107](#lesson-107) | Manager code resource | — |
+| <a id="index-lesson-108"></a>[108](#lesson-108) | Implementing Subordinate write operation | — |
+| <a id="index-lesson-109"></a>[109](#lesson-109) | Subordinate read operation | — |
+| <a id="index-lesson-110"></a>[110](#lesson-110) | Subordinate code resource | — |
+| <a id="index-lesson-111"></a>[111](#lesson-111) | Connecting and verifying the full-AXI pair | — |
+| <a id="index-lesson-112"></a>[112](#lesson-112) | Connected design code resource | — |
+
 ## Formal standard explanation
 
 A burst command contains more than an address. At minimum, the teaching logic
@@ -39,7 +56,11 @@ back-pressure.
 
 **Standard basis:** [Arm IHI 0022H, §§A3.3-A3.4](https://developer.arm.com/-/media/Arm%20Developer%20Community/PDF/IHI0022H_amba_axi_protocol_spec.pdf).
 
+<a id="lesson-101"></a>
+
 ### Video 101 - Section 8 agenda
+
+[Back to index — lesson 101](#index-lesson-101)
 
 ![Original full-frame Section 8 agenda](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/101-agenda-50.png)
 
@@ -47,7 +68,13 @@ The agenda separates full-AXI signal study, single/burst transaction timing,
 and paired Manager/Subordinate implementation. “Hardcoded next address” is a
 declared teaching boundary, not a general AXI4 address generator.
 
+[Back to index — lesson 101](#index-lesson-101)
+
+<a id="lesson-102"></a>
+
 ### Video 102 - Typical full-AXI transactions
+
+[Back to index — lesson 102](#index-lesson-102)
 
 ![Original full-frame initial full-AXI burst flow and channel waveforms](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/102-typical-axi-full-transactions-25.png)
 
@@ -69,7 +96,11 @@ The counter must not advance during `WVALID && !WREADY` or
 `RVALID && !RREADY`. Otherwise the held payload and its last marker would no
 longer describe the same beat.
 
+<a id="page-48"></a>
+
 #### Handwritten page 48 - AXI4 single-beat signal set
+
+[Back to index — notebook page 48](#index-page-48)
 
 ![Handwritten AXI notes: AXI4 single-beat signal set](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/48-axi4-single-beat-signals.jpg)
 
@@ -77,7 +108,15 @@ longer describe the same beat.
 ID fields even for a single-beat teaching example. A single beat uses `AWLEN=0`,
 and the only accepted write-data beat carries `WLAST=1`.
 
+[Back to index — lesson 102](#index-lesson-102)
+
+[Back to index — notebook page 48](#index-page-48)
+
+<a id="lesson-103"></a>
+
 ### Video 103 - Write FSM
+
+[Back to index — lesson 103](#index-lesson-103)
 
 ![Original full-frame write FSM and burst waveform](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/103-write-fsm-25.png)
 
@@ -92,7 +131,11 @@ by `beat_q == AWLEN_q`. The counter increments only on `w_fire`; `WLAST` is
 derived from or registered with that same held beat. After final `w_fire`, the
 FSM waits for `BVALID` and completes on `b_fire`.
 
+<a id="page-49"></a>
+
 #### Handwritten page 49 - AXI4 write FSM: address and data
+
+[Back to index — notebook page 49](#index-page-49)
 
 ![Handwritten AXI notes: AXI4 write FSM: address and data](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/49-axi4-write-fsm-address-and-data.jpg)
 
@@ -100,7 +143,13 @@ FSM waits for `BVALID` and completes on `b_fire`.
 its counter only on `WVALID && WREADY`. Both `AWVALID` and each write payload
 must remain stable until their own acceptance edges.
 
+[Back to index — notebook page 49](#index-page-49)
+
+<a id="page-50"></a>
+
 #### Handwritten page 50 - AXI4 write FSM: last beat and response
+
+[Back to index — notebook page 50](#index-page-50)
 
 ![Handwritten AXI notes: AXI4 write FSM: last beat and response](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/50-axi4-write-fsm-last-and-response.jpg)
 
@@ -108,7 +157,15 @@ must remain stable until their own acceptance edges.
 through any stall. Only the accepted final beat leads to the write-response
 phase, which finishes on `BVALID && BREADY`.
 
+[Back to index — lesson 103](#index-lesson-103)
+
+[Back to index — notebook page 50](#index-page-50)
+
+<a id="lesson-104"></a>
+
 ### Video 104 - Read FSM
+
+[Back to index — lesson 104](#index-lesson-104)
 
 ![Original full-frame read FSM and returned burst waveform](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/104-read-fsm-25.png)
 
@@ -122,7 +179,11 @@ The Manager must remain ready only when it has storage for the next result. If
 it lowers `RREADY`, `RDATA`, `RRESP`, `RID`, and `RLAST` freeze. The read FSM
 leaves its data state only on an accepted beat with `RLAST=1`.
 
+<a id="page-51"></a>
+
 #### Handwritten page 51 - AXI4 read FSM
+
+[Back to index — notebook page 51](#index-page-51)
 
 ![Handwritten AXI notes: AXI4 read FSM](../../../../_internal/Protocols/04%20AMBA/03%20AXI/handwritten/images/51-axi4-read-fsm.jpg)
 
@@ -130,7 +191,15 @@ leaves its data state only on an accepted beat with `RLAST=1`.
 on an accepted `RLAST`. The Manager controls `RREADY`; the Subordinate controls
 `RVALID`, `RDATA`, `RRESP`, and `RLAST`.
 
+[Back to index — lesson 104](#index-lesson-104)
+
+[Back to index — notebook page 51](#index-page-51)
+
+<a id="lesson-105"></a>
+
 ### Video 105 - Implementing the write channel
+
+[Back to index — lesson 105](#index-lesson-105)
 
 ![Original full-frame write FSM beside Manager write-channel RTL](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/105-implementing-write-channel-25.png)
 
@@ -150,7 +219,13 @@ The implementation uses one outstanding write. Although full AXI supports
 multiple IDs and outstanding operations, this block does not need a reorder or
 ID queue because it does not overlap commands.
 
+[Back to index — lesson 105](#index-lesson-105)
+
+<a id="lesson-106"></a>
+
 ### Video 106 - Implementing the read channel
+
+[Back to index — lesson 106](#index-lesson-106)
 
 ![Original full-frame read FSM beside Manager AR/R RTL](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/106-implementing-read-channel-25.png)
 
@@ -163,14 +238,26 @@ The AR registers carry the teaching ID/length/size/burst configuration. After
 uses only data, the source comments identify that response status is observed,
 ignored, or assumed `OKAY`. `RLAST` without `r_fire` is not completion.
 
+[Back to index — lesson 106](#index-lesson-106)
+
+<a id="lesson-107"></a>
+
 ### Lesson 107 - Manager code resource
+
+[Back to index — lesson 107](#index-lesson-107)
 
 The instructor's Manager source is preserved under [Code](../Code/README.md).
 Its inline contract names the fixed data width, hardcoded address step, chosen
 burst length/ID behavior, one-outstanding restriction, omitted optional user
 signals, and the handling of `BRESP`/`RRESP`.
 
+[Back to index — lesson 107](#index-lesson-107)
+
+<a id="lesson-108"></a>
+
 ### Video 108 - Implementing Subordinate write operation
+
+[Back to index — lesson 108](#index-lesson-108)
 
 ![Original full-frame full-AXI Subordinate write FSM and first RTL branches](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/108-implementing-slave-write-operation-25.png)
 
@@ -187,7 +274,13 @@ from the stored `AWID` and held with `BRESP/BVALID` until `b_fire`.
 The memory update occurs only on `w_fire`. `WSTRB` still supplies per-byte write
 enables on every full-AXI beat.
 
+[Back to index — lesson 108](#index-lesson-108)
+
+<a id="lesson-109"></a>
+
 ### Video 109 - Subordinate read operation
+
+[Back to index — lesson 109](#index-lesson-109)
 
 ![Original full-frame full-AXI Subordinate read FSM and address capture](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/109-slave-read-operation-25.png)
 
@@ -203,14 +296,26 @@ stable. Re-reading a live memory location combinationally while stalled can
 violate that rule if another agent can modify the location; the classroom
 memory assumptions are therefore part of the source contract.
 
+[Back to index — lesson 109](#index-lesson-109)
+
+<a id="lesson-110"></a>
+
 ### Lesson 110 - Subordinate code resource
+
+[Back to index — lesson 110](#index-lesson-110)
 
 The Subordinate source comments list its accepted ID/length/size/burst fields,
 hardcoded next-address rule, memory geometry, response behavior, one-command
 capacity, and any ignored protection/cache/QoS/user inputs. The code remains
 the instructor's design with its boundaries made explicit.
 
+[Back to index — lesson 110](#index-lesson-110)
+
+<a id="lesson-111"></a>
+
 ### Video 111 - Connecting and verifying the full-AXI pair
+
+[Back to index — lesson 111](#index-lesson-111)
 
 ![Original full-frame top-level Manager/Subordinate connection RTL](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2003/111-connecting-master-and-slave-together-and-verifying-design-25.png)
 
@@ -225,12 +330,20 @@ correct final-beat markers, ID return, and response completion. A useful
 scoreboard records each accepted command and retires it only after the matching
 terminal B response or final accepted R beat.
 
+[Back to index — lesson 111](#index-lesson-111)
+
+<a id="lesson-112"></a>
+
 ### Lesson 112 - Connected design code resource
+
+[Back to index — lesson 112](#index-lesson-112)
 
 The final resource preserves the paired design and testbench. The testbench
 comments identify the fixed burst/data assumptions and which checks would fail
 if a different `AxSIZE` or `AxBURST` were applied. Section 9 is the deliberate
 extension point for those cases.
+
+[Back to index — lesson 112](#index-lesson-112)
 
 ## Hardcoded-address boundary
 

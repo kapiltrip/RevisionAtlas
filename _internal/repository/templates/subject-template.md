@@ -22,6 +22,18 @@ for this README. Add definitions and inline citations to that subject section
 in the single dictionary, and update its subject and term indexes. Use the
 [content standard](../guides/CONTENT_STANDARD.md) for definition depth.
 
+## Quick revision
+
+Keep this section in the subject document. Include the key equations with
+their assumptions, common mistakes, five closed-book questions, and links to
+the corresponding full explanations. It supplements the source discussions.
+
+## Related topics
+
+Link the prerequisite and the next connected topic with a specific reason to
+open each one. Source-page and lesson indexes should have matching return
+links to the selected entry, not only to the top of the document.
+
 ## Important “why” questions
 
 - Why is `<concept>` used?

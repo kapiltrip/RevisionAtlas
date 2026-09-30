@@ -48,15 +48,15 @@ Delay, noise, and power definitions follow the [MIT 6.012 CMOS inverter lecture]
 
 ### Operating-region checks at an intermediate input
 
-For an intermediate $V_{in}$, compute nMOS $V_{GS}$, pMOS $V_{SG}$, and candidate $V_{out}$, then compare drain voltages with overdrive to decide whether each transistor is linear or saturated.
+For an intermediate $`V_{in}`$, compute nMOS $`V_{GS}`$, pMOS $`V_{SG}`$, and candidate $`V_{out}`$, then compare drain voltages with overdrive to decide whether each transistor is linear or saturated.
 
 At the output node, pull-up and pull-down current magnitudes must be equal in DC. A correct solution is therefore an assumption loop: choose the likely region pair, write both current laws, solve, and check every inequality. The marked “linear” conclusions are region checks, not labels inferred from where the transistor is drawn.
 
-The handwritten substitutions should be read as a state test for one point on the VTC. $V_{in}$ fixes both gate-source controls, while the unknown $V_{out}$ fixes the two drain-source voltages. Those four quantities select the current equations. After KCL produces a candidate output, substituting it back into both region inequalities closes the loop and determines whether that VTC point is physically consistent.
+The handwritten substitutions should be read as a state test for one point on the VTC. $`V_{in}`$ fixes both gate-source controls, while the unknown $`V_{out}`$ fixes the two drain-source voltages. Those four quantities select the current equations. After KCL produces a candidate output, substituting it back into both region inequalities closes the loop and determines whether that VTC point is physically consistent.
 
 ### Clarity / correction / improvement
 
-Use pMOS magnitudes $V_{SG}=V_{DD}-V_{in}$ and $V_{SD}=V_{DD}-V_{out}$. This turns a sign-heavy calculation into the same inequalities used for nMOS.
+Use pMOS magnitudes $`V_{SG}=V_{DD}-V_{in}`$ and $`V_{SD}=V_{DD}-V_{out}`$. This turns a sign-heavy calculation into the same inequalities used for nMOS.
 
 ### Active recall
 
@@ -70,19 +70,19 @@ What KCL equation applies at a CMOS inverter output with no DC load current?
 
 ### Pull-up resistance near the high output rail
 
-A strongly conducting MOSFET can be approximated by an on-resistance. When input is low, pMOS is on and nMOS is off, so there is no ideal DC path to ground and $V_{out}\approx V_{DD}$. If the supposedly off device leaks or the output drives a load, a small current can create a small voltage drop through the pull-up resistance.
+A strongly conducting MOSFET can be approximated by an on-resistance. When input is low, pMOS is on and nMOS is off, so there is no ideal DC path to ground and $`V_{out}\approx V_{DD}`$. If the supposedly off device leaks or the output drives a load, a small current can create a small voltage drop through the pull-up resistance.
 
 The resistor picture is useful near the rails and during RC transitions, but it is a linearized approximation to the MOS current equation. The effective resistance changes with output voltage because overdrive and region change during switching.
 
-The equivalent circuit distinguishes a conducting path from a current that must actually flow. With the output settled high and no DC load, both ends of the pMOS path sit at $V_{DD}$, so the voltage across its effective resistance is zero and its current is zero. During charging, the capacitor temporarily holds the output below $V_{DD}$, creating the voltage difference that makes the same pull-up resistance relevant.
+The equivalent circuit distinguishes a conducting path from a current that must actually flow. With the output settled high and no DC load, both ends of the pMOS path sit at $`V_{DD}`$, so the voltage across its effective resistance is zero and its current is zero. During charging, the capacitor temporarily holds the output below $`V_{DD}`$, creating the voltage difference that makes the same pull-up resistance relevant.
 
 ### Clarity / correction / improvement
 
-In ideal static CMOS with one transistor exactly off and no load, current is zero and there is no $R_{on}$ drop: the output reaches the rail. The small-drop statement belongs to leakage, finite load, or a ratioed/non-complementary circuit.
+In ideal static CMOS with one transistor exactly off and no load, current is zero and there is no $`R_{on}`$ drop: the output reaches the rail. The small-drop statement belongs to leakage, finite load, or a ratioed/non-complementary circuit.
 
 ### Active recall
 
-Why is a logic-high CMOS output ideally $V_{DD}$ even though the conducting pMOS has finite on-resistance?
+Why is a logic-high CMOS output ideally $`V_{DD}`$ even though the conducting pMOS has finite on-resistance?
 
 <a id="page-03"></a>
 
@@ -92,15 +92,15 @@ Why is a logic-high CMOS output ideally $V_{DD}$ even though the conducting pMOS
 
 ### Pull-down resistance near the low output rail
 
-In deep triode, $R_n\approx1/[\beta_n(V_{GS}-V_{Tn})]$. With $V_{in}=V_{DD}$, nMOS is on, pMOS is off, and the output is discharged toward ground. Again, without DC load there is no final current and no final resistor drop, so ideal $V_{OL}=0$.
+In deep triode, $`R_n\approx1/[\beta_n(V_{GS}-V_{Tn})]`$. With $`V_{in}=V_{DD}`$, nMOS is on, pMOS is off, and the output is discharged toward ground. Again, without DC load there is no final current and no final resistor drop, so ideal $`V_{OL}=0`$.
 
 During the transition, however, the output capacitor carries current and the nMOS on-resistance controls the discharge time. This distinction between final-value logic and transient current is central to CMOS timing.
 
-The high-input drawing therefore has two time-dependent interpretations. Immediately after the input changes, $C_L$ can keep $V_{out}$ high, giving nMOS a large drain-source voltage and a strong discharge current. Long after the transition, the capacitor is empty, both nMOS terminals are near ground, and current falls to zero. The transistor remains enabled, but no voltage remains to drive charge through it.
+The high-input drawing therefore has two time-dependent interpretations. Immediately after the input changes, $`C_L`$ can keep $`V_{out}`$ high, giving nMOS a large drain-source voltage and a strong discharge current. Long after the transition, the capacitor is empty, both nMOS terminals are near ground, and current falls to zero. The transistor remains enabled, but no voltage remains to drive charge through it.
 
 ### Clarity / correction / improvement
 
-The on-resistance formula is bias-dependent. Using one constant $R_n$ over the full swing is an equivalent-delay approximation, not an exact device model.
+The on-resistance formula is bias-dependent. Using one constant $`R_n`$ over the full swing is an equivalent-delay approximation, not an exact device model.
 
 ### Active recall
 
@@ -114,11 +114,11 @@ When a CMOS output is already settled low, why is nMOS current ideally zero even
 
 ### Load-capacitor discharge after an input step
 
-The circuit shows a high input turning nMOS on and pMOS off. Immediately after the input step, the output may still be high because the load capacitor preserves voltage. nMOS initially sees large $V_{DS}$, often begins in saturation, and removes stored charge. As $V_{out}$ falls below nMOS overdrive, it enters linear region and completes the discharge.
+The circuit shows a high input turning nMOS on and pMOS off. Immediately after the input step, the output may still be high because the load capacitor preserves voltage. nMOS initially sees large $`V_{DS}`$, often begins in saturation, and removes stored charge. As $`V_{out}`$ falls below nMOS overdrive, it enters linear region and completes the discharge.
 
-Thus a single output transition crosses device regions even though gate input is held constant. The final state is $V_{out}=0$, but the transient current trajectory determines delay and energy.
+Thus a single output transition crosses device regions even though gate input is held constant. The final state is $`V_{out}=0`$, but the transient current trajectory determines delay and energy.
 
-Read the three moments explicitly. At $t=0^-$, the old low input has left the output capacitor charged. At $t=0^+$, the gate voltages change but the capacitor voltage does not, so nMOS sees maximum $V_{DS}$ and begins removing charge. As $V_{out}$ falls through $V_{GS}-V_T$, nMOS crosses from saturation into triode and its current progressively decreases toward zero.
+Read the three moments explicitly. At $t=0^-$, the old low input has left the output capacitor charged. At $t=0^+$, the gate voltages change but the capacitor voltage does not, so nMOS sees maximum $`V_{DS}`$ and begins removing charge. As $`V_{out}`$ falls through $`V_{GS}-V_T`$, nMOS crosses from saturation into triode and its current progressively decreases toward zero.
 
 ### Clarity / correction / improvement
 
@@ -136,15 +136,15 @@ During a high-to-low output transition, in which region does nMOS typically star
 
 ### Threshold and strength matching
 
-The switching point is centered by equal threshold magnitudes, equal effective strengths $\beta_n=\beta_p$, and a symmetric supply reference. Under the square-law model, these conditions give $V_M=V_{DD}/2$.
+The switching point is centered by equal threshold magnitudes, equal effective strengths $`\beta_n=\beta_p`$, and a symmetric supply reference. Under the square-law model, these conditions give $`V_M=V_{DD}/2`$.
 
-Because $\beta=\mu C'_{ox}W/L$ and electron mobility normally exceeds hole mobility, equal strengths generally require pMOS to be wider. Symmetry refers to the electrical transfer curve, not necessarily to equal physical dimensions.
+Because $`\beta=\mu C'_{ox}W/L`$ and electron mobility normally exceeds hole mobility, equal strengths generally require pMOS to be wider. Symmetry refers to the electrical transfer curve, not necessarily to equal physical dimensions.
 
 The centered VTC is a mirror condition on electrical behavior. Equal threshold magnitudes place turn-on points symmetrically around the supply midpoint, and equal $\beta$ values make the two saturation-current laws balance at equal overdrive. Since mobility is part of $\beta$, equal drawn widths would break that balance. Increasing pMOS width compensates its lower hole mobility so neither pull-up nor pull-down dominates the transition.
 
 ### Clarity / correction / improvement
 
-The handwritten `m1, m2 equally size` condition is not generally sufficient. Equal $W/L$ produces $\beta_n>\beta_p$ in a typical process. State “electrically equal strength” as the actual requirement.
+The handwritten `m1, m2 equally size` condition is not generally sufficient. Equal $W/L$ produces $`\beta_n>\beta_p`$ in a typical process. State “electrically equal strength” as the actual requirement.
 
 ### Active recall
 
@@ -158,19 +158,19 @@ Why is the pMOS commonly made wider than the nMOS in a symmetric inverter?
 
 ### Transistor regions across the transfer curve
 
-The inverter drawing is used to walk from $V_{in}=0$ to $V_{DD}$. The usual region sequence is: nMOS off/pMOS linear; nMOS saturated/pMOS linear; both saturated near the switching point; nMOS linear/pMOS saturated; nMOS linear/pMOS off.
+The inverter drawing is used to walk from $`V_{in}=0`$ to $`V_{DD}`$. The usual region sequence is: nMOS off/pMOS linear; nMOS saturated/pMOS linear; both saturated near the switching point; nMOS linear/pMOS saturated; nMOS linear/pMOS off.
 
 Which device is saturated is determined by its own drain-source voltage and overdrive. The shared output makes the two tests interdependent, which is why a VTC is solved piecewise rather than from one equation.
 
-The sequence follows the output as well as the input. At low input, the high output gives pMOS little $V_{SD}$, so it is linear while nMOS is off. As input rises, nMOS first enters saturation while pMOS still pulls from the high rail. Around the steep transition both can satisfy saturation. After the output falls, nMOS has small $V_{DS}$ and becomes linear while pMOS eventually turns off.
+The sequence follows the output as well as the input. At low input, the high output gives pMOS little $`V_{SD}`$, so it is linear while nMOS is off. As input rises, nMOS first enters saturation while pMOS still pulls from the high rail. Around the steep transition both can satisfy saturation. After the output falls, nMOS has small $`V_{DS}`$ and becomes linear while pMOS eventually turns off.
 
 ### Clarity / correction / improvement
 
-In the ideal model, the both-saturation region collapses to a very steep transition because both currents are nearly independent of $V_{out}$. Channel-length modulation gives it finite width and slope.
+In the ideal model, the both-saturation region collapses to a very steep transition because both currents are nearly independent of $`V_{out}`$. Channel-length modulation gives it finite width and slope.
 
 ### Active recall
 
-List the five nMOS/pMOS region pairs encountered as input rises from 0 to $V_{DD}$.
+List the five nMOS/pMOS region pairs encountered as input rises from 0 to $`V_{DD}`$.
 
 <a id="page-07"></a>
 
@@ -182,17 +182,17 @@ List the five nMOS/pMOS region pairs encountered as input rises from 0 to $V_{DD
 
 For a given input, first verify whether both devices are on and saturated. Then use the square-law equations to calculate or compare nMOS and pMOS drain current. In DC steady state these currents must match in magnitude because charge cannot keep accumulating at the output node.
 
-The boxed current is therefore also a consistency check on transistor sizing. If the two calculated saturation currents differ at an assumed $V_{in}=V_{out}$, the actual switching point lies elsewhere.
+The boxed current is therefore also a consistency check on transistor sizing. If the two calculated saturation currents differ at an assumed $`V_{in}=V_{out}`$, the actual switching point lies elsewhere.
 
-The direction of the mismatch predicts how the node must move. If nMOS pull-down current is larger, the output capacitor loses charge and $V_{out}$ falls; that reduces nMOS $V_{DS}$ or changes its region while increasing pMOS $V_{SD}$ until the currents balance. If pMOS current is larger, the opposite motion occurs. The arithmetic is therefore tied directly to charge conservation at the drawn node.
+The direction of the mismatch predicts how the node must move. If nMOS pull-down current is larger, the output capacitor loses charge and $`V_{out}`$ falls; that reduces nMOS $`V_{DS}`$ or changes its region while increasing pMOS $`V_{SD}`$ until the currents balance. If pMOS current is larger, the opposite motion occurs. The arithmetic is therefore tied directly to charge conservation at the drawn node.
 
 ### Clarity / correction / improvement
 
-Carry units through $\mu C'_{ox}(W/L)V_{OV}^2/2$. Device strength has units A/V2, so the final current must be in amperes.
+Carry units through $`\mu C'_{ox}(W/L)V_{OV}^2/2`$. Device strength has units A/V2, so the final current must be in amperes.
 
 ### Active recall
 
-If $I_{Dn}>|I_{Dp}|$ at a candidate output voltage, which direction must the output move to restore KCL?
+If $`I_{Dn}>|I_{Dp}|`$ at a candidate output voltage, which direction must the output move to restore KCL?
 
 <a id="page-08"></a>
 
@@ -202,19 +202,19 @@ If $I_{Dn}>|I_{Dp}|$ at a candidate output voltage, which direction must the out
 
 ### Simultaneous saturation conditions
 
-Both transistors are saturated only where their saturation inequalities overlap. nMOS saturation requires $V_{out}\ge V_{in}-V_{Tn}$. pMOS saturation in magnitude form requires $V_{DD}-V_{out}\ge V_{DD}-V_{in}-|V_{Tp}|$, which simplifies to $V_{out}\le V_{in}+|V_{Tp}|$.
+Both transistors are saturated only where their saturation inequalities overlap. nMOS saturation requires $`V_{out}\ge V_{in}-V_{Tn}`$. pMOS saturation in magnitude form requires $`V_{DD}-V_{out}\ge V_{DD}-V_{in}-|V_{Tp}|`$, which simplifies to $`V_{out}\le V_{in}+|V_{Tp}|`$.
 
 Both can therefore be saturated for an overlapping range around the switching point. In that range, a small input change strongly changes both currents in opposite directions, while output dependence is weak; the result is high negative voltage gain.
 
-The two inequalities place an upper and lower bound on the same $V_{out}$. nMOS remains pinched off when the output is not too low, and pMOS remains pinched off when the output is not too high relative to the input. Their overlap is possible because each transistor references a different supply rail. Inside it, current balance is extremely sensitive to $V_{in}$, explaining the nearly vertical VTC segment.
+The two inequalities place an upper and lower bound on the same $`V_{out}`$. nMOS remains pinched off when the output is not too low, and pMOS remains pinched off when the output is not too high relative to the input. Their overlap is possible because each transistor references a different supply rail. Inside it, current balance is extremely sensitive to $`V_{in}`$, explaining the nearly vertical VTC segment.
 
 ### Clarity / correction / improvement
 
-“Both saturation” does not mean both carry independent currents indefinitely. At the shared node, their magnitudes must still be equal in DC; otherwise the output capacitance charges and $V_{out}$ moves.
+“Both saturation” does not mean both carry independent currents indefinitely. At the shared node, their magnitudes must still be equal in DC; otherwise the output capacitance charges and $`V_{out}`$ moves.
 
 ### Active recall
 
-Write the two inequalities that bound $V_{out}$ when both inverter transistors are saturated.
+Write the two inequalities that bound $`V_{out}`$ when both inverter transistors are saturated.
 
 <a id="page-09"></a>
 
@@ -226,7 +226,7 @@ Write the two inequalities that bound $V_{out}$ when both inverter transistors a
 
 The upper work maps several input values to transistor states and output behavior. The lower sketches reduce following logic gates to their input capacitances, which appear as a load at the driving inverter output. This is the transition from static VTC analysis to dynamic timing.
 
-Even if the next gate draws essentially no DC current, its gate capacitance requires charge $Q=C_LV$ whenever the logic level changes. The driving pMOS or nMOS must source or sink that charge, so fan-out affects delay without altering ideal DC logic levels.
+Even if the next gate draws essentially no DC current, its gate capacitance requires charge $`Q=C_LV`$ whenever the logic level changes. The driving pMOS or nMOS must source or sink that charge, so fan-out affects delay without altering ideal DC logic levels.
 
 The load sketch groups several physical capacitances at one node: gate oxide capacitance of following inputs, their overlap capacitances, the driving inverter's drain junction capacitances, and interconnect capacitance. Adding another fan-out gate adds charge demand in parallel. The static state still draws almost no input current, but every transition must redistribute the larger total charge through the finite pull-up or pull-down device.
 
@@ -246,11 +246,11 @@ Why can adding more CMOS gate inputs slow an inverter even though each added inp
 
 ### Equivalent RC model for output transitions
 
-The RC approximation models the conducting transistor as an equivalent resistance and the following gate inputs/interconnect as a lumped capacitance. During a rising output, pMOS supplies current through $R_p$; during a falling output, nMOS removes charge through $R_n$.
+The RC approximation models the conducting transistor as an equivalent resistance and the following gate inputs/interconnect as a lumped capacitance. During a rising output, pMOS supplies current through $`R_p`$; during a falling output, nMOS removes charge through $`R_n`$.
 
-This first-order model gives separate time constants $\tau_{rise}=R_pC_L$ and $\tau_{fall}=R_nC_L$. Matching pull-up and pull-down strength makes rise and fall delay similar.
+This first-order model gives separate time constants $`\tau_{rise}=R_pC_L`$ and $`\tau_{fall}=R_nC_L`$. Matching pull-up and pull-down strength makes rise and fall delay similar.
 
-The two equivalent circuits are selected by transition direction. For a low-to-high output, pMOS connects the capacitor to $V_{DD}$ while nMOS is off; for a high-to-low output, nMOS connects it to ground while pMOS is off. The same lumped $C_L$ can therefore experience different effective resistances, which is why timing specifications list separate rising and falling delays.
+The two equivalent circuits are selected by transition direction. For a low-to-high output, pMOS connects the capacitor to $`V_{DD}`$ while nMOS is off; for a high-to-low output, nMOS connects it to ground while pMOS is off. The same lumped $`C_L`$ can therefore experience different effective resistances, which is why timing specifications list separate rising and falling delays.
 
 ### Clarity / correction / improvement
 
@@ -258,7 +258,7 @@ The equivalent resistance is an average over a nonlinear voltage trajectory. It 
 
 ### Active recall
 
-Which transistor and which equivalent resistance control $t_{PLH}$ and $t_{PHL}$?
+Which transistor and which equivalent resistance control $`t_{PLH}`$ and $`t_{PHL}`$?
 
 <a id="page-11"></a>
 
@@ -268,11 +268,11 @@ Which transistor and which equivalent resistance control $t_{PLH}$ and $t_{PHL}$
 
 ### Capacitor-voltage continuity
 
-The step input and inverter-capacitor circuit show initial and final conditions. At $t=0^+$, $V_{out}$ remains at its pre-step value because changing capacitor voltage instantaneously would require infinite current. The newly conducting transistor then charges or discharges $C_L$, making $V_{out}(t)$ continuous and exponential in the RC approximation.
+The step input and inverter-capacitor circuit show initial and final conditions. At $t=0^+$, $`V_{out}`$ remains at its pre-step value because changing capacitor voltage instantaneously would require infinite current. The newly conducting transistor then charges or discharges $`C_L`$, making $`V_{out}(t)`$ continuous and exponential in the RC approximation.
 
 Analyze a switched-capacitor node separately at $t=0^-$, $t=0^+$, and $t>0$.
 
-Initial capacitor voltage becomes a state variable carried across the switching instant. The input source may change ideally as a step, immediately changing transistor control and current, but the output remains continuous. That retained output value determines the newly conducting transistor's initial $V_{DS}$ and region. Only after finite charge $\int i(t)dt$ flows can the output move toward its new rail.
+Initial capacitor voltage becomes a state variable carried across the switching instant. The input source may change ideally as a step, immediately changing transistor control and current, but the output remains continuous. That retained output value determines the newly conducting transistor's initial $`V_{DS}`$ and region. Only after finite charge $\int i(t)dt$ flows can the output move toward its new rail.
 
 ### Clarity / correction / improvement
 
@@ -290,7 +290,7 @@ Immediately after a low-to-high input step, what are the output voltage and nMOS
 
 ### Exponential response and timing thresholds
 
-For a constant equivalent resistance, a rising output is $V_{out}=V_{DD}(1-e^{-t/RC})$, while a falling output is $V_{out}=V_{DD}e^{-t/RC}$. The 50% crossing occurs at $t=RC\ln2\approx0.69RC$, the usual first-order propagation delay.
+For a constant equivalent resistance, a rising output is $`V_{out}=V_{DD}(1-e^{-t/RC})`$, while a falling output is $`V_{out}=V_{DD}e^{-t/RC}`$. The 50% crossing occurs at $t=RC\ln2\approx0.69RC$, the usual first-order propagation delay.
 
 The 10%-to-90% rise or fall time is about $2.2RC$. Propagation delay and rise/fall time are therefore related but not identical measurements.
 
@@ -298,7 +298,7 @@ Both constants come from the same exponential but use different voltage landmark
 
 ### Clarity / correction / improvement
 
-Use $t_{PLH}$ for output low-to-high and $t_{PHL}$ for output high-to-low. The first letter pair describes the **output**, not the input transition.
+Use $`t_{PLH}`$ for output low-to-high and $`t_{PHL}`$ for output high-to-low. The first letter pair describes the **output**, not the input transition.
 
 ### Active recall
 
@@ -312,11 +312,11 @@ Why is a 50% propagation delay approximately $0.69RC$, while a 10%-90% transitio
 
 ### Propagation-delay measurement
 
-The input pulse and delayed, rounded output show that a CMOS gate has finite response time. $t_{PHL}$ is measured from the input's 50% point to the falling output's 50% point; $t_{PLH}$ is measured similarly for the rising output. Average propagation delay is often $t_p=(t_{PHL}+t_{PLH})/2$.
+The input pulse and delayed, rounded output show that a CMOS gate has finite response time. $`t_{PHL}`$ is measured from the input's 50% point to the falling output's 50% point; $`t_{PLH}`$ is measured similarly for the rising output. Average propagation delay is often $`t_p=(t_{PHL}+t_{PLH})/2`$.
 
 The asymmetry between the two delays comes from unequal nMOS/pMOS drive, different voltage-dependent current paths, and potentially different capacitance during each transition.
 
-Use corresponding 50% markers rather than comparing the visibly rounded edge endpoints. A rising input causes a falling output and defines $t_{PHL}$; a falling input causes a rising output and defines $t_{PLH}$. The horizontal separation between the two 50% crossings is propagation delay, while the width of one output edge between its 10% and 90% levels is transition time.
+Use corresponding 50% markers rather than comparing the visibly rounded edge endpoints. A rising input causes a falling output and defines $`t_{PHL}`$; a falling input causes a rising output and defines $`t_{PLH}`$. The horizontal separation between the two 50% crossings is propagation delay, while the width of one output edge between its 10% and 90% levels is transition time.
 
 ### Clarity / correction / improvement
 
@@ -324,7 +324,7 @@ Do not measure delay from the start of the input edge unless a problem explicitl
 
 ### Active recall
 
-If $R_p>R_n$ for the same load, which propagation delay is larger?
+If $`R_p>R_n`$ for the same load, which propagation delay is larger?
 
 <a id="page-14"></a>
 
@@ -334,15 +334,15 @@ If $R_p>R_n$ for the same load, which propagation delay is larger?
 
 ### pMOS pass-switch limits
 
-A pMOS can act as a pass switch. With a low gate, pMOS passes a high input strongly because its source-gate voltage stays large as the output rises toward $V_{DD}$. When asked to pass a low level, conduction weakens and stops when the relevant source-gate magnitude falls to $|V_{Tp}|$, leaving a threshold-degraded low.
+A pMOS can act as a pass switch. With a low gate, pMOS passes a high input strongly because its source-gate voltage stays large as the output rises toward $`V_{DD}`$. When asked to pass a low level, conduction weakens and stops when the relevant source-gate magnitude falls to $`|V_{Tp}|`$, leaving a threshold-degraded low.
 
 Thus pMOS is naturally a strong pull-up/pass-high device and a weak pull-down/pass-low device.
 
-The pass-node voltage determines which diffusion acts as the pMOS source. While a high level is transferred, the higher-potential input remains the source and maintains a large $V_{SG}$ until the output reaches it. While a low is transferred, the output-side terminal eventually becomes the higher-potential source; as that voltage falls, $V_{SG}$ shrinks to $|V_{Tp}|$ and the device turns itself off before reaching ground.
+The pass-node voltage determines which diffusion acts as the pMOS source. While a high level is transferred, the higher-potential input remains the source and maintains a large $`V_{SG}`$ until the output reaches it. While a low is transferred, the output-side terminal eventually becomes the higher-potential source; as that voltage falls, $`V_{SG}`$ shrinks to $`|V_{Tp}|`$ and the device turns itself off before reaching ground.
 
 ### Question / TODO acknowledged
 
-The handwriting asks why pMOS can pull all the way to the upper rail. As its output rises, the higher-potential terminal remains the source and $V_{SG}$ remains sufficient until the output reaches the high input itself. There is no threshold loss for the logic level whose polarity keeps the device strongly on.
+The handwriting asks why pMOS can pull all the way to the upper rail. As its output rises, the higher-potential terminal remains the source and $`V_{SG}`$ remains sufficient until the output reaches the high input itself. There is no threshold loss for the logic level whose polarity keeps the device strongly on.
 
 ### Clarity / correction / improvement
 
@@ -360,19 +360,19 @@ Why does a pMOS pass a high level without the same threshold loss that an nMOS s
 
 ### Threshold loss in individual pass transistors
 
-Individual nMOS and pMOS pass transistors have complementary voltage-transfer limits. An nMOS with gate at $V_{DD}$ raises its output only until $V_{GS}=V_T$, giving approximately $V_{out,max}=V_G-V_{Tn}$; it passes a weak 1 but a strong 0. A pMOS with gate at 0 passes a strong 1 but stops lowering a node when $V_{SG}$ reaches $|V_{Tp}|$, so it passes a weak 0.
+Individual nMOS and pMOS pass transistors have complementary voltage-transfer limits. An nMOS with gate at $`V_{DD}`$ raises its output only until $`V_{GS}=V_T`$, giving approximately $`V_{out,max}=V_G-V_{Tn}`$; it passes a weak 1 but a strong 0. A pMOS with gate at 0 passes a strong 1 but stops lowering a node when $`V_{SG}`$ reaches $`|V_{Tp}|`$, so it passes a weak 0.
 
 These are not resistive divider losses. The transistor turns itself off as the output approaches the problematic rail because its gate-to-source control voltage shrinks.
 
-The two sketches are complementary threshold tests. For nMOS passing high, the rising output becomes its source, so $V_{GS}=V_G-V_{out}$ decreases until it equals $V_{Tn}$. For pMOS passing low, the falling node changes the relevant source-to-gate magnitude until it equals $|V_{Tp}|$. At the favored rail, the appropriate device retains sufficient overdrive all the way to the input level.
+The two sketches are complementary threshold tests. For nMOS passing high, the rising output becomes its source, so $`V_{GS}=V_G-V_{out}`$ decreases until it equals $`V_{Tn}`$. For pMOS passing low, the falling node changes the relevant source-to-gate magnitude until it equals $`|V_{Tp}|`$. At the favored rail, the appropriate device retains sufficient overdrive all the way to the input level.
 
 ### Question / TODO acknowledged
 
-The maximum value of $V_{out}$ for an nMOS pass transistor is set by its turn-off boundary: $V_{out,max}\approx V_G-V_{Tn}$, usually somewhat lower when body effect raises $V_T$.
+The maximum value of $`V_{out}`$ for an nMOS pass transistor is set by its turn-off boundary: $`V_{out,max}\approx V_G-V_{Tn}`$, usually somewhat lower when body effect raises $`V_T`$.
 
 ### Clarity / correction / improvement
 
-Always identify which terminal becomes the source as the pass-node voltage moves. MOS source/drain roles can exchange, and the controlling $V_{GS}$ must use the instantaneous lower-potential terminal for nMOS.
+Always identify which terminal becomes the source as the pass-node voltage moves. MOS source/drain roles can exchange, and the controlling $`V_{GS}`$ must use the instantaneous lower-potential terminal for nMOS.
 
 ### Active recall
 
@@ -390,7 +390,7 @@ A transmission gate connects nMOS and pMOS in parallel with complementary gate c
 
 This complementary pass pair is a transmission gate. It avoids the first-order threshold loss of a single pass transistor and provides more uniform resistance across the signal range.
 
-Complementary controls ensure that both devices are simultaneously on or off. With enable high, nMOS gate is high and pMOS gate is low; near zero the nMOS carries most of the signal current, near $V_{DD}$ the pMOS does, and around mid-supply they share it. With enable low, both gate-source magnitudes fall below threshold, so neither provides a DC path between the two signal nodes.
+Complementary controls ensure that both devices are simultaneously on or off. With enable high, nMOS gate is high and pMOS gate is low; near zero the nMOS carries most of the signal current, near $`V_{DD}`$ the pMOS does, and around mid-supply they share it. With enable low, both gate-source magnitudes fall below threshold, so neither provides a DC path between the two signal nodes.
 
 ### Question / TODO acknowledged
 
@@ -412,7 +412,7 @@ Which complementary gate voltages enable a transmission gate made of parallel nM
 
 ### Leakage, overlap current, and capacitive switching
 
-The VTC and current peak divide CMOS power into mechanisms. In stable ideal logic states, one transistor is off, so there is no direct $V_{DD}$-to-ground path and ideal static power is zero. Real static power comes mainly from leakage.
+The VTC and current peak divide CMOS power into mechanisms. In stable ideal logic states, one transistor is off, so there is no direct $`V_{DD}`$-to-ground path and ideal static power is zero. Real static power comes mainly from leakage.
 
 During an input transition, both transistors can conduct briefly, producing short-circuit current. Separately, charging and discharging the output/load capacitance consumes dynamic energy even if the input edge were infinitely sharp.
 
@@ -434,19 +434,19 @@ Name the three power components in a real CMOS gate and state when each occurs.
 
 ### Supply energy and stored capacitor energy
 
-When input goes low, pMOS turns on and charges $C_L$ from 0 to $V_{DD}$. The supply delivers total charge $Q=C_LV_{DD}$. The energy drawn from an ideal constant-voltage supply is therefore $E_{supply}=V_{DD}Q=C_LV_{DD}^2$.
+When input goes low, pMOS turns on and charges $`C_L`$ from 0 to $`V_{DD}`$. The supply delivers total charge $`Q=C_LV_{DD}`$. The energy drawn from an ideal constant-voltage supply is therefore $`E_{supply}=V_{DD}Q=C_LV_{DD}^2`$.
 
-Only half, $\tfrac12C_LV_{DD}^2$, remains stored in the capacitor. The other half is dissipated in the pull-up path, independent of its resistance value for an ordinary RC charge; resistance changes how fast, not the total dissipated fraction.
+Only half, $`\tfrac12C_LV_{DD}^2`$, remains stored in the capacitor. The other half is dissipated in the pull-up path, independent of its resistance value for an ordinary RC charge; resistance changes how fast, not the total dissipated fraction.
 
-The energy accounting follows the two drawn endpoints. The supply moves charge $C_LV_{DD}$ through a constant potential $V_{DD}$, so it provides $C_LV_{DD}^2$. The capacitor's final electrostatic energy is obtained by integrating its rising voltage during charging and is only half that amount. The missing half becomes heat in the conducting pMOS path; on discharge, the stored half becomes heat in nMOS.
+The energy accounting follows the two drawn endpoints. The supply moves charge $`C_LV_{DD}`$ through a constant potential $`V_{DD}`$, so it provides $`C_LV_{DD}^2`$. The capacitor's final electrostatic energy is obtained by integrating its rising voltage during charging and is only half that amount. The missing half becomes heat in the conducting pMOS path; on discharge, the stored half becomes heat in nMOS.
 
 ### Question / TODO acknowledged
 
-The handwriting asks “how much $V_{DD}$ is being utilized?” In energy terms, the supply provides $C_LV_{DD}^2$ per 0-to-1 event: half is stored on $C_L$, half becomes heat in the pMOS/interconnect resistance.
+The handwriting asks “how much $`V_{DD}`$ is being utilized?” In energy terms, the supply provides $`C_LV_{DD}^2`$ per 0-to-1 event: half is stored on $`C_L`$, half becomes heat in the pMOS/interconnect resistance.
 
 ### Clarity / correction / improvement
 
-When the capacitor later discharges, its stored half-energy is dissipated in nMOS and is not returned to an ordinary supply. Therefore a complete 0-1-0 cycle dissipates $C_LV_{DD}^2$.
+When the capacitor later discharges, its stored half-energy is dissipated in nMOS and is not returned to an ordinary supply. Therefore a complete 0-1-0 cycle dissipates $`C_LV_{DD}^2`$.
 
 ### Active recall
 
@@ -468,7 +468,7 @@ $$
 
 where $\alpha$ is the average number/probability of 0-to-1 charging events per clock opportunity under the chosen frequency convention. This square dependence makes supply reduction a powerful energy-saving lever.
 
-The derivation counts energy drawn from the supply, so only charging events enter directly. Multiplying $C_LV_{DD}^2$ by the average event rate $\alpha f$ converts joules per event into joules per second. The activity factor belongs to the particular node: a clock may charge every cycle, while a data node may remain unchanged for many cycles even at the same system frequency.
+The derivation counts energy drawn from the supply, so only charging events enter directly. Multiplying $`C_LV_{DD}^2`$ by the average event rate $\alpha f$ converts joules per event into joules per second. The activity factor belongs to the particular node: a clock may charge every cycle, while a data node may remain unchanged for many cycles even at the same system frequency.
 
 ### Clarity / correction / improvement
 
@@ -486,9 +486,9 @@ If supply voltage falls by 20% while capacitance, activity, and frequency stay f
 
 ### Activity factor and power calculation
 
-The square input waveform identifies switching frequency and the calculation substitutes $C_L$, $V_{DD}$, and event rate into $P=\alpha C_LV_{DD}^2f$. The boxed milliwatt result is an order-of-magnitude check that capacitance and frequency units were converted consistently.
+The square input waveform identifies switching frequency and the calculation substitutes $`C_L`$, $`V_{DD}`$, and event rate into $`P=\alpha C_LV_{DD}^2f`$. The boxed milliwatt result is an order-of-magnitude check that capacitance and frequency units were converted consistently.
 
-The lower VTC sketch reminds that reducing $V_{DD}$ also reduces signal swing and available overdrive. Power improves quadratically, but delay tends to worsen because transistor current falls.
+The lower VTC sketch reminds that reducing $`V_{DD}`$ also reduces signal swing and available overdrive. Power improves quadratically, but delay tends to worsen because transistor current falls.
 
 The waveform determines event rate before numbers are inserted. Identify how many low-to-high output charges occur per shown period, convert the period to frequency, and then apply the chosen $\alpha$ convention once. The dimensional product should reduce to farads times volts squared times inverse seconds, which is watts. The VTC note prevents reading voltage scaling as a free power reduction with no timing consequence.
 
@@ -508,19 +508,19 @@ Which three independent unit conversions should be checked in a dynamic-power ca
 
 ### Strength-ratio dependence of switching voltage
 
-The CMOS switching-point equation uses threshold voltages and the strength ratio to determine the transition. The factor $\sqrt{\beta_n/\beta_p}$ weights the two current contributions. Stronger nMOS pulls the transition downward; stronger pMOS pulls it upward.
+The CMOS switching-point equation uses threshold voltages and the strength ratio to determine the transition. The factor $`\sqrt{\beta_n/\beta_p}`$ weights the two current contributions. Stronger nMOS pulls the transition downward; stronger pMOS pulls it upward.
 
 The equality of current magnitudes is valid at the DC switching point. It is not an energy or delay equation, although the same sizing parameters later influence delay.
 
-The square root appears because both device currents are quadratic in their respective overdrives. At balance, a fourfold nMOS-to-pMOS $\beta$ ratio means the nMOS needs only half the overdrive magnitude to carry the same current. The crossing must therefore move toward the nMOS-off side, lowering $V_M$ so pMOS gains more control voltage and nMOS loses some.
+The square root appears because both device currents are quadratic in their respective overdrives. At balance, a fourfold nMOS-to-pMOS $\beta$ ratio means the nMOS needs only half the overdrive magnitude to carry the same current. The crossing must therefore move toward the nMOS-off side, lowering $`V_M`$ so pMOS gains more control voltage and nMOS loses some.
 
 ### Clarity / correction / improvement
 
-Check whether the strength definition uses $k=\mu C'_{ox}W/L$ or uses a convention with a factor $1/2$. Ratios are unaffected only when both n and p use the same definition.
+Check whether the strength definition uses $`k=\mu C'_{ox}W/L`$ or uses a convention with a factor $1/2$. Ratios are unaffected only when both n and p use the same definition.
 
 ### Active recall
 
-If $\beta_n/\beta_p=4$, what weighting factor appears after taking the square root, and which way does $V_M$ shift?
+If $`\beta_n/\beta_p=4`$, what weighting factor appears after taking the square root, and which way does $`V_M`$ shift?
 
 <a id="page-22"></a>
 
@@ -530,15 +530,15 @@ If $\beta_n/\beta_p=4$, what weighting factor appears after taking the square ro
 
 ### Logic-level limits and unity-gain boundaries
 
-The voltage-transfer curve defines four levels. $V_{OL}$ and $V_{OH}$ are guaranteed output levels near the rails. $V_{IL}$ is the largest input still safely interpreted as low; $V_{IH}$ is the smallest input safely interpreted as high. In the standard graphical definition, $V_{IL}$ and $V_{IH}$ are the VTC points where slope equals $-1$.
+The voltage-transfer curve defines four levels. $`V_{OL}`$ and $`V_{OH}`$ are guaranteed output levels near the rails. $`V_{IL}`$ is the largest input still safely interpreted as low; $`V_{IH}`$ is the smallest input safely interpreted as high. In the standard graphical definition, $`V_{IL}`$ and $`V_{IH}`$ are the VTC points where slope equals $-1$.
 
-The noise margins are $NM_L=V_{IL}-V_{OL}$ and $NM_H=V_{OH}-V_{IH}$. They measure how much unwanted voltage can be added before a valid output is no longer guaranteed as a valid input to the next stage.
+The noise margins are $`NM_L=V_{IL}-V_{OL}`$ and $`NM_H=V_{OH}-V_{IH}`$. They measure how much unwanted voltage can be added before a valid output is no longer guaranteed as a valid input to the next stage.
 
 The slope-$-1$ markers divide restoring from amplifying behavior on the VTC. Outside them, a small input error produces a smaller output error in magnitude, so cascaded gates move the signal back toward a rail. Between them, gain magnitude exceeds one and the input is not guaranteed as either logic value. The four voltage specifications record the boundaries needed to compare a driving gate with the next receiving gate.
 
 ### Question / TODO acknowledged
 
-The handwriting wonders why the gain-$-1$ points are used. At $|dV_{out}/dV_{in}|$ below 1, small disturbances shrink through a stage; above 1 they are amplified. The $-1$ crossings therefore mark the boundaries of regenerative logic behavior.
+The handwriting wonders why the gain-$-1$ points are used. At $`|dV_{out}/dV_{in}|`$ below 1, small disturbances shrink through a stage; above 1 they are amplified. The $-1$ crossings therefore mark the boundaries of regenerative logic behavior.
 
 ### Clarity / correction / improvement
 
@@ -546,7 +546,7 @@ Noise margin is a DC voltage allowance, not noise power. It assumes the next gat
 
 ### Active recall
 
-Why are $V_{IL}$ and $V_{IH}$ input specifications while $V_{OL}$ and $V_{OH}$ are output specifications?
+Why are $`V_{IL}`$ and $`V_{IH}`$ input specifications while $`V_{OL}`$ and $`V_{OH}`$ are output specifications?
 
 <a id="page-23"></a>
 
@@ -556,19 +556,19 @@ Why are $V_{IL}$ and $V_{IH}$ input specifications while $V_{OL}$ and $V_{OH}$ a
 
 ### Noise-margin calculation
 
-The diagrams place valid logic-0 and logic-1 ranges on the voltage axis and show the unused gap between guaranteed output and accepted input. Cascading inverters works reliably when every output-high is at least $V_{IH}$ and every output-low is at most $V_{IL}$.
+The diagrams place valid logic-0 and logic-1 ranges on the voltage axis and show the unused gap between guaranteed output and accepted input. Cascading inverters works reliably when every output-high is at least $`V_{IH}`$ and every output-low is at most $`V_{IL}`$.
 
 The two-inverter sketch also shows logic restoration. A slightly degraded but still valid input is pushed toward a clean rail at the next output because the stable VTC regions have gain magnitude less than one.
 
-The horizontal gaps are computed between worst-case output and input guarantees of the same logic value. For logic high, the driver promises at least $V_{OH}$ while the receiver needs at least $V_{IH}$, leaving $V_{OH}-V_{IH}$. For logic low, the driver promises at most $V_{OL}$ while the receiver accepts up to $V_{IL}$, leaving $V_{IL}-V_{OL}$. These gaps are the drawn tolerable disturbances.
+The horizontal gaps are computed between worst-case output and input guarantees of the same logic value. For logic high, the driver promises at least $`V_{OH}`$ while the receiver needs at least $`V_{IH}`$, leaving $`V_{OH}-V_{IH}`$. For logic low, the driver promises at most $`V_{OL}`$ while the receiver accepts up to $`V_{IL}`$, leaving $`V_{IL}-V_{OL}`$. These gaps are the drawn tolerable disturbances.
 
 ### Clarity / correction / improvement
 
-Use worst-case bounds: $V_{OH,min}$, $V_{OL,max}$, $V_{IH,min}$, and $V_{IL,max}$. Nominal rail values can overstate real noise tolerance across process, voltage, and temperature.
+Use worst-case bounds: $`V_{OH,min}`$, $`V_{OL,max}`$, $`V_{IH,min}`$, and $`V_{IL,max}`$. Nominal rail values can overstate real noise tolerance across process, voltage, and temperature.
 
 ### Active recall
 
-Given $V_{OH}=4.8$ V and $V_{IH}=3.2$ V, what is $NM_H$, and what physical disturbance does it tolerate?
+Given $`V_{OH}=4.8`$ V and $`V_{IH}=3.2`$ V, what is $`NM_H`$, and what physical disturbance does it tolerate?
 
 <a id="page-24"></a>
 
@@ -578,11 +578,11 @@ Given $V_{OH}=4.8$ V and $V_{IH}=3.2$ V, what is $NM_H$, and what physical distu
 
 ### Geometry, on-resistance, and edge-delay matching
 
-The nMOS and pMOS strengths are $\beta_n=\mu_nC'_{ox}(W/L)_n$ and $\beta_p=\mu_pC'_{ox}(W/L)_p$, which determine effective on-resistance and RC delay. Roughly, stronger β means smaller $R_{on}$, so $t_{PHL}\propto R_nC_L$ and $t_{PLH}\propto R_pC_L$.
+The nMOS and pMOS strengths are $`\beta_n=\mu_nC'_{ox}(W/L)_n`$ and $`\beta_p=\mu_pC'_{ox}(W/L)_p`$, which determine effective on-resistance and RC delay. Roughly, stronger β means smaller $`R_{on}`$, so $`t_{PHL}\propto R_nC_L`$ and $`t_{PLH}\propto R_pC_L`$.
 
-To equalize delays, choose geometry so $R_n\approx R_p$, equivalently $\beta_n\approx\beta_p$ under the same overdrive approximation. Since $\mu_p<\mu_n$, this generally means $(W/L)_p>(W/L)_n$.
+To equalize delays, choose geometry so $`R_n\approx R_p`$, equivalently $`\beta_n\approx\beta_p`$ under the same overdrive approximation. Since $`\mu_p<\mu_n`$, this generally means $`(W/L)_p>(W/L)_n`$.
 
-Three first-order relations connect device sizing to delay: device geometry sets $\beta$, $\beta$ sets inverse on-resistance, and on-resistance with $C_L$ sets delay. Widening pMOS can balance its lower mobility, but that wider gate and diffusion also increase capacitance. Therefore sizing improves the current side of the RC product while simultaneously changing the capacitance side, which explains why the best system delay is not obtained by infinite width.
+Three first-order relations connect device sizing to delay: device geometry sets $\beta$, $\beta$ sets inverse on-resistance, and on-resistance with $`C_L`$ sets delay. Widening pMOS can balance its lower mobility, but that wider gate and diffusion also increase capacitance. Therefore sizing improves the current side of the RC product while simultaneously changing the capacitance side, which explains why the best system delay is not obtained by infinite width.
 
 ### Clarity / correction / improvement
 

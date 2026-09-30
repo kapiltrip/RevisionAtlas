@@ -66,7 +66,7 @@ For every problem, draw the launch edge, capture edge, full clock paths, and ful
 | <a id="index-page-08"></a>[8](#page-08) | Full adder built from half adders | <a id="index-page-21"></a>[21](#page-21) | Why data delay improves hold margin |
 | <a id="index-page-09"></a>[9](#page-09) | Required time, arrival time, and setup slack | <a id="index-page-22"></a>[22](#page-22) | General setup/hold equations with clock delays |
 | <a id="index-page-10"></a>[10](#page-10) | Inequality equivalence; sticky-note correction | <a id="index-page-23"></a>[23](#page-23) | Worked skew example and missing data-path delay |
-| <a id="index-page-11"></a>[11](#page-11) | Min/max delay tuples and path bookkeeping | <a id="index-page-24"></a>[24](#page-24) | Three-register pipeline and symbolic $f_{max}$ |
+| <a id="index-page-11"></a>[11](#page-11) | Min/max delay tuples and path bookkeeping | <a id="index-page-24"></a>[24](#page-24) | Three-register pipeline and symbolic $`f_{max}`$ |
 | <a id="index-page-12"></a>[12](#page-12) | Worst-case setup pairing and clock corners | <a id="index-page-25"></a>[25](#page-25) | Final numerical problem, including red correction |
 | <a id="index-page-13"></a>[13](#page-13) | Hold analysis, min delays, and hold slack |  |  |
 
@@ -74,12 +74,12 @@ For every problem, draw the launch edge, capture edge, full clock paths, and ful
 
 For one register-to-register path, define:
 
-- $L_L$: launch-clock arrival time at the source flip-flop.
-- $L_C$: capture-clock arrival time at the destination flip-flop.
-- $S=L_C-L_L$: clock skew. With this convention, positive skew means the capture clock arrives later.
-- $t_{cq,max}$ and $t_{cq,min}$: maximum and minimum clock-to-Q delay of the launch flip-flop.
-- $t_{comb,max}$ and $t_{comb,min}$: maximum and minimum delay of the complete sensitized combinational data path.
-- $t_{su}$ and $t_h$: setup and hold requirements of the capture flip-flop.
+- $`L_L`$: launch-clock arrival time at the source flip-flop.
+- $`L_C`$: capture-clock arrival time at the destination flip-flop.
+- $`S=L_C-L_L`$: clock skew. With this convention, positive skew means the capture clock arrives later.
+- $`t_{cq,max}`$ and $`t_{cq,min}`$: maximum and minimum clock-to-Q delay of the launch flip-flop.
+- $`t_{comb,max}`$ and $`t_{comb,min}`$: maximum and minimum delay of the complete sensitized combinational data path.
+- $`t_{su}`$ and $`t_h`$: setup and hold requirements of the capture flip-flop.
 
 Ignoring uncertainty for the handwritten examples, the setup check is
 
@@ -258,7 +258,7 @@ $$
 
 The transmission-gate implementation realizes the same selection structurally. Four input switches feed one output node, but the control decoding must be one-hot: only the selected input's switch may conduct. The four enables are $\bar A\bar B$, $\bar A B$, $A\bar B$, and $AB$.
 
-The two-stage sketch is another valid construction. First use $B$ to choose $I_0/I_1$ and $I_2/I_3$; then use $A$ to choose between those two intermediate nodes. With this convention, $A$ is the most-significant select bit and $B$ is the least-significant select bit.
+The two-stage sketch is another valid construction. First use $B$ to choose $`I_0/I_1`$ and $`I_2/I_3`$; then use $A$ to choose between those two intermediate nodes. With this convention, $A$ is the most-significant select bit and $B$ is the least-significant select bit.
 
 Each transmission-gate symbol needs complementary controls. If an enable is $E$, the nMOS gate receives $E$ and the pMOS gate receives $\bar E$. Accidentally applying the same polarity to both transistors prevents them from switching together. Also, overlapping select enables can short two data sources together; real decoding must avoid contention.
 
@@ -290,7 +290,7 @@ $$
 Q^{+}=EN\cdot D+\overline{EN}\cdot Q.
 $$
 
-When $EN=1$, input transmission gate $T_1$ is on and feedback gate $T_2$ is off; the latch is transparent, so after propagation delay $Q$ follows $D$. When $EN=0$, $T_1$ turns off and $T_2$ turns on. The two cascaded inverters have overall non-inverting polarity, so the feedback loop reinforces the stored bit instead of toggling it.
+When $EN=1$, input transmission gate $`T_1`$ is on and feedback gate $`T_2`$ is off; the latch is transparent, so after propagation delay $Q$ follows $D$. When $EN=0$, $`T_1`$ turns off and $`T_2`$ turns on. The two cascaded inverters have overall non-inverting polarity, so the feedback loop reinforces the stored bit instead of toggling it.
 
 The handwritten enable labels appear to use the opposite polarity in places. For an active-low enable, the same memory mechanism has the truth equation
 
@@ -324,7 +324,7 @@ Two level-sensitive latches driven by complementary clock phases form a master-s
 
 At the falling edge, latch 1 closes and traps the final input value. Simultaneously, latch 2 opens and transfers that trapped value to the output. During $CLK=0$, later input changes cannot pass through the closed master. At the next rising edge, the slave closes before the master begins tracking again. Ideally only the falling edge can transfer a new external value to $Q$.
 
-The clock inverter shown at the top creates complementary latch enables. In a physical cell, inverter delay and clock overlap matter: if both latches are transparent together, data can race through from $D$ to $Q$; if both are closed too long, the intermediate node must retain charge reliably. Standard-cell designers characterize these internal effects into $t_{su}$, $t_h$, $t_{cq}$, and pulse-width constraints.
+The clock inverter shown at the top creates complementary latch enables. In a physical cell, inverter delay and clock overlap matter: if both latches are transparent together, data can race through from $D$ to $Q$; if both are closed too long, the intermediate node must retain charge reliably. Standard-cell designers characterize these internal effects into $`t_{su}`$, $`t_h`$, $`t_{cq}`$, and pulse-width constraints.
 
 ### Correction
 
@@ -356,17 +356,17 @@ $$
 EN=1:\ Q^{+}=Q.
 $$
 
-Before the latch closes, the intended data must propagate far enough into the internal storage structure that closing the input gate cannot leave the regenerative loop with an ambiguous or old value. That is the physical origin of setup time. The marked $T_1+N_1+N_2$ path is a useful hand-analysis picture: $T_1$ is the input-switch delay and $N_1,N_2$ are inverter delays needed to establish a self-consistent state.
+Before the latch closes, the intended data must propagate far enough into the internal storage structure that closing the input gate cannot leave the regenerative loop with an ambiguous or old value. That is the physical origin of setup time. The marked $`T_1+N_1+N_2`$ path is a useful hand-analysis picture: $`T_1`$ is the input-switch delay and $`N_1,N_2`$ are inverter delays needed to establish a self-consistent state.
 
 ### Red-marker explanation and correction
 
-The statement “setup time is the delay of $T_1+N_1+N_2$” must not be used as a universal cell formula. Setup time is a characterized relationship between the external D and clock pins, usually determined by sweeping D-to-clock separation until clock-to-Q degradation or metastability reaches a specified criterion. Internal parallel paths, clock-gate delay, transistor sizing, slope, load, voltage, and process can make the characterized value different from one simple path sum.
+The statement “setup time is the delay of $`T_1+N_1+N_2`$” must not be used as a universal cell formula. Setup time is a characterized relationship between the external D and clock pins, usually determined by sweeping D-to-clock separation until clock-to-Q degradation or metastability reaches a specified criterion. Internal parallel paths, clock-gate delay, transistor sizing, slope, load, voltage, and process can make the characterized value different from one simple path sum.
 
 The bottom edge sketch should be interpreted using the active-low polarity: the relevant closing edge is the edge that changes the latch from transparent to hold. For an active-low latch, this is the rising edge of $EN$.
 
 ### Active recall
 
-Why can a path-delay sum explain the origin of setup time without being equal to the library's characterized $t_{su}$?
+Why can a path-delay sum explain the origin of setup time without being equal to the library's characterized $`t_{su}`$?
 
 [Back to index — page 5](#index-page-05)
 
@@ -394,7 +394,7 @@ $$
 t_{cq,min}+t_{comb,min}\ge t_h.
 $$
 
-The bottom waveforms illustrate the race: both flip-flops see nominally the same edge. FF2 must capture FF1's old-cycle output. FF1's new-cycle output is allowed to begin changing only after $t_{cq,min}$, and the data path adds further minimum delay. If that sum is shorter than FF2's hold window, FF2 can see the new value during the same edge.
+The bottom waveforms illustrate the race: both flip-flops see nominally the same edge. FF2 must capture FF1's old-cycle output. FF1's new-cycle output is allowed to begin changing only after $`t_{cq,min}`$, and the data path adds further minimum delay. If that sum is shorter than FF2's hold window, FF2 can see the new value during the same edge.
 
 ### Red-marker correction
 
@@ -402,7 +402,7 @@ It is imprecise to say “FF1 should hold the data.” FF1 is not commanded to e
 
 ### Active recall
 
-Why do we use $t_{cq,min}$ and $t_{comb,min}$ for hold rather than their maximum values?
+Why do we use $`t_{cq,min}`$ and $`t_{comb,min}`$ for hold rather than their maximum values?
 
 [Back to index — page 6](#index-page-06)
 
@@ -422,7 +422,7 @@ $$
 A=t_{cq1,max}+t_{comb,max}.
 $$
 
-FF2 needs its input stable $t_{su2}$ before the next edge at $T_{clk}$, so the latest permitted arrival is
+FF2 needs its input stable $`t_{su2}`$ before the next edge at $`T_{clk}`$, so the latest permitted arrival is
 
 $$
 R=T_{clk}-t_{su2}.
@@ -440,7 +440,7 @@ $$
 T_{clk}\ge t_{cq1,max}+t_{comb,max}+t_{su2}.
 $$
 
-Rearranging gives an upper bound on allowed setup time. That algebra is valid, but in design work $t_{su2}$ is normally fixed by the chosen cell, while $T_{clk}$ or the data path is what the designer changes.
+Rearranging gives an upper bound on allowed setup time. That algebra is valid, but in design work $`t_{su2}`$ is normally fixed by the chosen cell, while $`T_{clk}`$ or the data path is what the designer changes.
 
 ### Correction
 
@@ -448,7 +448,7 @@ The phrase “before this setup time data should come” is best stated as: the 
 
 ### Active recall
 
-If $t_{cq,max}=0.8\,ns$, $t_{comb,max}=3.7\,ns$, and $t_{su}=0.5\,ns$, what is the minimum zero-skew clock period?
+If $`t_{cq,max}=0.8\,ns`$, $`t_{comb,max}=3.7\,ns`$, and $`t_{su}=0.5\,ns`$, what is the minimum zero-skew clock period?
 
 [Back to index — page 7](#index-page-07)
 
@@ -468,7 +468,7 @@ $$
 S_1=A\oplus B,\qquad C_1=AB.
 $$
 
-The second receives $S_1,C_{in}$:
+The second receives $`S_1,C_{in}`$:
 
 $$
 Sum=S_1\oplus C_{in}=A\oplus B\oplus C_{in},
@@ -484,7 +484,7 @@ $$
 C_{out}=C_1+C_2=AB+(A\oplus B)C_{in}.
 $$
 
-The carry terms $C_1$ and $C_2$ cannot both be 1: $C_1=1$ requires $A=B=1$, which makes $A\oplus B=0$ and therefore $C_2=0$. Because the terms are mutually exclusive, OR and XOR produce the same value for these two signals:
+The carry terms $`C_1`$ and $`C_2`$ cannot both be 1: $`C_1=1`$ requires $A=B=1$, which makes $A\oplus B=0$ and therefore $`C_2=0`$. Because the terms are mutually exclusive, OR and XOR produce the same value for these two signals:
 
 $$
 C_1+C_2=C_1\oplus C_2.
@@ -492,7 +492,7 @@ $$
 
 ### Correction
 
-A standard implementation uses two half adders and one OR gate. A third half adder can supply the XOR of $C_1,C_2$, but its carry output is unused and the construction is unnecessarily large. The note's conclusion is logically valid only because the two carry terms are mutually exclusive.
+A standard implementation uses two half adders and one OR gate. A third half adder can supply the XOR of $`C_1,C_2`$, but its carry output is unused and the construction is unnecessarily large. The note's conclusion is logically valid only because the two carry terms are mutually exclusive.
 
 ### STA connection
 
@@ -500,7 +500,7 @@ The carry path and sum path have different logic depths. In a ripple-carry adder
 
 ### Active recall
 
-Prove in one line that $C_1C_2=0$ for every $A,B,C_{in}$.
+Prove in one line that $`C_1C_2=0`$ for every $`A,B,C_{in}`$.
 
 [Back to index — page 8](#index-page-08)
 
@@ -535,7 +535,7 @@ $$
 A_{setup}\le R_{setup}.
 $$
 
-Use $t_{cq}=3\,ns$, $t_{comb}=10\,ns$, $T_{clk}=20\,ns$, and $t_{su}=4\,ns$:
+Use $`t_{cq}=3\,ns`$, $`t_{comb}=10\,ns`$, $`T_{clk}=20\,ns`$, and $`t_{su}=4\,ns`$:
 
 $$
 A=3+10=13\,ns,
@@ -597,9 +597,9 @@ In the continued example, $A=13\,ns$ and $R=16\,ns$, so slack remains $+3\,ns$ w
 
 ### Sticky-note correction
 
-The sticky note says the time taken for transmission gate $T_1$ to turn off is called hold time. That is a helpful transistor-level cause, but it is not the complete definition. Hold time is the external interval for which D must remain stable after the active clock edge so the sequential cell captures reliably. Its value includes the combined behavior of internal clock delay, input switching devices, regenerative feedback, slopes, loading, and characterization criteria.
+The sticky note says the time taken for transmission gate $`T_1`$ to turn off is called hold time. That is a helpful transistor-level cause, but it is not the complete definition. Hold time is the external interval for which D must remain stable after the active clock edge so the sequential cell captures reliably. Its value includes the combined behavior of internal clock delay, input switching devices, regenerative feedback, slopes, loading, and characterization criteria.
 
-An external data-path delay does not alter the library cell's intrinsic $t_h$. It changes **hold slack** by changing when new data reaches D.
+An external data-path delay does not alter the library cell's intrinsic $`t_h`$. It changes **hold slack** by changing when new data reaches D.
 
 ### Active recall
 
@@ -650,8 +650,8 @@ Write one row per timing quantity:
 | Quantity | Early/min check | Late/max check |
 |---|---:|---:|
 | Launch clock latency | sum of launch-clock minima | sum of launch-clock maxima |
-| Clock-to-Q | $t_{cq,min}$ | $t_{cq,max}$ |
-| Data path | $t_{comb,min}$ | $t_{comb,max}$ |
+| Clock-to-Q | $`t_{cq,min}`$ | $`t_{cq,max}`$ |
+| Data path | $`t_{comb,min}`$ | $`t_{comb,max}`$ |
 | Capture clock latency | use the check's capture-clock corner | use the check's capture-clock corner |
 
 Do not choose an isolated minimum or maximum just because it makes the inequality harder. Real STA pairs clock and data delays according to supported analysis corners and removes common-clock pessimism where appropriate.
@@ -688,9 +688,9 @@ $$
 
 This reveals the pessimistic directions:
 
-- larger $L_L$ hurts setup because launch occurs later;
-- larger $t_{cq,max}$ and $t_{comb,max}$ hurt setup because data arrives later;
-- smaller $L_C$ hurts setup because the capture edge arrives earlier.
+- larger $`L_L`$ hurts setup because launch occurs later;
+- larger $`t_{cq,max}`$ and $`t_{comb,max}`$ hurt setup because data arrives later;
+- smaller $`L_C`$ hurts setup because the capture edge arrives earlier.
 
 The sentence “clock delay = min and data delay = max” is therefore only partly complete. The **capture** clock is early, but the **launch** clock is late. There are two clock paths, and they push setup in opposite directions.
 
@@ -704,11 +704,11 @@ $$
 
 which is impossible. That does not prove setup time can be $-11\,ns$; it proves the assumed $15\,ns$ period/check has a setup violation. The setup slack under those assumed absolute times is negative. The remedy is to increase the period, reduce maximum data delay, select faster cells, pipeline the logic, or beneficially rebalance clock skew.
 
-Also, never add a complete clock-path latency into the data delay and then separately treat the period as if the clock were ideal. Keep $L_L$ and $L_C$ explicit so no delay is counted twice.
+Also, never add a complete clock-path latency into the data delay and then separately treat the period as if the clock were ideal. Keep $`L_L`$ and $`L_C`$ explicit so no delay is counted twice.
 
 ### Active recall
 
-With $L_L=3\,ns$, $L_C=1\,ns$, $t_{cq,max}=2\,ns$, $t_{comb,max}=8\,ns$, and $t_{su}=1\,ns$, what minimum period meets setup?
+With $`L_L=3\,ns`$, $`L_C=1\,ns`$, $`t_{cq,max}=2\,ns`$, $`t_{comb,max}=8\,ns`$, and $`t_{su}=1\,ns`$, what minimum period meets setup?
 
 [Back to index — page 12](#index-page-12)
 
@@ -744,7 +744,7 @@ $$
 Slack_{hold}=A_{hold}-R_{hold}.
 $$
 
-The boxed example gives $t_{cq,min}=0.1\,ns$, $t_{comb,min}=0.2\,ns$, and $t_h=0.25\,ns$:
+The boxed example gives $`t_{cq,min}=0.1\,ns`$, $`t_{comb,min}=0.2\,ns`$, and $`t_h=0.25\,ns`$:
 
 $$
 A_{hold}=0.1+0.2=0.3\,ns,
@@ -760,7 +760,7 @@ Therefore the path passes hold with only $50\,ps$ margin.
 
 - The setup equation at the top is not a hold equation; the two checks use different edges and opposite slack definitions.
 - The red note near the bottom appears to write an arrival value inconsistent with the blue component values. The component sum is $0.3\,ns$, not $0.15\,ns$.
-- The strict sign $t_h<t_{cq}+t_{comb}$ is often drawn, but equality is a zero-slack pass in ideal arithmetic. Use $\le$ for the boundary.
+- The strict sign $`t_h<t_{cq}+t_{comb}`$ is often drawn, but equality is a zero-slack pass in ideal arithmetic. Use $\le$ for the boundary.
 
 ### Active recall
 
@@ -778,23 +778,23 @@ If the minimum combinational delay shrinks from $0.2\,ns$ to $0.1\,ns$, what is 
 
 ### Red-marker answer: why is the first equation wrong?
 
-The unqualified hold expression $t_h\le t_{cq}+t_{comb}$ is incomplete because:
+The unqualified hold expression $`t_h\le t_{cq}+t_{comb}`$ is incomplete because:
 
-1. Hold must use $t_{cq,min}$ and $t_{comb,min}$, not unspecified or maximum delay.
+1. Hold must use $`t_{cq,min}`$ and $`t_{comb,min}`$, not unspecified or maximum delay.
 2. If launch and capture clocks arrive at different times, clock skew must be included.
 3. Uncertainty must be added in a signoff check.
 
-Using $S=L_C-L_L$, the idealized hold condition is
+Using $`S=L_C-L_L`$, the idealized hold condition is
 
 $$
 t_{cq,min}+t_{comb,min}\ge t_h+S.
 $$
 
-The cell's $t_h$ is fixed by library characterization, but path delays vary by route, PVT corner, transition, and load. The note marking $t_h$ “fixed” and the path sum “not fixed” is therefore directionally correct.
+The cell's $`t_h`$ is fixed by library characterization, but path delays vary by route, PVT corner, transition, and load. The note marking $`t_h`$ “fixed” and the path sum “not fixed” is therefore directionally correct.
 
 ### Which is more critical: setup or hold?
 
-Neither may be ignored. Setup limits the maximum clock frequency, and a small setup violation can often be removed by increasing $T_{clk}$. Hold is independent of the next cycle's period: slowing the clock does not move the same-edge hold boundary. A hold violation generally requires added minimum data delay, reduced positive skew, a different cell, or routing/clock-tree correction.
+Neither may be ignored. Setup limits the maximum clock frequency, and a small setup violation can often be removed by increasing $`T_{clk}`$. Hold is independent of the next cycle's period: slowing the clock does not move the same-edge hold boundary. A hold violation generally requires added minimum data delay, reduced positive skew, a different cell, or routing/clock-tree correction.
 
 That makes hold more unforgiving as a silicon-correctness issue, while setup remains the dominant performance limiter. “Critical” depends on whether the goal is functional signoff or frequency closure.
 
@@ -864,7 +864,7 @@ If $S=+0.4\,ns$, by how much does ideal setup margin change, and by how much doe
 
 The table lists, in nanoseconds:
 
-| Cell | $t_{cq}$ | $t_{su}$ | $t_h$ |
+| Cell | $`t_{cq}`$ | $`t_{su}`$ | $`t_h`$ |
 |---|---:|---:|---:|
 | FF1 | 5 | 3 | 2 |
 | FF2 | 6 | 4 | 1 |
@@ -880,9 +880,9 @@ Therefore “which flip-flop can work at maximum frequency?” is under-specifie
 
 ### Two useful interpretations
 
-If each cell launches into an identical copy of itself with $t_{comb}=0$ and $S=0$:
+If each cell launches into an identical copy of itself with $`t_{comb}=0`$ and $S=0$:
 
-| Self path | $T_{min}$ | $f_{max}$ |
+| Self path | $`T_{min}`$ | $`f_{max}`$ |
 |---|---:|---:|
 | FF1 $\rightarrow$ FF1 | $5+3=8\,ns$ | $125\,MHz$ |
 | FF2 $\rightarrow$ FF2 | $6+4=10\,ns$ | $100\,MHz$ |
@@ -904,7 +904,7 @@ $$
 T_{31}=8+3=11\,ns.
 $$
 
-The system period is the maximum, $11\,ns$, so $f_{max}\approx90.91\,MHz$.
+The system period is the maximum, $11\,ns$, so $`f_{max}\approx90.91\,MHz`$.
 
 ### Correction
 
@@ -914,7 +914,7 @@ $$
 t_{su}\le T_{clk}-(t_{cq}+t_{comb}).
 $$
 
-Hold time does not directly determine $f_{max}$, but every selected path must separately satisfy its hold equation.
+Hold time does not directly determine $`f_{max}`$, but every selected path must separately satisfy its hold equation.
 
 ### Active recall
 
@@ -932,7 +932,7 @@ Why is the fastest individual self path not necessarily the path that determines
 
 ### Setup margins at candidate clock periods
 
-With $t_{comb}=0$ and zero skew, each path must satisfy
+With $`t_{comb}=0`$ and zero skew, each path must satisfy
 
 $$
 T_{clk}\ge t_{cq,launch}+t_{su,capture}.
@@ -968,11 +968,11 @@ $$
 t_{cq,min}+t_{comb,min}\ge t_h.
 $$
 
-Making the period $15\,ns$ instead of $8\,ns$ does not repair a failing hold path, because $T_{clk}$ is absent from this same-edge equation.
+Making the period $15\,ns$ instead of $8\,ns$ does not repair a failing hold path, because $`T_{clk}`$ is absent from this same-edge equation.
 
 ### Active recall
 
-At $T_{clk}=8\,ns$, what is the setup slack of each self path in the page-16 table?
+At $`T_{clk}=8\,ns`$, what is the setup slack of each self path in the page-16 table?
 
 [Back to index — page 17](#index-page-17)
 
@@ -986,7 +986,7 @@ At $T_{clk}=8\,ns$, what is the setup slack of each self path in the page-16 tab
 
 ### First example
 
-Given $t_{su}=6\,ns$, $t_h=2\,ns$, $t_{cq}=10\,ns$, and $t_{comb}=0$ with zero skew:
+Given $`t_{su}=6\,ns`$, $`t_h=2\,ns`$, $`t_{cq}=10\,ns`$, and $`t_{comb}=0`$ with zero skew:
 
 $$
 T_{min}=t_{cq}+t_{su}=10+6=16\,ns.
@@ -1008,7 +1008,7 @@ so there is no hold violation. Assuming the given $10\,ns$ is also the minimum d
 
 ### Lower self-loop example
 
-The flip-flop is labeled $t_{cq}=1.5\,ns$, $t_{su}=1\,ns$, $t_h=2\,ns$, with a $0.2\,ns$ data-path delay.
+The flip-flop is labeled $`t_{cq}=1.5\,ns`$, $`t_{su}=1\,ns`$, $`t_h=2\,ns`$, with a $0.2\,ns$ data-path delay.
 
 Setup:
 
@@ -1096,7 +1096,7 @@ $$
 
 ### Red-marker answer: why is $dly2$ subtracted?
 
-$dly2$ is the capture-clock latency. A later capture edge moves FF2's hold window later. In the original inequality it belongs on the required-time side as $dly2+t_h$. When solving for allowable $t_h$, moving it to the other side produces $-dly2$. This is the algebraic form of “positive capture skew hurts hold.”
+$dly2$ is the capture-clock latency. A later capture edge moves FF2's hold window later. In the original inequality it belongs on the required-time side as $`dly2+t_h`$. When solving for allowable $`t_h`$, moving it to the other side produces $-dly2$. This is the algebraic form of “positive capture skew hurts hold.”
 
 ### Can hold time be negative?
 
@@ -1118,7 +1118,7 @@ If $dly3=0.4\,ns$ and $dly2=0.9\,ns$, what skew does the path have, and does tha
 
 ### Timing requirements at external wrapper pins
 
-Logic or delay inside a wrapper changes the setup/hold requirement observed at its external pins. Suppose an internal flip-flop has intrinsic $t_{su,int}$ and $t_{h,int}$. Let $d_D$ be delay from external D to the internal D pin and $d_C$ be delay from external clock to the internal clock pin.
+Logic or delay inside a wrapper changes the setup/hold requirement observed at its external pins. Suppose an internal flip-flop has intrinsic $`t_{su,int}`$ and $`t_{h,int}`$. Let $`d_D`$ be delay from external D to the internal D pin and $`d_C`$ be delay from external clock to the internal clock pin.
 
 The external setup requirement is
 
@@ -1132,17 +1132,17 @@ $$
 t_{h,ext}=t_{h,int}+d_C-d_D.
 $$
 
-Adding $1\,ns$ before D to a cell with $t_{su,int}=2\,ns$ gives
+Adding $1\,ns$ before D to a cell with $`t_{su,int}=2\,ns`$ gives
 
 $$
 t_{su,ext}=2+1=3\,ns
 $$
 
-when $d_C=0$, matching the note. That same data delay reduces the external hold requirement by $1\,ns$.
+when $`d_C=0`$, matching the note. That same data delay reduces the external hold requirement by $1\,ns$.
 
 ### Negative timing values
 
-If internal clock delay exceeds the intrinsic setup plus internal data delay, $t_{su,ext}$ can become negative. This means the external D pin may change after the external clock reference while the change still reaches the internal sampling node in time. Conversely, large internal data delay can produce negative external hold time.
+If internal clock delay exceeds the intrinsic setup plus internal data delay, $`t_{su,ext}`$ can become negative. This means the external D pin may change after the external clock reference while the change still reaches the internal sampling node in time. Conversely, large internal data delay can produce negative external hold time.
 
 These are properties of the cell/wrapper reference pins. Adding an arbitrary delay to a real clock tree is not a general way to “make setup negative”: the resulting skew affects neighboring paths and pushes setup/hold in opposite directions.
 
@@ -1152,7 +1152,7 @@ The boxed statement should read “increasing internal clock delay relative to i
 
 ### Active recall
 
-For $t_{su,int}=0.8\,ns$, $t_{h,int}=0.2\,ns$, $d_D=0.3\,ns$, and $d_C=1.2\,ns$, compute $t_{su,ext}$ and $t_{h,ext}$.
+For $`t_{su,int}=0.8\,ns`$, $`t_{h,int}=0.2\,ns`$, $`d_D=0.3\,ns`$, and $`d_C=1.2\,ns`$, compute $`t_{su,ext}`$ and $`t_{h,ext}`$.
 
 [Back to index — page 20](#index-page-20)
 
@@ -1180,7 +1180,7 @@ $$
 Slack_{hold,new}=Slack_{hold,old}+d.
 $$
 
-So increasing data-path delay improves hold slack one-for-one. The flip-flop's intrinsic $t_h$ does not decrease.
+So increasing data-path delay improves hold slack one-for-one. The flip-flop's intrinsic $`t_h`$ does not decrease.
 
 ### Red-marker answer: how can effective hold become negative?
 
@@ -1190,7 +1190,7 @@ $$
 t_{h,ext}=t_{h,int}+d_C-d_D.
 $$
 
-As $d_D$ increases, $t_{h,ext}$ can cross zero and become negative. The explanation is causal: even if the external input changes early, the added data delay postpones that change until after the internal hold window. This is an effective pin-to-pin parameter, not a claim that the storage element needs no stable interval.
+As $`d_D`$ increases, $`t_{h,ext}`$ can cross zero and become negative. The explanation is causal: even if the external input changes early, the added data delay postpones that change until after the internal hold window. This is an effective pin-to-pin parameter, not a claim that the storage element needs no stable interval.
 
 ### Setup trade-off
 
@@ -1250,7 +1250,7 @@ $$
 t_{h2}\le dly3+t_{cq1,min}+dly1_{min}-dly2.
 $$
 
-The handwritten middle line $t_h\le t_{cq1}+dly1$ is valid only after assuming $dly3=dly2$ and using minimum delays.
+The handwritten middle line $`t_h\le t_{cq1}+dly1`$ is valid only after assuming $dly3=dly2$ and using minimum delays.
 
 ### One compact skew form
 
@@ -1282,7 +1282,7 @@ If launch latency and capture latency both increase by the same $0.7\,ns$, why d
 
 ### Reading the diagram
 
-Both flip-flops show $t_{su}=3\,ns$, $t_h=6\,ns$, and $t_{cq}=2\,ns$. The FF1-to-FF2 data path contains three $1\,ns$ inverters followed by a $2\,ns$ NAND gate:
+Both flip-flops show $`t_{su}=3\,ns`$, $`t_h=6\,ns`$, and $`t_{cq}=2\,ns`$. The FF1-to-FF2 data path contains three $1\,ns$ inverters followed by a $2\,ns$ NAND gate:
 
 $$
 t_{comb}=1+1+1+2=5\,ns.
@@ -1314,7 +1314,7 @@ The $8\,ns$ setup result follows because the $2\,ns$ positive skew cancels $2\,n
 
 ### Red-marker answer: why not use only the NAND's $2\,ns$ for hold?
 
-You must use the delay of the **complete sensitized data path** from FF1 Q to FF2 D. If the three inverters are really in series on that path, $t_{comb,min}=3+2=5\,ns$, not $2\,ns$.
+You must use the delay of the **complete sensitized data path** from FF1 Q to FF2 D. If the three inverters are really in series on that path, $`t_{comb,min}=3+2=5\,ns`$, not $2\,ns$.
 
 Using the shown values as minimum delays:
 
@@ -1342,7 +1342,7 @@ What happens to the setup and hold slacks if the two capture-clock inverters are
 
 <a id="page-24"></a>
 
-## Page 24 - Three-register pipeline: $f_{max}$ is set by the worst stage
+## Page 24 - Three-register pipeline: $`f_{max}`$ is set by the worst stage
 
 [Back to index — page 24](#index-page-24)
 
@@ -1350,7 +1350,7 @@ What happens to the setup and hold slacks if the two capture-clock inverters are
 
 ### Per-stage timing constraints
 
-The pipeline has two data paths, FF1 $\rightarrow$ FF2 through $d_1$ and FF2 $\rightarrow$ FF3 through $d_2$. The maximum clock frequency is found by deriving one minimum-period constraint per stage and taking the largest.
+The pipeline has two data paths, FF1 $\rightarrow$ FF2 through $`d_1`$ and FF2 $\rightarrow$ FF3 through $`d_2`$. The maximum clock frequency is found by deriving one minimum-period constraint per stage and taking the largest.
 
 Assume the clock arrival times are
 
@@ -1358,7 +1358,7 @@ $$
 L_1=0,\qquad L_2=s_1,\qquad L_3=s_1+s_2,
 $$
 
-where $s_1$ and $s_2$ are incremental clock-tree delays drawn between successive taps.
+where $`s_1`$ and $`s_2`$ are incremental clock-tree delays drawn between successive taps.
 
 For FF1 $\rightarrow$ FF2:
 
@@ -1366,7 +1366,7 @@ $$
 T_{12}\ge t_{cq1,max}+d_{1,max}+t_{su2}-s_1.
 $$
 
-For FF2 $\rightarrow$ FF3, the skew is $L_3-L_2=s_2$:
+For FF2 $\rightarrow$ FF3, the skew is $`L_3-L_2=s_2`$:
 
 $$
 T_{23}\ge t_{cq2,max}+d_{2,max}+t_{su3}-s_2.
@@ -1384,13 +1384,13 @@ $$
 
 ### Important notation correction
 
-If instead $s_1$ and $s_2$ mean **absolute** arrival times at FF2 and FF3, then the second-stage skew is $s_2-s_1$ and
+If instead $`s_1`$ and $`s_2`$ mean **absolute** arrival times at FF2 and FF3, then the second-stage skew is $`s_2-s_1`$ and
 
 $$
 T_{23}\ge t_{cq2,max}+d_{2,max}+t_{su3}+s_1-s_2.
 $$
 
-The handwritten $-s_1-s_2$ term mixes these two conventions. State whether clock labels are incremental delays or absolute latencies before doing algebra.
+The handwritten $`-s_1-s_2`$ term mixes these two conventions. State whether clock labels are incremental delays or absolute latencies before doing algebra.
 
 The corresponding hold checks, for incremental delays, are
 
@@ -1420,11 +1420,11 @@ Why does the maximum of the stage periods, rather than their sum, determine the 
 
 All delays in this problem are in picoseconds:
 
-- FF1: $t_{su1}=50\,ps$, $t_{h1}=50\,ps$, $t_{cq1}=100\,ps$.
-- FF2: $t_{su2}=100\,ps$, $t_{h2}=50\,ps$, $t_{cq2}=100\,ps$.
+- FF1: $`t_{su1}=50\,ps`$, $`t_{h1}=50\,ps`$, $`t_{cq1}=100\,ps`$.
+- FF2: $`t_{su2}=100\,ps`$, $`t_{h2}=50\,ps`$, $`t_{cq2}=100\,ps`$.
 - Data path: approximately $(200,800)\,ps$ for minimum/maximum delay.
 
-Only FF1's $t_{cq}$, the data-path delay, and FF2's setup/hold values enter the FF1-to-FF2 checks.
+Only FF1's $`t_{cq}`$, the data-path delay, and FF2's setup/hold values enter the FF1-to-FF2 checks.
 
 ### Part 1 - equal $20\,ps$ clock-branch delays
 
@@ -1462,7 +1462,7 @@ $$
 
 The equal $20\,ps$ clock delays cancel; they shift launch and capture together without creating skew.
 
-The hold check, using $t_{comb,min}=200\,ps$, is
+The hold check, using $`t_{comb,min}=200\,ps`$, is
 
 $$
 A_{hold}=20+100+200=320\,ps,
@@ -1529,13 +1529,13 @@ If the $100\,ps$ delay were moved from FF1's clock branch to FF2's clock branch,
 
 1. Setup is a maximum-delay, next-edge check; hold is a minimum-delay, same-edge check.
 2. Setup passes when $R-A\ge0$; hold passes when $A-R\ge0$.
-3. Positive skew $S=L_C-L_L>0$ helps setup and hurts hold.
+3. Positive skew $`S=L_C-L_L>0`$ helps setup and hurts hold.
 4. The clock period can repair setup but does not repair hold.
-5. A timing path includes the complete sensitized route from launch clock pin through $t_{cq}$ and combinational logic to the capture D pin.
-6. Use $t_{comb,max}$ for setup and $t_{comb,min}$ for hold; do not reuse one nominal delay blindly.
-7. Intrinsic library $t_{su}$/$t_h$ do not change when external delay is added. Path slack changes; an externally observed wrapper parameter may also change.
+5. A timing path includes the complete sensitized route from launch clock pin through $`t_{cq}`$ and combinational logic to the capture D pin.
+6. Use $`t_{comb,max}`$ for setup and $`t_{comb,min}`$ for hold; do not reuse one nominal delay blindly.
+7. Intrinsic library $`t_{su}`$/$`t_h`$ do not change when external delay is added. Path slack changes; an externally observed wrapper parameter may also change.
 8. Common clock delay cancels ideally; only the launch/capture difference creates skew.
-9. $T_{min}$ is the maximum of all setup path requirements, while every hold path must independently pass.
+9. $`T_{min}`$ is the maximum of all setup path requirements, while every hold path must independently pass.
 10. Negative setup or hold values are possible library/reference-pin properties, not permission to ignore timing analysis.
 
 ## Verification references

@@ -15,7 +15,7 @@ The framing and receiver terms are verified against the  and .
 | **Data bits** | The payload bits between START and optional parity/STOP fields; ordinary UART commonly transmits the least-significant data bit first. |
 | **Parity** | An optional extra bit derived from the data bits. It detects an odd number of inverted bits within the covered character but not an even number, and it does not correct an error. |
 | **Baud rate** | Symbol intervals per second (). For ordinary binary NRZ UART, one symbol carries one bit, so baud and line bit rate have the same numerical value. |
-| **Bit time** | Duration of one UART bit cell, $T_{bit}=1/B$ for baud rate $B$. |
+| **Bit time** | Duration of one UART bit cell, $`T_{bit}=1/B`$ for baud rate $B$. |
 | **Baud tick / clock enable** | A one-system-clock-cycle event used by RTL counters/FSMs to advance bit timing. It is not necessarily a new clock signal. |
 | **Oversampling** | Running receive timing at several ticks per bit so START can be qualified and samples can be placed near bit centers. Microchip documents normal-mode reception with 16 timing clocks and majority samples near the middle. |
 | **Framing error** | A received STOP-bit position that is not HIGH when sampled, indicating that the reconstructed character boundary is invalid. |
@@ -108,9 +108,9 @@ The lower waveform distinguishes the system-clock period from the UART bit perio
 
 ### Technical corrections and qualifications
 
-- **Correct:** $T_{bit}=1/B$ for ordinary UART and the 115200-baud value $8.68\ \mu\text{s}$ is correct.
+- **Correct:** $`T_{bit}=1/B`$ for ordinary UART and the 115200-baud value $8.68\ \mu\text{s}$ is correct.
 - **Corrected:** $50\ \text{MHz}/9600=5208.333\ldots$, not 520833. Keep the units visible to catch the factor-of-100 error.
-- **Clarify:** $N=f_{clk}/B$ is a divider ratio, not itself a frequency.
+- **Clarify:** $`N=f_{clk}/B`$ is a divider ratio, not itself a frequency.
 - **Improvement:** define acceptable baud error and calculate the actual baud after rounding the divider.
 
 ### Active recall
@@ -166,7 +166,7 @@ Why is a sample enable at 16 times the baud rate useful if the design ultimately
 
 The waveform specifies the UART frame in chronological order. The logical UART line is normally HIGH in the marking or idle state. A frame begins when the transmitter holds TX LOW for one complete bit interval, forming the START bit. The idle-to-START transition provides the asynchronous receiver with a timing reference for the new character.
 
-Data follows immediately. UART hardware commonly supports 5 to 9 data bits, and the widespread convention is least-significant bit first. For an 8-bit value, the wire order is therefore $d_0,d_1,\ldots,d_7$, not the visual order used when writing a hexadecimal number. Both endpoints must use the same word length.
+Data follows immediately. UART hardware commonly supports 5 to 9 data bits, and the widespread convention is least-significant bit first. For an 8-bit value, the wire order is therefore $`d_0,d_1,\ldots,d_7`$, not the visual order used when writing a hexadecimal number. Both endpoints must use the same word length.
 
 An optional parity bit follows the data. Even parity chooses the parity bit so the total number of ones across data plus parity is even; odd parity makes it odd. Parity detects every odd number of bit inversions, including a single-bit error, but it cannot correct the data and misses even-numbered error patterns. It is not a substitute for a stronger packet CRC.
 
@@ -199,7 +199,7 @@ The BRG block converts the fast system clock into timing enables for the transmi
 
 For a 50 MHz, 9600-baud transmitter, the ideal interval is $5208.333$ clocks. If the integer interval is chosen as 5208 clocks, a zero-based counter must visit values 0 through 5207. On the cycle where the old count equals 5207, the logic emits `tx_en` and returns the counter to zero. The number of states is therefore 5208, not 5207.
 
-For a nominal 16x receiver tick, the ideal interval is $325.5208$ clocks. A fixed counter could alternate or approximate with 325/326-clock intervals. A phase accumulator is more systematic: add $16B$ to an accumulator each system cycle and emit a tick on overflow relative to $f_{clk}$. The average frequency can then closely track 153.6 kHz without creating a fractional counter limit.
+For a nominal 16x receiver tick, the ideal interval is $325.5208$ clocks. A fixed counter could alternate or approximate with 325/326-clock intervals. A phase accumulator is more systematic: add $16B$ to an accumulator each system cycle and emit a tick on overflow relative to $`f_{clk}`$. The average frequency can then closely track 153.6 kHz without creating a fractional counter limit.
 
 The handwritten `integer clog` fragment is aiming at counter-width calculation. A counter that must represent 0 through 5207 requires
 
@@ -214,7 +214,7 @@ bits, because $2^{12}=4096$ is too small and $2^{13}=8192$ is sufficient. A synt
 - **Correct:** separate transmit-bit and receive-sample enables are useful because their target frequencies differ by the oversampling factor.
 - **Corrected:** if `rx_en` is the 16x sample tick, it must pulse about every $325.52$ clocks, not every 325 clocks exactly.
 - **Clarify:** `tx_en` and `rx_en` are better named `baud_tick` and `sample_tick`; `tx_start` should be a separate request input.
-- **Improvement:** parameterize $f_{clk}$, baud, and oversampling rate, and calculate/report the actual generated rates.
+- **Improvement:** parameterize $`f_{clk}`$, baud, and oversampling rate, and calculate/report the actual generated rates.
 
 AMD's  likewise separates a high-rate sample enable from the final TX/RX baud enables.
 
@@ -238,7 +238,7 @@ The top block identifies the transmitter's responsibilities: accept an 8-bit par
 - `tx`: the registered serial output, HIGH while idle.
 - `busy`: HIGH from acceptance of the request until the STOP interval completes.
 
-The FSM then becomes deterministic. In `IDLE`, hold `tx = 1` and `busy = 0`. When `start_tx` is accepted, copy `data_in` into an internal holding/shift register and enter `START`; do not depend on `data_in` remaining unchanged afterward. On the next relevant baud interval, drive START LOW. In `DATA`, output bits $d_0$ through $d_7$ in order, advancing an index only on `baud_tick`. After the eighth data interval, enter `STOP`, drive HIGH for one full bit interval, then return to `IDLE`.
+The FSM then becomes deterministic. In `IDLE`, hold `tx = 1` and `busy = 0`. When `start_tx` is accepted, copy `data_in` into an internal holding/shift register and enter `START`; do not depend on `data_in` remaining unchanged afterward. On the next relevant baud interval, drive START LOW. In `DATA`, output bits $`d_0`$ through $`d_7`$ in order, advancing an index only on `baud_tick`. After the eighth data interval, enter `STOP`, drive HIGH for one full bit interval, then return to `IDLE`.
 
 The transition label `count == 7` means the current data bit is the eighth bit because counting begins at zero. The comparison and the output timing must refer to the same old-state values in sequential logic; otherwise the last bit can be skipped or held for two intervals. A waveform-based self-check should verify the exact durations of START, each data bit, and STOP.
 
@@ -324,4 +324,4 @@ If old `sample` equals 15, what values do an `if (sample == 15)` condition and t
 
 ## Module checkpoint
 
-Revision criterion: derive every timing counter from $f_{clk}$ and baud, explain the alignment established by START, place each data sample near the bit center, and determine pre-edge and post-edge values in nonblocking sequential logic.
+Revision criterion: derive every timing counter from $`f_{clk}`$ and baud, explain the alignment established by START, place each data sample near the bit center, and determine pre-edge and post-edge values in nonblocking sequential logic.

@@ -351,16 +351,16 @@ means**.
 
 ![Minimal transaction path and the continuously ready packet waveform](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/15-transactions-72.png)
 
-The minimal packet example transfers $D_0$, $D_1$, $D_2$, and $D_3$. When the
+The minimal packet example transfers $`D_0`$, $`D_1`$, $`D_2`$, and $`D_3`$. When the
 Receiver keeps `TREADY=1`, the Transmitter can maintain `TVALID=1` and present a
 different beat every cycle. The final beat carries `TLAST=1`.
 
 | Rising edge | `TVALID` | `TREADY` | `TDATA` | `TLAST` | Accepted beat |
 |---:|:---:|:---:|---|:---:|---|
-| $E_0$ | 1 | 1 | $D_0$ | 0 | $D_0$ |
-| $E_1$ | 1 | 1 | $D_1$ | 0 | $D_1$ |
-| $E_2$ | 1 | 1 | $D_2$ | 0 | $D_2$ |
-| $E_3$ | 1 | 1 | $D_3$ | 1 | $D_3$, end of packet |
+| $`E_0`$ | 1 | 1 | $`D_0`$ | 0 | $`D_0`$ |
+| $`E_1`$ | 1 | 1 | $`D_1`$ | 0 | $`D_1`$ |
+| $`E_2`$ | 1 | 1 | $`D_2`$ | 0 | $`D_2`$ |
+| $`E_3`$ | 1 | 1 | $`D_3`$ | 1 | $`D_3`$, end of packet |
 
 This is one beat per clock, the best possible throughput for one AXI-Stream
 link. It is enabled by the absence of stalls, not merely by the absence of an
@@ -448,9 +448,9 @@ The third case is the best check for a broken master. A design that generates
 ![No-back-pressure trace reaching the final D3 and TLAST beat](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2001/18-waveform-p2-75.png)
 
 This lesson traces the first case in detail. After reset is released, the source
-enters its transmit phase, raises `TVALID`, and presents $D_0$. Because
-`TREADY=1`, that first beat fires. The source advances to $D_1$ for the next
-edge, then $D_2$, and finally $D_3$ with `TLAST=1`.
+enters its transmit phase, raises `TVALID`, and presents $`D_0`$. Because
+`TREADY=1`, that first beat fires. The source advances to $`D_1`$ for the next
+edge, then $`D_2`$, and finally $`D_3`$ with `TLAST=1`.
 
 The counter rule is:
 
@@ -466,7 +466,7 @@ This formula works in both the fast and stalled cases. Coding “increment while
 `TREADY` is HIGH” is only safe if the state guarantees `TVALID=1`; writing the
 full fire term makes the design intent and verification condition obvious.
 
-`TLAST` is asserted for the transfer containing $D_3$. The Receiver recognizes
+`TLAST` is asserted for the transfer containing $`D_3`$. The Receiver recognizes
 the packet end only when that transfer is accepted, not merely when it observes
 `TLAST` HIGH in a cycle with no handshake.
 
@@ -484,12 +484,12 @@ The middle-stall trace is:
 
 | Cycle | `TVALID` | `TREADY` | `TDATA` | `TLAST` | Action at edge |
 |---:|:---:|:---:|---|:---:|---|
-| 0 | 1 | 1 | $D_0$ | 0 | Accept $D_0$ |
-| 1 | 1 | 1 | $D_1$ | 0 | Accept $D_1$ |
-| 2 | 1 | 0 | $D_2$ | 0 | Stall; accept nothing |
-| 3 | 1 | 0 | $D_2$ | 0 | Stall; values unchanged |
-| 4 | 1 | 1 | $D_2$ | 0 | Accept $D_2$ once |
-| 5 | 1 | 1 | $D_3$ | 1 | Accept final beat |
+| 0 | 1 | 1 | $`D_0`$ | 0 | Accept $`D_0`$ |
+| 1 | 1 | 1 | $`D_1`$ | 0 | Accept $`D_1`$ |
+| 2 | 1 | 0 | $`D_2`$ | 0 | Stall; accept nothing |
+| 3 | 1 | 0 | $`D_2`$ | 0 | Stall; values unchanged |
+| 4 | 1 | 1 | $`D_2`$ | 0 | Accept $`D_2`$ once |
+| 5 | 1 | 1 | $`D_3`$ | 1 | Accept final beat |
 
 The final-stall case uses the same rule. Once the source offers
 `TDATA=D3`, `TVALID=1`, and `TLAST=1`, all three remain unchanged until an edge
@@ -1300,7 +1300,7 @@ is correct.
 
 ## Active-recall checkpoint
 
-1. In the middle-stall waveform, why is $D_2$ accepted once rather than three
+1. In the middle-stall waveform, why is $`D_2`$ accepted once rather than three
    times?
 2. If `TLAST=1` and `TREADY=0`, which signals must the source preserve?
 3. Why is `count <= count + 1` gated by a handshake?

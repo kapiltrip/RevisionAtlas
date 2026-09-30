@@ -49,12 +49,12 @@ The basic frequency and period meanings follow [NIST’s time-and-frequency defi
 |---|---|---|
 | **Periodic signal** | A waveform for which there is a positive interval $T$ such that its pattern repeats: $x(t+T)=x(t)$. | Because the input repeats, complete input cycles can be counted and related to a repeating output cycle. |
 | **Frequency (`f`)** | Rate of a repetitive event, measured in hertz; for period $T$, $f=1/T$ ([NIST](https://www.nist.gov/pml/time-and-frequency-division/popular-links/time-frequency-z/time-and-frequency-z-f)). | Frequency counts completed patterns, not voltage magnitude, bit value, or the number written on a data bus. |
-| **Period (`T`)** | Time interval for one complete repetition; it is the reciprocal of frequency ([NIST](https://www.nist.gov/pml/time-and-frequency-division/popular-links/time-frequency-z/time-and-frequency-z-f)). | A divide-by-$N$ output needs $N$ reference periods per output period: $T_{out}=N T_{in}$. |
-| **Division ratio (`N`)** | Ratio $N=f_{in}/f_{out}=T_{out}/T_{in}$. | It specifies output repetition rate, but it does not by itself specify HIGH time or duty cycle. |
-| **Modulus** | Number of distinct states in a counter’s repeating state sequence. A modulo-$N$ counter returns to its initial state after $N$ accepted clock events. | A decoded event from a modulo-$N$ sequence can repeat at $f_{in}/N$. The chosen output decode determines its pulse width. |
-| **Duty cycle** | Fraction of one output period spent HIGH: $D=t_H/T_{out}\times100\%$ ([Keysight](https://helpfiles.keysight.com/scopes/FlexDCA-UG/Content/Topics/Oscilloscope-Mode/Time-Measurements/duty_cycle.htm)). | Two outputs can have the same divided frequency and different HIGH/LOW durations. |
+| **Period (`T`)** | Time interval for one complete repetition; it is the reciprocal of frequency ([NIST](https://www.nist.gov/pml/time-and-frequency-division/popular-links/time-frequency-z/time-and-frequency-z-f)). | A divide-by-$N$ output needs $N$ reference periods per output period: $`T_{out}=N T_{in}`$. |
+| **Division ratio (`N`)** | Ratio $`N=f_{in}/f_{out}=T_{out}/T_{in}`$. | It specifies output repetition rate, but it does not by itself specify HIGH time or duty cycle. |
+| **Modulus** | Number of distinct states in a counter’s repeating state sequence. A modulo-$N$ counter returns to its initial state after $N$ accepted clock events. | A decoded event from a modulo-$N$ sequence can repeat at $`f_{in}/N`$. The chosen output decode determines its pulse width. |
+| **Duty cycle** | Fraction of one output period spent HIGH: $`D=t_H/T_{out}\times100\%`$ ([Keysight](https://helpfiles.keysight.com/scopes/FlexDCA-UG/Content/Topics/Oscilloscope-Mode/Time-Measurements/duty_cycle.htm)). | Two outputs can have the same divided frequency and different HIGH/LOW durations. |
 | **Toggle** | State transition $Q^{+}=\overline Q$ on a selected active edge. TI’s DFF divider example uses complement feedback so Q toggles at every rising edge and completes one cycle every two input cycles ([TI SN74LVC1G80-Q1](https://www.ti.com/lit/ds/symlink/sn74lvc1g80-q1.pdf)). | A stored bit needs two toggles—LOW→HIGH and HIGH→LOW—to return to its starting state, producing divide-by-2. |
-| **Clock-enable pulse** | A synchronous, usually one-cycle control event that tells registers when to update while they remain clocked by the original clock. | It slows *activity* without creating another clock tree. A pulse repeating every $N$ cycles has event rate $f_{in}/N$, but it is not automatically a 50% clock. |
+| **Clock-enable pulse** | A synchronous, usually one-cycle control event that tells registers when to update while they remain clocked by the original clock. | It slows *activity* without creating another clock tree. A pulse repeating every $N$ cycles has event rate $`f_{in}/N`$, but it is not automatically a 50% clock. |
 | **Divided / generated clock** | A periodic signal derived from a reference and used as a clock for other sequential elements. It must be routed and constrained as a clock; Intel documents generated-clock division with `-divide_by` ([Intel Timing Analyzer clock-divider example](https://docs.altera.com/r/docs/683081/22.2/quartus-prime-timing-analyzer-cookbook/basic-clock-divider-using-divide_by)). | It creates a new clock domain/relationship and therefore needs clock-network and STA treatment. |
 | **Synchronous divider** | Divider whose state flip-flops all sample the same original clock and compute next state together. | Combinational next-state logic decides which bits toggle; there is no stage-to-stage clock ripple. |
 | **Asynchronous / ripple divider** | Divider in which one flip-flop output clocks a later flip-flop. | State bits change after accumulated clock-to-Q delays rather than at one common edge. Intel recommends avoiding ripple counters in FPGA logic ([Intel ripple-counter guidance](https://docs.altera.com/r/docs/683323/18.1/intel-quartus-prime-standard-edition-user-guide-design-recommendations/avoid-ripple-counters)). |
@@ -68,7 +68,7 @@ The basic frequency and period meanings follow [NIST’s time-and-frequency defi
 
 The divider acts on the **reference clock or event repetition rate**. It does not divide the constant on a T input, the logic voltage, or ordinary data values. The input clock supplies regularly spaced state-update events; the counter or FSM makes the output pattern repeat after a chosen number of those events.
 
-A single frequency and division ratio require a repeating reference period. If an arbitrary data signal has irregular edges, a circuit can count, filter, or select those edges, but the result does not have a guaranteed $f_{in}/N$ because one stable $f_{in}$ does not exist. A periodic data pattern can be treated as a reference waveform, but then the divider is acting on its repetition/event timing—not on the meaning of its bits.
+A single frequency and division ratio require a repeating reference period. If an arbitrary data signal has irregular edges, a circuit can count, filter, or select those edges, but the result does not have a guaranteed $`f_{in}/N`$ because one stable $`f_{in}`$ does not exist. A periodic data pattern can be treated as a reference waveform, but then the divider is acting on its repetition/event timing—not on the meaning of its bits.
 
 **Interview form:** A frequency divider is a sequential circuit that counts or sequences periodic input-clock events and produces an output event or waveform whose repetition rate is a defined fraction of the input rate. It divides the clock/event rate, not the data value or voltage.
 
@@ -83,7 +83,7 @@ $$
 \boxed{m_{\min}=\left\lceil\log_2 S\right\rceil}.
 $$
 
-Here, $S$ is the number of required states and $m_{\min}$ is the minimum number of state flip-flops. The ceiling brackets mean that any fractional result is rounded **upward**, not rounded to the nearest integer. This standard state-encoding rule is stated directly in the [UMBC FSM laboratory notes](https://userpages.cs.umbc.edu/phatak/212/labs-s21/lab10/index.html) and illustrated in the [University of Iowa FSM notes](https://homepage.divms.uiowa.edu/~dwjones/arch/notes/04fsm.html).
+Here, $S$ is the number of required states and $`m_{\min}`$ is the minimum number of state flip-flops. The ceiling brackets mean that any fractional result is rounded **upward**, not rounded to the nearest integer. This standard state-encoding rule is stated directly in the [UMBC FSM laboratory notes](https://userpages.cs.umbc.edu/phatak/212/labs-s21/lab10/index.html) and illustrated in the [University of Iowa FSM notes](https://homepage.divms.uiowa.edu/~dwjones/arch/notes/04fsm.html).
 
 For hand calculation, the safest equivalent method is
 
@@ -139,7 +139,7 @@ S=2,\qquad
 m_{\min}=\left\lceil\log_2 2\right\rceil=1.
 $$
 
-The numbers 75 and 98 require a seven-bit **output bus**, but they do not require seven state flip-flops in the minimum-state implementation. One flip-flop stores whether the machine is in $S_0$ or $S_1$; combinational selection logic converts that one-bit state into the required seven-bit output.
+The numbers 75 and 98 require a seven-bit **output bus**, but they do not require seven state flip-flops in the minimum-state implementation. One flip-flop stores whether the machine is in $`S_0`$ or $`S_1`$; combinational selection logic converts that one-bit state into the required seven-bit output.
 
 > **Exam rule:** Count the required states or sequence positions. Do not substitute the largest output value or the output-bus width into the state-memory formula.
 
@@ -184,11 +184,11 @@ Digital division does not cut the voltage or physically split one pulse. A seque
 
 > A frequency divider is a sequential circuit that produces a periodic output whose cycle or event rate is a specified fraction of a reference input-clock frequency.
 
-The words **cycle or event rate** matter. A terminal-count pulse occurring once every $N$ clocks has repetition rate $f_{in}/N$, even though it may be HIGH for only one input-clock period. A square divided clock also repeats at $f_{in}/N$, but its HIGH and LOW durations are separately designed.
+The words **cycle or event rate** matter. A terminal-count pulse occurring once every $N$ clocks has repetition rate $`f_{in}/N`$, even though it may be HIGH for only one input-clock period. A square divided clock also repeats at $`f_{in}/N`$, but its HIGH and LOW durations are separately designed.
 
 ### Active recall
 
-If an output waveform repeats after five input-clock periods, what are $T_{out}$ and $f_{out}$, and what extra information is still needed to know its duty cycle?
+If an output waveform repeats after five input-clock periods, what are $`T_{out}`$ and $`f_{out}`$, and what extra information is still needed to know its duty cycle?
 
 <a id="page-02"></a>
 
@@ -259,8 +259,8 @@ $$
 
 There are two architectures:
 
-1. **Ripple implementation:** $Q_0$ clocks the second flip-flop. The first stage changes after its clock-to-Q delay, then the second stage changes after another delay. This is asynchronous.
-2. **Synchronous implementation:** both DFFs receive the original clock. For state $Q_1Q_0$, use
+1. **Ripple implementation:** $`Q_0`$ clocks the second flip-flop. The first stage changes after its clock-to-Q delay, then the second stage changes after another delay. This is asynchronous.
+2. **Synchronous implementation:** both DFFs receive the original clock. For state $`Q_1Q_0`$, use
 
 $$
 D_0=\overline{Q_0},
@@ -276,7 +276,7 @@ $$
 00\rightarrow01\rightarrow10\rightarrow11\rightarrow00.
 $$
 
-$Q_0$ toggles every clock and divides by 2. $Q_1$ toggles after every two clocks and divides by 4. This is the preferred interview implementation unless a ripple counter is explicitly requested.
+$`Q_0`$ toggles every clock and divides by 2. $`Q_1`$ toggles after every two clocks and divides by 4. This is the preferred interview implementation unless a ripple counter is explicitly requested.
 
 ### Correction and implementation warning
 
@@ -308,8 +308,8 @@ $$
 
 Seven output wires are required to represent these values, but the sequence has only two positions:
 
-- $S_0$: output 75, then go to $S_1$;
-- $S_1$: output 98, then go to $S_0$.
+- $`S_0`$: output 75, then go to $`S_1`$;
+- $`S_1`$: output 98, then go to $`S_0`$.
 
 Therefore the minimum state memory is
 
@@ -331,10 +331,10 @@ $$
 
 The complete state and excitation table is:
 
-| Present state | $Q(t)$ | Decimal output | Binary output $C_6C_5C_4C_3C_2C_1C_0$ | Next state | $Q(t+1)$ | T input |
+| Present state | $Q(t)$ | Decimal output | Binary output $`C_6C_5C_4C_3C_2C_1C_0`$ | Next state | $Q(t+1)$ | T input |
 |---|---:|---:|---:|---|---:|---:|
-| $S_0$ | 0 | 75 | 1001011 | $S_1$ | 1 | 1 |
-| $S_1$ | 1 | 98 | 1100010 | $S_0$ | 0 | 1 |
+| $`S_0`$ | 0 | 75 | 1001011 | $`S_1`$ | 1 | 1 |
+| $`S_1`$ | 1 | 98 | 1100010 | $`S_0`$ | 0 | 1 |
 
 A T flip-flop is the natural choice because both transitions require toggling:
 
@@ -419,7 +419,7 @@ module counter_75_98 (
 endmodule
 ~~~
 
-The reset places the circuit in $S_0$, so **count** is 75. Each later rising edge toggles **state**, producing 98, 75, 98, and so on. The reusable source is in [examples/counter_75_98.v](examples/counter_75_98.v).
+The reset places the circuit in $`S_0`$, so **count** is 75. Each later rising edge toggles **state**, producing 98, 75, 98, and so on. The reusable source is in [examples/counter_75_98.v](examples/counter_75_98.v).
 
 #### Interview answer
 
@@ -427,7 +427,7 @@ The reset places the circuit in $S_0$, so **count** is 75. Each later rising edg
 
 #### Active recall
 
-Why are seven output bits required but only one flip-flop is required, and which signal in this design has frequency $f_{clk}/2$?
+Why are seven output bits required but only one flip-flop is required, and which signal in this design has frequency $`f_{clk}/2`$?
 
 
 <a id="page-03"></a>
@@ -509,7 +509,7 @@ $$
 \mathcal D=\frac{T_{in}}{3T_{in}}=\frac13.
 $$
 
-The complement is HIGH for two of the three states and therefore has 66.67% duty. Both waveforms still have the same fundamental repetition frequency $f_{in}/3$.
+The complement is HIGH for two of the three states and therefore has 66.67% duty. Both waveforms still have the same fundamental repetition frequency $`f_{in}/3`$.
 
 ### Why odd divisors create a 50% problem
 
@@ -521,11 +521,11 @@ $$
 =1.5T_{in}.
 $$
 
-A rising-edge-only state machine changes only at integer multiples of $T_{in}$, so it cannot place both transitions at 1.5-period intervals. A true 50% odd divider must use additional phase information, commonly the falling edge or a dedicated clocking circuit.
+A rising-edge-only state machine changes only at integer multiples of $`T_{in}`$, so it cannot place both transitions at 1.5-period intervals. A true 50% odd divider must use additional phase information, commonly the falling edge or a dedicated clocking circuit.
 
 ### Active recall
 
-Can two $f_{in}/3$ waveforms have different duty cycles? Give the HIGH duration for 33.33%, 50%, and 66.67% duty.
+Can two $`f_{in}/3`$ waveforms have different duty cycles? Give the HIGH duration for 33.33%, 50%, and 66.67% duty.
 
 <a id="page-04"></a>
 
@@ -543,11 +543,11 @@ $$
 
 Their HIGH times differ:
 
-| Duty cycle | $T_{HIGH}$ | $T_{LOW}$ |
+| Duty cycle | $`T_{HIGH}`$ | $`T_{LOW}`$ |
 |---:|---:|---:|
-| 33.33% | $T_{in}$ | $2T_{in}$ |
-| 66.67% | $2T_{in}$ | $T_{in}$ |
-| 50% | $1.5T_{in}$ | $1.5T_{in}$ |
+| 33.33% | $`T_{in}`$ | $`2T_{in}`$ |
+| 66.67% | $`2T_{in}`$ | $`T_{in}`$ |
+| 50% | $`1.5T_{in}`$ | $`1.5T_{in}`$ |
 
 The first two can be decoded directly from full modulo-3 states. The 50% waveform requires a half-cycle boundary.
 
@@ -567,7 +567,7 @@ $$
 
 The unused binary state is $11$.
 
-| Present $Q_1Q_0$ | Next $Q_1^{+}Q_0^{+}$ | $D_1$ | $D_0$ |
+| Present $`Q_1Q_0`$ | Next $`Q_1^{+}Q_0^{+}`$ | $`D_1`$ | $`D_0`$ |
 |---:|---:|---:|---:|
 | 00 | 01 | 0 | 1 |
 | 01 | 10 | 1 | 0 |
@@ -596,9 +596,9 @@ $$
 
 Substitute every used state:
 
-- At $00$: $D_1=0$, $D_0=1$, so the next state is $01$.
-- At $01$: $D_1=1$, $D_0=0$, so the next state is $10$.
-- At $10$: $D_1=0$, $D_0=0$, so the next state is $00$.
+- At $00$: $`D_1=0`$, $`D_0=1`$, so the next state is $01$.
+- At $01$: $`D_1=1`$, $`D_0=0`$, so the next state is $10$.
+- At $10$: $`D_1=0`$, $`D_0=0`$, so the next state is $00$.
 
 The simplified logic also recovers from $11$:
 
@@ -612,17 +612,17 @@ Thus the implementation is self-recovering, although it takes two clocks to retu
 
 Across the repeating states $00,01,10$:
 
-- $Q_0$ is HIGH only in $01$, so $Q_0$ is $f_{in}/3$ with 33.33% duty.
-- $Q_1$ is HIGH only in $10$, so $Q_1$ is also $f_{in}/3$ with 33.33% duty.
-- $\overline{Q_0}$ and $\overline{Q_1}$ are each HIGH for two states, so either gives 66.67% duty.
+- $`Q_0`$ is HIGH only in $01$, so $`Q_0`$ is $`f_{in}/3`$ with 33.33% duty.
+- $`Q_1`$ is HIGH only in $10$, so $`Q_1`$ is also $`f_{in}/3`$ with 33.33% duty.
+- $`\overline{Q_0}`$ and $`\overline{Q_1}`$ are each HIGH for two states, so either gives 66.67% duty.
 
 There is no 50% state decode because three full clock periods cannot be split into equal integer numbers of periods.
 
 <a id="divide-by-3-duty-grid"></a>
 
-### Complete achievable duty cycles for an $f_{in}/3$ output
+### Complete achievable duty cycles for an $`f_{in}/3`$ output
 
-Let the input period be $T_{in}$. For divide by 3,
+Let the input period be $`T_{in}`$. For divide by 3,
 
 $$
 T_{out}=3T_{in}.
@@ -656,12 +656,12 @@ $$
 \mathcal D_k=\frac{k}{3}\times100\%.
 $$
 
-| $k$ complete HIGH periods | $T_{HIGH}$ | $T_{LOW}$ | Exact duty cycle |
+| $k$ complete HIGH periods | $`T_{HIGH}`$ | $`T_{LOW}`$ | Exact duty cycle |
 |---:|---:|---:|---:|
-| 1 | $T_{in}$ | $2T_{in}$ | $1/3=33.33\%$ |
-| 2 | $2T_{in}$ | $T_{in}$ | $2/3=66.67\%$ |
+| 1 | $`T_{in}`$ | $`2T_{in}`$ | $1/3=33.33\%$ |
+| 2 | $`2T_{in}`$ | $`T_{in}`$ | $2/3=66.67\%$ |
 
-The cases $k=0$ and $k=3$ give constant LOW and constant HIGH, respectively, so they are not valid $f_{in}/3$ clocks.
+The cases $k=0$ and $k=3$ give constant LOW and constant HIGH, respectively, so they are not valid $`f_{in}/3`$ clocks.
 
 Therefore, a normal rising-edge modulo-3 counter can generate exactly
 
@@ -691,13 +691,13 @@ $$
 3T_{in}=6\left(\frac{T_{in}}{2}\right).
 $$
 
-| $m$ HIGH half-periods | $T_{HIGH}$ | $T_{LOW}$ | Exact duty cycle |
+| $m$ HIGH half-periods | $`T_{HIGH}`$ | $`T_{LOW}`$ | Exact duty cycle |
 |---:|---:|---:|---:|
-| 1 | $0.5T_{in}$ | $2.5T_{in}$ | $1/6=16.67\%$ |
-| 2 | $T_{in}$ | $2T_{in}$ | $2/6=33.33\%$ |
-| 3 | $1.5T_{in}$ | $1.5T_{in}$ | $3/6=50\%$ |
-| 4 | $2T_{in}$ | $T_{in}$ | $4/6=66.67\%$ |
-| 5 | $2.5T_{in}$ | $0.5T_{in}$ | $5/6=83.33\%$ |
+| 1 | $`0.5T_{in}`$ | $`2.5T_{in}`$ | $1/6=16.67\%$ |
+| 2 | $`T_{in}`$ | $`2T_{in}`$ | $2/6=33.33\%$ |
+| 3 | $`1.5T_{in}`$ | $`1.5T_{in}`$ | $3/6=50\%$ |
+| 4 | $`2T_{in}`$ | $`T_{in}`$ | $4/6=66.67\%$ |
+| 5 | $`2.5T_{in}`$ | $`0.5T_{in}`$ | $5/6=83.33\%$ |
 
 Thus, if both input edges are deliberately available, the exact nonconstant set is
 
@@ -709,7 +709,7 @@ This is an ideal timing result. In RTL, ordinary FPGA fabric flip-flops are norm
 
 #### Why 75% is not on either list
 
-For 75% duty at $f_{in}/3$,
+For 75% duty at $`f_{in}/3`$,
 
 $$
 T_{HIGH}
@@ -740,7 +740,7 @@ $$
 \frac{2.25T_{in}}{T_{in}/2}=4.5,
 $$
 
-which is still not an integer. The required falling edge lies at $2.25T_{in}$, but the original rising/falling-edge grid contains $2T_{in}$ and $2.5T_{in}$, not $2.25T_{in}$.
+which is still not an integer. The required falling edge lies at $`2.25T_{in}`$, but the original rising/falling-edge grid contains $`2T_{in}`$ and $`2.5T_{in}`$, not $`2.25T_{in}`$.
 
 Therefore,
 
@@ -750,7 +750,7 @@ $$
 
 #### Why a multiplier is used
 
-A multiplier is not needed to obtain $f_{in}/3$; the modulo-3 counter already produces that repetition rate. It is needed here only to create finer edge-placement resolution.
+A multiplier is not needed to obtain $`f_{in}/3`$; the modulo-3 counter already produces that repetition rate. It is needed here only to create finer edge-placement resolution.
 
 If a single-edge design uses a clock multiplied by an integer $M$, one output period contains $3M$ fast-clock slots. A desired duty cycle $\mathcal D$, written as a fraction rather than a percentage, is exactly realizable only when
 
@@ -772,13 +772,13 @@ $$
 M=4.
 $$
 
-A $4f_{in}$ clock has period
+A $`4f_{in}`$ clock has period
 
 $$
 T_{4x}=\frac{T_{in}}{4}.
 $$
 
-Now one $f_{in}/3$ output period contains
+Now one $`f_{in}/3`$ output period contains
 
 $$
 \frac{3T_{in}}{T_{in}/4}=12
@@ -799,9 +799,9 @@ $$
 9\text{ HIGH counts}+3\text{ LOW counts}.}
 $$
 
-A precise quarter-period phase reference from a PLL or DLL can provide the same required edge placement without exposing a $4f_{in}$ fabric clock. Likewise, both edges of a $2f_{in}$ clock give quarter-input-period edge spacing. These are still extra clock-management resources; uncontrolled gate delay is not a reliable substitute because it varies with process, voltage, temperature, and routing. AMD's Clocking Wizard allows output frequency, phase, and duty-cycle requirements to be specified and reports the values the selected clocking primitive can actually achieve ([AMD Clocking Wizard](https://docs.amd.com/r/en-US/pg065-clk-wiz/Configuring-Output-Clocks)).
+A precise quarter-period phase reference from a PLL or DLL can provide the same required edge placement without exposing a $`4f_{in}`$ fabric clock. Likewise, both edges of a $`2f_{in}`$ clock give quarter-input-period edge spacing. These are still extra clock-management resources; uncontrolled gate delay is not a reliable substitute because it varies with process, voltage, temperature, and routing. AMD's Clocking Wizard allows output frequency, phase, and duty-cycle requirements to be specified and reports the values the selected clocking primitive can actually achieve ([AMD Clocking Wizard](https://docs.amd.com/r/en-US/pg065-clk-wiz/Configuring-Output-Clocks)).
 
-> **Interview form:** A normal modulo-3 counter gives $f_{in}/3$ with 33.33% or 66.67% duty. Using both original-clock edges gives duty-cycle steps of $1/6$, but 75% requires $4.5/6$ slots and is still impossible. Exact 75% needs quarter-period edge resolution; a standard solution generates $4f_{in}$, counts modulo 12, and keeps the output HIGH for nine counts and LOW for three.
+> **Interview form:** A normal modulo-3 counter gives $`f_{in}/3`$ with 33.33% or 66.67% duty. Using both original-clock edges gives duty-cycle steps of $1/6$, but 75% requires $4.5/6$ slots and is still impossible. Exact 75% needs quarter-period edge resolution; a standard solution generates $`4f_{in}`$, counts modulo 12, and keeps the output HIGH for nine counts and LOW for three.
 
 ### Active recall
 
@@ -831,9 +831,9 @@ $$
 Trace the important transition:
 
 1. $P$ rises on a positive edge when the counter enters its selected state.
-2. Half a clock later, the negative-edge DFF samples $P=1$, so $Q_2$ rises.
-3. At the next positive edge, $P$ falls, but $Q_2$ remains 1.
-4. Half a clock later, the negative-edge DFF samples $P=0$, so $Q_2$ falls.
+2. Half a clock later, the negative-edge DFF samples $P=1$, so $`Q_2`$ rises.
+3. At the next positive edge, $P$ falls, but $`Q_2`$ remains 1.
+4. Half a clock later, the negative-edge DFF samples $P=0$, so $`Q_2`$ falls.
 
 The OR output is therefore HIGH for
 
@@ -841,7 +841,7 @@ $$
 T_{in}+\frac{T_{in}}{2}=1.5T_{in}.
 $$
 
-Since $T_{out}=3T_{in}$,
+Since $`T_{out}=3T_{in}`$,
 
 $$
 \mathcal D=
@@ -872,7 +872,7 @@ $$
 
 The complete used-state table is:
 
-| Present $Q_2Q_1Q_0$ | Next $Q_2^{+}Q_1^{+}Q_0^{+}$ |
+| Present $`Q_2Q_1Q_0`$ | Next $`Q_2^{+}Q_1^{+}Q_0^{+}`$ |
 |---:|---:|
 | 000 | 001 |
 | 001 | 010 |
@@ -899,7 +899,7 @@ $$
 D_0=\overline{Q_2}\,\overline{Q_0}.
 $$
 
-The next-state function has XOR form: $D_1$ is 1 exactly when $Q_1$ and $Q_0$ differ.
+The next-state function has XOR form: $`D_1`$ is 1 exactly when $`Q_1`$ and $`Q_0`$ differ.
 
 ### Active recall
 
@@ -929,7 +929,7 @@ $$
 
 Substitution reproduces the intended sequence:
 
-| Present state | $D_2D_1D_0$ | Next state |
+| Present state | $`D_2D_1D_0`$ | Next state |
 |---:|---:|---:|
 | 000 | 001 | 001 |
 | 001 | 010 | 010 |
@@ -955,26 +955,26 @@ Across the five used states $000,001,010,011,100$:
 
 | Signal | HIGH states | HIGH count | Duty cycle |
 |---|---|---:|---:|
-| $Q_2$ | 100 | 1 of 5 | 20% |
-| $Q_1$ | 010, 011 | 2 of 5 | 40% |
-| $Q_0$ | 001, 011 | 2 of 5 | 40% |
-| $\overline{Q_2}$ | all except 100 | 4 of 5 | 80% |
-| $\overline{Q_1}$ | 000, 001, 100 | 3 of 5 | 60% |
-| $\overline{Q_0}$ | 000, 010, 100 | 3 of 5 | 60% |
+| $`Q_2`$ | 100 | 1 of 5 | 20% |
+| $`Q_1`$ | 010, 011 | 2 of 5 | 40% |
+| $`Q_0`$ | 001, 011 | 2 of 5 | 40% |
+| $`\overline{Q_2}`$ | all except 100 | 4 of 5 | 80% |
+| $`\overline{Q_1}`$ | 000, 001, 100 | 3 of 5 | 60% |
+| $`\overline{Q_0}`$ | 000, 010, 100 | 3 of 5 | 60% |
 
-Every listed waveform has fundamental repetition frequency $f_{in}/5$, but none has 50% duty because five full input periods cannot be divided into two equal integer groups.
+Every listed waveform has fundamental repetition frequency $`f_{in}/5`$, but none has 50% duty because five full input periods cannot be divided into two equal integer groups.
 
 ### Correction to the 50% note
 
-To create a 50% divide-by-5 waveform by half-cycle extension, begin with a signal that is already HIGH for **two consecutive input periods**, namely 40% of the five-period output cycle. $Q_1$ is the clean choice because it is HIGH in adjacent states $010$ and $011$.
+To create a 50% divide-by-5 waveform by half-cycle extension, begin with a signal that is already HIGH for **two consecutive input periods**, namely 40% of the five-period output cycle. $`Q_1`$ is the clean choice because it is HIGH in adjacent states $010$ and $011$.
 
-Sample $Q_1$ on the falling edge and OR the two versions:
+Sample $`Q_1`$ on the falling edge and OR the two versions:
 
 $$
 Y_{50}=Q_1+Q_{1,fall}.
 $$
 
-The falling-edge copy extends the contiguous $2T_{in}$ HIGH interval by $0.5T_{in}$:
+The falling-edge copy extends the contiguous $`2T_{in}`$ HIGH interval by $`0.5T_{in}`$:
 
 $$
 T_{HIGH}=2.5T_{in},
@@ -988,13 +988,13 @@ $$
 \mathcal D=\frac{2.5}{5}=50\%.
 $$
 
-**Do not use $Q_2$ for this extension.** $Q_2$ is only 20% duty. Extending its one-period pulse by half a period gives $1.5/5=30\%$, not 50%. Also, $Q_0$ has two HIGH states that are not contiguous in the cyclic ordering used here, so simply extending it does not form one clean 2.5-period HIGH interval.
+**Do not use $`Q_2`$ for this extension.** $`Q_2`$ is only 20% duty. Extending its one-period pulse by half a period gives $1.5/5=30\%$, not 50%. Also, $`Q_0`$ has two HIGH states that are not contiguous in the cyclic ordering used here, so simply extending it does not form one clean 2.5-period HIGH interval.
 
 Texas Instruments' [CD74HC390 datasheet](https://www.ti.com/lit/ds/symlink/cd74hc390.pdf) is a useful hardware reference showing separately clocked divide-by-2 and divide-by-5 counter sections. That commercial part is a ripple structure; the notebook derivation here is a synchronous modulo-5 state machine.
 
 ### Active recall
 
-Which modulo-5 bit has the contiguous 40% pulse needed for half-cycle extension, and why does extending $Q_2$ fail to produce 50% duty?
+Which modulo-5 bit has the contiguous 40% pulse needed for half-cycle extension, and why does extending $`Q_2`$ fail to produce 50% duty?
 
 <a id="page-07"></a>
 
@@ -1041,7 +1041,7 @@ $$
 
 ### Part (b): 25% duty
 
-An $f_{in}/2$ output has period $2T_{in}$. For 25% duty, the required HIGH time is
+An $`f_{in}/2`$ output has period $`2T_{in}`$. For 25% duty, the required HIGH time is
 
 $$
 T_{HIGH}=0.25(2T_{in})=\frac{T_{in}}{2}.
@@ -1067,15 +1067,15 @@ Using the low half-cycle is preferable to directly writing $Q\cdot CLK$ for this
 
 An edge-registered alternative is:
 
-1. Toggle $Q_p$ on the positive edge.
-2. Sample it into $Q_n$ on the negative edge.
+1. Toggle $`Q_p`$ on the positive edge.
+2. Sample it into $`Q_n`$ on the negative edge.
 3. Form
 
 $$
 Y_{25}=Q_p\,\overline{Q_n}.
 $$
 
-This signal is HIGH only between the positive edge that raises $Q_p$ and the following negative edge that raises $Q_n$, once every two input periods.
+This signal is HIGH only between the positive edge that raises $`Q_p`$ and the following negative edge that raises $`Q_n`$, once every two input periods.
 
 ### FPGA warning
 
@@ -1083,7 +1083,7 @@ These gate-level constructions are appropriate for waveform reasoning and extern
 
 ### Active recall
 
-Why must a 25%-duty divide-by-2 output be HIGH for only $T_{in}/2$, and why can directly ANDing a positive-edge-changing $Q$ with $CLK$ create a runt pulse?
+Why must a 25%-duty divide-by-2 output be HIGH for only $`T_{in}/2`$, and why can directly ANDing a positive-edge-changing $Q$ with $CLK$ create a runt pulse?
 
 <a id="page-08"></a>
 
@@ -1095,9 +1095,9 @@ Why must a 25%-duty divide-by-2 output be HIGH for only $T_{in}/2$, and why can 
 
 The required output passes one complete clock pulse, blocks the next, and repeats. For a 50% input clock:
 
-- repetition period: $2T_{in}$;
-- repetition frequency: $f_{in}/2$;
-- HIGH duration: $T_{in}/2$;
+- repetition period: $`2T_{in}`$;
+- repetition frequency: $`f_{in}/2`$;
+- HIGH duration: $`T_{in}/2`$;
 - duty cycle relative to the output period: 25%.
 
 A safe conceptual gate-level solution toggles an enable on each **falling edge**:
@@ -1142,7 +1142,7 @@ $$
 
 The truth table is
 
-| $Q_1Q_0$ | $Q_1^{+}Q_0^{+}$ | $D_1$ | $D_0$ |
+| $`Q_1Q_0`$ | $`Q_1^{+}Q_0^{+}`$ | $`D_1`$ | $`D_0`$ |
 |---:|---:|---:|---:|
 | 00 | 01 | 0 | 1 |
 | 01 | 10 | 1 | 0 |
@@ -1158,7 +1158,7 @@ $$
 D_0=\overline{Q_1}\,\overline{Q_0}.
 $$
 
-Both $Q_1$ and $Q_0$ are HIGH in one of the three states, so either is an $f_{in}/3$ output with 33.33% duty.
+Both $`Q_1`$ and $`Q_0`$ are HIGH in one of the three states, so either is an $`f_{in}/3`$ output with 33.33% duty.
 
 ### Notes leading into Q12(b)
 
@@ -1174,7 +1174,7 @@ Changing output polarity gives 66.67% duty; achieving 50% duty requires the extr
 
 ### Active recall
 
-Why should the pulse-cutting enable change while $CLK$ is LOW, and why do $Q_1$ and $\overline{Q_1}$ have the same frequency but different duty cycles?
+Why should the pulse-cutting enable change while $CLK$ is LOW, and why do $`Q_1`$ and $`\overline{Q_1}`$ have the same frequency but different duty cycles?
 
 <a id="page-09"></a>
 
@@ -1182,7 +1182,7 @@ Why should the pulse-cutting enable change while $CLK$ is LOW, and why do $Q_1$ 
 
 ![Frequency-divider notebook page 9](../_internal/Frequency%20Dividers/images/page-09.png)
 
-### Q12(b): $f_{in}/3$ with 66.67% duty
+### Q12(b): $`f_{in}/3`$ with 66.67% duty
 
 The modulo-3 sequence contains three equally long states:
 
@@ -1190,7 +1190,7 @@ $$
 00,\ 01,\ 10.
 $$
 
-$Q_1$ has the value sequence
+$`Q_1`$ has the value sequence
 
 $$
 0,\ 0,\ 1,
@@ -1208,11 +1208,11 @@ $$
 \mathcal D_{\overline{Q_1}}=\frac23=66.67\%.
 $$
 
-The same argument applies to $Q_0$ and $\overline{Q_0}$. Complementing a waveform does not change its period, so the frequency remains $f_{in}/3$.
+The same argument applies to $`Q_0`$ and $`\overline{Q_0}`$. Complementing a waveform does not change its period, so the frequency remains $`f_{in}/3`$.
 
-### Q12(b): $f_{in}/3$ with 50% duty
+### Q12(b): $`f_{in}/3`$ with 50% duty
 
-Let $P$ be either 33.33% waveform, and let a falling-edge DFF produce $P_f$. Use
+Let $P$ be either 33.33% waveform, and let a falling-edge DFF produce $`P_f`$. Use
 
 $$
 P_f^{+}=P
@@ -1223,7 +1223,7 @@ $$
 Y=P+P_f.
 $$
 
-The direct pulse supplies $T_{in}$ of HIGH time, and the falling-edge copy supplies another $T_{in}/2$. Thus
+The direct pulse supplies $`T_{in}`$ of HIGH time, and the falling-edge copy supplies another $`T_{in}/2`$. Thus
 
 $$
 T_{HIGH}=1.5T_{in}
@@ -1255,16 +1255,16 @@ Q_1^{+}=\overline{Q_1},
 Q_0^{+}=Q_0\oplus Q_1.
 $$
 
-Starting from $Q_1Q_0=00$:
+Starting from $`Q_1Q_0=00`$:
 
-| Present $Q_1Q_0$ | Next $Q_1Q_0$ |
+| Present $`Q_1Q_0`$ | Next $`Q_1Q_0`$ |
 |---:|---:|
 | 00 | 10 |
 | 10 | 01 |
 | 01 | 11 |
 | 11 | 00 |
 
-The bit named $Q_1$ here is the least-significant counting bit: it toggles every clock and has frequency $f_{in}/2$. $Q_0$ has sequence
+The bit named $`Q_1`$ here is the least-significant counting bit: it toggles every clock and has frequency $`f_{in}/2`$. $`Q_0`$ has sequence
 
 $$
 0,\ 0,\ 1,\ 1,\ 0,\ldots
@@ -1297,7 +1297,7 @@ f_{out}=\frac{f_{in}}{1.5}
 =\frac{2}{3}f_{in},
 $$
 
-not $1.5f_{in}$. In period form,
+not $`1.5f_{in}`$. In period form,
 
 $$
 T_{out}=\frac{1}{f_{out}}
@@ -1320,7 +1320,7 @@ $$
 0,\ 1.5T_{in},\ 3T_{in},\ 4.5T_{in},\ldots
 $$
 
-The events at $1.5T_{in}$ and $4.5T_{in}$ lie on falling edges of the original clock. Therefore, the design needs access to both edge phases, a clock running at $2f_{in}$, or a dedicated PLL/frequency-synthesis resource.
+The events at $`1.5T_{in}`$ and $`4.5T_{in}`$ lie on falling edges of the original clock. Therefore, the design needs access to both edge phases, a clock running at $`2f_{in}`$, or a dedicated PLL/frequency-synthesis resource.
 
 ### Interpreting the three green waveforms
 
@@ -1332,20 +1332,20 @@ $$
 
 while having different HIGH widths. Frequency measures repetition, not pulse width. For example:
 
-| HIGH time | Duty cycle for $T_{out}=1.5T_{in}$ |
+| HIGH time | Duty cycle for $`T_{out}=1.5T_{in}`$ |
 |---:|---:|
-| $0.5T_{in}$ | $1/3=33.33\%$ |
-| $0.75T_{in}$ | $1/2=50\%$ |
-| $1.0T_{in}$ | $2/3=66.67\%$ |
+| $`0.5T_{in}`$ | $1/3=33.33\%$ |
+| $`0.75T_{in}`$ | $1/2=50\%$ |
+| $`1.0T_{in}`$ | $2/3=66.67\%$ |
 
-However, if the circuit can change output only on input rising and falling edges, its timing grid is $0.5T_{in}$. It can readily create 33.33% or 66.67% duty, but not the $0.75T_{in}$ HIGH and LOW intervals required for exact 50% duty. Exact 50% needs finer phase resolution or a clocking resource that directly synthesizes the requested frequency.
+However, if the circuit can change output only on input rising and falling edges, its timing grid is $`0.5T_{in}`$. It can readily create 33.33% or 66.67% duty, but not the $`0.75T_{in}`$ HIGH and LOW intervals required for exact 50% duty. Exact 50% needs finer phase resolution or a clocking resource that directly synthesizes the requested frequency.
 
 ### Two conceptual solution families
 
 The blocks at the bottom anticipate two approaches:
 
 1. Generate a 50% integer-divided precursor, then create a pulse on both its rising and falling transitions. This doubles its transition-event rate.
-2. Treat both edges of the input clock as state-machine events. The effective event clock is then $2f_{in}$, and a modulo-3 sequence produces $2f_{in}/3$.
+2. Treat both edges of the input clock as state-machine events. The effective event clock is then $`2f_{in}`$, and a modulo-3 sequence produces $`2f_{in}/3`$.
 
 These methods naturally produce a pulse train. Whether that pulse train is allowed to become a real clock is a separate implementation question.
 
@@ -1379,11 +1379,11 @@ $$
 \frac{T_A}{2}=1.5T_{in}.
 $$
 
-That transition spacing is exactly the required period for an $f_{in}/1.5$ pulse train.
+That transition spacing is exactly the required period for an $`f_{in}/1.5`$ pulse train.
 
 ### Why XOR with a delayed copy produces two pulses
 
-Let $A_d$ be a delayed version of $A$:
+Let $`A_d`$ be a delayed version of $A$:
 
 $$
 A_d(t)=A(t-\Delta).
@@ -1395,7 +1395,7 @@ $$
 Y=A\oplus A_d.
 $$
 
-Immediately after either transition of $A$, the direct and delayed versions disagree for $\Delta$. The XOR is therefore HIGH for $\Delta$ after every rising edge and every falling edge of $A$. Since the two transitions of a 50% $f_{in}/3$ waveform are separated by $1.5T_{in}$, the output pulses also repeat every $1.5T_{in}$:
+Immediately after either transition of $A$, the direct and delayed versions disagree for $\Delta$. The XOR is therefore HIGH for $\Delta$ after every rising edge and every falling edge of $A$. Since the two transitions of a 50% $`f_{in}/3`$ waveform are separated by $`1.5T_{in}`$, the output pulses also repeat every $`1.5T_{in}`$:
 
 $$
 f_Y=\frac{1}{1.5T_{in}}
@@ -1430,7 +1430,7 @@ The complement has 66.67% duty and the same frequency.
 
 ### Why the precursor must be 50% duty
 
-Suppose $A$ were not 50% duty. Its rising-to-falling interval and falling-to-rising interval would differ. The edge-detector pulses would then occur at alternating spacings, so the result would have the correct **average number of pulses** but not one uniform period of $1.5T_{in}$. A 50% precursor makes both half-cycle intervals equal.
+Suppose $A$ were not 50% duty. Its rising-to-falling interval and falling-to-rising interval would differ. The edge-detector pulses would then occur at alternating spacings, so the result would have the correct **average number of pulses** but not one uniform period of $`1.5T_{in}`$. A 50% precursor makes both half-cycle intervals equal.
 
 ### What can implement the delay?
 
@@ -1511,13 +1511,13 @@ $$
 
 ### Why the divide-by-5 precursor must be 50%
 
-If the precursor HIGH and LOW intervals are unequal, its rising and falling edges are not equally spaced. Edge detection would create alternating short and long output intervals. The average event rate might still be $2f_{in}/5$, but the result would not be a uniform periodic divider waveform.
+If the precursor HIGH and LOW intervals are unequal, its rising and falling edges are not equally spaced. Edge detection would create alternating short and long output intervals. The average event rate might still be $`2f_{in}/5`$, but the result would not be a uniform periodic divider waveform.
 
-The 50% divide-by-5 construction from pages 5-6 supplies equally spaced transitions every $2.5T_{in}$.
+The 50% divide-by-5 construction from pages 5-6 supplies equally spaced transitions every $`2.5T_{in}`$.
 
 ### Explaining the XOR and 20% duty result
 
-Let $A_d$ delay the 50% $f_{in}/5$ precursor by
+Let $`A_d`$ delay the 50% $`f_{in}/5`$ precursor by
 
 $$
 \Delta=\frac{T_{in}}{2}.
@@ -1529,7 +1529,7 @@ $$
 Y=A\oplus A_d,
 $$
 
-each output pulse lasts $\Delta$, while pulses repeat every $2.5T_{in}$. Therefore,
+each output pulse lasts $\Delta$, while pulses repeat every $`2.5T_{in}`$. Therefore,
 
 $$
 \mathcal D_Y
@@ -1544,11 +1544,11 @@ $$
 \mathcal D_{\overline Y}=1-\frac15=\frac45=80\%.
 $$
 
-The 20% and 80% waveforms have the same fundamental frequency $f_{in}/2.5$.
+The 20% and 80% waveforms have the same fundamental frequency $`f_{in}/2.5`$.
 
 ### General duty-cycle result for the shown delay
 
-For $N=M/2$ and $\Delta=T_{in}/2$,
+For $N=M/2$ and $`\Delta=T_{in}/2`$,
 
 $$
 T_{out}=\frac{M}{2}T_{in},
@@ -1575,7 +1575,7 @@ A generic RTL DFF is normally sensitive to one clock edge, not both. If a design
 
 - use a dedicated dual-edge/DDR primitive;
 - use coordinated positive-edge and negative-edge registers with careful timing; or
-- generate a $2f_{in}$ clock using a PLL and keep the divider itself single-edge synchronous.
+- generate a $`2f_{in}`$ clock using a PLL and keep the divider itself single-edge synchronous.
 
 Do not infer a portable FPGA design by writing one ordinary register that changes on both edges.
 
@@ -1623,13 +1623,13 @@ $$
 S_0\rightarrow S_1\rightarrow S_2\rightarrow S_0
 $$
 
-on consecutive half-cycle events. If the Moore output is 1 only in $S_0$:
+on consecutive half-cycle events. If the Moore output is 1 only in $`S_0`$:
 
 | State | Output | Duration |
 |---|---:|---:|
-| $S_0$ | 1 | $T_{in}/2$ |
-| $S_1$ | 0 | $T_{in}/2$ |
-| $S_2$ | 0 | $T_{in}/2$ |
+| $`S_0`$ | 1 | $`T_{in}/2`$ |
+| $`S_1`$ | 0 | $`T_{in}/2`$ |
+| $`S_2`$ | 0 | $`T_{in}/2`$ |
 
 The waveform repeats after three half-cycles:
 
@@ -1667,7 +1667,7 @@ $$
 f_{2x}=2f_{in},
 $$
 
-use an ordinary single-edge synchronous modulo-3 counter. The following produces a pulse train at $f_{in}/1.5$ with 33.33% duty:
+use an ordinary single-edge synchronous modulo-3 counter. The following produces a pulse train at $`f_{in}/1.5`$ with 33.33% duty:
 
 ~~~systemverilog
 module divide_by_1p5_pulse (
@@ -1699,7 +1699,7 @@ f_{pulse}
 =\frac{f_{in}}{1.5}.
 $$
 
-The pulse width is one $clk\_2x$ period:
+The pulse width is one $`clk\_2x`$ period:
 
 $$
 T_{HIGH}=\frac{1}{2f_{in}}=\frac{T_{in}}{2}.
@@ -1707,37 +1707,37 @@ $$
 
 ### Why not write a normal two-edge always block?
 
-Code that updates the same ordinary register on both $posedge\ clk$ and $negedge\ clk$ is useful as a behavioral thought model but is not portable synthesis RTL. Standard FPGA fabric flip-flops are single-edge devices. If a real output pin must change on both edges, instantiate the device's DDR output primitive. If a real internal clock at $2f_{in}/3$ is needed, use a PLL or dedicated clock-management resource.
+Code that updates the same ordinary register on both $posedge\ clk$ and $negedge\ clk$ is useful as a behavioral thought model but is not portable synthesis RTL. Standard FPGA fabric flip-flops are single-edge devices. If a real output pin must change on both edges, instantiate the device's DDR output primitive. If a real internal clock at $`2f_{in}/3`$ is needed, use a PLL or dedicated clock-management resource.
 
 ### 50% duty reminder
 
-A 50% waveform at $f_{in}/1.5$ would require transitions every
+A 50% waveform at $`f_{in}/1.5`$ would require transitions every
 
 $$
 \frac{T_{out}}{2}=0.75T_{in}.
 $$
 
-Neither the original full-cycle grid nor its half-cycle edge grid contains every $0.75T_{in}$ boundary. Exact 50% duty therefore needs finer phase resolution or direct clock synthesis; the modulo-3 both-edge design naturally gives 33.33% or, after inversion, 66.67%.
+Neither the original full-cycle grid nor its half-cycle edge grid contains every $`0.75T_{in}`$ boundary. Exact 50% duty therefore needs finer phase resolution or direct clock synthesis; the modulo-3 both-edge design naturally gives 33.33% or, after inversion, 66.67%.
 
 ### Active recall
 
-Why does a modulo-3 machine clocked at $2f_{in}$ implement divide by 1.5, and what makes this implementation safer than combining two independent opposite-edge FSMs in ordinary logic?
+Why does a modulo-3 machine clocked at $`2f_{in}`$ implement divide by 1.5, and what makes this implementation safer than combining two independent opposite-edge FSMs in ordinary logic?
 
 <a id="points-to-remember"></a>
 
 ## Points to remember
 
-- Division ratio is a period relationship: $T_{out}=N T_{in}$.
-- For $S$ binary-encoded states, the minimum state memory is $m=\lceil\log_2 S\rceil$ flip-flops; equivalently, choose the smallest $m$ satisfying $2^m\ge S$.
-- Duty cycle is a separate requirement: $\mathcal D=T_{HIGH}/T_{out}$.
+- Division ratio is a period relationship: $`T_{out}=N T_{in}`$.
+- For $S$ binary-encoded states, the minimum state memory is $`m=\lceil\log_2 S\rceil`$ flip-flops; equivalently, choose the smallest $m$ satisfying $2^m\ge S$.
+- Duty cycle is a separate requirement: $`\mathcal D=T_{HIGH}/T_{out}`$.
 - One toggling flip-flop divides by 2 because one output cycle requires two state changes.
 - A synchronous counter gives every state register the original clock; a ripple counter clocks later stages from earlier outputs.
-- Modulo-3 equations for the chosen encoding are $D_1=Q_0$ and $D_0=\overline{Q_1}\,\overline{Q_0}$.
-- Modulo-5 equations are $D_2=Q_1Q_0$, $D_1=Q_1\oplus Q_0$, and $D_0=\overline{Q_2}\,\overline{Q_0}$.
+- Modulo-3 equations for the chosen encoding are $`D_1=Q_0`$ and $`D_0=\overline{Q_1}\,\overline{Q_0}`$.
+- Modulo-5 equations are $`D_2=Q_1Q_0`$, $`D_1=Q_1\oplus Q_0`$, and $`D_0=\overline{Q_2}\,\overline{Q_0}`$.
 - Direct state decoding gives $1/N$, $2/N$, and similar whole-state duty cycles.
 - With rising-edge-only timing, divide-by-$N$ duty cycles are $k/N$; with both edges of an ideal 50% input, they are $k/(2N)$.
-- For $f_{in}/3$ at 75% duty, $T_{HIGH}=2.25T_{in}$ and $T_{LOW}=0.75T_{in}$, so quarter-period resolution is required.
-- A single-edge $4f_{in}$ modulo-12 implementation gives exact 75% duty by using nine HIGH counts and three LOW counts.
+- For $`f_{in}/3`$ at 75% duty, $`T_{HIGH}=2.25T_{in}`$ and $`T_{LOW}=0.75T_{in}`$, so quarter-period resolution is required.
+- A single-edge $`4f_{in}`$ modulo-12 implementation gives exact 75% duty by using nine HIGH counts and three LOW counts.
 - A 50% odd divider needs a half-cycle or other phase correction.
 - Edge detection doubles transition-event rate, not voltage.
 - A fractional divider pulse train is not automatically a safe internal clock.
@@ -1750,7 +1750,7 @@ Why does a modulo-3 machine clocked at $2f_{in}$ implement divide by 1.5, and wh
 
 The explanations and corrections were cross-checked against:
 
-- [UMBC Lab 10: finite-state-machine design](https://userpages.cs.umbc.edu/phatak/212/labs-s21/lab10/index.html) for the $\lceil\log_2 S\rceil$ binary state-register rule and flip-flop excitation tables.
+- [UMBC Lab 10: finite-state-machine design](https://userpages.cs.umbc.edu/phatak/212/labs-s21/lab10/index.html) for the $`\lceil\log_2 S\rceil`$ binary state-register rule and flip-flop excitation tables.
 - [University of Iowa finite-state-machine notes](https://homepage.divms.uiowa.edu/~dwjones/arch/notes/04fsm.html) for the equivalent state-count rule and the two-state/one-flip-flop example.
 - [Texas Instruments SN74LVC1G80-Q1 datasheet](https://www.ti.com/lit/ds/symlink/sn74lvc1g80-q1.pdf) for the DFF feedback divide-by-2 application.
 - [Texas Instruments CD74HC390 datasheet](https://www.ti.com/lit/ds/symlink/cd74hc390.pdf) for practical divide-by-2 and divide-by-5 counter sections.

@@ -32,7 +32,7 @@ The sizing and delay trade-offs are cross-checked against the [MIT 6.012 CMOS in
 | [3](#page-03) | Symmetric inverter sizing | [10](#page-10) | Power-delay trade-off |
 | [4](#page-04) | Equal pull-up/pull-down resistance | [11](#page-11) | Switching-threshold current equality |
 | [5](#page-05) | Two-input NAND network | [12](#page-12) | VIL/VIH region setup |
-| [6](#page-06) | NAND worst-case delay | [13](#page-13) | Noise margins and $t_{PLH}$ |
+| [6](#page-06) | NAND worst-case delay | [13](#page-13) | Noise margins and $`t_{PLH}`$ |
 | [7](#page-07) | Dynamic node initial conditions | [14](#page-14) | Exponential delay calculation |
 
 <a id="page-01"></a>
@@ -43,19 +43,19 @@ The sizing and delay trade-offs are cross-checked against the [MIT 6.012 CMOS in
 
 ### Device strength and switching-voltage shifts
 
-The strength ratio $\beta_p/\beta_n$, or the equivalent resistance ratio, determines $V_M$. If pMOS is stronger relative to nMOS, the input must rise farther before pull-down wins, so the transfer curve and $V_M$ move right/up. If nMOS is stronger, $V_M$ moves left/down.
+The strength ratio $`\beta_p/\beta_n`$, or the equivalent resistance ratio, determines $`V_M`$. If pMOS is stronger relative to nMOS, the input must rise farther before pull-down wins, so the transfer curve and $`V_M`$ move right/up. If nMOS is stronger, $`V_M`$ moves left/down.
 
-The same strength imbalance affects timing. Stronger pMOS lowers $R_p$ and improves low-to-high output delay; stronger nMOS lowers $R_n$ and improves high-to-low delay. A DC sizing choice therefore changes both switching threshold and dynamic edge symmetry.
+The same strength imbalance affects timing. Stronger pMOS lowers $`R_p`$ and improves low-to-high output delay; stronger nMOS lowers $`R_n`$ and improves high-to-low delay. A DC sizing choice therefore changes both switching threshold and dynamic edge symmetry.
 
 Read the two plotted VTC shifts together with the resistance notes: widening pMOS both delays the point at which the falling curve changes state and gives the output capacitor a stronger charging path. Widening nMOS produces the complementary pair of effects. Device sizing therefore changes both the horizontal VTC position and the relative rise/fall times.
 
 ### Clarity / correction / improvement
 
-Keep strength and resistance ratios inverse: $R_p/R_n\approx\beta_n/\beta_p$ for comparable overdrive. Writing both as if they increase together reverses the design conclusion.
+Keep strength and resistance ratios inverse: $`R_p/R_n\approx\beta_n/\beta_p`$ for comparable overdrive. Writing both as if they increase together reverses the design conclusion.
 
 ### Active recall
 
-If the pMOS is made wider while everything else is fixed, how do $V_M$ and $t_{PLH}$ move?
+If the pMOS is made wider while everything else is fixed, how do $`V_M`$ and $`t_{PLH}`$ move?
 
 <a id="page-02"></a>
 
@@ -65,11 +65,11 @@ If the pMOS is made wider while everything else is fixed, how do $V_M$ and $t_{P
 
 ### Transfer curves for unequal device strengths
 
-The cases classify the inverter by relative device strength. $\beta_p/\beta_n<1$ means pMOS is relatively weak and nMOS dominates sooner, shifting the VTC toward lower input. $\beta_p/\beta_n>1$ means pMOS is relatively strong and holds the output high longer.
+The cases classify the inverter by relative device strength. $`\beta_p/\beta_n<1`$ means pMOS is relatively weak and nMOS dominates sooner, shifting the VTC toward lower input. $`\beta_p/\beta_n>1`$ means pMOS is relatively strong and holds the output high longer.
 
 The plotted transition families give a fast physical test for algebra: any computed strength ratio must move the curve in the same direction as the stronger pull network. If not, the ratio or square-root weighting has been inverted.
 
-The important comparison on the graph is the input voltage at the steep transition, not a change in the final rails: ideally the output still approaches $V_{DD}$ and $0$ in both cases. Relative strength mainly decides how long the pull-up can oppose the pull-down as $V_{in}$ rises, which is why the bend moves while the Boolean inversion remains unchanged.
+The important comparison on the graph is the input voltage at the steep transition, not a change in the final rails: ideally the output still approaches $`V_{DD}`$ and $0$ in both cases. Relative strength mainly decides how long the pull-up can oppose the pull-down as $`V_{in}`$ rises, which is why the bend moves while the Boolean inversion remains unchanged.
 
 ### Clarity / correction / improvement
 
@@ -87,7 +87,7 @@ Why does a strong pMOS increase the low-state input range but potentially reduce
 
 ### Width ratio for equal effective strength
 
-Equal effective gain, $\beta_n=\beta_p$, centers the switching point and approximately equalizes edge strength. Because $\beta=\mu C'_{ox}W/L$, equal channel lengths and oxide capacitance require
+Equal effective gain, $`\beta_n=\beta_p`$, centers the switching point and approximately equalizes edge strength. Because $`\beta=\mu C'_{ox}W/L`$, equal channel lengths and oxide capacitance require
 
 $$
 \frac{W_p}{W_n}\approx\frac{\mu_n}{\mu_p}.
@@ -95,15 +95,15 @@ $$
 
 Electron mobility is typically about two to three times hole mobility in a given process, so pMOS is made roughly two to three times wider in a first-order symmetric design.
 
-The pMOS-to-nMOS width ratio compensates for mobility, not for a different logic function. With equal $L$ and the same $C'_{ox}$, the narrower nMOS can equal the wider pMOS because electrons provide more current per unit width. Once the two $\beta$ values match, equal threshold magnitudes place the current-balance point near $V_{DD}/2$.
+The pMOS-to-nMOS width ratio compensates for mobility, not for a different logic function. With equal $L$ and the same $`C'_{ox}`$, the narrower nMOS can equal the wider pMOS because electrons provide more current per unit width. Once the two $\beta$ values match, equal threshold magnitudes place the current-balance point near $`V_{DD}/2`$.
 
 ### Clarity / correction / improvement
 
-The exact width ratio is process- and bias-dependent; it should come from the provided $k'_n/k'_p$ or characterized cell data. “pMOS is always 2x” is a rule of thumb, not a law.
+The exact width ratio is process- and bias-dependent; it should come from the provided $`k'_n/k'_p`$ or characterized cell data. “pMOS is always 2x” is a rule of thumb, not a law.
 
 ### Active recall
 
-If $k'_n=2.5k'_p$ and channel lengths are equal, what width ratio gives $\beta_n=\beta_p$?
+If $`k'_n=2.5k'_p`$ and channel lengths are equal, what width ratio gives $`\beta_n=\beta_p`$?
 
 <a id="page-04"></a>
 
@@ -113,15 +113,15 @@ If $k'_n=2.5k'_p$ and channel lengths are equal, what width ratio gives $\beta_n
 
 ### Resistance matching for equal edge delays
 
-Edge-delay matching gives the same first-order sizing target as DC transfer analysis. In the RC model, $t_{PLH}\approx0.69R_pC_L$ and $t_{PHL}\approx0.69R_nC_L$. Equal delays therefore require $R_p\approx R_n$, which in turn requires comparable effective $\beta_p$ and $\beta_n$.
+Edge-delay matching gives the same first-order sizing target as DC transfer analysis. In the RC model, $`t_{PLH}\approx0.69R_pC_L`$ and $`t_{PHL}\approx0.69R_nC_L`$. Equal delays therefore require $`R_p\approx R_n`$, which in turn requires comparable effective $`\beta_p`$ and $`\beta_n`$.
 
-Substituting mobility and $W/L$ expressions produces the required pMOS-to-nMOS width ratio. Centering $V_M$ and balancing edge delays often lead to the same first-order sizing choice.
+Substituting mobility and $W/L$ expressions produces the required pMOS-to-nMOS width ratio. Centering $`V_M`$ and balancing edge delays often lead to the same first-order sizing choice.
 
-Follow the two delay arrows separately: the falling edge exposes $C_L$ to the nMOS pull-down resistance, whereas the rising edge exposes the same load to the pMOS pull-up resistance. Since the factor $0.69C_L$ is common, it cancels when the delays are compared. What remains is precisely the resistance—or inverse-strength—matching condition written below the waveforms.
+Follow the two delay arrows separately: the falling edge exposes $`C_L`$ to the nMOS pull-down resistance, whereas the rising edge exposes the same load to the pMOS pull-up resistance. Since the factor $`0.69C_L`$ is common, it cancels when the delays are compared. What remains is precisely the resistance—or inverse-strength—matching condition written below the waveforms.
 
 ### Clarity / correction / improvement
 
-The equality is approximate because the two transitions traverse different device regions and capacitances. Match measured/characterized delay if precision matters; use $R_p=R_n$ for hand design.
+The equality is approximate because the two transitions traverse different device regions and capacitances. Match measured/characterized delay if precision matters; use $`R_p=R_n`$ for hand design.
 
 ### Active recall
 
@@ -135,11 +135,11 @@ Which assumption allows a transistor-strength ratio to be converted directly int
 
 ### NAND pull-up and pull-down operation
 
-The CMOS NAND has two pMOS devices in parallel in the pull-up network and two nMOS devices in series in the pull-down network. The output is low only when both inputs are high, because only then is the full series nMOS path on while both pMOS devices are off. For every other input combination, at least one pMOS provides a path to $V_{DD}$ and at least one nMOS breaks the ground path.
+The CMOS NAND has two pMOS devices in parallel in the pull-up network and two nMOS devices in series in the pull-down network. The output is low only when both inputs are high, because only then is the full series nMOS path on while both pMOS devices are off. For every other input combination, at least one pMOS provides a path to $`V_{DD}`$ and at least one nMOS breaks the ground path.
 
 The resistance sketches prepare a worst-case delay model. Falling output sees two series nMOS resistances. Rising output can be driven by one pMOS in the worst case or two parallel pMOS devices in the fastest case.
 
-The complementary topology in the drawing follows De Morgan's law physically. A series pull-down requires $A=1$ **and** $B=1$ to reach ground, while the parallel pull-up reaches $V_{DD}$ when $A=0$ **or** $B=0$. Thus each truth-table row can be reconstructed directly from continuity of the two transistor networks rather than recalled as an isolated NAND fact.
+The complementary topology in the drawing follows De Morgan's law physically. A series pull-down requires $A=1$ **and** $B=1$ to reach ground, while the parallel pull-up reaches $`V_{DD}`$ when $A=0$ **or** $B=0$. Thus each truth-table row can be reconstructed directly from continuity of the two transistor networks rather than recalled as an isolated NAND fact.
 
 ### Clarity / correction / improvement
 
@@ -157,9 +157,9 @@ Why does the pMOS network implement the dual of the nMOS series network?
 
 ### Worst-case conducting paths
 
-NAND charging and discharging use different conducting paths and time constants. With unit devices, worst-case discharge is approximately $2R_nC_L$ because two nMOS are in series. Worst-case charge is approximately $R_pC_L$ because only one parallel pMOS may be on. Internal diffusion capacitance at the midpoint of the nMOS stack can add extra delay beyond this simple output-only model.
+NAND charging and discharging use different conducting paths and time constants. With unit devices, worst-case discharge is approximately $`2R_nC_L`$ because two nMOS are in series. Worst-case charge is approximately $`R_pC_L`$ because only one parallel pMOS may be on. Internal diffusion capacitance at the midpoint of the nMOS stack can add extra delay beyond this simple output-only model.
 
-To make NAND pull-down comparable with an inverter, each series nMOS is often widened about 2x, making each roughly $R_n/2$ so the two-device series path returns to $R_n$. Pull-up sizing is chosen from its worst-case one-device path.
+To make NAND pull-down comparable with an inverter, each series nMOS is often widened about 2x, making each roughly $`R_n/2`$ so the two-device series path returns to $`R_n`$. Pull-up sizing is chosen from its worst-case one-device path.
 
 Evaluate the one-pMOS and two-pMOS charging cases separately. If only one input falls, one pMOS charges the output and sets the conservative rising delay; if both are low, the two parallel devices reduce the effective resistance and the rise is faster. By contrast, every valid falling event needs both series nMOS on, so their summed resistance is unavoidable in the discharge path.
 
@@ -181,9 +181,9 @@ Why are series nMOS devices widened in a NAND, while the parallel pMOS devices d
 
 Analyze a switched-capacitor transition at $t=0^-$, $t=0^+$, and $t>0$. Before the input change, the output capacitor holds a rail voltage. Immediately after the change, that voltage is unchanged but the transistor network has switched states. Current then moves charge until the new rail is reached.
 
-For a falling output, nMOS begins with large $V_{DS}$, usually saturation, and later enters linear region. For a rising output, pMOS follows the complementary trajectory. Writing initial capacitor charge $Q_C(0^-)=C_LV_{out}(0^-)$ prevents accidental assumption that output jumps with input.
+For a falling output, nMOS begins with large $`V_{DS}`$, usually saturation, and later enters linear region. For a rising output, pMOS follows the complementary trajectory. Writing initial capacitor charge $`Q_C(0^-)=C_LV_{out}(0^-)`$ prevents accidental assumption that output jumps with input.
 
-This time ordering explains the seemingly contradictory labels in the sketch: at $t=0^+$ the transistor current may change immediately because its gate voltage changed, yet $V_{out}$ is still the value stored at $t=0^-$. Only after current has transferred charge can the output trace move. In a stacked NAND, the same rule also applies to the internal-node capacitance.
+This time ordering explains the seemingly contradictory labels in the sketch: at $t=0^+$ the transistor current may change immediately because its gate voltage changed, yet $`V_{out}`$ is still the value stored at $t=0^-$. Only after current has transferred charge can the output trace move. In a stacked NAND, the same rule also applies to the internal-node capacitance.
 
 ### Clarity / correction / improvement
 
@@ -201,23 +201,23 @@ What can change discontinuously at $t=0$: transistor region, capacitor voltage, 
 
 ### Delay from charge and average current
 
-Charge balance provides a delay estimate without assuming constant transistor resistance. To move the output by $\Delta V$, the transistor must transfer $\Delta Q=C_L\Delta V$. If an average current is estimated over that interval,
+Charge balance provides a delay estimate without assuming constant transistor resistance. To move the output by $\Delta V$, the transistor must transfer $`\Delta Q=C_L\Delta V`$. If an average current is estimated over that interval,
 
 $$
 t\approx\frac{C_L\Delta V}{I_{avg}}.
 $$
 
-For 50% propagation delay, $|\Delta V|$ is usually $V_{DD}/2$. Averaging the initial and midpoint currents captures some nonlinear MOS behavior without performing the full differential-equation integral.
+For 50% propagation delay, $|\Delta V|$ is usually $`V_{DD}/2`$. Averaging the initial and midpoint currents captures some nonlinear MOS behavior without performing the full differential-equation integral.
 
-The two current samples shown are tied to two output voltages along the same transition. Their difference reflects the change in $V_{DS}$ and, possibly, a change of operating region while $V_{GS}$ stays fixed after the input step. Dividing the required half-swing charge by that representative current converts the transistor-current calculation into a time estimate with units of seconds.
+The two current samples shown are tied to two output voltages along the same transition. Their difference reflects the change in $`V_{DS}`$ and, possibly, a change of operating region while $`V_{GS}`$ stays fixed after the input step. Dividing the required half-swing charge by that representative current converts the transistor-current calculation into a time estimate with units of seconds.
 
 ### Clarity / correction / improvement
 
-The arithmetic mean $[I(0)+I(t_p)]/2$ is an approximation because current does not vary linearly with time or voltage. It is often better than one fixed $R$, but exact hand analysis integrates $C\,dV/I(V)$.
+The arithmetic mean $`[I(0)+I(t_p)]/2`$ is an approximation because current does not vary linearly with time or voltage. It is often better than one fixed $R$, but exact hand analysis integrates $C\,dV/I(V)$.
 
 ### Active recall
 
-Why does the charge-over-average-current method naturally use $V_{DD}/2$ for a 50% delay measurement?
+Why does the charge-over-average-current method naturally use $`V_{DD}/2`$ for a 50% delay measurement?
 
 <a id="page-09"></a>
 
@@ -227,19 +227,19 @@ Why does the charge-over-average-current method naturally use $V_{DD}/2$ for a 5
 
 ### Saturation-to-linear transition during discharge
 
-For a step-high input, nMOS turns on while the output initially remains high. With $V_{DS}\ge V_{GS}-V_T$, it starts in saturation at approximately constant square-law current. When $V_{out}$ falls below $V_{GS}-V_T$, it enters linear region and current decreases as the output approaches ground.
+For a step-high input, nMOS turns on while the output initially remains high. With $`V_{DS}\ge V_{GS}-V_T`$, it starts in saturation at approximately constant square-law current. When $`V_{out}`$ falls below $`V_{GS}-V_T`$, it enters linear region and current decreases as the output approaches ground.
 
-The initial and 50%-output currents provide an estimate of $t_{PHL}$. The region boundary must be compared with $V_{DD}/2$: depending on $V_T/V_{DD}$, the 50% point may lie in saturation or linear region, changing which current formula belongs in the estimate.
+The initial and 50%-output currents provide an estimate of $`t_{PHL}`$. The region boundary must be compared with $`V_{DD}/2`$: depending on $`V_T/V_{DD}`$, the 50% point may lie in saturation or linear region, changing which current formula belongs in the estimate.
 
-On the drawn discharge path, $V_{GS}=V_{DD}$ remains constant after the input step, while $V_{DS}=V_{out}$ continuously falls. The operating point therefore moves horizontally through the output characteristics: it begins on the saturation plateau and crosses the boundary at $V_{out}=V_{DD}-V_T$. That movement is the reason a single constant-current formula cannot describe the full waveform.
+On the drawn discharge path, $`V_{GS}=V_{DD}`$ remains constant after the input step, while $`V_{DS}=V_{out}`$ continuously falls. The operating point therefore moves horizontally through the output characteristics: it begins on the saturation plateau and crosses the boundary at $`V_{out}=V_{DD}-V_T`$. That movement is the reason a single constant-current formula cannot describe the full waveform.
 
 ### Clarity / correction / improvement
 
-The label “nMOS saturation during discharging” is true initially, not for the entire fall. Always test $V_{out}$ at the measurement point against $V_{DD}-V_T$.
+The label “nMOS saturation during discharging” is true initially, not for the entire fall. Always test $`V_{out}`$ at the measurement point against $`V_{DD}-V_T`$.
 
 ### Active recall
 
-For $V_{GS}=V_{DD}$, at what output voltage does the discharging nMOS leave saturation?
+For $`V_{GS}=V_{DD}`$, at what output voltage does the discharging nMOS leave saturation?
 
 <a id="page-10"></a>
 
@@ -249,19 +249,19 @@ For $V_{GS}=V_{DD}$, at what output voltage does the discharging nMOS leave satu
 
 ### Supply-voltage effects on current, delay, and energy
 
-Increasing $V_{DD}$ raises gate overdrive, increases transistor current, and usually reduces propagation delay. But dynamic power rises as $V_{DD}^2$, and electric-field/reliability stress also rises. Lowering supply saves energy but makes delay grow rapidly as $V_{DD}$ approaches threshold.
+Increasing $`V_{DD}`$ raises gate overdrive, increases transistor current, and usually reduces propagation delay. But dynamic power rises as $`V_{DD}^2`$, and electric-field/reliability stress also rises. Lowering supply saves energy but makes delay grow rapidly as $`V_{DD}`$ approaches threshold.
 
-The VTC family shifts/scales with supply because the available high level and both device overdrives change. Thresholds do not normally scale in direct proportion to $V_{DD}$, which is why low-voltage operation becomes increasingly difficult.
+The VTC family shifts/scales with supply because the available high level and both device overdrives change. Thresholds do not normally scale in direct proportion to $`V_{DD}`$, which is why low-voltage operation becomes increasingly difficult.
 
-Supply voltage affects both the required voltage swing and transistor current. The capacitor must move through a larger voltage swing when $V_{DD}$ rises, but transistor current rises strongly because the overdrive also grows; the current improvement usually wins for delay. Energy is less forgiving: each full charge event draws approximately $C_LV_{DD}^2$ from the supply, so the higher rail carries a quadratic switching-energy penalty.
+Supply voltage affects both the required voltage swing and transistor current. The capacitor must move through a larger voltage swing when $`V_{DD}`$ rises, but transistor current rises strongly because the overdrive also grows; the current improvement usually wins for delay. Energy is less forgiving: each full charge event draws approximately $`C_LV_{DD}^2`$ from the supply, so the higher rail carries a quadratic switching-energy penalty.
 
 ### Clarity / correction / improvement
 
-The first-order trend is $V_{DD}\uparrow, t_p\downarrow, P\uparrow$. Add leakage and short-circuit power for a complete real-process trade-off; they do not necessarily follow the same simple square law.
+The first-order trend is $`V_{DD}\uparrow, t_p\downarrow, P\uparrow`$. Add leakage and short-circuit power for a complete real-process trade-off; they do not necessarily follow the same simple square law.
 
 ### Active recall
 
-Why does delay become especially sensitive to supply voltage when $V_{DD}$ is only slightly above threshold?
+Why does delay become especially sensitive to supply voltage when $`V_{DD}`$ is only slightly above threshold?
 
 <a id="page-11"></a>
 
@@ -271,19 +271,19 @@ Why does delay become especially sensitive to supply voltage when $V_{DD}$ is on
 
 ### Switching-point current balance
 
-The switching point is found by equating nMOS and pMOS current magnitudes at $V_{in}=V_{out}=V_M$. With both devices saturated,
+The switching point is found by equating nMOS and pMOS current magnitudes at $`V_{in}=V_{out}=V_M`$. With both devices saturated,
 
 $$
 \frac{\beta_n}{2}(V_M-V_{Tn})^2=\frac{\beta_p}{2}(V_{DD}-V_M-|V_{Tp}|)^2.
 $$
 
-The result connects $V_M$ to strength ratio and thresholds. This is also the center around which the noise-margin boundaries are later found, though $V_{IL}$ and $V_{IH}$ require a slope condition rather than only current equality.
+The result connects $`V_M`$ to strength ratio and thresholds. This is also the center around which the noise-margin boundaries are later found, though $`V_{IL}`$ and $`V_{IH}`$ require a slope condition rather than only current equality.
 
-The diagonal condition $V_{in}=V_{out}$ shown at the crossing fixes all four terminal voltages from the single unknown $V_M$. It also makes both devices satisfy their saturation inequalities around the ideal switching point, allowing the two square-law expressions to be equated. Taking the positive square roots then exposes the strength ratio as $\sqrt{\beta_p/\beta_n}$ rather than as a direct linear multiplier.
+The diagonal condition $`V_{in}=V_{out}`$ shown at the crossing fixes all four terminal voltages from the single unknown $`V_M`$. It also makes both devices satisfy their saturation inequalities around the ideal switching point, allowing the two square-law expressions to be equated. Taking the positive square roots then exposes the strength ratio as $`\sqrt{\beta_p/\beta_n}`$ rather than as a direct linear multiplier.
 
 ### Clarity / correction / improvement
 
-The central both-saturation equation cannot directly produce the entire VTC. Outside the switching point, solve mixed saturation/linear region pairs to obtain $V_{out}(V_{in})$.
+The central both-saturation equation cannot directly produce the entire VTC. Outside the switching point, solve mixed saturation/linear region pairs to obtain $`V_{out}(V_{in})`$.
 
 ### Active recall
 
@@ -291,25 +291,25 @@ Why is current equality necessary at every DC VTC point, while the both-saturati
 
 <a id="page-12"></a>
 
-## Page 12 - Setting up $V_{IL}$ and $V_{IH}$
+## Page 12 - Setting up $`V_{IL}`$ and $`V_{IH}`$
 
 ![Handwritten MOS notes page 12](../../_internal/MOSFET%20and%20CMOS/05%20CMOS%20Sizing%20and%20NAND%20Timing/images/page-12.jpeg)
 
 ### Transistor regions at the unity-gain boundaries
 
-The two unity-gain boundaries use complementary transistor-region combinations. Near $V_{IL}$, nMOS is usually saturated and pMOS linear. Near $V_{IH}$, nMOS is linear and pMOS saturated. For each side, equate current magnitudes to get the VTC expression and apply $dV_{out}/dV_{in}=-1$.
+The two unity-gain boundaries use complementary transistor-region combinations. Near $`V_{IL}`$, nMOS is usually saturated and pMOS linear. Near $`V_{IH}`$, nMOS is linear and pMOS saturated. For each side, equate current magnitudes to get the VTC expression and apply $`dV_{out}/dV_{in}=-1`$.
 
-This produces the input limits that separate stable logic-level restoration from the high-gain transition. The calculations are more involved than $V_M$ because $V_{out}$ remains in the equations.
+This produces the input limits that separate stable logic-level restoration from the high-gain transition. The calculations are more involved than $`V_M`$ because $`V_{out}`$ remains in the equations.
 
-The left and right unity-gain boundaries are complementary cases. At $V_{IL}$, the output is still high, so the newly conducting nMOS has large $V_{DS}$ while the pMOS has small source-to-drain drop. At $V_{IH}$, the output is already low, reversing those voltage conditions. This voltage reading—not memorization—selects the saturation/linear formula used on each side.
+The left and right unity-gain boundaries are complementary cases. At $`V_{IL}`$, the output is still high, so the newly conducting nMOS has large $`V_{DS}`$ while the pMOS has small source-to-drain drop. At $`V_{IH}`$, the output is already low, reversing those voltage conditions. This voltage reading—not memorization—selects the saturation/linear formula used on each side.
 
 ### Clarity / correction / improvement
 
-Do not substitute $V_{out}=V_{in}$ when finding $V_{IL}$ or $V_{IH}$. That equality defines $V_M$, not the unity-gain boundaries.
+Do not substitute $`V_{out}=V_{in}`$ when finding $`V_{IL}`$ or $`V_{IH}`$. That equality defines $`V_M`$, not the unity-gain boundaries.
 
 ### Active recall
 
-Which transistor is linear and which is saturated near $V_{IL}$, and why is the pairing reversed near $V_{IH}$?
+Which transistor is linear and which is saturated near $`V_{IL}`$, and why is the pairing reversed near $`V_{IH}`$?
 
 <a id="page-13"></a>
 
@@ -319,15 +319,15 @@ Which transistor is linear and which is saturated near $V_{IL}$, and why is the 
 
 ### Noise tolerance and output-rise delay
 
-The logic-level sketch supports the correct definitions $NM_L=V_{IL}-V_{OL}$ and $NM_H=V_{OH}-V_{IH}$. The two margins are distances between what one gate guarantees at its output and what the next gate accepts at its input.
+The logic-level sketch supports the correct definitions $`NM_L=V_{IL}-V_{OL}`$ and $`NM_H=V_{OH}-V_{IH}`$. The two margins are distances between what one gate guarantees at its output and what the next gate accepts at its input.
 
-The lower timing expression estimates pMOS-controlled rising delay from required capacitor charge divided by pMOS drive current. In square-law form, stronger $\mu_pC'_{ox}(W/L)_p$ and larger pMOS overdrive reduce $t_{PLH}$, while larger $C_L$ and voltage swing increase it.
+The lower timing expression estimates pMOS-controlled rising delay from required capacitor charge divided by pMOS drive current. In square-law form, stronger $`\mu_pC'_{ox}(W/L)_p`$ and larger pMOS overdrive reduce $`t_{PLH}`$, while larger $`C_L`$ and voltage swing increase it.
 
 Noise margins and propagation delay measure different aspects of inverter operation. Noise margins determine whether a disturbed output is still recognized by the next stage; propagation delay determines how quickly the load reaches its new voltage. Sizing pMOS improves the rising-current denominator, but the added device width can also increase capacitance, so the displayed expression captures the drive benefit before parasitic loading is added.
 
 ### Question / TODO acknowledged
 
-The handwritten question asks to “select the correct statement,” but the answer choices are missing. Use these relations to evaluate the choices when available: $NM_L=V_{IL}-V_{OL}$, $NM_H=V_{OH}-V_{IH}$, pMOS controls low-to-high delay, and $t_{PLH}$ grows with $C_L$ but falls with pMOS strength. These let you identify the correct option if the choices are supplied later.
+The handwritten question asks to “select the correct statement,” but the answer choices are missing. Use these relations to evaluate the choices when available: $`NM_L=V_{IL}-V_{OL}`$, $`NM_H=V_{OH}-V_{IH}`$, pMOS controls low-to-high delay, and $`t_{PLH}`$ grows with $`C_L`$ but falls with pMOS strength. These let you identify the correct option if the choices are supplied later.
 
 ### Clarity / correction / improvement
 
@@ -345,15 +345,15 @@ Which two voltage differences must be nonnegative for compatible cascaded logic 
 
 ### Time from normalized exponential response
 
-Rearranging the RC exponential gives the time at which the output reaches a specified fraction of its final value. For discharge, $V_{out}=V_0e^{-t/RC}$, so
+Rearranging the RC exponential gives the time at which the output reaches a specified fraction of its final value. For discharge, $`V_{out}=V_0e^{-t/RC}`$, so
 
 $$
 t=-RC\ln\left(\frac{V_{out}}{V_0}\right).
 $$
 
-For charging, $V_{out}=V_{DD}[1-e^{-t/RC}]$, so $t=-RC\ln[1-V_{out}/V_{DD}]$. At 50%, both reduce to $RC\ln2$.
+For charging, $`V_{out}=V_{DD}[1-e^{-t/RC}]`$, so $`t=-RC\ln[1-V_{out}/V_{DD}]`$. At 50%, both reduce to $RC\ln2$.
 
-The normalized exponential terms represent different voltage fractions. During discharge, $V_{out}/V_0$ is the fraction **remaining**; during charge, $1-V_{out}/V_{DD}$ is the fraction of the original voltage error remaining. Setting either remaining-error fraction to $e^{-1}$ gives $t=RC$: the discharge has fallen to about $36.8\%$, while the charge has reached about $63.2\%$ of its final value.
+The normalized exponential terms represent different voltage fractions. During discharge, $`V_{out}/V_0`$ is the fraction **remaining**; during charge, $`1-V_{out}/V_{DD}`$ is the fraction of the original voltage error remaining. Setting either remaining-error fraction to $e^{-1}$ gives $t=RC$: the discharge has fallen to about $36.8\%$, while the charge has reached about $63.2\%$ of its final value.
 
 ### Clarity / correction / improvement
 

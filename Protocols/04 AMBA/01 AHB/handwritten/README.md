@@ -597,7 +597,7 @@ $$
 \text{payload bytes}=N_{\text{beats}}\times 2^{\texttt{HSIZE}}.
 $$
 
-Here $N_{\text{beats}}$ is the number of data transfers encoded by `HBURST`,
+Here $`N_{\text{beats}}`$ is the number of data transfers encoded by `HBURST`,
 and $2^{\texttt{HSIZE}}$ is the number of bytes in each beat.
 
 That product is also the wrap-region size for a wrapping burst. It is **not**
@@ -753,12 +753,12 @@ A_{k+1}=A_{\text{base}}+
 \left((A_k-A_{\text{base}}+S)\bmod B_{\text{wrap}}\right),
 $$
 
-where $A_k$ is the current beat address, $A_{k+1}$ is the next beat address,
-$S$ is bytes per beat, $B_{\text{wrap}}$ is the wrap-region width in bytes,
-and $A_{\text{base}}$ is the start of that aligned region.
+where $`A_k`$ is the current beat address, $`A_{k+1}`$ is the next beat address,
+$S$ is bytes per beat, $`B_{\text{wrap}}`$ is the wrap-region width in bytes,
+and $`A_{\text{base}}`$ is the start of that aligned region.
 
 For start `0x0A`, compute the quantities explicitly. `HSIZE=halfword` gives
-$S=2$ bytes. WRAP4 gives $B_{\text{wrap}}=4\times2=8$ bytes. Clearing the low
+$S=2$ bytes. WRAP4 gives $`B_{\text{wrap}}=4\times2=8`$ bytes. Clearing the low
 three address bits of `0x0A` gives region base `0x08`. The addresses then walk
 through offsets `2, 4, 6, 0`, producing `0x0A, 0x0C, 0x0E, 0x08`.
 
@@ -778,7 +778,7 @@ mask or modulo boundary from both `HBURST` and `HSIZE`; a hard-coded four-bit
 mask works only for the WRAP4-word case.
 
 For power-of-two boundaries, the number of low address bits participating in
-the wrap is $\log_2(B_{\text{wrap}})$. WRAP4 words use 4 low bits because the
+the wrap is $`\log_2(B_{\text{wrap}})`$. WRAP4 words use 4 low bits because the
 region is 16 bytes; WRAP8 words use 5 low bits because the region is 32 bytes.
 The low two bits still remain zero for word alignment, while the remaining low
 region bits select the beat position.

@@ -62,7 +62,7 @@ arriving at the Lite subset.
 ![Full-screen handwritten transaction and multi-beat transfer model above a read-burst waveform](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/46-transaction-beat-transfer-20.png)
 
 The handwritten left side groups address, data, and response into a complete
-transaction. The right side shows $b_0$-$b_3$ as the data items within a
+transaction. The right side shows $`b_0`$-$`b_3`$ as the data items within a
 multi-beat operation. Use these precise meanings:
 
 - a **channel transfer** occurs on one rising edge where that channel's
@@ -158,9 +158,9 @@ implementation styles.
 
 ![Full-screen comparison of non-pipelined and pipelined single-beat request/response timing](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/48-channel-ids-20.png)
 
-Without pipelining, the requester waits for the response to address $a_0$
-before sending $a_1$. The link is simple but round-trip latency creates idle
-cycles. With pipelining, the requester can issue $a_1$ before response $d_0$
+Without pipelining, the requester waits for the response to address $`a_0`$
+before sending $`a_1`$. The link is simple but round-trip latency creates idle
+cycles. With pipelining, the requester can issue $`a_1`$ before response $`d_0`$
 returns, increasing the number of outstanding transactions and improving
 throughput.
 

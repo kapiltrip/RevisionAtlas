@@ -352,7 +352,7 @@ details are the subject of lessons 34-44 below.
 
 The frame combines the complete problem statement. Two AXI-Stream
 Transmitters, `axis_m1` and `axis_m2`, feed one Receiver through `axis_arb`.
-Source 1 offers packet $D_0$-$D_3$ and source 2 offers $D_4$-$D_7$; the output
+Source 1 offers packet $`D_0`$-$`D_3`$ and source 2 offers $`D_4`$-$`D_7`$; the output
 must contain both packets without mixing their beats. The arbiter therefore
 has two responsibilities that the plain request/grant block did not have:
 
@@ -540,7 +540,7 @@ $$
 
 ![Full-screen FIFO timing diagram showing a packet buffered before the consumer becomes ready](../../../../_internal/Protocols/04%20AMBA/03%20AXI/images/Day%2002/39-axis-fifo-p1-55.png)
 
-The producer sends $D_0$-$D_3$ before the consumer is ready. The FIFO accepts
+The producer sends $`D_0`$-$`D_3`$ before the consumer is ready. The FIFO accepts
 those beats while space exists, then presents them later in the same order.
 This is temporal decoupling: the FIFO absorbs a finite timing mismatch; it does
 not create infinite bandwidth. If the consumer remains slower long enough,

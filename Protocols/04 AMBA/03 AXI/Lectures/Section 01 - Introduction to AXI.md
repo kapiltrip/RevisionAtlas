@@ -217,13 +217,13 @@ Trace the common delayed-ready case:
 
 | Edge | `VALID` | `READY` | Result |
 |---:|:---:|:---:|---|
-| $E_0$ | 0 | 0 | No offer, no transfer. |
-| $E_1$ | 1 | 0 | Data $D_0$ is offered but stalled. |
-| $E_2$ | 1 | 0 | Still stalled; $D_0$ and all qualifiers must match $E_1$. |
-| $E_3$ | 1 | 1 | $D_0$ is accepted exactly once. |
-| $E_4$ | 1 | 1 | A new beat $D_1$ may be accepted if the source presents it. |
+| $`E_0`$ | 0 | 0 | No offer, no transfer. |
+| $`E_1`$ | 1 | 0 | Data $`D_0`$ is offered but stalled. |
+| $`E_2`$ | 1 | 0 | Still stalled; $`D_0`$ and all qualifiers must match $`E_1`$. |
+| $`E_3`$ | 1 | 1 | $`D_0`$ is accepted exactly once. |
+| $`E_4`$ | 1 | 1 | A new beat $`D_1`$ may be accepted if the source presents it. |
 
-The destination register normally changes just after $E_3$ because sequential
+The destination register normally changes just after $`E_3`$ because sequential
 logic sampled the inputs at that edge. That visible post-edge change is the
 effect of the transfer, not a second transfer.
 
@@ -355,9 +355,9 @@ Read the waveform from left to right:
 1. Active-LOW reset forces data, valid, ready, and the captured Receiver value
    to their reset values.
 2. After reset is released, the empty Receiver raises ready.
-3. The source independently raises valid and presents $D_0$.
-4. At the first rising edge where both are HIGH, $D_0$ transfers.
-5. The Receiver register displays $D_0$ after that edge. The source may prepare
+3. The source independently raises valid and presents $`D_0`$.
+4. At the first rising edge where both are HIGH, $`D_0`$ transfers.
+5. The Receiver register displays $`D_0`$ after that edge. The source may prepare
    the next item without waiting for the displayed register trace to settle.
 
 The useful verification question is not “did both signals ever become HIGH?”

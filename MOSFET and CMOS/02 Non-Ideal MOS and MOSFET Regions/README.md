@@ -35,7 +35,7 @@ The MOS-capacitor and MOSFET-region meanings are cross-checked against the [MIT 
 | [6](#page-06) | Device-data example | [18](#page-18) | Channel potential and body junctions |
 | [7](#page-07) | Numerical flat-band solution | [19](#page-19) | Applying drain voltage |
 | [8](#page-08) | Threshold-voltage components | [20](#page-20) | Output characteristics |
-| [9](#page-09) | Depletion capacitance | [21](#page-21) | Pinch-off and $V_{DS,sat}$ |
+| [9](#page-09) | Depletion capacitance | [21](#page-21) | Pinch-off and $`V_{DS,sat}`$ |
 | [10](#page-10) | MOS C-V curve | [22](#page-22) | Depletion-mode MOSFET |
 | [11](#page-11) | Doping effect on threshold | [23](#page-23) | Linear and saturation equations |
 | [12](#page-12) | Series dielectric model | [24](#page-24) | p-channel depletion device |
@@ -48,9 +48,9 @@ The MOS-capacitor and MOSFET-region meanings are cross-checked against the [MIT 
 
 ### Built-in voltage from work-function mismatch
 
-This continues the non-ideal case from Module 1. When metal and semiconductor work functions differ, connecting them through the external circuit transfers charge until the equilibrium Fermi levels align. Equal and opposite charge then appears across the oxide, producing an electric field and semiconductor band bending even at $V_G=0$.
+This continues the non-ideal case from Module 1. When metal and semiconductor work functions differ, connecting them through the external circuit transfers charge until the equilibrium Fermi levels align. Equal and opposite charge then appears across the oxide, producing an electric field and semiconductor band bending even at $`V_G=0`$.
 
-To reach flat band, an applied voltage must cancel this built-in electrostatic effect. With the convention $\Phi_{ms}=\Phi_m-\Phi_s$, and before adding oxide charge, $V_{FB}=\Phi_{ms}$. The band diagram therefore encodes the sign of the required compensating voltage.
+To reach flat band, an applied voltage must cancel this built-in electrostatic effect. With the convention $`\Phi_{ms}=\Phi_m-\Phi_s`$, and before adding oxide charge, $`V_{FB}=\Phi_{ms}`$. The band diagram therefore encodes the sign of the required compensating voltage.
 
 Read the band diagrams as a before-and-after sequence. Before external connection, the metal and semiconductor Fermi levels can occupy different positions relative to vacuum. After connection, the Fermi level is common, but the semiconductor band edges tilt near the oxide. The direction of that tilt shows which sign of surface charge formed and therefore which polarity of external gate voltage must be applied to restore horizontal bands.
 
@@ -70,15 +70,15 @@ What physical charge appears after dissimilar work functions equilibrate, and wh
 
 ### Gate doping and work function
 
-Heavy doping places the Fermi level of a polysilicon gate near a band edge and changes its work function. An n+ polysilicon gate has a work function near the silicon electron affinity, while p+ polysilicon places the Fermi level near the valence band. This gives process designers a way to tune $\Phi_{ms}$ and hence $V_{FB}$ and $V_T$.
+Heavy doping places the Fermi level of a polysilicon gate near a band edge and changes its work function. An n+ polysilicon gate has a work function near the silicon electron affinity, while p+ polysilicon places the Fermi level near the valence band. This gives process designers a way to tune $`\Phi_{ms}`$ and hence $`V_{FB}`$ and $`V_T`$.
 
 The sketches then show that a gate voltage can cancel the built-in band bending. At the correct external bias, semiconductor bands become flat even though the gate and substrate materials retain different intrinsic work functions.
 
-The two polysilicon sketches use the position of $E_F$ as the design knob. Heavy n-type doping moves $E_F$ near $E_C$, reducing the energy from $E_F$ to vacuum; heavy p-type doping moves it near $E_V$, increasing that energy. Compare gate work functions against the same vacuum reference. Applied gate voltage does not change the material's intrinsic electron affinity.
+The two polysilicon sketches use the position of $`E_F`$ as the design knob. Heavy n-type doping moves $`E_F`$ near $`E_C`$, reducing the energy from $`E_F`$ to vacuum; heavy p-type doping moves it near $`E_V`$, increasing that energy. Compare gate work functions against the same vacuum reference. Applied gate voltage does not change the material's intrinsic electron affinity.
 
 ### Question / TODO acknowledged
 
-The handwriting asks whether silicon/gate material must be changed to make the bands flat. No. Changing gate material or gate doping is one design option, but during operation an applied $V_{FB}$ can cancel the work-function and fixed-charge offsets. Material choice changes the required voltage; it is not the only route to flat band.
+The handwriting asks whether silicon/gate material must be changed to make the bands flat. No. Changing gate material or gate doping is one design option, but during operation an applied $`V_{FB}`$ can cancel the work-function and fixed-charge offsets. Material choice changes the required voltage; it is not the only route to flat band.
 
 ### Clarity / correction / improvement
 
@@ -86,7 +86,7 @@ Modern processes may use metal gates rather than doped polysilicon, but the work
 
 ### Active recall
 
-How does moving the gate Fermi level toward $E_C$ affect its work function?
+How does moving the gate Fermi level toward $`E_C`$ affect its work function?
 
 <a id="page-03"></a>
 
@@ -98,13 +98,13 @@ How does moving the gate Fermi level toward $E_C$ affect its work function?
 
 Oxide and interface charges introduce several departures from ideal MOS electrostatics. Mobile ionic charge, historically sodium or potassium contamination, can drift through SiO2 under field and temperature. Fixed oxide charge resides near the Si/SiO2 interface. Interface traps exchange charge with silicon depending on surface Fermi level and can distort both threshold voltage and measured C-V response.
 
-Each charge source changes the gate voltage needed to obtain a chosen surface potential. A sheet charge $Q_{ox}$ introduces an oxide-voltage offset proportional to $Q_{ox}/C_{ox}$; mobile charge can additionally cause instability or hysteresis because its position changes.
+Each charge source changes the gate voltage needed to obtain a chosen surface potential. A sheet charge $`Q_{ox}`$ introduces an oxide-voltage offset proportional to $`Q_{ox}/C_{ox}`$; mobile charge can additionally cause instability or hysteresis because its position changes.
 
 Charge location affects the electrostatic response. Mobile ions can occupy different depths within the oxide, fixed oxide charge is concentrated near the silicon interface, and interface traps sit at the boundary where they communicate with semiconductor states. Their different locations explain why one compact voltage-shift number can summarize a static measurement while temperature, sweep direction, frequency, or bias history can reveal different physical origins.
 
 ### Clarity / correction / improvement
 
-Do not merge all non-ideal charges into one physical mechanism. The compact $Q_{ox}$ term is useful for voltage bookkeeping, but interface traps can be bias- and frequency-dependent, while mobile ions can move with time.
+Do not merge all non-ideal charges into one physical mechanism. The compact $`Q_{ox}`$ term is useful for voltage bookkeeping, but interface traps can be bias- and frequency-dependent, while mobile ions can move with time.
 
 ### Active recall
 
@@ -118,19 +118,19 @@ Which oxide imperfection can produce time-dependent threshold drift, and which c
 
 ### Flat-band voltage with oxide charge
 
-Oxide charge contributes an additional term to flat-band voltage. For the convention $\Phi_{ms}=\Phi_m-\Phi_s$ and an equivalent sheet charge near the interface,
+Oxide charge contributes an additional term to flat-band voltage. For the convention $`\Phi_{ms}=\Phi_m-\Phi_s`$ and an equivalent sheet charge near the interface,
 
 $$
 V_{FB}=\Phi_{ms}-\frac{Q_{ox}}{C_{ox}}.
 $$
 
-A positive $Q_{ox}$ therefore shifts $V_{FB}$ negative; a negative $Q_{ox}$ shifts it positive. Physically, the external gate must supply a voltage that cancels both the work-function-induced field and the field caused by trapped/fixed charge.
+A positive $`Q_{ox}`$ therefore shifts $`V_{FB}`$ negative; a negative $`Q_{ox}`$ shifts it positive. Physically, the external gate must supply a voltage that cancels both the work-function-induced field and the field caused by trapped/fixed charge.
 
-The sign can be read directly from the capacitor drawing. Positive oxide charge already attracts negative compensating charge toward the silicon side and acts partly like a positive gate bias. To recover flat band, the external gate must be driven in the negative direction. The factor $1/C_{ox}$ converts the charge sheet into the corresponding oxide-voltage offset, so a thinner, higher-capacitance oxide produces a smaller voltage shift for the same charge density.
+The sign can be read directly from the capacitor drawing. Positive oxide charge already attracts negative compensating charge toward the silicon side and acts partly like a positive gate bias. To recover flat band, the external gate must be driven in the negative direction. The factor $`1/C_{ox}`$ converts the charge sheet into the corresponding oxide-voltage offset, so a thinner, higher-capacitance oxide produces a smaller voltage shift for the same charge density.
 
 ### Clarity / correction / improvement
 
-If charge is distributed through the oxide, its voltage effect depends on position, so $Q_{ox}$ in the simple equation is an effective interface-referred charge. State this approximation when precision matters.
+If charge is distributed through the oxide, its voltage effect depends on position, so $`Q_{ox}`$ in the simple equation is an effective interface-referred charge. State this approximation when precision matters.
 
 ### Active recall
 
@@ -144,11 +144,11 @@ For matched work functions, what sign of gate voltage is required to cancel a po
 
 ### Flat-band condition in a practical device
 
-An ideal MOS capacitor has $V_{FB}=0$; in a real MOS capacitor, work-function difference and oxide charge usually make $V_{FB}\ne0$. The boxed relation expresses voltage as energy per unit charge, and the capacitor sketch emphasizes that the gate voltage controls charge through the oxide capacitance.
+An ideal MOS capacitor has $`V_{FB}=0`$; in a real MOS capacitor, work-function difference and oxide charge usually make $`V_{FB}\ne0`$. The boxed relation expresses voltage as energy per unit charge, and the capacitor sketch emphasizes that the gate voltage controls charge through the oxide capacitance.
 
-Flat band is still defined by $\psi_s=0$ and no semiconductor space charge. The required terminal voltage simply moves away from zero. This makes $V_{FB}$ a calibration point for the whole C-V curve.
+Flat band is still defined by $`\psi_s=0`$ and no semiconductor space charge. The required terminal voltage simply moves away from zero. This makes $`V_{FB}`$ a calibration point for the whole C-V curve.
 
-The flat-band condition can be checked at $V_G=V_{FB}$: the silicon bands are horizontal, the semiconductor field is zero, and no depletion or accumulation charge is needed. Gate and oxide charges may still be part of the overall structure; flat band refers specifically to the absence of semiconductor band bending, not to every charge in the device becoming zero.
+The flat-band condition can be checked at $`V_G=V_{FB}`$: the silicon bands are horizontal, the semiconductor field is zero, and no depletion or accumulation charge is needed. Gate and oxide charges may still be part of the overall structure; flat band refers specifically to the absence of semiconductor band bending, not to every charge in the device becoming zero.
 
 ### Clarity / correction / improvement
 
@@ -156,7 +156,7 @@ Distinguish the **definition** of flat band from its voltage **value**: flat ban
 
 ### Active recall
 
-Can $V_G=0$ and $\psi_s=0$ be treated as equivalent in a non-ideal device? Why not?
+Can $`V_G=0`$ and $`\psi_s=0`$ be treated as equivalent in a non-ideal device? Why not?
 
 <a id="page-06"></a>
 
@@ -166,19 +166,19 @@ Can $V_G=0$ and $\psi_s=0$ be treated as equivalent in a non-ideal device? Why n
 
 ### Band offsets from material parameters
 
-This numerical setup lists polysilicon-gate work function, silicon electron affinity, band gap, oxide thickness, oxide charge, doping, and temperature. The intended workflow is to locate the substrate Fermi level from doping, form the semiconductor work function, subtract it from the gate work function, calculate $C_{ox}=\varepsilon_{ox}/t_{ox}$, and then include $-Q_{ox}/C_{ox}$.
+This numerical setup lists polysilicon-gate work function, silicon electron affinity, band gap, oxide thickness, oxide charge, doping, and temperature. The intended workflow is to locate the substrate Fermi level from doping, form the semiconductor work function, subtract it from the gate work function, calculate $`C_{ox}=\varepsilon_{ox}/t_{ox}`$, and then include $`-Q_{ox}/C_{ox}`$.
 
-The band sketch prevents the calculation from becoming blind substitution: for p-type silicon, $E_F$ lies below $E_i$, increasing the energy from $E_F$ to $E_C$ and therefore increasing $\Phi_s$.
+The band sketch prevents the calculation from becoming blind substitution: for p-type silicon, $`E_F`$ lies below $`E_i`$, increasing the energy from $`E_F`$ to $`E_C`$ and therefore increasing $`\Phi_s`$.
 
-Every numerical entry belongs to one visible part of the stack. Doping and temperature locate the silicon Fermi level; electron affinity and band gap build the silicon work function; the gate material supplies $\Phi_m$; oxide thickness and permittivity set $C'_{ox}$; and oxide charge supplies the final voltage shift. Keeping those groups separate makes the sign and unit of each intermediate result auditable.
+Every numerical entry belongs to one visible part of the stack. Doping and temperature locate the silicon Fermi level; electron affinity and band gap build the silicon work function; the gate material supplies $`\Phi_m`$; oxide thickness and permittivity set $`C'_{ox}`$; and oxide charge supplies the final voltage shift. Keeping those groups separate makes the sign and unit of each intermediate result auditable.
 
 ### Clarity / correction / improvement
 
-Use either capacitance per unit area $C'_{ox}=\varepsilon_{ox}/t_{ox}$ with charge density in C/m2, or total capacitance $C_{ox}=\varepsilon_{ox}A/t_{ox}$ with total charge in C. Do not mix them.
+Use either capacitance per unit area $`C'_{ox}=\varepsilon_{ox}/t_{ox}`$ with charge density in C/m2, or total capacitance $`C_{ox}=\varepsilon_{ox}A/t_{ox}`$ with total charge in C. Do not mix them.
 
 ### Active recall
 
-In what order should doping, work function, oxide capacitance, and oxide charge be used to calculate $V_{FB}$?
+In what order should doping, work function, oxide capacitance, and oxide charge be used to calculate $`V_{FB}`$?
 
 <a id="page-07"></a>
 
@@ -188,7 +188,7 @@ In what order should doping, work function, oxide capacitance, and oxide charge 
 
 ### Flat-band and threshold-voltage calculation
 
-The arithmetic combines $\Phi_{ms}$ with the oxide-charge voltage. After finding $V_{FB}$, calculate the threshold voltage from the gate voltage needed for strong inversion and the depletion charge present at that point.
+The arithmetic combines $`\Phi_{ms}`$ with the oxide-charge voltage. After finding $`V_{FB}`$, calculate the threshold voltage from the gate voltage needed for strong inversion and the depletion charge present at that point.
 
 The important structural relation is not the particular number but the decomposition
 
@@ -198,15 +198,15 @@ $$
 
 for an nMOS built on p-type silicon with the usual positive-magnitude convention. It says the gate must first cancel non-ideal offsets, then bend the surface to strong inversion, then support the maximum depletion charge through the oxide.
 
-The order of the handwritten arithmetic mirrors the physical voltage path from gate to bulk. $V_{FB}$ establishes the corrected zero of surface bending. The $2\phi_F$ term is the potential reached inside the silicon, and $|Q_{d,max}|/C'_{ox}$ is the oxide voltage needed to support the uncovered acceptor charge at that condition. Identify each voltage contribution before adding the terms.
+The order of the handwritten arithmetic mirrors the physical voltage path from gate to bulk. $`V_{FB}`$ establishes the corrected zero of surface bending. The $`2\phi_F`$ term is the potential reached inside the silicon, and $`|Q_{d,max}|/C'_{ox}`$ is the oxide voltage needed to support the uncovered acceptor charge at that condition. Identify each voltage contribution before adding the terms.
 
 ### Clarity / correction / improvement
 
-Keep the sign of $Q_d$ in electrostatic derivations, but use its magnitude only in a formula whose sign convention has already been declared. A copied $+Q_d/C_{ox}$ is unsafe when $Q_d$ itself is negative.
+Keep the sign of $`Q_d`$ in electrostatic derivations, but use its magnitude only in a formula whose sign convention has already been declared. A copied $`+Q_d/C_{ox}`$ is unsafe when $`Q_d`$ itself is negative.
 
 ### Active recall
 
-Name the three physically distinct voltage contributions inside $V_T$.
+Name the three physically distinct voltage contributions inside $`V_T`$.
 
 <a id="page-08"></a>
 
@@ -216,19 +216,19 @@ Name the three physically distinct voltage contributions inside $V_T$.
 
 ### Threshold-voltage components and polarity
 
-Threshold voltage is the gate voltage required for strong inversion. For nMOS on a p-substrate, the threshold is typically positive and contains the flat-band term, $2\phi_F$, and a positive depletion-charge magnitude divided by oxide capacitance. For pMOS on an n-substrate the polarities reverse; its threshold is usually negative.
+Threshold voltage is the gate voltage required for strong inversion. For nMOS on a p-substrate, the threshold is typically positive and contains the flat-band term, $`2\phi_F`$, and a positive depletion-charge magnitude divided by oxide capacitance. For pMOS on an n-substrate the polarities reverse; its threshold is usually negative.
 
-The oxide-voltage part follows directly from capacitor charge, while the $2\phi_F$ term is the semiconductor surface-potential requirement. These electrostatic contributions determine the threshold parameter in a four-terminal transistor model.
+The oxide-voltage part follows directly from capacitor charge, while the $`2\phi_F`$ term is the semiconductor surface-potential requirement. These electrostatic contributions determine the threshold parameter in a four-terminal transistor model.
 
 The paired nMOS and pMOS expressions should be read as mirror cases tied to substrate type. An nMOS depletes negative acceptor charge in p-type bulk and needs a positive gate bias; a pMOS depletes positive donor charge in n-type bulk and needs a negative gate bias. The magnitude terms are analogous, but their terminal-voltage signs cannot be copied without reversing the charge and surface-potential conventions.
 
 ### Clarity / correction / improvement
 
-Threshold voltage is not simply the oxide drop and not simply $2\phi_F$. It is a terminal voltage containing work-function, fixed-charge, surface-potential, and depletion-charge effects; body bias later adds another shift.
+Threshold voltage is not simply the oxide drop and not simply $`2\phi_F`$. It is a terminal voltage containing work-function, fixed-charge, surface-potential, and depletion-charge effects; body bias later adds another shift.
 
 ### Active recall
 
-Why does increasing $C'_{ox}$ reduce the depletion-charge contribution to threshold voltage?
+Why does increasing $`C'_{ox}`$ reduce the depletion-charge contribution to threshold voltage?
 
 <a id="page-09"></a>
 
@@ -238,19 +238,19 @@ Why does increasing $C'_{ox}$ reduce the depletion-charge contribution to thresh
 
 ### Depletion capacitance and series combination
 
-The depletion region has an effective capacitance $C'_d=\varepsilon_{si}/W_d$. As depletion widens, $C'_d$ falls. From the gate, oxide capacitance and depletion capacitance appear in series, so the measured capacitance becomes smaller than $C'_{ox}$.
+The depletion region has an effective capacitance $`C'_d=\varepsilon_{si}/W_d`$. As depletion widens, $`C'_d`$ falls. From the gate, oxide capacitance and depletion capacitance appear in series, so the measured capacitance becomes smaller than $`C'_{ox}`$.
 
-The charge drawings emphasize substrate-dependent sign: ionized acceptors in depleted p-type silicon give negative fixed charge, while ionized donors in depleted n-type silicon give positive fixed charge. The magnitude of the depletion width, not the charge sign, sets $C'_d$.
+The charge drawings emphasize substrate-dependent sign: ionized acceptors in depleted p-type silicon give negative fixed charge, while ionized donors in depleted n-type silicon give positive fixed charge. The magnitude of the depletion width, not the charge sign, sets $`C'_d`$.
 
-The equivalent series-capacitor drawing represents one incremental gate-voltage change. Part of that change appears across the physical oxide and part widens or narrows the depletion region. A larger $W_d$ means the responding semiconductor charge is effectively farther from the interface, so $C'_d=\varepsilon_{si}/W_d$ becomes smaller and limits the series combination more strongly.
+The equivalent series-capacitor drawing represents one incremental gate-voltage change. Part of that change appears across the physical oxide and part widens or narrows the depletion region. A larger $`W_d`$ means the responding semiconductor charge is effectively farther from the interface, so $`C'_d=\varepsilon_{si}/W_d`$ becomes smaller and limits the series combination more strongly.
 
 ### Clarity / correction / improvement
 
-Capacitance is positive in this small-signal model even when the underlying sheet charge is negative. Capacitance describes incremental charge magnitude per incremental voltage; do not give $C_d$ the sign of $Q_d$.
+Capacitance is positive in this small-signal model even when the underlying sheet charge is negative. Capacitance describes incremental charge magnitude per incremental voltage; do not give $`C_d`$ the sign of $`Q_d`$.
 
 ### Active recall
 
-What happens to measured MOS capacitance as $W_d$ increases, and why?
+What happens to measured MOS capacitance as $`W_d`$ increases, and why?
 
 <a id="page-10"></a>
 
@@ -260,11 +260,11 @@ What happens to measured MOS capacitance as $W_d$ increases, and why?
 
 ### Capacitance across accumulation, depletion, and inversion
 
-The C-V curve starts near $C'_{ox}$ in accumulation, drops as a depletion capacitance develops in series, and reaches $C'_{min}=C'_{ox}C'_{d,min}/(C'_{ox}+C'_{d,min})$ when depletion width is near its maximum. The capacitance changes reflect the charge distributions in accumulation, depletion, and inversion.
+The C-V curve starts near $`C'_{ox}`$ in accumulation, drops as a depletion capacitance develops in series, and reaches $`C'_{min}=C'_{ox}C'_{d,min}/(C'_{ox}+C'_{d,min})`$ when depletion width is near its maximum. The capacitance changes reflect the charge distributions in accumulation, depletion, and inversion.
 
-In high-frequency inversion, minority carriers cannot follow the small AC signal, so the measured capacitance stays near $C'_{min}$. In low-frequency or quasi-static measurement, inversion charge can respond and capacitance rises again toward $C'_{ox}$.
+In high-frequency inversion, minority carriers cannot follow the small AC signal, so the measured capacitance stays near $`C'_{min}`$. In low-frequency or quasi-static measurement, inversion charge can respond and capacitance rises again toward $`C'_{ox}`$.
 
-Match each region of the C-V curve to its corresponding charge distribution. Accumulation places mobile charge at the interface, so the oxide alone dominates. Depletion inserts the voltage-dependent $C_d$ in series and pulls the curve downward. At maximum depletion, that series value is smallest. What happens after inversion begins depends on whether the AC measurement gives minority carriers enough time to change their surface population.
+Match each region of the C-V curve to its corresponding charge distribution. Accumulation places mobile charge at the interface, so the oxide alone dominates. Depletion inserts the voltage-dependent $`C_d`$ in series and pulls the curve downward. At maximum depletion, that series value is smallest. What happens after inversion begins depends on whether the AC measurement gives minority carriers enough time to change their surface population.
 
 ### Clarity / correction / improvement
 
@@ -282,19 +282,19 @@ Why does high-frequency inversion capacitance remain low even though a conductin
 
 ### Doping dependence of threshold voltage
 
-The red C-V sketches compare how process parameters move the curve. Increasing p-substrate doping raises $\phi_F$ and increases the maximum depletion-charge magnitude, so an nMOS generally requires a larger positive threshold voltage. Oxide charge mainly shifts the curve horizontally, while oxide thickness also changes its vertical capacitance scale.
+The red C-V sketches compare how process parameters move the curve. Increasing p-substrate doping raises $`\phi_F`$ and increases the maximum depletion-charge magnitude, so an nMOS generally requires a larger positive threshold voltage. Oxide charge mainly shifts the curve horizontally, while oxide thickness also changes its vertical capacitance scale.
 
-The boxed threshold expression separates those effects. This is useful diagnostically: a parallel horizontal shift suggests a voltage offset; a different accumulation capacitance indicates changed $C_{ox}$; a changed depletion shape can indicate doping or interface-state effects.
+The boxed threshold expression separates those effects. This is useful diagnostically: a parallel horizontal shift suggests a voltage offset; a different accumulation capacitance indicates changed $`C_{ox}`$; a changed depletion shape can indicate doping or interface-state effects.
 
 The red comparison curves encode two distinct observations. A horizontal displacement tells how much extra gate voltage is required to reproduce the same surface state. A vertical change tells that the capacitance itself changed. Increased substrate doping affects the depletion width and therefore the transition/minimum portion, whereas a fixed oxide-charge offset ideally moves the entire curve without changing its accumulation plateau.
 
 ### Clarity / correction / improvement
 
-The note about doping should include both mechanisms: $\phi_F$ rises logarithmically with $N_A$, while $|Q_{d,max}|$ rises roughly as $\sqrt{N_A\phi_F}$. Threshold does not change only because “more charge exists.”
+The note about doping should include both mechanisms: $`\phi_F`$ rises logarithmically with $`N_A`$, while $`|Q_{d,max}|`$ rises roughly as $`\sqrt{N_A\phi_F}`$. Threshold does not change only because “more charge exists.”
 
 ### Active recall
 
-Which parts of $V_T$ change when substrate doping increases, and which part is unaffected in an ideal process?
+Which parts of $`V_T`$ change when substrate doping increases, and which part is unaffected in an ideal process?
 
 <a id="page-12"></a>
 
@@ -306,9 +306,9 @@ Which parts of $V_T$ change when substrate doping increases, and which part is u
 
 Apply $C=\varepsilon A/t$ to find the series equivalent of oxide and depleted silicon. For equal area, inverse capacitances add, which is equivalent to adding dielectric thicknesses weighted by inverse permittivity.
 
-The threshold expression beneath the capacitor algebra again shows that depletion charge creates an oxide drop. The circuit abstraction and the physical stack are the same model at two levels: oxide is a geometric capacitor; depleted silicon is a voltage-dependent capacitor because $W_d$ changes with bias.
+The threshold expression beneath the capacitor algebra again shows that depletion charge creates an oxide drop. The circuit abstraction and the physical stack are the same model at two levels: oxide is a geometric capacitor; depleted silicon is a voltage-dependent capacitor because $`W_d`$ changes with bias.
 
-The two layer thicknesses play different roles in the series expression. $t_{ox}$ is a fixed manufactured dimension, while $W_d$ is an electrostatically selected depth. Writing $1/C=t/(\varepsilon A)$ for each region makes the analogy visible: voltage divides according to effective electrical thickness, and the depleted-silicon contribution changes as the space-charge boundary moves.
+The two layer thicknesses play different roles in the series expression. $`t_{ox}`$ is a fixed manufactured dimension, while $`W_d`$ is an electrostatically selected depth. Writing $1/C=t/(\varepsilon A)$ for each region makes the analogy visible: voltage divides according to effective electrical thickness, and the depleted-silicon contribution changes as the space-charge boundary moves.
 
 ### Clarity / correction / improvement
 
@@ -316,7 +316,7 @@ The depletion capacitance is not a literal deposited dielectric layer. It is an 
 
 ### Active recall
 
-Why is $C_d$ voltage-dependent while $C_{ox}$ is approximately constant?
+Why is $`C_d`$ voltage-dependent while $`C_{ox}`$ is approximately constant?
 
 <a id="page-13"></a>
 
@@ -326,11 +326,11 @@ Why is $C_d$ voltage-dependent while $C_{ox}$ is approximately constant?
 
 ### Oxide capacitance and thickness calculation
 
-The numerical example calculates $C_{ox}=\varepsilon_{ox}A/t_{ox}$ and then rearranges the same relation to recover oxide thickness. The value is checked against nanometer-scale dimensions. Oxide capacitance sets the conversion from charge to threshold-voltage shift.
+The numerical example calculates $`C_{ox}=\varepsilon_{ox}A/t_{ox}`$ and then rearranges the same relation to recover oxide thickness. The value is checked against nanometer-scale dimensions. Oxide capacitance sets the conversion from charge to threshold-voltage shift.
 
 The proportionalities are the main revision target: larger area raises total capacitance; thicker oxide lowers capacitance; larger dielectric permittivity raises capacitance. Per-unit-area capacitance removes the device area and is usually cleaner for device equations.
 
-The numerical scale provides a physical check. A nanometer oxide over a practical device area should not produce an arbitrarily tiny capacitance, and rearranging $t_{ox}=\varepsilon_{ox}A/C_{ox}$ should return the original thickness. Performing the forward and reverse calculations with the same units confirms that the result is geometric rather than an accidental unit cancellation.
+The numerical scale provides a physical check. A nanometer oxide over a practical device area should not produce an arbitrarily tiny capacitance, and rearranging $`t_{ox}=\varepsilon_{ox}A/C_{ox}`$ should return the original thickness. Performing the forward and reverse calculations with the same units confirms that the result is geometric rather than an accidental unit cancellation.
 
 ### Clarity / correction / improvement
 
@@ -338,7 +338,7 @@ Keep area in m2 and thickness in m when using $\varepsilon$ in F/m. A nanometer-
 
 ### Active recall
 
-If oxide thickness is halved at fixed area, what happens to total oxide capacitance and to $Q/C_{ox}$?
+If oxide thickness is halved at fixed area, what happens to total oxide capacitance and to $`Q/C_{ox}`$?
 
 <a id="page-14"></a>
 
@@ -350,9 +350,9 @@ If oxide thickness is halved at fixed area, what happens to total oxide capacita
 
 The upper algebra uses the minimum measured capacitance to infer the maximum depletion capacitance or width. The lower sketch introduces positive oxide charge and shows that charge neutrality requires compensating gate and semiconductor charge.
 
-An oxide-charge sheet changes the voltage at which a given semiconductor state occurs. Ideally it produces a horizontal C-V shift by $-Q_{ox}/C_{ox}$. If the charge is mobile or interface traps respond, the curve may also stretch, distort, or show hysteresis rather than shift rigidly.
+An oxide-charge sheet changes the voltage at which a given semiconductor state occurs. Ideally it produces a horizontal C-V shift by $`-Q_{ox}/C_{ox}`$. If the charge is mobile or interface traps respond, the curve may also stretch, distort, or show hysteresis rather than shift rigidly.
 
-The upper and lower halves answer different questions. The upper series-capacitance algebra uses the measured minimum to infer the depleted-silicon contribution. The lower charge diagram asks how an added positive sheet changes electrostatic balance. Linking them shows why the same $C_{ox}$ that sets the accumulation plateau also converts oxide charge into a horizontal voltage displacement.
+The upper and lower halves answer different questions. The upper series-capacitance algebra uses the measured minimum to infer the depleted-silicon contribution. The lower charge diagram asks how an added positive sheet changes electrostatic balance. Linking them shows why the same $`C_{ox}`$ that sets the accumulation plateau also converts oxide charge into a horizontal voltage displacement.
 
 ### Clarity / correction / improvement
 
@@ -370,11 +370,11 @@ How can a measured C-V curve distinguish changed oxide thickness from a fixed-ch
 
 ### Extracting depletion width from capacitance
 
-Rearrange $C_{min}=C_{ox}C_{d,min}/(C_{ox}+C_{d,min})$ to solve for the unknown depletion capacitance, then relate that capacitance to $W_{d,max}$. This turns a terminal measurement into an estimate of a hidden semiconductor length scale.
+Rearrange $`C_{min}=C_{ox}C_{d,min}/(C_{ox}+C_{d,min})`$ to solve for the unknown depletion capacitance, then relate that capacitance to $`W_{d,max}`$. This turns a terminal measurement into an estimate of a hidden semiconductor length scale.
 
 The lower charge box enforces overall neutrality: ideal external fields vanish far from the structure, so total gate, oxide, depletion, and inversion charge must sum to zero with signs included.
 
-The algebra is easiest to verify by taking the reciprocal form first: $1/C_{min}=1/C_{ox}+1/C_{d,min}$. Once $C_{d,min}$ is isolated, convert the terminal capacitance into $W_{d,max}=\varepsilon_{si}A/C_{d,min}$. The charge box supplies a separate sign check: the extracted positive capacitance must not be given the sign of the negative depletion charge.
+The algebra is easiest to verify by taking the reciprocal form first: $`1/C_{min}=1/C_{ox}+1/C_{d,min}`$. Once $`C_{d,min}`$ is isolated, convert the terminal capacitance into $`W_{d,max}=\varepsilon_{si}A/C_{d,min}`$. The charge box supplies a separate sign check: the extracted positive capacitance must not be given the sign of the negative depletion charge.
 
 ### Clarity / correction / improvement
 
@@ -382,7 +382,7 @@ When using total charge, use total capacitances; when using C/m2, use capacitanc
 
 ### Active recall
 
-Given $C_{min}$ and $C_{ox}$, how would you extract $W_{d,max}$ without directly measuring depth?
+Given $`C_{min}`$ and $`C_{ox}`$, how would you extract $`W_{d,max}`$ without directly measuring depth?
 
 <a id="page-16"></a>
 
@@ -392,11 +392,11 @@ Given $C_{min}$ and $C_{ox}$, how would you extract $W_{d,max}$ without directly
 
 ### Threshold-voltage calculation sequence
 
-Threshold calculation requires vacuum-referenced work functions, silicon electron affinity, band gap, doping, oxide thickness, and oxide charge. The robust sequence is: find $\phi_F$; construct $\Phi_s$; calculate $\Phi_{ms}$ and $V_{FB}$; calculate $C'_{ox}$; calculate $|Q_{d,max}|$; then add $2\phi_F$ and the oxide drop with the correct sign.
+Threshold calculation requires vacuum-referenced work functions, silicon electron affinity, band gap, doping, oxide thickness, and oxide charge. The robust sequence is: find $`\phi_F`$; construct $`\Phi_s`$; calculate $`\Phi_{ms}`$ and $`V_{FB}`$; calculate $`C'_{ox}`$; calculate $`|Q_{d,max}|`$; then add $`2\phi_F`$ and the oxide drop with the correct sign.
 
 The calculation combines band alignment, oxide electrostatics, and depletion charge. A wrong result is best debugged by checking the band-location/sign logic before checking multiplication.
 
-The handwritten list should be treated as a dependency chain rather than a single formula. An incorrect $\phi_F$ contaminates both $\Phi_s$ and the strong-inversion term; an incorrect $\Phi_{ms}$ shifts $V_{FB}$; and an incorrect oxide unit changes both $C'_{ox}$ and every charge-to-voltage conversion. Checking the intermediate signs against the drawn p-type band position localizes the error before the final sum.
+The handwritten list should be treated as a dependency chain rather than a single formula. An incorrect $`\phi_F`$ contaminates both $`\Phi_s`$ and the strong-inversion term; an incorrect $`\Phi_{ms}`$ shifts $`V_{FB}`$; and an incorrect oxide unit changes both $`C'_{ox}`$ and every charge-to-voltage conversion. Checking the intermediate signs against the drawn p-type band position localizes the error before the final sum.
 
 ### Clarity / correction / improvement
 
@@ -414,7 +414,7 @@ Which intermediate value would you inspect first if the calculated nMOS threshol
 
 ### Enhancement-MOSFET structure
 
-A MOSFET has four terminals: gate, source, drain, and body. In an n-channel enhancement MOSFET, n+ source/drain regions sit in a p-type body, but no n-type surface channel exists at $V_{GS}=0$. A sufficiently positive gate creates the inversion channel that joins source to drain.
+A MOSFET has four terminals: gate, source, drain, and body. In an n-channel enhancement MOSFET, n+ source/drain regions sit in a p-type body, but no n-type surface channel exists at $`V_{GS}=0`$. A sufficiently positive gate creates the inversion channel that joins source to drain.
 
 Source and drain provide electrons to the channel; the gate controls their surface density electrostatically. The body is commonly tied to the lowest circuit potential for nMOS so the source/body and drain/body junctions remain reverse biased and body effect is controlled.
 
@@ -426,7 +426,7 @@ The heading line appears to mix “n-channel depletion” and “p-channel enhan
 
 ### Active recall
 
-Why are n+ source and drain not already shorted through the p-type body at $V_{GS}=0$?
+Why are n+ source and drain not already shorted through the p-type body at $`V_{GS}=0`$?
 
 <a id="page-18"></a>
 
@@ -436,15 +436,15 @@ Why are n+ source and drain not already shorted through the p-type body at $V_{G
 
 ### Channel potential and body-junction bias
 
-With $V_{GS}$ high enough to form a channel, the channel is not equipotential once $V_{DS}>0$. Its local voltage rises from approximately 0 at the source to $V_{DS}$ at the drain. Therefore the local gate-to-channel overdrive $V_{GS}-V(x)-V_T$ becomes smaller toward the drain, so inversion charge tapers.
+With $`V_{GS}`$ high enough to form a channel, the channel is not equipotential once $`V_{DS}>0`$. Its local voltage rises from approximately 0 at the source to $`V_{DS}`$ at the drain. Therefore the local gate-to-channel overdrive $`V_{GS}-V(x)-V_T`$ becomes smaller toward the drain, so inversion charge tapers.
 
 The p-body/n-channel junction is also more reverse biased near the drain because the channel/drain potential is higher while body voltage remains fixed. That widens the local depletion region and contributes to the wedge-shaped channel picture.
 
-The wedge is a charge-density drawing, not a physically tapered oxide or gate. At position $x$, the relevant vertical control voltage is $V_{GS}-V(x)$, so the inversion sheet is strongest near the source and weakest near the drain. The increasingly reverse-biased body junction drawn beneath the drain is consistent with the same rising channel potential.
+The wedge is a charge-density drawing, not a physically tapered oxide or gate. At position $x$, the relevant vertical control voltage is $`V_{GS}-V(x)`$, so the inversion sheet is strongest near the source and weakest near the drain. The increasingly reverse-biased body junction drawn beneath the drain is consistent with the same rising channel potential.
 
 ### Question / TODO acknowledged
 
-The handwriting asks why “more reverse bias” appears on the drain side. The local n-region potential is most positive near the drain, while the p-body stays near ground. This increases $V_n-V_p$, the reverse-bias magnitude of that p-n junction, so its depletion width grows toward the drain.
+The handwriting asks why “more reverse bias” appears on the drain side. The local n-region potential is most positive near the drain, while the p-body stays near ground. This increases $`V_n-V_p`$, the reverse-bias magnitude of that p-n junction, so its depletion width grows toward the drain.
 
 ### Clarity / correction / improvement
 
@@ -462,11 +462,11 @@ Why does inversion charge decrease along the channel even when the physical gate
 
 ### Vertical channel control and lateral current flow
 
-Source-to-drain voltage creates a lateral electric field after the gate has formed an inversion layer. Electrons drift from source toward drain, while conventional drain current is defined from drain toward source. For small $V_{DS}$, the channel exists along its full length and behaves approximately like a voltage-controlled resistor.
+Source-to-drain voltage creates a lateral electric field after the gate has formed an inversion layer. Electrons drift from source toward drain, while conventional drain current is defined from drain toward source. For small $`V_{DS}`$, the channel exists along its full length and behaves approximately like a voltage-controlled resistor.
 
-As $V_{DS}$ grows, local overdrive at the drain is $V_{GD}-V_T=V_{GS}-V_{DS}-V_T$. When this reaches zero, inversion charge at the drain end vanishes and pinch-off begins.
+As $`V_{DS}`$ grows, local overdrive at the drain is $`V_{GD}-V_T=V_{GS}-V_{DS}-V_T`$. When this reaches zero, inversion charge at the drain end vanishes and pinch-off begins.
 
-MOSFET operation depends on vertical and lateral electric fields. The vertical field from the gate first creates and controls the inversion charge; the lateral source-to-drain field then transports that charge. With small $V_{DS}$, the inversion sheet remains continuous from source to drain. Increasing $V_{DS}$ changes the sheet nonuniformly because the local channel potential subtracts from the fixed gate voltage.
+MOSFET operation depends on vertical and lateral electric fields. The vertical field from the gate first creates and controls the inversion charge; the lateral source-to-drain field then transports that charge. With small $`V_{DS}`$, the inversion sheet remains continuous from source to drain. Increasing $`V_{DS}`$ changes the sheet nonuniformly because the local channel potential subtracts from the fixed gate voltage.
 
 ### Clarity / correction / improvement
 
@@ -484,15 +484,15 @@ Write the local inversion overdrive at channel position $x$, then state where it
 
 ### Linear and saturation operating regions
 
-The family of $I_D-V_{DS}$ curves is parameterized by $V_{GS}$. Below threshold, ideal long-channel current is treated as zero. Above threshold and for $0<V_{DS}<V_{GS}-V_T$, the device is in triode/linear region. When $V_{DS}\ge V_{GS}-V_T$, the drain end pinches off and the ideal long-channel model enters saturation.
+The family of $`I_D-V_{DS}`$ curves is parameterized by $`V_{GS}`$. Below threshold, ideal long-channel current is treated as zero. Above threshold and for $`0<V_{DS}<V_{GS}-V_T`$, the device is in triode/linear region. When $`V_{DS}\ge V_{GS}-V_T`$, the drain end pinches off and the ideal long-channel model enters saturation.
 
-Increasing $V_{GS}$ raises inversion charge, so it raises both the small-$V_{DS}$ slope and saturation current. The boundary points trace the saturation locus $V_{DS,sat}=V_{GS}-V_T$.
+Increasing $`V_{GS}`$ raises inversion charge, so it raises both the small-$`V_{DS}`$ slope and saturation current. The boundary points trace the saturation locus $`V_{DS,sat}=V_{GS}-V_T`$.
 
-Each output curve should be read in two directions. Moving horizontally along one curve increases $V_{DS}$ at fixed gate control and takes the channel from resistor-like behavior to drain-end pinch-off. Moving upward between curves increases $V_{GS}$, giving a larger overdrive and more inversion charge. The knees line up where the drain-end overdrive becomes zero for each gate voltage.
+Each output curve should be read in two directions. Moving horizontally along one curve increases $`V_{DS}`$ at fixed gate control and takes the channel from resistor-like behavior to drain-end pinch-off. Moving upward between curves increases $`V_{GS}`$, giving a larger overdrive and more inversion charge. The knees line up where the drain-end overdrive becomes zero for each gate voltage.
 
 ### Clarity / correction / improvement
 
-The note suggests current saturates because carrier velocity saturates. That is not the mechanism of the square-law long-channel model shown here. Its saturation comes from channel pinch-off and redistribution of additional $V_{DS}$ across the pinch-off region. Velocity saturation is a separate short-channel/high-field effect.
+The note suggests current saturates because carrier velocity saturates. That is not the mechanism of the square-law long-channel model shown here. Its saturation comes from channel pinch-off and redistribution of additional $`V_{DS}`$ across the pinch-off region. Velocity saturation is a separate short-channel/high-field effect.
 
 ### Active recall
 
@@ -506,11 +506,11 @@ What two different physical mechanisms can cause current saturation, and which o
 
 ### Drain-end pinch-off condition
 
-The pinch-off condition is $V_{DS,sat}=V_{GS}-V_T$, the drain voltage at which the drain-end channel charge reaches zero. Pinch-off does not sever current. Electrons arriving at the end of the inversion channel are swept through the short high-field depletion region into the drain.
+The pinch-off condition is $`V_{DS,sat}=V_{GS}-V_T`$, the drain voltage at which the drain-end channel charge reaches zero. Pinch-off does not sever current. Electrons arriving at the end of the inversion channel are swept through the short high-field depletion region into the drain.
 
-For a fixed $V_{GS}$, additional $V_{DS}$ mainly extends the pinch-off region rather than substantially increasing channel charge, so the ideal current becomes nearly constant. This is the basis for treating a saturated MOSFET as a voltage-controlled current source.
+For a fixed $`V_{GS}`$, additional $`V_{DS}`$ mainly extends the pinch-off region rather than substantially increasing channel charge, so the ideal current becomes nearly constant. This is the basis for treating a saturated MOSFET as a voltage-controlled current source.
 
-The drain-end sketch should not be read as an open circuit. The inversion layer ends where its local charge falls to zero, but the lateral electric field is strongest in the adjacent depleted segment. Carriers reaching the channel endpoint are accelerated across that short segment to the drain. The current is therefore limited mainly by the charge injected at the source end, which remains controlled by $V_{GS}$.
+The drain-end sketch should not be read as an open circuit. The inversion layer ends where its local charge falls to zero, but the lateral electric field is strongest in the adjacent depleted segment. Carriers reaching the channel endpoint are accelerated across that short segment to the drain. The current is therefore limited mainly by the charge injected at the source end, which remains controlled by $`V_{GS}`$.
 
 ### Clarity / correction / improvement
 
@@ -528,11 +528,11 @@ Why can drain current continue after the inversion charge reaches zero exactly a
 
 ### Depletion-mode channel control
 
-The transfer curve introduces an n-channel depletion MOSFET, which has a fabricated channel at $V_{GS}=0$ and therefore conducts $I_{DSS}$. A negative gate voltage depletes electrons and can turn it off at a negative threshold; positive gate voltage enhances the existing channel and raises current.
+The transfer curve introduces an n-channel depletion MOSFET, which has a fabricated channel at $`V_{GS}=0`$ and therefore conducts $`I_{DSS}`$. A negative gate voltage depletes electrons and can turn it off at a negative threshold; positive gate voltage enhances the existing channel and raises current.
 
 Enhancement nMOS has a positive threshold and requires an induced channel. Both use the same region equations if the signed threshold is inserted consistently.
 
-The transfer curve reveals the device type through its zero-gate intercept. At $V_{GS}=0$, the plotted drain current is already $I_{DSS}$, so a conducting channel must pre-exist. Moving the gate voltage negative reduces the electron population until the curve reaches zero at the negative threshold. Moving positive adds electrons and enhances rather than creates the channel.
+The transfer curve reveals the device type through its zero-gate intercept. At $`V_{GS}=0`$, the plotted drain current is already $`I_{DSS}`$, so a conducting channel must pre-exist. Moving the gate voltage negative reduces the electron population until the curve reaches zero at the negative threshold. Moving positive adds electrons and enhances rather than creates the channel.
 
 ### Clarity / correction / improvement
 
@@ -550,23 +550,23 @@ How can the same nMOS current equation describe both enhancement and depletion d
 
 ### Piecewise drain-current equations
 
-The square-law model gives the drain current separately in each operating region. With $k'_n=\mu_nC'_{ox}$ and $\beta_n=k'_nW/L$:
+The square-law model gives the drain current separately in each operating region. With $`k'_n=\mu_nC'_{ox}`$ and $`\beta_n=k'_nW/L`$:
 
-- Cutoff: $I_D\approx0$ for $V_{GS}\le V_T$.
-- Triode: $I_D=\beta_n[(V_{GS}-V_T)V_{DS}-V_{DS}^2/2]$ for $0\le V_{DS}<V_{GS}-V_T$.
-- Saturation: $I_D=(\beta_n/2)(V_{GS}-V_T)^2$ for $V_{DS}\ge V_{GS}-V_T$, initially neglecting channel-length modulation.
+- Cutoff: $`I_D\approx0`$ for $`V_{GS}\le V_T`$.
+- Triode: $`I_D=\beta_n[(V_{GS}-V_T)V_{DS}-V_{DS}^2/2]`$ for $`0\le V_{DS}<V_{GS}-V_T`$.
+- Saturation: $`I_D=(\beta_n/2)(V_{GS}-V_T)^2`$ for $`V_{DS}\ge V_{GS}-V_T`$, initially neglecting channel-length modulation.
 
-The “linear” name refers to the nearly linear small-$V_{DS}$ behavior, not to the full equation, which contains a quadratic term.
+The “linear” name refers to the nearly linear small-$`V_{DS}`$ behavior, not to the full equation, which contains a quadratic term.
 
-The three pieces join consistently at their boundaries. At $V_{GS}=V_T$, the ideal overdrive is zero and both current expressions collapse to zero. At $V_{DS}=V_{GS}-V_T$, substituting the boundary into the triode equation produces the saturation value. This continuity check places the output-curve knee at the boundary between triode and saturation.
+The three pieces join consistently at their boundaries. At $`V_{GS}=V_T`$, the ideal overdrive is zero and both current expressions collapse to zero. At $`V_{DS}=V_{GS}-V_T`$, substituting the boundary into the triode equation produces the saturation value. This continuity check places the output-curve knee at the boundary between triode and saturation.
 
 ### Clarity / correction / improvement
 
-Use one definition of the process/device parameter. Some notes absorb the factor $1/2$ into $k_n$; others do not. State $\beta_n=\mu_nC'_{ox}W/L$ before comparing equations.
+Use one definition of the process/device parameter. Some notes absorb the factor $1/2$ into $`k_n`$; others do not. State $`\beta_n=\mu_nC'_{ox}W/L`$ before comparing equations.
 
 ### Active recall
 
-Derive the saturation equation by substituting $V_{DS}=V_{GS}-V_T$ into the triode equation.
+Derive the saturation equation by substituting $`V_{DS}=V_{GS}-V_T`$ into the triode equation.
 
 <a id="page-24"></a>
 
@@ -576,9 +576,9 @@ Derive the saturation equation by substituting $V_{DS}=V_{GS}-V_T$ into the trio
 
 ### pMOS bias and current conventions
 
-A depletion-mode pMOS follows the complementary bias polarities. A p-channel exists at zero gate bias, and gate polarity controls whether that hole channel is depleted or enhanced. The current and voltage curves occupy reversed quadrants if signed $V_{SG}$, $V_{SD}$, and $I_D$ conventions are used.
+A depletion-mode pMOS follows the complementary bias polarities. A p-channel exists at zero gate bias, and gate polarity controls whether that hole channel is depleted or enhanced. The current and voltage curves occupy reversed quadrants if signed $`V_{SG}`$, $`V_{SD}`$, and $`I_D`$ conventions are used.
 
-The most reliable method is to write pMOS equations in positive magnitudes using $V_{SG}$, $V_{SD}$, and $|V_{Tp}|$, then attach the chosen conventional-current sign at the end. Region boundaries become $V_{SD}=V_{SG}-|V_{Tp}|$.
+The most reliable method is to write pMOS equations in positive magnitudes using $`V_{SG}`$, $`V_{SD}`$, and $`|V_{Tp}|`$, then attach the chosen conventional-current sign at the end. Region boundaries become $`V_{SD}=V_{SG}-|V_{Tp}|`$.
 
 The reversed transfer and output axes arise from terminal-polarity convention, not from a different channel-control mechanism. A sufficiently large source-to-gate magnitude sustains the hole channel, and increasing source-to-drain magnitude tapers it toward the drain. Rewriting the labels as positive magnitudes makes the curve shapes match the nMOS case while preserving the pMOS current direction separately.
 
@@ -588,7 +588,7 @@ The handwritten labels mix signed voltages and voltage magnitudes. Choose either
 
 ### Active recall
 
-Rewrite the nMOS triode/saturation inequalities for pMOS using only $V_{SG}$, $V_{SD}$, and $|V_{Tp}|$.
+Rewrite the nMOS triode/saturation inequalities for pMOS using only $`V_{SG}`$, $`V_{SD}`$, and $`|V_{Tp}|`$.
 
 ## Module checkpoint
 

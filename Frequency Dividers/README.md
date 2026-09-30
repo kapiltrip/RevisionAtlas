@@ -134,6 +134,29 @@ This formula gives the minimum for binary encoding. A one-hot implementation del
 
 For every circuit, write the state sequence, mark the exact output transitions, count input periods per complete output period, and calculate duty cycle separately. Then state whether the result is a clock-enable pulse, a continuous waveform, or a real generated clock, and whether the implementation is synchronous or ripple. Use the global [revision method](../_internal/repository/guides/REVISION_METHOD.md) for the review schedule.
 
+## Quick revision
+
+**Key relations.** $`f_{out}=f_{in}/N`$ · $`D=t_H/T_{out}`$ · $`b=\lceil\log_2 M\rceil`$.
+
+**Common mistakes.** The state-width formula assumes a conventional binary encoding of M states. Division ratio alone does not determine duty cycle. A clock-enable pulse and a divided clock have different uses; fractional average spacing must be distinguished from a uniform periodic waveform.
+
+**Closed-book questions**
+
+1. What must repeat for an output frequency to be well defined?
+2. How do state count and divider ratio determine register width?
+3. Why does a rising-edge-only odd divider resist an exact 50% duty cycle?
+4. How would you trace a fractional divider across a complete repeating pattern?
+5. When should an FPGA design use a clock enable instead of a fabric-generated clock?
+
+**Full explanations:** [State width](#minimum-flip-flops) · [Duty cycle](#page-03) · [Fractional division](#page-10).
+
+## Related topics
+
+- [Divider RTL and testbenches](../Programmable%20Frequency%20Divider/README.md#quick-revision)
+- [UART baud and oversampling ticks](../Protocols/03%20UART/README.md#page-13)
+
+[Back to quick revision](#quick-revision)
+
 <a id="page-01"></a>
 
 ## Page 01 - Chapter cover: what frequency division means
@@ -1795,26 +1818,3 @@ The explanations and corrections were cross-checked against:
 - [AMD Clocking Wizard](https://docs.amd.com/r/en-US/pg065-clk-wiz/Configuring-Output-Clocks) for specifying and checking generated-clock frequency, phase, and duty-cycle requirements.
 - [MSOE Clock Dividers](https://faculty-web.msoe.edu/johnsontimoj/ELE3510/files3510/clock_dividers.pdf) for relating each divided-clock half-period to counted reference-clock cycles.
 - [Byun, Son, and Kim: Simple odd number frequency divider with 50% duty cycle](https://pure.dongguk.edu/en/publications/simple-odd-number-frequency-divider-with-50-duty-cycle/) for the need for explicit duty-cycle correction in odd-ratio dividers.
-
-## Quick revision
-
-**Key relations.** $`f_{out}=f_{in}/N`$ · $`D=t_H/T_{out}`$ · $`b=\lceil\log_2 M\rceil`$.
-
-**Common mistakes.** The state-width formula assumes a conventional binary encoding of M states. Division ratio alone does not determine duty cycle. A clock-enable pulse and a divided clock have different uses; fractional average spacing must be distinguished from a uniform periodic waveform.
-
-**Closed-book questions**
-
-1. What must repeat for an output frequency to be well defined?
-2. How do state count and divider ratio determine register width?
-3. Why does a rising-edge-only odd divider resist an exact 50% duty cycle?
-4. How would you trace a fractional divider across a complete repeating pattern?
-5. When should an FPGA design use a clock enable instead of a fabric-generated clock?
-
-**Full explanations:** [State width](#minimum-flip-flops) · [Duty cycle](#page-03) · [Fractional division](#page-10).
-
-## Related topics
-
-- [Divider RTL and testbenches](../Programmable%20Frequency%20Divider/README.md#quick-revision)
-- [UART baud and oversampling ticks](../Protocols/03%20UART/README.md#page-13)
-
-[Back to quick revision](#quick-revision)

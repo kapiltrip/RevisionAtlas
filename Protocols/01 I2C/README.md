@@ -18,6 +18,29 @@ These five pages build I2C from the purpose of a protocol, through its open-drai
 | <a id="index-page-04"></a>[04](#page-04) | START, address plus direction, ACK/NACK, and byte framing |
 | <a id="index-page-05"></a>[05](#page-05) | Read ownership, final NACK, STOP, and complete transaction reasoning |
 
+## Quick revision
+
+**Key relations.** $`T_{bit}\approx1/f_{SCL}`$.
+
+**Common mistakes.** The approximation describes ordinary clocked data bits; START, STOP, stretching, and bus timing add overhead. SDA is normally stable while SCL is high. The receiver owns the ninth ACK/NACK bit; a controller receiving a read byte therefore sends its acknowledgment.
+
+**Closed-book questions**
+
+1. Why do shared SDA/SCL outputs use open-drain drive?
+2. What distinguishes START and STOP from data changes?
+3. Who sends ACK during a read?
+4. How can a target stretch the clock?
+5. Why is byte acknowledgment not a general checksum?
+
+**Full explanations:** [Open-drain and topology](#page-02) · [Stretching and speed modes](#page-03) · [Read ownership](#page-05).
+
+## Related topics
+
+- [SPI edge and ownership comparison](../02%20SPI/README.md#quick-revision)
+- [UART framing comparison](../03%20UART/README.md#quick-revision)
+
+[Back to quick revision](#quick-revision)
+
 <a id="page-01"></a>
 
 ## Page 01 - What a protocol defines and why I2C is synchronous
@@ -185,26 +208,3 @@ Trace a two-byte sensor read and identify SDA ownership for the address byte, ad
 ## Module checkpoint
 
 Revision criterion: derive the complete transaction from the electrical rule that no normal participant actively drives HIGH, LOW is dominant, the byte transmitter releases SDA for the ninth clock, and the byte receiver determines ACK or NACK.
-
-## Quick revision
-
-**Key relations.** $`T_{bit}\approx1/f_{SCL}`$.
-
-**Common mistakes.** The approximation describes ordinary clocked data bits; START, STOP, stretching, and bus timing add overhead. SDA is normally stable while SCL is high. The receiver owns the ninth ACK/NACK bit; a controller receiving a read byte therefore sends its acknowledgment.
-
-**Closed-book questions**
-
-1. Why do shared SDA/SCL outputs use open-drain drive?
-2. What distinguishes START and STOP from data changes?
-3. Who sends ACK during a read?
-4. How can a target stretch the clock?
-5. Why is byte acknowledgment not a general checksum?
-
-**Full explanations:** [Open-drain and topology](#page-02) · [Stretching and speed modes](#page-03) · [Read ownership](#page-05).
-
-## Related topics
-
-- [SPI edge and ownership comparison](../02%20SPI/README.md#quick-revision)
-- [UART framing comparison](../03%20UART/README.md#quick-revision)
-
-[Back to quick revision](#quick-revision)

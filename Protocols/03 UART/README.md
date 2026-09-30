@@ -21,6 +21,29 @@ These eight pages progress from asynchronous serial communication into an RTL-or
 | <a id="index-page-15"></a>[15](#page-15) | Receiver interface, mid-bit sampling, and counters |
 | <a id="index-page-16"></a>[16](#page-16) | Receiver pseudocode, STOP validation, and nonblocking assignments |
 
+## Quick revision
+
+**Key relations.** $`T_{bit}=1/baud`$ · $`N_{tick}=f_{clk}/(16\,baud)`$ · $`T_{frame}=(1+n_{data}+n_{parity}+n_{stop})/baud`$.
+
+**Common mistakes.** The tick equation assumes 16x oversampling. Integer rounding produces baud error; at 50 MHz and 9600 baud the ideal sample interval is about 325.5208 clock cycles. Sampling counters and nonblocking assignments must be interpreted using their pre-edge values.
+
+**Closed-book questions**
+
+1. How does START recover timing without a shared clock?
+2. Where should the receiver sample the first data bit?
+3. How do you compute bit time and 16x tick spacing?
+4. What checks distinguish a valid STOP from a framing error?
+5. Why does a nonblocking counter comparison see the old value?
+
+**Full explanations:** [Bit timing](#page-10) · [Oversampling](#page-11) · [Tick generation](#page-13) · [Receiver implementation](#page-16).
+
+## Related topics
+
+- [Clock enables and fractional spacing](../../Frequency%20Dividers/README.md#page-10)
+- [RTL pulse generation](../../Programmable%20Frequency%20Divider/README.md#quick-revision)
+
+[Back to quick revision](#quick-revision)
+
 <a id="page-09"></a>
 
 ## Page 09 - UART as asynchronous framed serial communication
@@ -343,26 +366,3 @@ If old `sample` equals 15, what values do an `if (sample == 15)` condition and t
 ## Module checkpoint
 
 Revision criterion: derive every timing counter from $`f_{clk}`$ and baud, explain the alignment established by START, place each data sample near the bit center, and determine pre-edge and post-edge values in nonblocking sequential logic.
-
-## Quick revision
-
-**Key relations.** $`T_{bit}=1/baud`$ · $`N_{tick}=f_{clk}/(16\,baud)`$ · $`T_{frame}=(1+n_{data}+n_{parity}+n_{stop})/baud`$.
-
-**Common mistakes.** The tick equation assumes 16x oversampling. Integer rounding produces baud error; at 50 MHz and 9600 baud the ideal sample interval is about 325.5208 clock cycles. Sampling counters and nonblocking assignments must be interpreted using their pre-edge values.
-
-**Closed-book questions**
-
-1. How does START recover timing without a shared clock?
-2. Where should the receiver sample the first data bit?
-3. How do you compute bit time and 16x tick spacing?
-4. What checks distinguish a valid STOP from a framing error?
-5. Why does a nonblocking counter comparison see the old value?
-
-**Full explanations:** [Bit timing](#page-10) · [Oversampling](#page-11) · [Tick generation](#page-13) · [Receiver implementation](#page-16).
-
-## Related topics
-
-- [Clock enables and fractional spacing](../../Frequency%20Dividers/README.md#page-10)
-- [RTL pulse generation](../../Programmable%20Frequency%20Divider/README.md#quick-revision)
-
-[Back to quick revision](#quick-revision)

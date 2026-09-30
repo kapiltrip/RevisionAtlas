@@ -27,6 +27,29 @@ This module refines the ideal MOSFET into a usable circuit model: transfer curve
 | <a id="index-page-11"></a>[11](#page-11) | Current increase from shortening | <a id="index-page-23"></a>[23](#page-23) | General and symmetric $`V_M`$ |
 | <a id="index-page-12"></a>[12](#page-12) | Non-ideal saturation slope | <a id="index-page-24"></a>[24](#page-24) | Inverter numerical/VTC check |
 
+## Quick revision
+
+**Key relations.** $`g_m=\partial I_D/\partial V_{GS}`$ · $`r_o=(\partial I_D/\partial V_{DS})^{-1}`$ · $`I_n(V_M)=|I_p(V_M)|`$.
+
+**Common mistakes.** Evaluate derivatives at the stated bias point. Saturation is not an ideal constant-current condition once channel-length modulation is included. The switching-point equality applies at the VTC crossing; verify each transistor’s region.
+
+**Closed-book questions**
+
+1. Why does saturation current still depend on drain voltage?
+2. How do transconductance and output resistance differ?
+3. How can a saturated transistor provide voltage gain?
+4. Which device capacitances depend on bias?
+5. How does the nMOS/pMOS strength ratio move the inverter switching point?
+
+**Full explanations:** [Small-signal model](#page-14) · [Amplification mechanism](#page-19) · [Switching-threshold derivation](#page-22).
+
+## Related topics
+
+- [Operating regions](../02%20Non-Ideal%20MOS%20and%20MOSFET%20Regions/README.md#page-20)
+- [Inverter delay](../04%20CMOS%20Switching%20Delay%20Power%20and%20Noise/README.md#page-12)
+
+[Back to quick revision](#quick-revision)
+
 <a id="page-01"></a>
 
 ## Page 01 - pMOS transfer characteristics
@@ -706,26 +729,3 @@ After solving a candidate $`V_{out}`$, which two inequalities must be checked to
 ## Module checkpoint
 
 You are ready for Module 4 when you can explain why a CMOS inverter's steep transition comes from simultaneous transconductance and high output resistance, then predict how capacitance turns that static curve into delay.
-
-## Quick revision
-
-**Key relations.** $`g_m=\partial I_D/\partial V_{GS}`$ · $`r_o=(\partial I_D/\partial V_{DS})^{-1}`$ · $`I_n(V_M)=|I_p(V_M)|`$.
-
-**Common mistakes.** Evaluate derivatives at the stated bias point. Saturation is not an ideal constant-current condition once channel-length modulation is included. The switching-point equality applies at the VTC crossing; verify each transistor’s region.
-
-**Closed-book questions**
-
-1. Why does saturation current still depend on drain voltage?
-2. How do transconductance and output resistance differ?
-3. How can a saturated transistor provide voltage gain?
-4. Which device capacitances depend on bias?
-5. How does the nMOS/pMOS strength ratio move the inverter switching point?
-
-**Full explanations:** [Small-signal model](#page-14) · [Amplification mechanism](#page-19) · [Switching-threshold derivation](#page-22).
-
-## Related topics
-
-- [Operating regions](../02%20Non-Ideal%20MOS%20and%20MOSFET%20Regions/README.md#page-20)
-- [Inverter delay](../04%20CMOS%20Switching%20Delay%20Power%20and%20Noise/README.md#page-12)
-
-[Back to quick revision](#quick-revision)

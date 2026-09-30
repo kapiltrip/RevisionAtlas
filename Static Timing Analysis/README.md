@@ -97,6 +97,29 @@ $$
 
 These two equations are the reference frame for the rest of this file. A real signoff run also includes uncertainty, jitter, on-chip variation, rise/fall arcs, PVT corners, derates, and library constraints.
 
+## Quick revision
+
+**Key relations.** $`S=t_{capture}-t_{launch}`$ · $`t_{cq,max}+t_{comb,max}+t_{su}\le T+S`$ · $`t_{cq,min}+t_{comb,min}\ge t_h+S`$.
+
+**Common mistakes.** These simplified single-cycle relations use capture-minus-launch skew and omit uncertainty and variation. Positive skew helps setup and hurts hold. Setup uses the longest data path; hold uses the shortest. Increasing the clock period does not repair this hold inequality.
+
+**Closed-book questions**
+
+1. How does a transmission-gate latch alternate between input and feedback paths?
+2. Why are setup and hold constraints tied to different path extremes?
+3. How do you derive both inequalities from launch and capture edges?
+4. Why does positive skew have opposite effects on setup and hold?
+5. How do arrival time, required time, and slack differ?
+
+**Full explanations:** [Sign conventions and derivation](#setup-and-hold-reference-equations) · [Latch mechanism](#page-03) · [Skew](#page-15) · [Frequency bound](#page-16).
+
+## Related topics
+
+- [Pass transistor and transmission gate](../MOSFET%20and%20CMOS/04%20CMOS%20Switching%20Delay%20Power%20and%20Noise/README.md#page-16)
+- [FIFO crossing between clocks](../FIFO/README.md#topic-07)
+
+[Back to quick revision](#quick-revision)
+
 <a id="page-01"></a>
 
 ## Page 01 - Why STA exists, and how a transmission gate passes data
@@ -1525,26 +1548,3 @@ The timing definitions and corrections above were cross-checked against authorit
 - [MIT 6.004 sequential logic notes](https://ocw.mit.edu/courses/6-004-computation-structures-spring-2017/pages/c5/c5s1/) for latch transparency, master-slave storage, and the pin-level definitions of setup and hold time.
 - [UC Berkeley EECS 150 CMOS lecture](https://www-inst.cs.berkeley.edu/~cs150/sp11/agenda/lec/lec08-cmos.pdf) and [Harris and Harris, *Digital Design and Computer Architecture*, Chapter 1](https://pages.hmc.edu/harris/class/e85/old/spring18/01_Ch01.pdf) for the complementary and bidirectional operation of CMOS transmission gates.
 - [Cornell ECE 4740 open course notes](https://ocw.ece.cornell.edu/ece-4740-course-details/ece-4740-lecture-notes-and-handouts/) for transmission gates, sequential circuits, latches, flip-flops, and adder circuits.
-
-## Quick revision
-
-**Key relations.** $`S=t_{capture}-t_{launch}`$ · $`t_{cq,max}+t_{comb,max}+t_{su}\le T+S`$ · $`t_{cq,min}+t_{comb,min}\ge t_h+S`$.
-
-**Common mistakes.** These simplified single-cycle relations use capture-minus-launch skew and omit uncertainty and variation. Positive skew helps setup and hurts hold. Setup uses the longest data path; hold uses the shortest. Increasing the clock period does not repair this hold inequality.
-
-**Closed-book questions**
-
-1. How does a transmission-gate latch alternate between input and feedback paths?
-2. Why are setup and hold constraints tied to different path extremes?
-3. How do you derive both inequalities from launch and capture edges?
-4. Why does positive skew have opposite effects on setup and hold?
-5. How do arrival time, required time, and slack differ?
-
-**Full explanations:** [Sign conventions and derivation](#setup-and-hold-reference-equations) · [Latch mechanism](#page-03) · [Skew](#page-15) · [Frequency bound](#page-16).
-
-## Related topics
-
-- [Pass transistor and transmission gate](../MOSFET%20and%20CMOS/04%20CMOS%20Switching%20Delay%20Power%20and%20Noise/README.md#page-16)
-- [FIFO crossing between clocks](../FIFO/README.md#topic-07)
-
-[Back to quick revision](#quick-revision)

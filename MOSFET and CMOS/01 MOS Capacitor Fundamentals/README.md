@@ -27,6 +27,28 @@ This module builds the electrostatic picture beneath every MOSFET: choose energy
 | <a id="index-page-11"></a>[11](#page-11) | Deeper depletion | <a id="index-page-23"></a>[23](#page-23) | Electrostatics numerical example |
 | <a id="index-page-12"></a>[12](#page-12) | Inversion begins | <a id="index-page-24"></a>[24](#page-24) | Non-ideal work-function effect |
 
+## Quick revision
+
+**Key relations.** $`C_{ox}=\epsilon_{ox}/t_{ox}`$ · $`V_G=V_{FB}+\psi_s-Q_s/C_{ox}`$.
+
+**Common mistakes.** Use capacitance and charge per unit area together. For a p-type substrate, strong inversion is conventionally identified by surface potential reaching twice the positive Fermi-potential magnitude; check the substrate and sign convention before applying it.
+
+**Closed-book questions**
+
+1. What distinguishes work function from electron affinity?
+2. How do accumulation, depletion, and inversion change the surface charge?
+3. Why is the equilibrium Fermi level flat?
+4. How does Gauss’s law connect oxide field to semiconductor charge?
+5. How would you obtain gate voltage from the field and potential diagrams?
+
+**Full explanations:** [Surface charge and modes](#page-07) · [Depletion derivation](#page-17) · [MOS numerical example](#page-23).
+
+## Related topics
+
+- [Practical flat-band and threshold shifts](../02%20Non-Ideal%20MOS%20and%20MOSFET%20Regions/README.md#page-01)
+
+[Back to quick revision](#quick-revision)
+
 <a id="page-01"></a>
 
 ## Page 01 - MOS structure and the meaning of work function
@@ -676,25 +698,3 @@ Why can a MOS capacitor have band bending at zero applied gate voltage without v
 You are ready for Module 2 when you can derive this chain without notes:
 
 `work-function/charge offset -> flat-band voltage -> surface potential -> depletion width -> depletion charge -> oxide drop -> threshold voltage`
-
-## Quick revision
-
-**Key relations.** $`C_{ox}=\epsilon_{ox}/t_{ox}`$ · $`V_G=V_{FB}+\psi_s-Q_s/C_{ox}`$.
-
-**Common mistakes.** Use capacitance and charge per unit area together. For a p-type substrate, strong inversion is conventionally identified by surface potential reaching twice the positive Fermi-potential magnitude; check the substrate and sign convention before applying it.
-
-**Closed-book questions**
-
-1. What distinguishes work function from electron affinity?
-2. How do accumulation, depletion, and inversion change the surface charge?
-3. Why is the equilibrium Fermi level flat?
-4. How does Gauss’s law connect oxide field to semiconductor charge?
-5. How would you obtain gate voltage from the field and potential diagrams?
-
-**Full explanations:** [Surface charge and modes](#page-07) · [Depletion derivation](#page-17) · [MOS numerical example](#page-23).
-
-## Related topics
-
-- [Practical flat-band and threshold shifts](../02%20Non-Ideal%20MOS%20and%20MOSFET%20Regions/README.md#page-01)
-
-[Back to quick revision](#quick-revision)

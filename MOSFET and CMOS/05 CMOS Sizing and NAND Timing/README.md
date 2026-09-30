@@ -22,6 +22,29 @@ This module closes the first notebook sequence by connecting transistor-strength
 | <a id="index-page-06"></a>[6](#page-06) | NAND worst-case delay | <a id="index-page-13"></a>[13](#page-13) | Noise margins and $`t_{PLH}`$ |
 | <a id="index-page-07"></a>[7](#page-07) | Dynamic node initial conditions | <a id="index-page-14"></a>[14](#page-14) | Exponential delay calculation |
 
+## Quick revision
+
+**Key relations.** $`\beta=\mu C_{ox}W/L`$ · $`t\approx C_L\Delta V/I_{avg}`$.
+
+**Common mistakes.** Strength matching must account for mobility and geometry. Series NAND devices increase effective discharge resistance. Larger devices also add capacitance; equal switching threshold does not automatically prove equal rise/fall delay.
+
+**Closed-book questions**
+
+1. How does changing pMOS width shift the VTC?
+2. Why is a symmetric inverter’s pMOS commonly wider?
+3. Which NAND input transition gives the worst discharge path?
+4. How do initial internal-node voltages affect delay?
+5. When is average-current delay a reasonable estimate?
+
+**Full explanations:** [Inverter sizing](#page-03) · [NAND timing](#page-06) · [Average-current estimate](#page-08).
+
+## Related topics
+
+- [RC assumptions and noise margins](../04%20CMOS%20Switching%20Delay%20Power%20and%20Noise/README.md#page-12)
+- [Setup paths and maximum frequency](../../Static%20Timing%20Analysis/README.md#page-16)
+
+[Back to quick revision](#quick-revision)
+
 <a id="page-01"></a>
 
 ## Page 01 - Strength ratio moves the inverter transition
@@ -416,26 +439,3 @@ The five modules now form one revision chain. Test it in reverse:
 4. Trace surface potential back to work-function, oxide charge, and gate voltage.
 
 If every arrow can be explained without the images, the first iteration has become usable knowledge rather than a photographed notebook.
-
-## Quick revision
-
-**Key relations.** $`\beta=\mu C_{ox}W/L`$ · $`t\approx C_L\Delta V/I_{avg}`$.
-
-**Common mistakes.** Strength matching must account for mobility and geometry. Series NAND devices increase effective discharge resistance. Larger devices also add capacitance; equal switching threshold does not automatically prove equal rise/fall delay.
-
-**Closed-book questions**
-
-1. How does changing pMOS width shift the VTC?
-2. Why is a symmetric inverter’s pMOS commonly wider?
-3. Which NAND input transition gives the worst discharge path?
-4. How do initial internal-node voltages affect delay?
-5. When is average-current delay a reasonable estimate?
-
-**Full explanations:** [Inverter sizing](#page-03) · [NAND timing](#page-06) · [Average-current estimate](#page-08).
-
-## Related topics
-
-- [RC assumptions and noise margins](../04%20CMOS%20Switching%20Delay%20Power%20and%20Noise/README.md#page-12)
-- [Setup paths and maximum frequency](../../Static%20Timing%20Analysis/README.md#page-16)
-
-[Back to quick revision](#quick-revision)

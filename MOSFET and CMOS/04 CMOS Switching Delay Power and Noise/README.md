@@ -27,6 +27,29 @@ This module turns the CMOS inverter from a DC transfer curve into a real logic g
 | <a id="index-page-11"></a>[11](#page-11) | Output-capacitor transient | <a id="index-page-23"></a>[23](#page-23) | Noise-margin geometry |
 | <a id="index-page-12"></a>[12](#page-12) | RC rise and fall | <a id="index-page-24"></a>[24](#page-24) | Strength and delay ratios |
 
+## Quick revision
+
+**Key relations.** $`t_{pHL}\approx0.69R_nC_L`$ · $`t_{pLH}\approx0.69R_pC_L`$ · $`P_{dyn}=\alpha C_LV_{DD}^2f`$ · $`NM_L=V_{IL}-V_{OL},\quad NM_H=V_{OH}-V_{IH}`$.
+
+**Common mistakes.** The RC delays assume a first-order equivalent resistance. Dynamic-power activity counts output charging events. Distinguish supply energy from stored capacitor energy, and distinguish propagation delay from rise/fall time.
+
+**Closed-book questions**
+
+1. Why can capacitor voltage not jump instantaneously?
+2. Why does nMOS pass a weak high level?
+3. How does a transmission gate restore both logic levels?
+4. Where does the supply energy go during charging and discharging?
+5. How are valid logic levels and noise margins read from the VTC?
+
+**Full explanations:** [RC delay](#page-12) · [Transmission gates](#page-16) · [Energy and power](#page-18) · [Noise margins](#page-23).
+
+## Related topics
+
+- [Latch data and feedback paths](../../Static%20Timing%20Analysis/README.md#page-03)
+- [Sizing and delay matching](../05%20CMOS%20Sizing%20and%20NAND%20Timing/README.md#page-04)
+
+[Back to quick revision](#quick-revision)
+
 <a id="page-01"></a>
 
 ## Page 01 - Solving an inverter point by transistor regions
@@ -680,26 +703,3 @@ Why can endlessly widening both inverter transistors eventually stop improving s
 You are ready for Module 5 when you can explain the full switching event:
 
 `input edge -> transistor-region trajectory -> load charge flow -> output delay -> energy loss -> restored logic level and noise margin`
-
-## Quick revision
-
-**Key relations.** $`t_{pHL}\approx0.69R_nC_L`$ · $`t_{pLH}\approx0.69R_pC_L`$ · $`P_{dyn}=\alpha C_LV_{DD}^2f`$ · $`NM_L=V_{IL}-V_{OL},\quad NM_H=V_{OH}-V_{IH}`$.
-
-**Common mistakes.** The RC delays assume a first-order equivalent resistance. Dynamic-power activity counts output charging events. Distinguish supply energy from stored capacitor energy, and distinguish propagation delay from rise/fall time.
-
-**Closed-book questions**
-
-1. Why can capacitor voltage not jump instantaneously?
-2. Why does nMOS pass a weak high level?
-3. How does a transmission gate restore both logic levels?
-4. Where does the supply energy go during charging and discharging?
-5. How are valid logic levels and noise margins read from the VTC?
-
-**Full explanations:** [RC delay](#page-12) · [Transmission gates](#page-16) · [Energy and power](#page-18) · [Noise margins](#page-23).
-
-## Related topics
-
-- [Latch data and feedback paths](../../Static%20Timing%20Analysis/README.md#page-03)
-- [Sizing and delay matching](../05%20CMOS%20Sizing%20and%20NAND%20Timing/README.md#page-04)
-
-[Back to quick revision](#quick-revision)

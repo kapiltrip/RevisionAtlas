@@ -27,6 +27,29 @@ This module turns ideal electrostatics into practical device equations. It expla
 | <a id="index-page-11"></a>[11](#page-11) | Doping effect on threshold | <a id="index-page-23"></a>[23](#page-23) | Linear and saturation equations |
 | <a id="index-page-12"></a>[12](#page-12) | Series dielectric model | <a id="index-page-24"></a>[24](#page-24) | p-channel depletion device |
 
+## Quick revision
+
+**Key relations.** $`V_{FB}=\phi_{ms}-Q_{ox}/C_{ox}`$ · $`V_{DS,sat}=V_{GS}-V_T`$.
+
+**Common mistakes.** The flat-band relation uses an effective oxide-charge model. Keep the charge sign and capacitance units consistent. Pinch-off marks the long-channel saturation boundary; it does not stop drain current.
+
+**Closed-book questions**
+
+1. Why can an external voltage restore flat band?
+2. How does positive oxide charge shift an nMOS threshold?
+3. Why does high-frequency inversion capacitance differ from the quasi-static result?
+4. How does increasing drain voltage produce pinch-off?
+5. Which bias inequalities distinguish cutoff, triode, and saturation?
+
+**Full explanations:** [Flat-band shifts](#page-04) · [C-V behavior](#page-10) · [Long-channel current](#page-23).
+
+## Related topics
+
+- [Ideal MOS electrostatics](../01%20MOS%20Capacitor%20Fundamentals/README.md#page-19)
+- [Non-ideal current model](../03%20MOSFET%20Models%20and%20CMOS%20Inverter/README.md#page-07)
+
+[Back to quick revision](#quick-revision)
+
 <a id="page-01"></a>
 
 ## Page 01 - Work-function mismatch creates a built-in field
@@ -678,26 +701,3 @@ Rewrite the nMOS triode/saturation inequalities for pMOS using only $`V_{SG}`$, 
 You are ready for Module 3 when you can move in both directions through this chain:
 
 `process/work-function/oxide charge <-> VFB <-> VT <-> inversion charge <-> MOSFET region and current equation`
-
-## Quick revision
-
-**Key relations.** $`V_{FB}=\phi_{ms}-Q_{ox}/C_{ox}`$ · $`V_{DS,sat}=V_{GS}-V_T`$.
-
-**Common mistakes.** The flat-band relation uses an effective oxide-charge model. Keep the charge sign and capacitance units consistent. Pinch-off marks the long-channel saturation boundary; it does not stop drain current.
-
-**Closed-book questions**
-
-1. Why can an external voltage restore flat band?
-2. How does positive oxide charge shift an nMOS threshold?
-3. Why does high-frequency inversion capacitance differ from the quasi-static result?
-4. How does increasing drain voltage produce pinch-off?
-5. Which bias inequalities distinguish cutoff, triode, and saturation?
-
-**Full explanations:** [Flat-band shifts](#page-04) · [C-V behavior](#page-10) · [Long-channel current](#page-23).
-
-## Related topics
-
-- [Ideal MOS electrostatics](../01%20MOS%20Capacitor%20Fundamentals/README.md#page-19)
-- [Non-ideal current model](../03%20MOSFET%20Models%20and%20CMOS%20Inverter/README.md#page-07)
-
-[Back to quick revision](#quick-revision)

@@ -16,6 +16,29 @@ These three pages move from the SPI wiring model to simultaneous shift-register 
 | <a id="index-page-07"></a>[07](#page-07) | MOSI/MISO ownership and the two coupled shift registers |
 | <a id="index-page-08"></a>[08](#page-08) | Bit order plus CPOL/CPHA timing modes |
 
+## Quick revision
+
+**Key relations.** $`T_{bit}=1/f_{SCLK}`$.
+
+**Common mistakes.** For the conventional single-bit-per-clock transfer described here, one SCLK cycle moves one bit in each direction. CPOL sets the idle clock level; CPHA chooses the sampling edge. Rate, chip-select timing, and bit order must agree with the selected device.
+
+**Closed-book questions**
+
+1. How do the two shift registers exchange data simultaneously?
+2. Which component owns MOSI, MISO, and SCLK?
+3. What are the sampling edges for all four modes?
+4. Why must chip-select timing be part of the transaction?
+5. Which SPI features are device-specific rather than universal?
+
+**Full explanations:** [Wiring and duplex](#page-06) · [Shift registers](#page-07) · [CPOL/CPHA](#page-08).
+
+## Related topics
+
+- [I2C shared-bus behavior](../01%20I2C/README.md#quick-revision)
+- [UART asynchronous timing](../03%20UART/README.md#quick-revision)
+
+[Back to quick revision](#quick-revision)
+
 <a id="page-06"></a>
 
 ## Page 06 - SPI wiring and what “full duplex” means
@@ -124,26 +147,3 @@ For mode 2, state the idle clock level, the first edge after chip-select asserti
 ## Module checkpoint
 
 Revision criterion: model each SCK cycle as a simultaneous exchange, derive the physical sampling and setup edges from CPOL/CPHA, and distinguish device-specific command formats from the common wire-level transfer mechanism.
-
-## Quick revision
-
-**Key relations.** $`T_{bit}=1/f_{SCLK}`$.
-
-**Common mistakes.** For the conventional single-bit-per-clock transfer described here, one SCLK cycle moves one bit in each direction. CPOL sets the idle clock level; CPHA chooses the sampling edge. Rate, chip-select timing, and bit order must agree with the selected device.
-
-**Closed-book questions**
-
-1. How do the two shift registers exchange data simultaneously?
-2. Which component owns MOSI, MISO, and SCLK?
-3. What are the sampling edges for all four modes?
-4. Why must chip-select timing be part of the transaction?
-5. Which SPI features are device-specific rather than universal?
-
-**Full explanations:** [Wiring and duplex](#page-06) · [Shift registers](#page-07) · [CPOL/CPHA](#page-08).
-
-## Related topics
-
-- [I2C shared-bus behavior](../01%20I2C/README.md#quick-revision)
-- [UART asynchronous timing](../03%20UART/README.md#quick-revision)
-
-[Back to quick revision](#quick-revision)

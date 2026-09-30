@@ -89,25 +89,9 @@ When `HREADY=0`, no row advances. This is more precise than saying only “the
 data waits,” because the pipelined address phase is also prevented from being
 accepted.
 
-## RTL variable dictionary
+<a id="rtl-variable-dictionary"></a>
 
-| Name | Use |
-|---|---|
-| `req_valid` | Local controller says the command fields are valid |
-| `req_ready` | Manager is idle and able to accept one command |
-| `req_write` | HIGH for write, LOW for read |
-| `req_burst` | Small local encoding for SINGLE, INCR4, or WRAP4 |
-| `req_addr` | Starting byte address; must be word-aligned in this design |
-| `req_wdata` | Four packed possible write beats, with beat 0 in bits `[31:0]` |
-| `write_q` | Captured direction, stable for the entire command |
-| `burst_q` | Captured burst kind used for `HBURST`, beat count, and next address |
-| `write_data_q` | Captured write-data pack so the caller may change its inputs after handshake |
-| `addr_index_q` | Current address-phase beat number |
-| `data_index_q` | Current data-phase beat number |
-| `data_valid_q` | There is an accepted address whose data phase is now outstanding |
-| `rsp_rdata` | Packed completed read beats in the same ordering as `req_wdata` |
-| `done` | One-clock pulse after the final data phase or local request rejection |
-| `error` | One-clock pulse for an invalid local request or an AHB ERROR response |
+[RTL variable dictionary](../../../../dictionary/ahb.md#rtl-variables)
 
 ## Recall test
 

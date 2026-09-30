@@ -14,8 +14,8 @@ usable hardware reasoning.
 
 ## Start revising
 
-The [term dictionary](dictionary/README.md) keeps STA definitions separate from
-the page explanations.
+The [term dictionary](dictionary/README.md) keeps subject definitions separate
+from the page explanations.
 
 - [MOSFET and CMOS](MOSFET%20and%20CMOS/README.md) contains five linked
   notebooks and 110 page discussions covering MOS electrostatics, MOSFET

@@ -21,6 +21,11 @@ Define a term when it is:
 - a tool or implementation word whose hardware meaning is not obvious, such as **inference**, **netlist**, or **generated clock**;
 - easy to confuse with a nearby term, such as **baud rate versus bit rate**, **setup time versus hold time**, or **clock enable versus divided clock**.
 
+Keep standalone term tables, glossaries, and definition cards in the root-level
+`dictionary/` folder, grouped by subject. Link from the notes to the relevant
+file or section, and provide a return link in each dictionary. Keep citations
+beside the definitions and update the dictionary index when adding a subject.
+
 Common English does not need a dictionary definition. A term already defined in the subject dictionary or nearest parent README may be linked instead of copied, but a page must not rely on an unexplained acronym.
 
 ## Required explanation pattern
@@ -107,7 +112,7 @@ Every subject folder must have a `README.md` containing:
 
 - subject purpose and boundary;
 - topic map and prerequisite order;
-- core-term dictionary with inline citations, or a link to its file in `dictionary/`;
+- link to its subject dictionary in the root-level `dictionary/` folder;
 - source register;
 - subject-specific revision method;
 - completion criteria;
@@ -116,7 +121,7 @@ Every subject folder must have a `README.md` containing:
 Every topic or unit README must contain:
 
 - navigation back to its subject;
-- local term key or link to the parent definitions;
+- link to the relevant dictionary file or topic section;
 - source-page or concept map;
 - explanations and corrections;
 - active-recall prompts;

@@ -15,22 +15,12 @@ State what the subject explains, verifies, predicts, or implements. State what i
 
 1. **`<Topic>`** — `<Concepts>` — `Planned / In progress / Revision-ready`
 
-## Core terms
+## Term reference
 
-| Term | Precise meaning | Physical / practical meaning |
-|---|---|---|
-| `<Term>` | `<Definition with inline authoritative citation>` | `<What actually happens and why it matters>` |
-
-For a difficult term, use the full card:
-
-### `<Term> — <one-line meaning>`
-
-- **Definition:** `<Precise, cited definition>`
-- **Plain meaning:** `<Non-circular restatement>`
-- **Physical / hardware meaning:** `<Charge, voltage, state, edge, path, or circuit behavior>`
-- **Why it matters:** `<Function, verification, PPA, timing, or reliability impact>`
-- **Do not confuse it with:** `<Nearest misleading term>`
-- **Interview form:** `<20–40 second answer>`
+Link to `dictionary/<subject-slug>.md`, adjusting the relative path for this
+README. Keep the definitions and inline citations in that dictionary file,
+with a return link here and an entry in `dictionary/README.md`. Use the
+[content standard](../guides/CONTENT_STANDARD.md) for definition depth.
 
 ## Important “why” questions
 

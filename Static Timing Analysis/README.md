@@ -35,7 +35,7 @@ For every problem, draw the launch edge, capture edge, full clock paths, and ful
 | <a id="index-page-03"></a>[3](#page-03) | Transmission-gate D latch and feedback | <a id="index-page-16"></a>[16](#page-16) | Maximum frequency from flip-flop parameters |
 | <a id="index-page-04"></a>[4](#page-04) | Negative-edge master-slave flip-flop | <a id="index-page-17"></a>[17](#page-17) | Testing candidate clock periods |
 | <a id="index-page-05"></a>[5](#page-05) | Active-low latch and internal setup path | <a id="index-page-18"></a>[18](#page-18) | Frequency and hold-violation examples |
-| <a id="index-page-06"></a>[6](#page-06) | Physical meaning of hold time | <a id="index-page-19"></a>[19](#page-19) | Clock latency equations; negative hold time |
+| <a id="index-page-06"></a>[6](#page-06) | Physical meaning of hold time; CMOS latch deep dive | <a id="index-page-19"></a>[19](#page-19) | Clock latency equations; negative hold time |
 | <a id="index-page-07"></a>[7](#page-07) | Register-to-register setup derivation | <a id="index-page-20"></a>[20](#page-20) | Effective and negative setup/hold times |
 | <a id="index-page-08"></a>[8](#page-08) | Full adder built from half adders | <a id="index-page-21"></a>[21](#page-21) | Why data delay improves hold margin |
 | <a id="index-page-09"></a>[9](#page-09) | Required time, arrival time, and setup slack | <a id="index-page-22"></a>[22](#page-22) | General setup/hold equations with clock delays |
@@ -111,7 +111,7 @@ These two equations are the reference frame for the rest of this file. A real si
 4. Why does positive skew have opposite effects on setup and hold?
 5. How do arrival time, required time, and slack differ?
 
-**Full explanations:** [Sign conventions and derivation](#setup-and-hold-reference-equations) · [Latch mechanism](#page-03) · [Skew](#page-15) · [Frequency bound](#page-16).
+**Full explanations:** [Sign conventions and derivation](#setup-and-hold-reference-equations) · [Latch mechanism](#page-03) · [CMOS latch hold-time deep dive](#cmos-latch-hold-time-deep-dive) · [Skew](#page-15) · [Frequency bound](#page-16).
 
 ## Related topics
 
@@ -377,21 +377,151 @@ Why can a path-delay sum explain the origin of setup time without being equal to
 
 ### Data stability at the capture input
 
-Hold time is the interval after the capture edge during which the receiving flip-flop's D pin must remain stable. Its internal clock-controlled devices take finite time to isolate the old input and establish the regenerative state. A change too soon after the edge can compete with the value being captured and cause the wrong value or metastability.
+[Hold time](../dictionary/README.md#term-static-timing-analysis-hold-time) ($`t_h`$) is the minimum interval after the active capture edge during which the receiving sequential element's $D$ pin must remain stable ([Synopsys STA definition](https://www.synopsys.com/glossary/what-is-static-timing-analysis.html); [MIT 6.004 Section 5.2](https://ocw.mit.edu/courses/6-004-computation-structures-spring-2017/pages/c5/c5s2/)). Notice how the top and bottom halves of this page describe two levels of the exact same physical event:
 
-For a same-clock register path with no skew, the earliest new value from the launch flip-flop reaches the capture input after
+- **Top half (transistor/latch level):** a **negative-level-sensitive (active-low) CMOS D latch** that is transparent while $`en=0`$ and closes on the **rising edge** $`en: 0\rightarrow 1`$. In a positive-edge-triggered master-slave flip-flop (compare [page 4](#page-04)), this active-low latch is the **master latch** of FF2, and the blue dot feeds the slave latch that opens when the clock goes HIGH.
+- **Bottom half (register-to-register level):** both FF1 and FF2 receive nominally the same rising edge ($\uparrow$). At that rising edge, FF2's master latch is closing to lock FF1's **previous-cycle** output (the handwritten *"previous data that need to go out"*), while FF1 simultaneously launches **new-cycle** data toward FF2's $D$ pin.
+
+Because FF2's internal clock-controlled switches take finite time to cut off $D$ and lock the regenerative loop, a new transition arriving too soon after the rising edge can leak through the closing input switch and compete with the captured state, causing wrong-data capture or [metastability](../dictionary/README.md#term-fifo-core-terms-metastability).
+
+For a same-clock register path with no skew, the earliest new value from the launch flip-flop reaches FF2's $D$ pin after its minimum clock-to-Q delay plus minimum combinational contamination delay:
 
 $$
 t_{cq,min}+t_{comb,min}.
 $$
 
-The safe hold condition is
+The safe zero-skew hold condition is
 
 $$
 t_{cq,min}+t_{comb,min}\ge t_h.
 $$
 
-The bottom waveforms illustrate the race: both flip-flops see nominally the same edge. FF2 must capture FF1's old-cycle output. FF1's new-cycle output is allowed to begin changing only after $`t_{cq,min}`$, and the data path adds further minimum delay. If that sum is shorter than FF2's hold window, FF2 can see the new value during the same edge.
+If that minimum path delay is shorter than FF2's hold window $`t_h`$, FF1's newly launched value arrives while FF2's master latch is still shutting its input switch, so FF2 can sample the new value on the **same** clock edge instead of waiting for the next cycle.
+
+<a id="cmos-latch-hold-time-deep-dive"></a>
+
+### Deep dive: inside the negative-level-sensitive CMOS D latch
+
+The three annotated breakdowns below zoom directly into the Page 06 CMOS latch schematic in order: first establishing switch states during steady-state hold, next tracing the exact transparent-to-hold signal handoff at $Q$ and node $P$, and finally exposing the transistor-level race, drive contention, and metastability mechanism inside a hold-time violation.
+
+#### 1. Steady-state hold isolation: blocking new D while regenerating the captured bit
+
+![Annotated CMOS D latch during hold showing input transmission gate T1 off and feedback transmission gate on](../_internal/Static%20Timing%20Analysis/images/page-06-latch-hold-state.png)
+
+Always determine latch polarity from the transistor gate connections rather than the text label alone ([page 3](#page-03)). In this schematic, the enable signal $`en`$ (acting as `CLK`) and its complement $`\overline{en}`$ drive the two complementary CMOS transmission gates in opposite phases:
+
+| Switch | pMOS gate (bubble) | nMOS gate | State when $`en=0,\ \overline{en}=1`$ (Transparent) | State when $`en=1,\ \overline{en}=0`$ (Hold) |
+|---|---|---|---|---|
+| Input TG $`T_1`$ | $`en`$ | $`\overline{en}`$ | **ON** (both pMOS and nMOS conduct; $D$ drives $Q$) | **OFF** (both devices cut off; new $D$ is blocked) |
+| Feedback TG $`T_2`$ (circled green) | $`\overline{en}`$ | $`en`$ | **OFF** (feedback loop is open; no write contention) | **ON** (loop closes; $`G_2`$ actively holds $Q$) |
+
+Because $`T_1`$ conducts when $`en=0`$ and disconnects when $`en=1`$, the circuit is a **negative-level-sensitive (active-low) latch**:
+
+$$
+Q^{+}=\overline{en}\cdot D+en\cdot Q.
+$$
+
+Once $`en=1`$ and the switches finish transitioning, the latch enters its **static regenerative hold state**:
+
+- **Input isolation (`T1` OFF):** Both the pMOS ($`V_G=V_{DD}`$) and nMOS ($`V_G=0`$) of $`T_1`$ are in cutoff, placing a high-impedance barrier between external $D$ and the internal storage node (the blue dot). Any later change at $D$ is electrically blocked until $`en`$ returns LOW.
+- **Active positive feedback (`T2` ON):** Closing $`T_2`$ joins the two cascaded CMOS inverters $`G_1`$ and $`G_2`$ into a closed bistable ring so the circuit actively reinforces the stored bit instead of letting charge leak away.
+
+The closed regenerative loop during hold is
+
+$$
+Q \xrightarrow{G_1} \overline{Q} \xrightarrow{G_2} P \xrightarrow{T_2} Q.
+$$
+
+Two inversions in series produce an overall **non-inverting** loop polarity with active rail-to-rail gain from $`V_{DD}`$ and ground. If the stored bit is `1`, $`G_1`$ pulls $`\overline{Q}`$ firmly to `0`, $`G_2`$ pulls $P$ firmly to `1`, and $`T_2`$ feeds that driven `1` back onto the blue dot at $Q$, continuously replenishing any charge lost to subthreshold or junction leakage. One inverter alone would invert its own input and fight itself instead of forming a bistable memory element.
+
+**Hold phase vs. hold time ($`t_h`$) — do not conflate the two:**
+
+The diagram's right-hand bullets correct a common conceptual trap: during hold, **the latch is not still trying to sample a new input**. Still, a sharp STA boundary separates two different intervals that both use the word *hold*:
+
+1. **Hold phase (storage mode, all of $`en=1`$ after closure):** $`T_1`$ is already completely OFF and $`T_2`$ is fully ON. External $D$ may toggle freely without disturbing the stored value at the blue dot (the handwritten *"previous data that need to go out"*).
+2. **Hold time ($`t_h`$, the brief aperture immediately after $`en: 0\rightarrow 1`$):** External $D$ must stay fixed at that previously sampled bit *only* long enough for $`T_1`$ to finish cutting off and for the regenerative loop to take uncontested ownership of the storage node. Keeping $D$ constant during $`t_h`$ does not sample new data; it protects the already-sampled bit from being overwritten while the front door ($`T_1`$) is still swinging shut.
+
+#### 2. Transparent-to-hold signal handoff: how data reaches Q and prepares node P
+
+![Annotated CMOS D latch tracing transparent data flow from D through T1 to Q and around inverters G1 and G2 to the feedback transmission gate](../_internal/Static%20Timing%20Analysis/images/page-06-latch-data-flow-feedback.png)
+
+This breakdown resolves the exact doubt raised in the top-right box: *"Hold that value so that it can reach the o/p — the value is already passed the 2nd transmission gate?"* Tracing each node chronologically across one full transparent-to-hold cycle answers every part of that question cleanly:
+
+| Stage | Clock ($`en`$) | $`T_1`$ | Feedback TG ($`T_2`$) | Node $Q$ (blue dot) | Node $`\overline{Q}`$ | Node $P$ (before $`T_2`$) | Physical event |
+|---|---|---|---|---|---|---|---|
+| 1. Data arrives | `0` | ON | OFF | Transitions to $D$ after $`t_{T1}`$ | Still old | Still old | $D$ drives $Q$ directly through $`T_1`$; value already appears at $Q$ without waiting for $`T_2`$. |
+| 2. Loop preparation ([setup](../dictionary/README.md#term-static-timing-analysis-setup-time)) | `0` | ON | OFF | Stable at $D$ | Transitions to $`\overline{D}`$ after $`t_{G1}`$ | Transitions to $D$ after $`t_{G2}`$ | Signal wraps around $`G_1`$ and $`G_2`$ so $P$ equals $Q$ *before* the closing edge, waiting right at the entrance of $`T_2`$. |
+| 3. Closing edge handoff | $`0\rightarrow 1`$ | Turning OFF | Turning ON | Held steady at $D$ | Stable at $`\overline{D}`$ | Connects through $`T_2`$ to $Q$ | Bumpless handoff: $`P=Q`$ already, so drive ownership shifts from $D$ (via $`T_1`$) to $`G_2`$ (via $`T_2`$) with zero logic fight. |
+| 4. Steady hold | `1` | OFF | ON | Regenerated at $D$ | Regenerated at $`\overline{D}`$ | Drives $Q$ through $`T_2`$ | $`T_1`$ blocks new $D$; feedback loop preserves the value already sitting at $Q$. |
+
+That trace gives the precise three-part answer to the top-right question:
+
+1. **Has the value already reached $Q$ while $`CLK=0`$?** **Yes.** During transparency ($`CLK=0`$), $`T_1`$ is ON and connects $D$ straight to the top wire $Q$. The output does not wait for the feedback transmission gate to turn ON before seeing the new data.
+2. **Has the value already reached node $P$ (the entrance of the 2nd transmission gate) before $`CLK: 0\rightarrow 1`$?** **Yes — that is the entire purpose of setup time.** That is why the handwritten arrow marks the output of $`G_2`$ as **`P (setup time)`** (identical to point $P$ on [page 5](#page-05)). Before $`CLK`$ rises, the new bit must finish propagating around $`T_1 \rightarrow Q \rightarrow G_1 \rightarrow \overline{Q} \rightarrow G_2 \rightarrow P`$ so node $P$ holds the **same** logic level as $Q$.
+3. **Has the value already passed *through* the 2nd transmission gate $`T_2`$ while $`CLK=0`$?** **No — $`T_2`$ is OFF while $`CLK=0`$.** Keeping $`T_2`$ open during transparency prevents $`G_2`$ from fighting the incoming $D$ driver. The value waits at node $P$ right in front of $`T_2`$; the moment $`CLK`$ transitions $`0\rightarrow 1`$, $`T_1`$ disconnects $D$ and $`T_2`$ closes, passing that already-matching value from $P$ back onto the blue dot so $Q$ remains locked instead of floating.
+
+**What breaks if setup time is violated at node $P$:** If $D$ changes too close to $`CLK: 0\rightarrow 1`$, the new level may reach the top node $Q$ through $`T_1`$, yet fail to finish propagating through $`G_1`$ and $`G_2`$ to $P$. When $`T_2`$ turns ON, $P$ still carries the **stale previous bit**, so $`G_2`$ pulls the storage node backward against the new charge — either snapping $Q$ back to the old value or stalling the loop near its switching threshold.
+
+**Diagram-reading precision notes (three subtle callout details to keep straight):**
+
+- **Location of the feedback transmission gate ($`T_2`$):** In this second annotated graphic, the green arrow for *"Feedback transmission gate (ON when CLK = 1)"* points near the input of inverter $`G_1`$. The actual feedback transmission gate $`T_2`$ (driven by $`\overline{en}`$/$`en`$) is the bow-tie switch to the left of $`G_2`$, as accurately circled in green in the first diagram above.
+- **Location of the storage node:** The pink arrow points near the lower terminal of $`T_2`$, whereas the storage/handoff node is the shared wire linking the output of $`T_1`$, the blue dot (output of $`T_2`$), $Q$, and the input of $`G_1`$ (working as a complementary pair with $`\overline{Q}`$ once the loop closes).
+- **Direct $Q$ tap vs. standard-cell output buffering:** The purple label states the value *"passed through T1 and the storage inverter(s), and appears at Q."* In this textbook schematic, $Q$ is tapped directly after $`T_1`$ (so $`D\rightarrow Q`$ crosses only $`T_1`$ during transparency, while $`G_1`$ and $`G_2`$ prepare $P$ for hold). In real standard-cell libraries, an additional **output buffer inverter** is normally driven from $`\overline{Q}`$ so external load capacitance and coupling noise on the $Q$ pin cannot directly disturb the internal storage node ([MIT 6.004 Section 5.1](https://ocw.mit.edu/courses/6-004-computation-structures-spring-2017/pages/c5/c5s1/)).
+
+#### 3. Inside a hold-time violation: why T1 leaks during closure, drive contention, and metastability
+
+![Annotated CMOS D latch showing hold-time violation during CLK 0 to 1 transition with waveforms for met and violated hold time](../_internal/Static%20Timing%20Analysis/images/page-06-latch-hold-violation.png)
+
+If $`T_1`$ were an ideal zero-delay switch that opened instantaneously at the 50% clock crossing, a change on $D$ right after the edge could never enter the latch. Real CMOS transmission-gate latches exhibit a finite hold aperture because **four physical transistor-level effects** occur during the closing transition $`CLK: 0\rightarrow 1`$:
+
+##### Mechanism A — Finite clock transition time (slew) on `en` and complementary clock
+
+In panels **(a)** and **(b)** at the bottom right, `CLK` is drawn as a **sloped ramp** rather than an ideal vertical step. Inside $`T_1`$, the pMOS transistor continues conducting until $`V_{en}`$ rises above $`V_{\text{source}}-|V_{tp}|`$ (near $`V_{DD}-|V_{tp}|`$ when passing a `1`), and the nMOS transistor continues conducting until $`V_{\overline{en}}`$ falls below $`V_{\text{source}}+V_{tn}`$ (near $`V_{tn}`$ when passing a `0`). Thus, even after `CLK` passes $`V_{DD}/2`$, $`T_1`$ retains a finite on-resistance $`R_{on}(T_1)`$ instead of instantly becoming an open circuit.
+
+##### Mechanism B — Internal clock-inverter skew (`en` vs. complementary clock overlap)
+
+As seen on [page 4](#page-04), a standard cell typically generates $`\overline{en}`$ locally by passing $`en`$ through an internal clock inverter of delay $`t_{inv,clk}`$. When external $`en`$ rises $`0\rightarrow 1`$:
+
+- The **pMOS** of $`T_1`$ (gate = $`en`$) begins turning OFF, and the **nMOS** of $`T_2`$ (gate = $`en`$) begins turning ON.
+- However, $`\overline{en}`$ stays HIGH for one inverter delay $`t_{inv,clk}`$ before falling $`1\rightarrow 0`$ — which means **the nMOS of $`T_1`$ (gate = $`\overline{en}`$) is STILL ON** throughout that overlap window.
+- Connect this directly to the purple **`D: 1 → 0 (too early!)`** transition in the diagram: the latch was holding a `1` at the blue dot, and from [page 1](#page-01) an **nMOS passes a strong `0`** ([UC Berkeley EECS 150](https://www-inst.cs.berkeley.edu/~cs150/sp11/agenda/lec/lec08-cmos.pdf)). Because the nMOS of $`T_1`$ is still conducting while $`\overline{en}`$ lags behind $`en`$, the premature falling `0` on $D$ rushes straight through that nMOS and pulls down the storage-node capacitance $`C_{node}`$. (For a premature $`0\rightarrow 1`$ transition while storing `0`, residual pMOS conduction during the finite clock ramp creates the analogous upward disturbance.)
+
+##### Mechanism C — Drive contention and feedback-loop capture of the wrong bit
+
+During this closing overlap, two paths fight simultaneously over the charge stored on $`C_{node}`$ at the blue dot: the upstream driver pushing the **new $D$** through closing $`T_1`$ versus feedback inverter $`G_2`$ pushing the **old bit at $P$** through opening $`T_2`$. Standard-cell feedback inverters ($`G_2`$) are intentionally sized **weak** (smaller $W/L$, larger output resistance) to keep switching power and write delay low, so a premature $D$ change through a partially conducting $`T_1`$ can overpower the nascent feedback drive. As soon as $`V_Q`$ is pulled past the switching threshold $`V_M`$ of inverter $`G_1`$, $`G_1`$ flips $`\overline{Q}`$ from `0` to `1`, $`G_2`$ flips $P$ from `1` to `0`, and the **positive feedback loop locks in the wrong (new-cycle) bit** permanently (a shoot-through hold failure). Secondary **charge injection** from the collapsing channel of $`T_1`$ and gate-to-drain **clock feedthrough** also couple small voltage glitches onto $`C_{node}`$, and skewed $`en/\overline{en}`$ edges prevent the nMOS and pMOS charge pulses from canceling cleanly.
+
+##### Mechanism D — Metastability (the physical meaning of the dip on Q in panel b)
+
+If $D$ changes at the critical instant inside the hold aperture so that $`T_1`$ finishes shutting off right as the storage node sits near the inverter switching threshold $`V_M`$ ($`V_Q \approx V_{\overline{Q}} \approx V_M \approx V_{DD}/2`$), the closed loop is trapped at its **unstable equilibrium point** where the voltage transfer characteristics of $`G_1`$ and $`G_2`$ intersect ([MIT 6.004 Section 6.2](https://ocw.mit.edu/courses/6-004-computation-structures-spring-2017/pages/c6/c6s2/); [TI SDYA006](https://www.ti.com/lit/an/sdya006/sdya006.pdf)). Both inverters are biased in saturation with high small-signal gain ($`A_{loop}>1`$). Near $`V_M`$, a tiny initial voltage offset $`\Delta V(0)=V_Q(0)-V_M`$ grows exponentially away from equilibrium according to the cross-coupled regeneration constant $`\tau`$:
+
+$$
+\Delta V(t)=\Delta V(0)\,e^{t/\tau},\qquad \tau \approx \frac{C_{node}}{g_m},
+$$
+
+where $`C_{node}`$ is the lumped storage-node capacitance and $`g_m`$ is the effective small-signal transconductance of the feedback inverters at $`V_M`$. When $`|\Delta V(0)|`$ is very small, three failure modes appear (matching the uncertain dip and delayed settlement shown on $Q$ in panel **(b)**):
+
+- **Unbounded resolution time:** As $`|\Delta V(0)|\rightarrow 0`$, the time $`t_{res}=\tau\ln(\Delta V_{\text{valid}}/|\Delta V(0)|)`$ needed to reach a legal logic rail grows without any guaranteed upper bound, leaving $Q$ suspended in the forbidden voltage band ($`V_{IL}<V_Q<V_{IH}`$) before thermal noise or slight mismatch tips it unpredictably to `0` or `1` ([TI SDYA006](https://www.ti.com/lit/an/sdya006/sdya006.pdf)).
+- **Inconsistent fanout interpretation:** Two downstream gates with slightly different switching thresholds can read the same mid-rail $Q$ voltage as opposite logic values (`0` on one branch, `1` on another), corrupting state machines and control signals.
+- **Delayed clock-to-Q / cascading setup failure:** Even when the latch eventually resolves to the *intended* bit, the extra time spent lingering near $`V_M`$ inflates $`t_{cq}`$, eating into the next cycle's setup margin.
+
+**Comparing waveforms (a) and (b), and linking internal physics to system-level STA:**
+
+| Panel | What happens during the shaded $`t_{hold}`$ window | Internal switch behavior | Result at $Q$ |
+|---|---|---|---|
+| **(a) Hold time met** | $D$ remains flat HIGH across the entire rising `CLK` ramp. | $`T_1`$ cuts off completely before $D$ ever moves; $`T_2`$ closes smoothly with $P=Q=1$. | Clean, glitch-free HIGH held at $Q$. |
+| **(b) Hold time violated** | $D$ falls $`1\rightarrow 0`$ inside the red window while `CLK` is still ramping $`0\rightarrow 1`$. | New `0` leaks through still-conducting $`T_1`$ (especially its nMOS) and fights $`G_2/T_2`$ at the blue dot. | Glitch/mid-rail hesitation at $Q$; latch captures wrong bit or enters metastability. |
+
+At transistor level, the intrinsic hold requirement reflects the internal race between how late the closing clock fully turns off $`T_1`$ versus how fast a new transition on $D$ reaches the storage node:
+
+$$
+t_{h,\text{intuitive}} \approx t_{\text{clk}\rightarrow T_1\text{ off}} - t_{D\rightarrow\text{storage}}.
+$$
+
+Just as on [page 5](#page-05) and [page 10](#page-10), this is a physical intuition rather than a substitute for SPICE library characterization (which sweeps D-to-CLK separation across slews, loads, and PVT corners until $`t_{cq}`$ degrades by a defined criterion), yet it immediately explains three foundational STA facts:
+
+1. **Clock slew and internal clock delay enlarge $`t_h`$:** A slower rising `CLK` edge or slower internal $`\overline{en}`$ inverter lengthens $`t_{\text{clk}\rightarrow T_1\text{ off}}`$, widening the vulnerability window.
+2. **Why standard-cell hold time can be zero or negative ([page 19](#page-19), [page 20](#page-20), [page 21](#page-21)):** If an internal input buffer delays $D$ enough that $`t_{D\rightarrow\text{storage}} > t_{\text{clk}\rightarrow T_1\text{ off}}`$, the external $D$ pin can begin changing slightly *before* the external clock edge without beating the turn-off of $`T_1`$ inside the cell.
+3. **Why lowering clock frequency ($`T_{clk}`$ ↑) cannot fix a same-edge hold failure:** Everything in panel **(b)** occurs around one single closing edge ($`CLK: 0\rightarrow 1`$). Stretching the period only moves the *next* edge further away; it leaves the same-edge race between FF1's earliest arrival ($`t_{cq,min}+t_{comb,min}`$) and FF2's closing master switch ($`t_h + S`$) unchanged ([AMD Vivado UG906](https://docs.amd.com/r/2024.2-English/ug906-vivado-design-analysis/Determining-if-Hold-Fixing-is-Negatively-Impacting-the-Design)).
 
 ### Red-marker correction
 
@@ -399,7 +529,9 @@ It is imprecise to say “FF1 should hold the data.” FF1 is not commanded to e
 
 ### Active recall
 
-Why do we use $`t_{cq,min}`$ and $`t_{comb,min}`$ for hold rather than their maximum values?
+1. Why do we use $`t_{cq,min}`$ and $`t_{comb,min}`$ for hold rather than their maximum values?
+2. During $`CLK=0`$ in the negative-level-sensitive latch, has the new $D$ value already reached $Q$, already reached node $P$, and already passed through feedback transmission gate $`T_2`$?
+3. When $`en`$ rises $`0\rightarrow 1`$ and $`\overline{en}`$ lags by one clock-inverter delay, which transistor inside $`T_1`$ stays ON longest and why is a premature $`D: 1\rightarrow 0`$ transition especially effective at corrupting a stored `1`?
 
 [Back to index — page 6](#index-page-06)
 
@@ -1545,6 +1677,7 @@ The timing definitions and corrections above were cross-checked against authorit
 - [AMD Vivado UG906 - Timing Path Summary](https://docs.amd.com/r/en-US/ug906-vivado-design-analysis/Timing-Path-Summary) for max-delay setup slack, min-delay hold slack, path skew, and clock/data path reporting.
 - [AMD Vivado UG906 - Hold/Removal min-delay analysis](https://docs.amd.com/r/en-US/ug906-vivado-design-analysis/Hold/Removal-Min-Delay-Analysis) for legal min-delay corner pairings and why clock/data extremes cannot be mixed arbitrarily.
 - [AMD Vivado UG906 - hold-fixing impact](https://docs.amd.com/r/2024.2-English/ug906-vivado-design-analysis/Determining-if-Hold-Fixing-is-Negatively-Impacting-the-Design) for the practical distinction that lowering frequency can help setup but not hold.
-- [MIT 6.004 sequential logic notes](https://ocw.mit.edu/courses/6-004-computation-structures-spring-2017/pages/c5/c5s1/) for latch transparency, master-slave storage, and the pin-level definitions of setup and hold time.
+- [MIT 6.004 sequential logic notes](https://ocw.mit.edu/courses/6-004-computation-structures-spring-2017/pages/c5/c5s1/) and [MIT 6.004 sequential circuit timing notes (Section 5.2)](https://ocw.mit.edu/courses/6-004-computation-structures-spring-2017/pages/c5/c5s2/) for latch transparency, master-slave storage, contamination delay, the dynamic discipline, and pin-level setup and hold constraints.
+- [MIT 6.004 synchronization and metastability notes (Section 6.2)](https://ocw.mit.edu/courses/6-004-computation-structures-spring-2017/pages/c6/c6s2/) and [Texas Instruments SDYA006 - Metastable Response in 5-V Logic Circuits](https://www.ti.com/lit/an/sdya006/sdya006.pdf) for bistable unstable equilibrium around the switching threshold, exponential positive-feedback regeneration, and unbounded metastability resolution time.
 - [UC Berkeley EECS 150 CMOS lecture](https://www-inst.cs.berkeley.edu/~cs150/sp11/agenda/lec/lec08-cmos.pdf) and [Harris and Harris, *Digital Design and Computer Architecture*, Chapter 1](https://pages.hmc.edu/harris/class/e85/old/spring18/01_Ch01.pdf) for the complementary and bidirectional operation of CMOS transmission gates.
 - [Cornell ECE 4740 open course notes](https://ocw.ece.cornell.edu/ece-4740-course-details/ece-4740-lecture-notes-and-handouts/) for transmission gates, sequential circuits, latches, flip-flops, and adder circuits.
